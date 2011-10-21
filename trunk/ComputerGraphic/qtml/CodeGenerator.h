@@ -1,4 +1,5 @@
 #pragma once
+#include "String.h"
 #include "iostream"
 using namespace std;
 
@@ -8,9 +9,10 @@ public:
 	CCodeGenerator(void);
 	virtual ~CCodeGenerator(void);
 private:
-	string evalHeader();
-	string evalMain();
+	String evalHeader();
+	String evalonPaint();
+	String evalMain();
 public:
-	char* eval();
+	String eval();
 };
 

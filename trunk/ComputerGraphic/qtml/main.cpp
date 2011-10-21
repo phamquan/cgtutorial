@@ -1,5 +1,6 @@
 #include "iostream"
 #include "tinyxml.h"
+#include "CodeGenerator.h"
 using namespace std;
 
 const unsigned int NUM_INDENTS_PER_SPACE=2;
@@ -118,7 +119,8 @@ void dump_to_stdout(const char* pFilename)
 }
 
 int main() {
-	dump_to_stdout("example4.xml");
-
+	//dump_to_stdout("example4.xml");
+	CCodeGenerator program;
+	program.eval().println();
 	return 0;
 }
