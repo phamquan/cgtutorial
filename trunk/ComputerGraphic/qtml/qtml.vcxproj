@@ -74,6 +74,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CodeGenerator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ticpp.cpp" />
     <ClCompile Include="tinystr.cpp" />
@@ -82,6 +83,7 @@
     <ClCompile Include="tinyxmlparser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CodeGenerator.h" />
     <ClInclude Include="ticpp.h" />
     <ClInclude Include="ticpprc.h" />
     <ClInclude Include="tinystr.h" />
