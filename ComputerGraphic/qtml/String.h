@@ -1,41 +1,48 @@
 #if !defined(_String_h_)
 #define _String_h_
 
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include <assert.h>
+#include "smart_ptr.h"
+
 class String {
 public :
 	String();
 	String(const char *str);
+	String(const char *str, int tab);
 	String(const String &str);
 	~String();
 public:
-	String& operator = (const char *str);
+	String& operator = (char *str);
 	String& operator = (const String &str);
 	String operator + (const char *str);
 	String operator + (const String &str);
 	void operator += (const char str);
 	void operator += (const char *str);
 	void operator += (const String &str);
+	char operator [] (int index);
 public:
 	char charAt(int index);
+	int compareTo(String str);
+	String concat(String str);
+	static String copyValueOf(char* str);
+	static String format(char* fmt, ...);
 	int length();
 	char *toCharArray();
 	void print();
 	void println();
 	String substring(int begin);
 	String substring(int begin, int end);
+	String toUpperCase();
 	
-/* int 	compareTo(Object o)
-          Compares this String to another Object.
- int 	compareTo(String anotherString)
-          Compares two strings lexicographically.
+/*
  int 	compareToIgnoreCase(String str)
           Compares two strings lexicographically, ignoring case differences.
- String 	concat(String str)
-          Concatenates the specified string to the end of this string.
  boolean 	contentEquals(StringBuffer sb)
           Returns true if and only if this String represents the same sequence of characters as the specified StringBuffer.
-static String 	copyValueOf(char[] data)
-          Returns a String that represents the character sequence in the array specified.
 static String 	copyValueOf(char[] data, int offset, int count)
           Returns a String that represents the character sequence in the array specified.
  boolean 	endsWith(String suffix)
@@ -43,9 +50,7 @@ static String 	copyValueOf(char[] data, int offset, int count)
  boolean 	equals(Object anObject)
           Compares this string to the specified object.
  boolean 	equalsIgnoreCase(String anotherString)
-          Compares this String to another String, ignoring case considerations.
  byte[] 	getBytes()
-          Encodes this String into a sequence of bytes using the platform's default charset, storing the result into a new byte array.
  void 	getBytes(int srcBegin, int srcEnd, byte[] dst, int dstBegin)
           Deprecated. This method does not properly convert characters into bytes. As of JDK 1.1, the preferred way to do this is via the the getBytes() method, which uses the platform's default charset.
  byte[] 	getBytes(String charsetName)
@@ -89,28 +94,19 @@ static String 	copyValueOf(char[] data, int offset, int count)
  String[] 	split(String regex, int limit)
           Splits this string around matches of the given regular expression.
  boolean 	startsWith(String prefix)
-          Tests if this string starts with the specified prefix.
  boolean 	startsWith(String prefix, int toffset)
-          Tests if this string starts with the specified prefix beginning a specified index.
  CharSequence 	subSequence(int beginIndex, int endIndex)
-          Returns a new character sequence that is a subsequence of this sequence.
- 
-          Converts this string to a new character array.
  String 	toLowerCase()
           Converts all of the characters in this String to lower case using the rules of the default locale.
  String 	toLowerCase(Locale locale)
-          Converts all of the characters in this String to lower case using the rules of the given Locale.
- String 	toString()
-          This object (which is already a string!) is itself returned.
  String 	toUpperCase()
           Converts all of the characters in this String to upper case using the rules of the default locale.
  String 	toUpperCase(Locale locale)
-          Converts all of the characters in this String to upper case using the rules of the given Locale.
  String 	trim()
           Returns a copy of the string, with leading and trailing whitespace omitted.*/
 
 private :
-	char *data;
+	smart_ptr<char> data;
 	int len;
 };
 
