@@ -27,6 +27,7 @@ public:
 public:
 	char charAt(int index);
 	int compareTo(String str);
+	int compareTo(const char* str);
 	String concat(String str);
 	static String copyValueOf(char* str);
 	static String format(char* fmt, ...);
