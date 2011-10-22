@@ -1,10 +1,14 @@
 #include "qtmlManager.h"
 
 
-qtmlManager::qtmlManager(void)
+qtmlManager::qtmlManager(void) : doc(NULL), program(NULL), environment(NULL), object(NULL)
 {
 }
 
+qtmlManager::qtmlManager(const char* filename) : doc(NULL), program(NULL), environment(NULL), object(NULL)
+{
+	Load(filename);
+}
 
 qtmlManager::~qtmlManager(void)
 {
@@ -41,6 +45,13 @@ bool qtmlManager::explore(TiXmlNode* pParent) {
 					}
 					else
 						environment = pParent;
+				else if (String(pParent->Value()).toUpperCase().compareTo("object"))
+					if (object) {
+						//Exception: duplicate object
+						return false;
+					}
+					else
+						object = pParent;
 			}
 			break;
 		default:

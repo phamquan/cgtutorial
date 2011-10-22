@@ -16,6 +16,7 @@ private:
 	bool scanFile();
 public:
 	qtmlManager(void);
+	qtmlManager(const char*);
 	virtual ~qtmlManager(void);
 
 	bool Load(const char* filename);
