@@ -113,6 +113,20 @@ int String::compareTo(String str) {
 	return 0;
 }
 
+int String::compareTo(const char* str) {
+	int len1 = strlen(str);
+
+	if (len != len1)
+		return len - len1;
+	
+	for (int i=0; i<len; i++) {
+		int t = charAt(i);
+		if (t != str[i])
+			return t-str[i];
+	}
+	return 0;
+}
+
 String String::concat(String str) {
 	return String(*this)+str;
 }
