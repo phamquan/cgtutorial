@@ -1,119 +1,140 @@
 #if !defined(_String_cpp_)
 #define _String_cpp_
 
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
 #include "String.h"
-//#include "Exception.h"
 
-/**
- *  Default String constructor
- */
 String::String() {
-	data = NULL;
-	len=0;
-}
-/**
- *  Initialization String constructor
- */
-String::String(const char *str) {
-	data = NULL;
 	len = 0;
-	String::operator =(str);
+	char *tmp = new char[1];
+	tmp[0] = '\0';
+	data = smart_ptr<char>(tmp);
+}
+
+String::String(const char *str) {
+	len = strlen(str);
+
+	char *tmp = new char[len+1];
+	strcpy(tmp,str);
+
+	data = smart_ptr<char>(tmp);
+}
+
+String::String(const char *str, int tab) {
+	len = strlen(str)+tab;
+	
+	char *tmp = new char[len+1];
+
+	for(int i=0; i<tab; i++)
+		tmp[i]='\t';
+	tmp[i]='\0';
+
+	strcat(tmp,str);
+
+	data = smart_ptr<char>(tmp);
 }
 
 String::String(const String &str) {
-	data = NULL;
-	len = 0;
-	String::operator =(str.data);
+	String::operator =(str);
 }
 
-String::~String() {
-	if(data!=NULL)
-		delete []data;
-	data = NULL;
-	len = 0;
-}
+String::~String() {}
 
-/**
- *  Overload Operator
- */
-String& String::operator = (const char *str) {
-	if(str == NULL)
-		return *this;
-
-	if(data != NULL)
-		delete data;
-
+String& String::operator = (char *str) {
 	len=strlen(str);
-	data = new char[len+1];
-	strcpy(data,str);
+	char *tmp = new char[len+1];
+	strcpy(tmp,str);
 
+	data = smart_ptr<char>(tmp);
 	return *this;
 }
 
 String& String::operator = (const String &str) {
-	return String::operator =(str.data);
+	len=strlen(str.data.get());
+	data = str.data;
+
+	return *this;	;
 }
 
 String String::operator + (const char *str) {
-	String result(data);
+	String result(data.get());
 	result += str;
 	return result;
 }
 
 String String::operator + (const String &str) {
-	return String::operator +(str.data);
+	return String::operator +(str.data.get());
 }
 
 void String::operator += (const char str) {
 	len+=1;
 	char *tmp = new char[len+1];
 
-	if(data == NULL)
-		tmp[len-1] = str;
-	else {
-		strcpy(tmp,data);
-		tmp[len-1] = str;
-		delete data;
-	}
+	strcpy(tmp,data.get());
+	tmp[len-1] = str;
 	tmp[len] = '\0';
-	data = tmp;
+
+	String::operator =(tmp);
 }
 
 void String::operator += (const char *str) {
-	if(str == NULL)
-		return;
-
 	len+=strlen(str);
 	char *tmp = new char[len+1];
+
+	strcpy(tmp,data.get());
+	strcat(tmp,str);
 	
-	if(data == NULL)
-		strcpy(tmp,str);
-	else {
-		strcpy(tmp,data);
-		strcat(tmp,str);
-		delete data;
-	}
-	data = tmp;
+	String::operator =(tmp);
 }
 
 void String::operator += (const String &str) {
-	String::operator +=(str.data);
+	String::operator +=(str.data.get());
+}
+
+char String::operator [](int index) {
+	assert(index>=0 && index<len);
+	return (data.get())[index];
 }
 
 /**
  *  Method
  */
 char String::charAt(int index) {
-	//assert(index>=0 && index<len);
-	if(index < 0 || index >= len) {
-		printf("Unbond String\n");
-		println();
+	return String::operator [](index);
+}
+
+int String::compareTo(String str) {
+	if(len != str.len)
+		return len - str.len;
+
+	for(int i=0; i<len; i++) {
+		if(charAt(i) != str.charAt(i))
+			return charAt(i)-str.charAt(i);
 	}
-	return data[index];
+	return 0;
+}
+
+String String::concat(String str) {
+	return String(*this)+str;
+}
+
+String String::copyValueOf(char *str) {
+	int len1 = strlen(str);
+	char *tmp = new char[len1+1];
+	strcpy(tmp,str);
+
+	return String(tmp);
+}
+
+
+String String::format(char *fmt, ...) {
+	char buff[1024];
+
+	va_list ap;
+	va_start(ap, fmt);
+	vsprintf(buff, fmt, ap);
+	va_end(ap);
+
+	return String(buff);
 }
 
 int String::length() {
@@ -121,37 +142,26 @@ int String::length() {
 }
 
 char *String::toCharArray() {
-	if(data == NULL)
-		return NULL;
-
 	char *tmp = new char[len + 1];
-	strcpy(tmp,data);
+	strcpy(tmp,data.get());
 	return tmp;
 }
 
 void String::print() {
-	if(data==NULL) return;
-	printf("%s",data);
+	printf("%s %d",data.get(),len);
 }
 
 void String::println() {
-	if(data==NULL) return;
 	print();
 	printf("\n");
 }
 
 String String::substring(int begin) {
-	//assert(begin>=0 && begin<len);
-
-	if(begin < 0 || begin > len) {
-		printf("Unbond String start %d\n",begin);
-		println();
-	}
+	assert(begin>=0 && begin<len);
 
 	char *tmp = new char[len-begin+1];
-	int i;
-	for(i=begin; i<len; i++) {
-		tmp[i-begin] = data[i];
+	for(int i=begin; i<len; i++) {
+		tmp[i-begin] = (data.get())[i];
 	}
 	tmp[i-begin] = '\0';
 
@@ -165,12 +175,20 @@ String String::substring(int begin, int end) {
 		println();
 	}
 	char *tmp = new char[end-begin+1];
-	int i;
-	for(i=begin; i<end; i++) {
-		tmp[i-begin] = data[i];
+	for(int i=begin; i<end; i++) {
+		tmp[i-begin] = (data.get())[i];
 	}
 	tmp[i-begin] = '\0';
 
+	return String(tmp);
+}
+
+String String::toUpperCase() {
+	char *tmp = new char[len+1];
+	for (int i=0; i<=len; i++) {
+		char t = (data.get())[i];
+		tmp[i] = (t>96 && t<123)?t-32:t;
+	}
 	return String(tmp);
 }
 
