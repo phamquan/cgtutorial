@@ -2,6 +2,8 @@
 
 #include "tinyxml.h"
 #include "String.h"
+#include <vector>
+using namespace std;
 
 class qtmlManager
 {
@@ -11,7 +13,7 @@ private:
 
 	TiXmlNode *environment;
 	TiXmlNode *projection;
-	TiXmlNode *lightsource;
+	vector<TiXmlNode*> lightsource;
 
 	TiXmlNode *object;
 
