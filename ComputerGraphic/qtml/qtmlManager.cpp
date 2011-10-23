@@ -21,39 +21,47 @@ void qtmlManager::Clear() {
 		doc = NULL;
 		environment = NULL;
 		object = NULL;
+		projection = NULL;
+		lightsource.clear();
 	}
 }
 
-bool qtmlManager::explore(TiXmlNode* pParent) {
+bool qtmlManager::exploreDoc(TiXmlNode* pParent) {
 	TiXmlNode* pChild=0;
 	while (pChild = pParent->IterateChildren(pChild)) {
 		int t = pChild->Type();
+		String v = String(pChild->Value()).toUpperCase();
 		switch (t) {
 		case TiXmlNode::ELEMENT:
 			{
-				if (String(pParent->Value()).toUpperCase().compareTo("watermelon"))
+				if (!v.compareTo("WATERMELON"))
 					if (program) {
 						//Exception: duplicate program
 						return false;
 					}
 					else
-						program = pParent;
-				else if (String(pParent->Value()).toUpperCase().compareTo("environment"))
+						program = pChild;
+				else if (!v.compareTo("ENVIRONMENT"))
 					if (environment) {
 						//Exception: duplicate environment
 						return false;
 					}
 					else
-						environment = pParent;
-				else if (String(pParent->Value()).toUpperCase().compareTo("object"))
+						environment = pChild;
+				else if (!v.compareTo("OBJECT"))
 					if (object) {
 						//Exception: duplicate object
 						return false;
 					}
 					else
-						object = pParent;
+						object = pChild;
 			}
 			break;
+		case TiXmlNode::COMMENT:
+		case TiXmlNode::TEXT:
+			break;
+		case TiXmlNode::UNKNOWN:
+			return false;
 		default:
 			return false;
 		}
@@ -61,8 +69,40 @@ bool qtmlManager::explore(TiXmlNode* pParent) {
 	return true;
 }
 
+bool qtmlManager::exploreEnvironment(TiXmlNode *pParent) {
+	TiXmlNode* pChild=0;
+	while (pChild = pParent->IterateChildren(pChild)) {
+		int t = pChild->Type();
+		String v = String(pChild->Value()).toUpperCase();
+		switch (t) {
+		case TiXmlNode::ELEMENT:
+			{
+				if (!v.compareTo("PROJECTION"))
+					if (projection) {
+						//Exception dupplicate projection
+						return false;
+					}
+					else
+						projection = pChild;
+				else if (!v.compareTo("LIGHTSOURCE"))
+					lightsource.push_back(pChild);
+			}
+			break;
+		case TiXmlNode::COMMENT:
+		case TiXmlNode::TEXT:
+			break;
+		case TiXmlNode::UNKNOWN:
+			return false;
+		default:
+			return false;
+		}
+	}
+	return true;
+}
+
+
 bool qtmlManager::scanFile() {
-	if (explore(doc)) {
+	if (exploreDoc(doc)) {
 		Clear();
 		return false;
 	}
