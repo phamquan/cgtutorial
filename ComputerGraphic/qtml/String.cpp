@@ -49,14 +49,14 @@ String& String::operator = (char *str) {
 }
 
 String& String::operator = (const String &str) {
-	len=strlen(str.data.get());
+	len = str.len;
 	data = str.data;
 
 	return *this;	;
 }
 
 String String::operator + (const char *str) {
-	String result(data.get());
+	String result(*this);
 	result += str;
 	return result;
 }
@@ -127,18 +127,50 @@ int String::compareTo(const char* str) {
 	return 0;
 }
 
+int String::compareToIgnoreCase(String str) {
+	return toUpperCase().compareTo(str.toUpperCase());
+}
+
 String String::concat(String str) {
 	return String(*this)+str;
 }
 
 String String::copyValueOf(char *str) {
-	int len1 = strlen(str);
-	char *tmp = new char[len1+1];
+	int len = strlen(str);
+	char *tmp = new char[len+1];
 	strcpy(tmp,str);
 
 	return String(tmp);
 }
 
+String String::copyValueOf(char *data, int offset, int count) {
+	char *tmp = new char[count+1];
+
+	for(int i=0; i<count; i++) {
+		tmp[i] = data[offset+i];
+	}
+	tmp[i] = '\0';
+
+	return String(tmp);
+}
+
+bool String::endsWith(String suffix) {
+	int slen = suffix.length();
+
+	if(slen > len)
+		return false;
+
+	String tmp = substring(len-slen);
+	return tmp.compareTo(suffix) == 0;
+}
+
+bool String::equals(String str) {
+	return compareTo(str) == 0;
+}
+
+bool String::equalsIgnoreCase(String str) {
+	return toUpperCase().compareTo(str.toUpperCase()) == 0;
+}
 
 String String::format(char *fmt, ...) {
 	char buff[1024];
@@ -149,6 +181,29 @@ String String::format(char *fmt, ...) {
 	va_end(ap);
 
 	return String(buff);
+}
+
+void String::getChars(int srcBegin, int srcEnd, char *dst, int dstBegin) {
+	int dstlen = strlen(dst);
+
+	assert(srcBegin >= 0 && srcBegin <= srcEnd && srcEnd <= len && dstBegin >= 0 && 
+		dstBegin+(srcEnd-srcBegin) <= dstlen);
+
+	for(int i=0; i<srcEnd - srcBegin; i++) {
+		dst[dstBegin+i] = charAt(srcBegin+i);
+	}
+}
+
+int String::indexOf(int ch) {
+	return indexOf(ch,0);
+}
+
+int String::indexOf(int ch, int fromIndex) {
+	for(int i=fromIndex; i<len; i++) {
+		if(charAt(i) == ch)
+			return i;
+	}
+	return -1;
 }
 
 int String::length() {
@@ -204,6 +259,33 @@ String String::toUpperCase() {
 		tmp[i] = (t>96 && t<123)?t-32:t;
 	}
 	return String(tmp);
+}
+
+String String::valueOf(bool b) {
+	if(b)
+		return String("true");
+
+	return String("false");
+}
+
+String String::valueOf(char c) {
+	return String::format("%c",c);
+}
+
+String String::valueOf(char* data) {
+	return String(data);
+}
+
+String String::valueOf(double d) {
+	return String::format("%f",d);
+}
+
+String String::valueOf(int i) {
+	return String::format("%d",i);
+}
+
+String String::valueOf(long l) {
+	return String::format("%ld",l);
 }
 
 #endif
