@@ -8,11 +8,18 @@ class qtmlManager
 private:
 	TiXmlDocument *doc;
 	TiXmlNode *program;
-	TiXmlNode* environment;
-	TiXmlNode* object;
+
+	TiXmlNode *environment;
+	TiXmlNode *projection;
+	TiXmlNode *lightsource;
+
+	TiXmlNode *object;
 
 	void Clear();
-	bool explore(TiXmlNode* pParent);
+	bool exploreDoc(TiXmlNode *pParent);
+	bool exploreProgram(TiXmlNode *pParent);
+	bool exploreEnvironment(TiXmlNode *pParent);
+	bool exploreObject(TiXmlNode *pParent);
 	bool scanFile();
 public:
 	qtmlManager(void);

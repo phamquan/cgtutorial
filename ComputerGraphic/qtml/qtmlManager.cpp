@@ -58,6 +58,7 @@ bool qtmlManager::explore(TiXmlNode* pParent) {
 			return false;
 		}
 	}
+	return true;
 }
 
 bool qtmlManager::scanFile() {
