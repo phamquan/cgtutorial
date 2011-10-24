@@ -1,11 +1,13 @@
 #include "CodeGenerator.h"
-#include "iostream"
-using namespace std;
 
 CCodeGenerator::CCodeGenerator(void)
 {
+	repo = new qtmlManager();
 }
 
+CCodeGenerator::CCodeGenerator(const char* filename) {
+	repo = new qtmlManager(filename);
+}
 
 CCodeGenerator::~CCodeGenerator(void)
 {
@@ -62,4 +64,14 @@ String CCodeGenerator::eval() {
 		+ evalonPaint()
 		+ evalinitOpenGL()
 		+ evalMain();
+}
+
+void CCodeGenerator::setFilename(const char* filename) {
+	strcpy(this->filename, filename);
+}
+
+char* CCodeGenerator::getFilename() {
+	char *t;
+	strcpy(this->filename, t);
+	return t;
 }
