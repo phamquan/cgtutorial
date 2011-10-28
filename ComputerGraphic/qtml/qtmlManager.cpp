@@ -101,7 +101,7 @@ bool qtmlManager::exploreEnvironment(TiXmlNode *pParent) {
 }
 
 
-bool qtmlManager::scanFile() {
+bool qtmlManager::explore() {
 	if (exploreDoc(doc)) {
 		Clear();
 		return false;
@@ -115,7 +115,7 @@ bool qtmlManager::Load(const char* filename) {
 	Clear();
 	doc = new TiXmlDocument(filename);
 	if (doc->LoadFile()) {
-		if (scanFile())
+		if (explore())
 			return true;
 		else {
 			Clear();

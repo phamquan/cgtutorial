@@ -31,7 +31,7 @@ public :
 	T& operator *() const throw() {return *Counter->ptr;}
 	T* operator ->() const throw() {return Counter->ptr;}
 	T* get() const throw() {return (Counter != NULL) ? Counter->ptr:NULL;}
-	bool unique() const throw() {return (Counter != NULL) ? Counter->count == 1; true);}
+	bool unique() const throw() {return ((Counter != NULL) ? Counter->count == 1: true);}
 private :
 	struct counter {
 		counter(T* p = NULL, unsigned c = 1) : ptr(p), count(c) {}

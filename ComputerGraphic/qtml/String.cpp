@@ -24,7 +24,8 @@ String::String(const char *str, int tab) {
 	
 	char *tmp = new char[len+1];
 
-	for(int i=0; i<tab; i++)
+	int i;
+	for(i=0; i<tab; i++)
 		tmp[i]='\t';
 	tmp[i]='\0';
 
@@ -146,7 +147,8 @@ String String::copyValueOf(char *str) {
 String String::copyValueOf(char *data, int offset, int count) {
 	char *tmp = new char[count+1];
 
-	for(int i=0; i<count; i++) {
+	int i;
+	for(i=0; i<count; i++) {
 		tmp[i] = data[offset+i];
 	}
 	tmp[i] = '\0';
@@ -229,7 +231,8 @@ String String::substring(int begin) {
 	assert(begin>=0 && begin<len);
 
 	char *tmp = new char[len-begin+1];
-	for(int i=begin; i<len; i++) {
+	int i;
+	for(i=begin; i<len; i++) {
 		tmp[i-begin] = (data.get())[i];
 	}
 	tmp[i-begin] = '\0';
@@ -244,7 +247,8 @@ String String::substring(int begin, int end) {
 		println();
 	}
 	char *tmp = new char[end-begin+1];
-	for(int i=begin; i<end; i++) {
+	int i;
+	for(i=begin; i<end; i++) {
 		tmp[i-begin] = (data.get())[i];
 	}
 	tmp[i-begin] = '\0';

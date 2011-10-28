@@ -22,7 +22,7 @@ private:
 	bool exploreProgram(TiXmlNode *pParent);
 	bool exploreEnvironment(TiXmlNode *pParent);
 	bool exploreObject(TiXmlNode *pParent);
-	bool scanFile();
+	bool explore();
 public:
 	qtmlManager(void);
 	qtmlManager(const char*);

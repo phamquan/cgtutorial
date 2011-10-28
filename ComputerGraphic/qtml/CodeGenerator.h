@@ -11,7 +11,7 @@ public:
 	CCodeGenerator(const char*);
 	virtual ~CCodeGenerator(void);
 private:
-	qtmlManager *repo;
+	qtmlManager *qtml;
 	char *filename;
 
 	String evalHeader();
