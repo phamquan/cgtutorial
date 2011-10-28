@@ -2,11 +2,11 @@
 
 CCodeGenerator::CCodeGenerator(void)
 {
-	repo = new qtmlManager();
+	qtml = new qtmlManager();
 }
 
 CCodeGenerator::CCodeGenerator(const char* filename) {
-	repo = new qtmlManager(filename);
+	qtml = new qtmlManager(filename);
 }
 
 CCodeGenerator::~CCodeGenerator(void)
@@ -60,6 +60,7 @@ String CCodeGenerator::evalMain() {
 }
 
 String CCodeGenerator::eval() {
+	qtml->Load(this->filename);
 	return evalHeader() 
 		+ evalonPaint()
 		+ evalinitOpenGL()
