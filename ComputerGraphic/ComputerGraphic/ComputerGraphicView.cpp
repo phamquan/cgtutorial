@@ -26,6 +26,9 @@
 #define new DEBUG_NEW
 #endif
 
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <math.h>
 
 // CComputerGraphicView
 
@@ -38,6 +41,10 @@ BEGIN_MESSAGE_MAP(CComputerGraphicView, CView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CComputerGraphicView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
+	ON_WM_CREATE()
+	ON_WM_PAINT()
+	ON_WM_DESTROY()
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 // CComputerGraphicView construction/destruction
@@ -134,4 +141,111 @@ CComputerGraphicDoc* CComputerGraphicView::GetDocument() const // non-debug vers
 #endif //_DEBUG
 
 
-// CComputerGraphicView message handlers
+// setup environment for OpenGL Canvas
+
+
+void CComputerGraphicView::setupOpenGL(void)
+{
+	//Declare Pixel Format
+	static PIXELFORMATDESCRIPTOR pfd =
+	{
+	sizeof(PIXELFORMATDESCRIPTOR),
+	1,
+	PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
+	PFD_TYPE_RGBA,
+	32, // bit depth
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	16, // z-buffer depth
+	0, 0, 0, 0, 0, 0, 0,
+	};
+	// Get device context only once.
+	m_hDC = GetDC()->m_hDC;
+	// Set Pixel format.
+	int nPixelFormat = ChoosePixelFormat(m_hDC, &pfd);
+	SetPixelFormat(m_hDC, nPixelFormat, &pfd);
+	// Create the OpenGL Rendering Context.
+	m_hRC = wglCreateContext(m_hDC);
+	wglMakeCurrent( m_hDC, m_hRC );
+	glEnable(GL_NORMALIZE);
+	glShadeModel(GL_SMOOTH);
+}
+
+
+int CComputerGraphicView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CView::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO:  Add your specialized creation code here
+		//Setup Opengl
+	setupOpenGL();
+	return 0;
+}
+
+
+void CComputerGraphicView::removeOpenGL(void)
+{
+	//Delete Rendering Context
+	if(wglGetCurrentContext() != NULL)
+		wglMakeCurrent(NULL,NULL);
+
+	if(m_hRC != NULL)
+	{
+		wglDeleteContext(m_hRC);
+		m_hRC = NULL;
+	}
+}
+
+
+void CComputerGraphicView::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+	// TODO: Add your message handler code here
+	// Do not call CView::OnPaint() for painting messages
+	wglMakeCurrent( m_hDC, m_hRC );
+	glClearColor(0.0f, 0.7f, 0.7f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT); 
+	glColor3f(1.0f, 0.0f, 0.0f);
+
+	glBegin(GL_POLYGON);        
+		glVertex2f(- 0.5, - 0.5);        
+		glVertex2f(- 0.5,  0.5);        
+		glVertex2f(0.5,  0.5);        
+		glVertex2f(0.5, - 0.5);    
+	glEnd();
+	glFlush();
+	
+	SwapBuffers(dc.m_ps.hdc);
+}
+
+
+void CComputerGraphicView::OnDestroy()
+{
+	CView::OnDestroy();
+
+	// TODO: Add your message handler code here
+	removeOpenGL();
+}
+
+
+void CComputerGraphicView::OnSize(UINT nType, int cx, int cy)
+{
+	CView::OnSize(nType, cx, cy);
+
+	// TODO: Add your message handler code here
+	//Setting up viewport
+	CRect rect;
+	GetClientRect(rect);
+	int size = min(rect.Width(), rect.Height());
+	glViewport(0, 0, size, size);
+}
+
+
+void CComputerGraphicView::OnInitialUpdate()
+{
+	CView::OnInitialUpdate();
+
+	// TODO: Add your specialized code here and/or call the base class
+	GetParent()->SetWindowText(GetDocument()->GetTitle()+
+								" - This is a test!");
+}

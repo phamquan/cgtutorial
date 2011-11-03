@@ -15,7 +15,7 @@ qtmlManager::~qtmlManager(void)
 }
 
 void qtmlManager::Clear() {
-	if (!doc) {
+	if (doc != NULL) {
 		doc->Clear();
 		delete doc;
 		doc = NULL;
