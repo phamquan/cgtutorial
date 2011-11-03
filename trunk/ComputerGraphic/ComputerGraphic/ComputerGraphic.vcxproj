@@ -97,6 +97,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="ReadMe.txt" />
     <None Include="res\buttons.bmp" />
     <None Include="res\classview.bmp" />
@@ -138,6 +139,9 @@
     <ClInclude Include="ComputerGraphicDoc.h" />
     <ClInclude Include="ComputerGraphicView.h" />
     <ClInclude Include="FileView.h" />
+    <ClInclude Include="GeometricObject.h" />
+    <ClInclude Include="GLEnabledView.h" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="OutputWnd.h" />
     <ClInclude Include="PropertiesWnd.h" />
@@ -153,6 +157,9 @@
     <ClCompile Include="ComputerGraphicDoc.cpp" />
     <ClCompile Include="ComputerGraphicView.cpp" />
     <ClCompile Include="FileView.cpp" />
+    <ClCompile Include="GeometricObject.cpp" />
+    <ClCompile Include="GLEnabledView.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
     <ClCompile Include="PropertiesWnd.cpp" />

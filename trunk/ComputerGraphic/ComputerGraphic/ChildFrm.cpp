@@ -56,7 +56,8 @@ BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 	// TODO: Modify the Window class or styles here by modifying the CREATESTRUCT cs
 	if( !CMDIChildWndEx::PreCreateWindow(cs) )
 		return FALSE;
-
+	//cs.style&=~(LONG)FWS_ADDTOTITLE;
+	this->SetTitle(L"abc");
 	return TRUE;
 }
 

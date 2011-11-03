@@ -53,6 +53,18 @@ protected:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
+public:
+	void setupOpenGL(void);
+private:
+	HGLRC m_hRC;
+	HDC m_hDC;
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+public:
+	void removeOpenGL(void);
+	afx_msg void OnPaint();
+	afx_msg void OnDestroy();
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	virtual void OnInitialUpdate();
 };
 
 #ifndef _DEBUG  // debug version in ComputerGraphicView.cpp
