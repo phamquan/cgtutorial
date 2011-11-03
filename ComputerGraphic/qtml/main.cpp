@@ -119,8 +119,8 @@ void dump_to_stdout(const char* pFilename)
 }
 
 int main() {
-	//dump_to_stdout("example4.xml");
-	CCodeGenerator program;
+	//dump_to_stdout("example4.qtml");
+	CCodeGenerator program("example4.qtml");
 	program.eval().println();
 	return 0;
 }

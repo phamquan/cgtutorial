@@ -12,7 +12,7 @@ public:
 	virtual ~CCodeGenerator(void);
 private:
 	qtmlManager *qtml;
-	char *filename;
+	char filename[255];
 
 	String evalHeader();
 	String evalonPaint();

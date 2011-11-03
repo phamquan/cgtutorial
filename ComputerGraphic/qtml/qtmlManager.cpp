@@ -1,28 +1,31 @@
 #include "qtmlManager.h"
 
 
-qtmlManager::qtmlManager(void) : doc(NULL), program(NULL), environment(NULL), object(NULL)
+qtmlManager::qtmlManager(void) : doc(NULL), program(NULL), environment(NULL), camera(NULL), projection(NULL), object(NULL)
 {
+	lightsource = new vector<TiXmlNode*>;
 }
 
-qtmlManager::qtmlManager(const char* filename) : doc(NULL), program(NULL), environment(NULL), object(NULL)
+qtmlManager::qtmlManager(const char* filename) : doc(NULL), program(NULL), environment(NULL), camera(NULL), projection(NULL), object(NULL)
 {
-	Load(filename);
+	lightsource = new vector<TiXmlNode*>;
 }
 
 qtmlManager::~qtmlManager(void)
 {
+	this->Clear();
+	delete lightsource;
 }
 
 void qtmlManager::Clear() {
-	if (doc != NULL) {
+	if (doc) {
 		doc->Clear();
 		delete doc;
 		doc = NULL;
 		environment = NULL;
 		object = NULL;
 		projection = NULL;
-		lightsource.clear();
+		lightsource->clear();
 	}
 }
 
@@ -41,7 +44,31 @@ bool qtmlManager::exploreDoc(TiXmlNode* pParent) {
 					}
 					else
 						program = pChild;
-				else if (!v.compareTo("ENVIRONMENT"))
+
+			}
+			break;
+		case TiXmlNode::COMMENT:
+		case TiXmlNode::TEXT:
+		case TiXmlNode::DECLARATION:
+			break;
+		case TiXmlNode::UNKNOWN:
+			return false;
+		default:
+			return false;
+		}
+	}
+	return true;
+}
+
+bool qtmlManager::exploreProgram(TiXmlNode *pParent) {
+	TiXmlNode* pChild=0;
+	while (pChild = pParent->IterateChildren(pChild)) {
+		int t = pChild->Type();
+		String v = String(pChild->Value()).toUpperCase();
+		switch (t) {
+		case TiXmlNode::ELEMENT:
+			{
+				if (!v.compareTo("ENVIRONMENT"))
 					if (environment) {
 						//Exception: duplicate environment
 						return false;
@@ -59,6 +86,7 @@ bool qtmlManager::exploreDoc(TiXmlNode* pParent) {
 			break;
 		case TiXmlNode::COMMENT:
 		case TiXmlNode::TEXT:
+		case TiXmlNode::DECLARATION:
 			break;
 		case TiXmlNode::UNKNOWN:
 			return false;
@@ -84,12 +112,20 @@ bool qtmlManager::exploreEnvironment(TiXmlNode *pParent) {
 					}
 					else
 						projection = pChild;
+				else if (!v.compareTo("CAMERA"))
+					if (projection) {
+						//Exception dupplicate projection
+						return false;
+					}
+					else
+						camera = pChild;
 				else if (!v.compareTo("LIGHTSOURCE"))
-					lightsource.push_back(pChild);
+					lightsource->push_back(pChild);
 			}
 			break;
 		case TiXmlNode::COMMENT:
 		case TiXmlNode::TEXT:
+		case TiXmlNode::DECLARATION:
 			break;
 		case TiXmlNode::UNKNOWN:
 			return false;
@@ -100,14 +136,18 @@ bool qtmlManager::exploreEnvironment(TiXmlNode *pParent) {
 	return true;
 }
 
+bool qtmlManager::exploreObject(TiXmlNode *pParent) {
+	return true;
+}
 
 bool qtmlManager::explore() {
-	if (exploreDoc(doc)) {
+	if (exploreDoc(doc))
+		return exploreProgram(program) & exploreEnvironment(environment) & exploreObject(object);
+	else {
 		Clear();
 		return false;
 	}
-	else
-		return true;
+		
 }
 
 bool qtmlManager::Load(const char* filename) {

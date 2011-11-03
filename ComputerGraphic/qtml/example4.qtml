@@ -2,7 +2,7 @@
 <watermelon program='Computer Graphic Tutorial'>
 
 <environment>
-	<camera xpos=3, ypos=4, zpos=5, xlook=0, ylook=0, zlook=0, xup=0, yup=1, zup=0 />
+	<camera xpos=3 ypos=4 zpos=5 xlook=0 ylook=0 zlook=0 xup=0 yup=1 zup=0 />
 	
 	<projection type='ortho' left=-5 right=5 bottom=-3 top=3 near=5 far=100 />
 	
