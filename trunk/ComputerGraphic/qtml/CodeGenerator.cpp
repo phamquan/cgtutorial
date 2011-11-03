@@ -7,6 +7,7 @@ CCodeGenerator::CCodeGenerator(void)
 
 CCodeGenerator::CCodeGenerator(const char* filename) {
 	qtml = new qtmlManager(filename);
+	strcpy(this->filename,filename);
 }
 
 CCodeGenerator::~CCodeGenerator(void)
@@ -40,7 +41,7 @@ String evalinitOpenGL() {
 		+ String("\tglMatrixMode(GL_PROJECTION);\r\n")
 		+ String("\tglLoadIdentity();\r\n")
 		+ String("\tglMatrixMode(GL_MODELVIEW);\r\n")
-		+ String("}r\r\n")
+		+ String("}\r\n")
 		+ String("\r\n")
 		;
 	return initOpenGL;

@@ -12,8 +12,9 @@ private:
 	TiXmlNode *program;
 
 	TiXmlNode *environment;
+	TiXmlNode *camera;
 	TiXmlNode *projection;
-	vector<TiXmlNode*> lightsource;
+	vector<TiXmlNode*> *lightsource;
 
 	TiXmlNode *object;
 
