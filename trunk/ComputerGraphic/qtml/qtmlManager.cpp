@@ -111,14 +111,14 @@ bool qtmlManager::exploreEnvironment(TiXmlNode *pParent) {
 						return false;
 					}
 					else
-						projection = pChild;
+						projection = (TiXmlElement*)pChild;
 				else if (!v.compareTo("CAMERA"))
 					if (projection) {
 						//Exception dupplicate projection
 						return false;
 					}
 					else
-						camera = pChild;
+						camera = (TiXmlElement*)pChild;
 				else if (!v.compareTo("LIGHTSOURCE"))
 					lightsource->push_back(pChild);
 			}

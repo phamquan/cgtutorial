@@ -19,6 +19,24 @@ String::String(const char *str) {
 	data = smart_ptr<char>(tmp);
 }
 
+String::String(const char *str, int tab, int enter) {
+	len = strlen(str)+enter*2+tab;
+	
+	char *tmp = new char[len+1];
+
+	int i;
+	for(i=0; i<tab; i++)
+		tmp[i]='\t';
+	tmp[i]='\0';
+
+	strcat(tmp,str);
+
+	for(i=0;i<enter;i++)
+		strcat(tmp,"\r\n");
+
+	data = smart_ptr<char>(tmp);
+}
+
 String::String(const char *str, int tab) {
 	len = strlen(str)+tab;
 	

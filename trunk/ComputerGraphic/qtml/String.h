@@ -12,6 +12,7 @@ class String {
 public :
 	String();
 	String(const char *str);
+	String(const char *str, int tab, int enter);
 	String(const char *str, int tab);
 	String(const String &str);
 	~String();
