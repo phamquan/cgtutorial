@@ -12,8 +12,8 @@ private:
 	TiXmlNode *program;
 
 	TiXmlNode *environment;
-	TiXmlNode *camera;
-	TiXmlNode *projection;
+	TiXmlElement *camera;
+	TiXmlElement *projection;
 	vector<TiXmlNode*> *lightsource;
 
 	TiXmlNode *object;
@@ -30,5 +30,8 @@ public:
 	virtual ~qtmlManager(void);
 
 	bool Load(const char* filename);
+
+	//friend class list
+	friend class CCodeGenerator;
 };
 

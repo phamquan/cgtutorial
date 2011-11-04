@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CodeGenerator.h" />
+    <ClInclude Include="header.h" />
     <ClInclude Include="qtmlManager.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="ticpp.h" />
