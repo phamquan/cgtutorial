@@ -153,3 +153,42 @@ HCURSOR CRasterizationIllustrationDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void CRasterizationIllustrationDlg::setupOpenGL(void)
+{
+	//Declare Pixel Format
+	static PIXELFORMATDESCRIPTOR pfd =
+	{
+	sizeof(PIXELFORMATDESCRIPTOR),
+	1,
+	PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
+	PFD_TYPE_RGBA,
+	32, // bit depth
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	16, // z-buffer depth
+	0, 0, 0, 0, 0, 0, 0,
+	};
+	// Get device context only once.
+	m_hDC = GetDC()->m_hDC;
+	// Set Pixel format.
+	int nPixelFormat = ChoosePixelFormat(m_hDC, &pfd);
+	SetPixelFormat(m_hDC, nPixelFormat, &pfd);
+	// Create the OpenGL Rendering Context.
+	m_hRC = wglCreateContext(m_hDC);
+	wglMakeCurrent( m_hDC, m_hRC );
+}
+
+
+void CRasterizationIllustrationDlg::removeOpenGL(void)
+{
+	//Delete Rendering Context
+	if(wglGetCurrentContext() != NULL)
+		wglMakeCurrent(NULL,NULL);
+
+	if(m_hRC != NULL)
+	{
+		wglDeleteContext(m_hRC);
+		m_hRC = NULL;
+	}
+}

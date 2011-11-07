@@ -29,4 +29,9 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+private:
+	HGLRC m_hRC;
+	HDC m_hDC;
+public:
+	void setupOpenGL(void);
 };
