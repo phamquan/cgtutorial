@@ -51,10 +51,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\Library</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -99,6 +101,7 @@
     <None Include="res\RasterizationIllustration.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RasterizationConfig.h" />
     <ClInclude Include="RasterizationIllustration.h" />
     <ClInclude Include="RasterizationIllustrationDlg.h" />
     <ClInclude Include="Resource.h" />
@@ -106,6 +109,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="RasterizationConfig.cpp" />
     <ClCompile Include="RasterizationIllustration.cpp" />
     <ClCompile Include="RasterizationIllustrationDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
