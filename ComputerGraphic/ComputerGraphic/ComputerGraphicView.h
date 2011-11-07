@@ -53,13 +53,12 @@ protected:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
-public:
-	void setupOpenGL(void);
 private:
 	HGLRC m_hRC;
 	HDC m_hDC;
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 public:
+	void setupOpenGL(void);
 	void removeOpenGL(void);
 	afx_msg void OnPaint();
 	afx_msg void OnDestroy();
