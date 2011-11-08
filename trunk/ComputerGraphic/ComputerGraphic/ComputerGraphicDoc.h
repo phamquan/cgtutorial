@@ -15,6 +15,7 @@
 
 #pragma once
 
+static unsigned count = 0;
 
 class CComputerGraphicDoc : public CDocument
 {
@@ -24,7 +25,6 @@ protected: // create from serialization only
 
 // Attributes
 public:
-
 // Operations
 public:
 

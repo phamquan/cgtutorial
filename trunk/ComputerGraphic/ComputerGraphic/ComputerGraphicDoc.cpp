@@ -54,6 +54,9 @@ BOOL CComputerGraphicDoc::OnNewDocument()
 
 	// TODO: add reinitialization code here
 	// (SDI documents will reuse this document)
+	CString title;
+	title.Format(_T("Untiled%d"),++count);
+	this->SetTitle(title);
 
 	return TRUE;
 }
