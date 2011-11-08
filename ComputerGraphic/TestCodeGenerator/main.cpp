@@ -1,6 +1,6 @@
 #include "iostream"
-#include "tinyxml.h"
-#include "CodeGenerator.h"
+#include "../qtml/tinyxml.h"
+#include "../CodeGenerator/CodeGenerator.h"
 using namespace std;
 
 const unsigned int NUM_INDENTS_PER_SPACE=2;
@@ -119,9 +119,9 @@ void dump_to_stdout(const char* pFilename)
 }
 
 int main() {
-	dump_to_stdout("example4.qtml");
-	//CCodeGenerator program("example4.qtml");
-	//program.eval().println();
+	//dump_to_stdout("example4.qtml");
+	CCodeGenerator program("example4.qtml");
+	program.eval().println();
 
 	return 0;
 }
