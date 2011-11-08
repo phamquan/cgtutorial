@@ -64,6 +64,7 @@ public:
 	afx_msg void OnDestroy();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	virtual void OnInitialUpdate();
+//	afx_msg void OnFileNew();
 };
 
 #ifndef _DEBUG  // debug version in ComputerGraphicView.cpp

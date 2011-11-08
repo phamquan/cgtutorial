@@ -45,6 +45,7 @@ BEGIN_MESSAGE_MAP(CComputerGraphicView, CView)
 	ON_WM_PAINT()
 	ON_WM_DESTROY()
 	ON_WM_SIZE()
+//	ON_COMMAND(ID_FILE_NEW, &CComputerGraphicView::OnFileNew)
 END_MESSAGE_MAP()
 
 // CComputerGraphicView construction/destruction
@@ -52,7 +53,7 @@ END_MESSAGE_MAP()
 CComputerGraphicView::CComputerGraphicView()
 {
 	// TODO: add construction code here
-
+	//CComputerGraphicDoc::count = 0;
 }
 
 CComputerGraphicView::~CComputerGraphicView()
@@ -249,3 +250,8 @@ void CComputerGraphicView::OnInitialUpdate()
 	GetParent()->SetWindowText(GetDocument()->GetTitle()+
 								" - This is a test!");
 }
+
+//void CComputerGraphicView::OnFileNew()
+//{
+//	// TODO: Add your command handler code here
+//}
