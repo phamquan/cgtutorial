@@ -1,8 +1,8 @@
 #pragma once
 
-#include "header.h"
+#include "../qtml/header.h"
 #include "String.h"
-#include "qtmlManager.h"
+#include "../qtml/qtmlManager.h"
 #include "iostream"
 using namespace std;
 using namespace CGTutorial;
