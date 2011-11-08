@@ -46,6 +46,7 @@ BEGIN_MESSAGE_MAP(CComputerGraphicView, CView)
 	ON_WM_DESTROY()
 	ON_WM_SIZE()
 //	ON_COMMAND(ID_FILE_NEW, &CComputerGraphicView::OnFileNew)
+ON_COMMAND(ID_FILE_OPEN, &CComputerGraphicView::OnFileOpen)
 END_MESSAGE_MAP()
 
 // CComputerGraphicView construction/destruction
@@ -255,3 +256,15 @@ void CComputerGraphicView::OnInitialUpdate()
 //{
 //	// TODO: Add your command handler code here
 //}
+
+
+void CComputerGraphicView::OnFileOpen()
+{
+	// TODO: Add your command handler code here
+	CFileDialog dlg (true,NULL,NULL,OFN_OVERWRITEPROMPT,CString("CG Tutorial Files (*.qtml)|*.qtml|"));
+	if(dlg.DoModal() == IDCANCEL)
+		return;
+
+	this->GetDocument()->openFile(dlg.GetPathName());
+}
+

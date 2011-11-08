@@ -12,6 +12,7 @@
 // ComputerGraphicDoc.h : interface of the CComputerGraphicDoc class
 //
 
+#include "../qtml/qtmlManager.h"
 
 #pragma once
 
@@ -23,8 +24,11 @@ protected: // create from serialization only
 	CComputerGraphicDoc();
 	DECLARE_DYNCREATE(CComputerGraphicDoc)
 
+	CString pathName;
+	qtmlManager tree;
 // Attributes
 public:
+	void openFile(CString pathName);
 // Operations
 public:
 

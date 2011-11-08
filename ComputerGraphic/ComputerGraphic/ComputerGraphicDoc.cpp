@@ -148,3 +148,6 @@ void CComputerGraphicDoc::Dump(CDumpContext& dc) const
 
 
 // CComputerGraphicDoc commands
+void CComputerGraphicDoc::openFile(CString pathName) {
+	this->pathName = pathName;
+}
