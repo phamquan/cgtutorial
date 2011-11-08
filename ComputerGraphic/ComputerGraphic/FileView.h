@@ -28,23 +28,21 @@ class CFileView : public CDockablePane
 // Construction
 public:
 	CFileView();
+	virtual ~CFileView();
 
 	void AdjustLayout();
 	void OnChangeVisualStyle();
 
 // Attributes
 protected:
-
+	CFileViewToolBar m_wndToolBar;
 	CViewTree m_wndFileView;
 	CImageList m_FileViewImages;
-	CFileViewToolBar m_wndToolBar;
 
 protected:
 	void FillFileView();
 
 // Implementation
-public:
-	virtual ~CFileView();
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
