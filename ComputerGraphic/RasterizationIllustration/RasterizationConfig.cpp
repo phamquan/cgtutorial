@@ -3,13 +3,12 @@
 
 
 CRasterizationConfig::CRasterizationConfig(void)
-	: m_width(0), m_height(0), m_scale(1), m_pixelState(NULL)
+	: m_width(0), m_height(0), m_scale(1)
 {
 }
 
 CRasterizationConfig::CRasterizationConfig(int width, int height, float scale)
 	: m_width(width), m_height(height), m_scale(scale)
-	, m_pixelState(new PIXELTYPE[width*height])
 {
 }
 
@@ -37,4 +36,15 @@ void CRasterizationConfig::modifyScale(float x) {
 	CString err;
 	err.Format(L"%f",tmp);
 	//MessageBox(NULL, err, L"error", IDOK);
+}
+
+int CRasterizationConfig::getWidth(void)
+{
+	return m_width;
+}
+
+
+int CRasterizationConfig::getHeight(void)
+{
+	return m_height;
 }
