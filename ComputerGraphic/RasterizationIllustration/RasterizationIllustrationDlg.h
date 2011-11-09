@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "RasterizationConfig.h"
 
 // CRasterizationIllustrationDlg dialog
 class CRasterizationIllustrationDlg : public CDialogEx
@@ -32,6 +33,17 @@ protected:
 private:
 	HGLRC m_hRC;
 	HDC m_hDC;
+	CRasterizationConfig *m_config;
+	float m_width, m_height, m_dfLen;
 public:
+	void initParameter();
 	void setupOpenGL(void);
+	void removeOpenGL(void);
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg void OnDestroy();
+	void drawBoard(void);
+	CRasterizationConfig* getConfig();
+	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
 };
