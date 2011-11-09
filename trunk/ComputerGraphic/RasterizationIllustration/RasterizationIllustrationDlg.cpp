@@ -157,16 +157,11 @@ void CRasterizationIllustrationDlg::OnPaint()
 		wglMakeCurrent( m_hDC, m_hRC );
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		glClearColor(0.0f, 0.7f, 0.7f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT); 
 		glColor3f(1.0f, 0.0f, 0.0f);
 
-		glBegin(GL_POLYGON);        
-			glVertex2f(- 0.5, - 0.5);        
-			glVertex2f(- 0.5,  0.5);        
-			glVertex2f(0.5,  0.5);        
-			glVertex2f(0.5, - 0.5);    
-		glEnd();
+		drawOrigin();
 
 		drawBoard();
 		glFlush();
@@ -286,19 +281,22 @@ void CRasterizationIllustrationDlg::OnDestroy()
 void CRasterizationIllustrationDlg::drawBoard(void)
 {
 	float size = m_config->getScale();
-	float y = -m_height;
-	while (y < m_height) {
+	int height = m_config->getHeight();
+	int width = m_config->getWidth();
+	float y = 0;
+	int i;
+	for (i=0;i <= height;i++) {
 		glBegin(GL_LINES);
-			glVertex2f(-m_width, y);
-			glVertex2f(m_width, y);
+			glVertex2f(0, y);
+			glVertex2f(size*width, y);
 		glEnd();
 		y+=size;
 	}
-	float x = -m_width;
-	while (x < m_width) {
+	float x = 0;
+	for (i=0;i <= width;i++) {
 		glBegin(GL_LINES);
-		glVertex2f(x, -m_height);
-		glVertex2f(x, m_height);
+			glVertex2f(x, 0);
+			glVertex2f(x, size*height);
 		glEnd();
 		x+=size;
 	}
@@ -310,7 +308,17 @@ CRasterizationConfig* CRasterizationIllustrationDlg::getConfig() {
 
 void CRasterizationIllustrationDlg::initParameter() {
 	m_dfLen = 2.0;
-	m_config = new CRasterizationConfig(420, 320, 0.2);
+	m_config = new CRasterizationConfig(10, 8, 0.2);
+	int width = m_config->getWidth(),
+		height = m_config->getHeight();
+	if (width*height == 0) 
+		m_pixelState = NULL;
+	else {
+		m_pixelState = new PIXELTYPE[width * height];
+		for (int y = 0; y < height; y++)
+			for (int x = 0; x < width; x++)
+				m_pixelState[y*width + x] = PNONE;
+	}
 }
 
 BOOL CRasterizationIllustrationDlg::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
@@ -320,4 +328,26 @@ BOOL CRasterizationIllustrationDlg::OnMouseWheel(UINT nFlags, short zDelta, CPoi
 	m_config->modifyScale(zDelta>0? delta:-delta);
 	Invalidate();
 	return CDialogEx::OnMouseWheel(nFlags, zDelta, pt);
+}
+
+
+void CRasterizationIllustrationDlg::drawOrigin(void)
+{
+	glBegin(GL_POLYGON);        
+		glVertex2f(- 0.1, - 0.1);        
+		glVertex2f(- 0.1,  0.1);        
+		glVertex2f(0.1,  0.1);        
+		glVertex2f(0.1, - 0.1);    
+	glEnd();
+}
+
+
+void CRasterizationIllustrationDlg::Rasterize(int x, int y, RASTERIZEALG alg)
+{
+	switch(alg) {
+	case DDA:
+		break;
+	case BRESENHAM:
+		break;
+	}
 }

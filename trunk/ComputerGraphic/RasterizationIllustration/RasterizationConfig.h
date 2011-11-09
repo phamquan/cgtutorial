@@ -1,6 +1,7 @@
 #pragma once
 
 enum PIXELTYPE{PCANDIDATE, PCHOSEN, PNONE};
+enum RASTERIZEALG{DDA, BRESENHAM};
 
 class CRasterizationConfig
 {
@@ -11,7 +12,6 @@ private:
 	example: scale = 100: zoom a pixel 100 time
 	*/
 	float m_scale;
-	PIXELTYPE *m_pixelState;
 public:
 	CRasterizationConfig(void);
 	CRasterizationConfig(int width, int height, float scale);
@@ -22,5 +22,7 @@ public:
 	float getScale(void);
 	//plus or minus the scale ratio by x
 	void modifyScale(float x);
+	int getWidth(void);
+	int getHeight(void);
 };
 

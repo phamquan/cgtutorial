@@ -34,6 +34,7 @@ private:
 	HGLRC m_hRC;
 	HDC m_hDC;
 	CRasterizationConfig *m_config;
+	PIXELTYPE *m_pixelState;
 	float m_width, m_height, m_dfLen;
 public:
 	void initParameter();
@@ -46,4 +47,6 @@ public:
 	void drawBoard(void);
 	CRasterizationConfig* getConfig();
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
+	void drawOrigin(void);
+	void Rasterize(int x, int y, RASTERIZEALG alg);
 };
