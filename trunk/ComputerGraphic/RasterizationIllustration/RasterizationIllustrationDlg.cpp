@@ -11,6 +11,9 @@
 #define new DEBUG_NEW
 #endif
 
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <math.h>
 
 // CAboutDlg dialog used for App About
 
@@ -63,6 +66,11 @@ BEGIN_MESSAGE_MAP(CRasterizationIllustrationDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_WM_CREATE()
+	ON_WM_SIZE()
+	ON_WM_ERASEBKGND()
+	ON_WM_DESTROY()
+	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
 
@@ -142,7 +150,29 @@ void CRasterizationIllustrationDlg::OnPaint()
 	}
 	else
 	{
+		CPaintDC dc(this); // device context for painting
+		// TODO: Add your message handler code here
+		// Do not call CView::OnPaint() for painting messages
 		CDialogEx::OnPaint();
+		wglMakeCurrent( m_hDC, m_hRC );
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glClearColor(0.0f, 0.7f, 0.7f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT); 
+		glColor3f(1.0f, 0.0f, 0.0f);
+
+		glBegin(GL_POLYGON);        
+			glVertex2f(- 0.5, - 0.5);        
+			glVertex2f(- 0.5,  0.5);        
+			glVertex2f(0.5,  0.5);        
+			glVertex2f(0.5, - 0.5);    
+		glEnd();
+
+		drawBoard();
+		glFlush();
+	
+		SwapBuffers(dc.m_ps.hdc);
+		
 	}
 }
 
@@ -191,4 +221,103 @@ void CRasterizationIllustrationDlg::removeOpenGL(void)
 		wglDeleteContext(m_hRC);
 		m_hRC = NULL;
 	}
+}
+
+
+int CRasterizationIllustrationDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CDialogEx::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO:  Add your specialized creation code here
+	initParameter();
+	setupOpenGL();
+	return 0;
+}
+
+
+void CRasterizationIllustrationDlg::OnSize(UINT nType, int cx, int cy)
+{
+	CDialogEx::OnSize(nType, cx, cy);
+
+	// TODO: Add your message handler code here
+	wglMakeCurrent( m_hDC, m_hRC );
+	CRect rect;
+	GetClientRect(rect);
+	double w = rect.Width();
+	double h = rect.Height();
+	glViewport(0, 0, w, h);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	if (w <= h)
+	{
+		m_width = m_dfLen;
+		m_height = m_dfLen * h / w;
+	}
+	else
+	{
+		m_height = m_dfLen;
+		m_width = m_dfLen * w / h;
+	}
+	glOrtho(-m_width, m_width, -m_height, m_height, -10.0, 10.0);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+}
+
+
+BOOL CRasterizationIllustrationDlg::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: Add your message handler code here and/or call default
+	return true;
+	//return CDialogEx::OnEraseBkgnd(pDC);
+}
+
+
+void CRasterizationIllustrationDlg::OnDestroy()
+{
+	CDialogEx::OnDestroy();
+
+	// TODO: Add your message handler code here
+	removeOpenGL();
+	delete m_config;
+}
+
+
+void CRasterizationIllustrationDlg::drawBoard(void)
+{
+	float size = m_config->getScale();
+	float y = -m_height;
+	while (y < m_height) {
+		glBegin(GL_LINES);
+			glVertex2f(-m_width, y);
+			glVertex2f(m_width, y);
+		glEnd();
+		y+=size;
+	}
+	float x = -m_width;
+	while (x < m_width) {
+		glBegin(GL_LINES);
+		glVertex2f(x, -m_height);
+		glVertex2f(x, m_height);
+		glEnd();
+		x+=size;
+	}
+}
+
+CRasterizationConfig* CRasterizationIllustrationDlg::getConfig() {
+	return m_config;
+}
+
+void CRasterizationIllustrationDlg::initParameter() {
+	m_dfLen = 2.0;
+	m_config = new CRasterizationConfig(420, 320, 0.2);
+}
+
+BOOL CRasterizationIllustrationDlg::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+	// TODO: Add your message handler code here and/or call default
+	float delta = 0.001;
+	m_config->modifyScale(zDelta>0? delta:-delta);
+	Invalidate();
+	return CDialogEx::OnMouseWheel(nFlags, zDelta, pt);
 }

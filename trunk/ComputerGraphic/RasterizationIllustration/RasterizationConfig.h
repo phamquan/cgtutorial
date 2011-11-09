@@ -10,14 +10,17 @@ private:
 	/*scale ratio
 	example: scale = 100: zoom a pixel 100 time
 	*/
-	int m_scale;
+	float m_scale;
 	PIXELTYPE *m_pixelState;
 public:
 	CRasterizationConfig(void);
-	CRasterizationConfig(int width, int height, int scale);
+	CRasterizationConfig(int width, int height, float scale);
 	virtual ~CRasterizationConfig(void);
 
 	void setResolution(int width, int height);
-	void setScale(int scale);
+	void setScale(float scale);
+	float getScale(void);
+	//plus or minus the scale ratio by x
+	void modifyScale(float x);
 };
 
