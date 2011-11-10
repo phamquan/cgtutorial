@@ -36,6 +36,8 @@ private:
 	CRasterizationConfig *m_config;
 	PIXELTYPE *m_pixelState;
 	float m_width, m_height, m_dfLen;
+	HANDLE hRunStep;
+	DWORD  dwRunStepId;
 public:
 	void initParameter();
 	void setupOpenGL(void);
@@ -48,5 +50,6 @@ public:
 	CRasterizationConfig* getConfig();
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
 	void drawOrigin(void);
-	void Rasterize(int x, int y, RASTERIZEALG alg);
+	void Rasterize(PIXEL start, PIXEL end, RASTERIZEALG alg);
+	void fillPixel(PIXEL pixel, COLOR color);
 };

@@ -162,8 +162,8 @@ void CRasterizationIllustrationDlg::OnPaint()
 		glColor3f(1.0f, 0.0f, 0.0f);
 
 		drawOrigin();
-
 		drawBoard();
+		drawPixel();
 		glFlush();
 	
 		SwapBuffers(dc.m_ps.hdc);
@@ -308,6 +308,8 @@ CRasterizationConfig* CRasterizationIllustrationDlg::getConfig() {
 
 void CRasterizationIllustrationDlg::initParameter() {
 	m_dfLen = 2.0;
+	hRunStep = NULL;
+	dwRunStepId = 0;
 	m_config = new CRasterizationConfig(10, 8, 0.2);
 	int width = m_config->getWidth(),
 		height = m_config->getHeight();
@@ -342,12 +344,56 @@ void CRasterizationIllustrationDlg::drawOrigin(void)
 }
 
 
-void CRasterizationIllustrationDlg::Rasterize(int x, int y, RASTERIZEALG alg)
+void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEALG alg)
 {
+	int width = m_config->getWidth();
+	//Thoi gian delay moi buoc
+	int nTime = 10;
+	m_pixelState[start.y*width + start.x] = m_pixelState[end.y*width + end.x] = PCHOSEN;
+	Sleep(nTime);
 	switch(alg) {
 	case DDA:
+		{
+			float m = (float)((end.y - start.y)/(end.x - start.x));
+			int x, y=start.y;
+			if (end.x > start.x) {
+				for (x=start.x; x<=end.x; x++) {
+					y+=m;
+					m_pixelState[y*width + x] = PCHOSEN;
+					Sleep(nTime);
+				}
+			}
+			else {
+				for (x=start.x; x>=end.x; x--) {
+					y-=m;
+					m_pixelState[y*width + x] = PCHOSEN;
+					Sleep(nTime);
+				}
+			}
+		}
 		break;
 	case BRESENHAM:
 		break;
 	}
+}
+
+
+void CRasterizationIllustrationDlg::fillPixel(PIXEL pixel, COLOR color)
+{
+	float scale = m_config->getScale();
+	glBegin(GL_QUADS);
+		glVertex2f(pixel.x*scale, pixel.y*scale);
+		glVertex2f((pixel.x+1)*scale, pixel.y*scale);
+		glVertex2f((pixel.x+1)*scale, (pixel.y+1)*scale);
+		glVertex2f(pixel.x*scale, (pixel.y+1)*scale);
+	glEnd();
+}
+
+
+void CRasterizationIllustrationDlg::drawPixel(void)
+{
+	int width = m_config->getWidth();
+	int height = m_config->getHeight();
+	int x,y;
+	for (i=0;i<w
 }
