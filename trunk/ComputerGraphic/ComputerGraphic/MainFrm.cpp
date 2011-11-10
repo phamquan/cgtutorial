@@ -31,7 +31,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
 	ON_WM_SETTINGCHANGE()
-//	ON_COMMAND(ID_FILE_NEW, &CMainFrame::OnFileNew)
+//	ON_COMMAND(ID_FILE_OPEN, &CMainFrame::OnFileOpen)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -108,10 +108,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//CDockablePane* pTabbedBar = NULL;
 	//m_wndClassView.AttachToTabWnd(&m_wndFileView, DM_SHOW, TRUE, &pTabbedBar);
 		
-	
-	
-
-
 	// Enable enhanced windows management dialog
 	EnableWindowsDialog(ID_WINDOW_MANAGER, ID_WINDOW_MANAGER, TRUE);
 
@@ -312,8 +308,9 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 }
 
 
-//void CMainFrame::OnFileNew()
+
+//void CMainFrame::OnFileOpen()
 //{
 //	// TODO: Add your command handler code here
-//	::AfxMessageBox(_T("dasd"));
+//	
 //}

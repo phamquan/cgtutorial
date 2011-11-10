@@ -21,6 +21,7 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
+#include "ComputerGraphicDoc.h"
 /////////////////////////////////////////////////////////////////////////////
 // CFileView
 
@@ -103,6 +104,14 @@ void CFileView::FillFileView()
 	HTREEITEM hRoot = m_wndFileView.InsertItem(_T("Geometric Object"), 0, 0);
 	m_wndFileView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
+	CComputerGraphicDoc* pDoc;
+	CDocTemplate* pDocTemplate;
+	POSITION pos;
+	pos = AfxGetApp()->GetFirstDocTemplatePosition();
+	pDocTemplate = AfxGetApp()->GetNextDocTemplate(pos);
+	pos = pDocTemplate->GetFirstDocPosition();
+	pDoc = (CComputerGraphicDoc*) pDocTemplate->GetNextDoc(pos);
+	
 	HTREEITEM hSrc = m_wndFileView.InsertItem(_T("FakeApp Source Files"), 0, 0, hRoot);
 
 	m_wndFileView.InsertItem(_T("FakeApp.cpp"), 1, 1, hSrc);

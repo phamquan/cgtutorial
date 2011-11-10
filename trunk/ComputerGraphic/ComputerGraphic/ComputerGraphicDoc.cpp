@@ -61,6 +61,24 @@ BOOL CComputerGraphicDoc::OnNewDocument()
 	return TRUE;
 }
 
+BOOL CComputerGraphicDoc::OnOpenDocument(CString pathName)
+{
+	if (!CDocument::OnOpenDocument(pathName))
+		return FALSE;
+
+	// TODO: add reinitialization code here
+	// (SDI documents will reuse this document)
+	this->SetTitle(pathName);
+
+	::AfxMessageBox(CString("dkm"));
+	char buf[1024];
+	wcstombs(buf,pathName,1024);
+
+	if(!data.Load(buf))
+		::AfxMessageBox(CString("dkm"));
+
+	return TRUE;
+}
 
 
 
@@ -146,8 +164,3 @@ void CComputerGraphicDoc::Dump(CDumpContext& dc) const
 }
 #endif //_DEBUG
 
-
-// CComputerGraphicDoc commands
-void CComputerGraphicDoc::openFile(CString pathName) {
-	this->pathName = pathName;
-}

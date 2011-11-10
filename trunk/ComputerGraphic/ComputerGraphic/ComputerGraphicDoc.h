@@ -24,17 +24,17 @@ protected: // create from serialization only
 	CComputerGraphicDoc();
 	DECLARE_DYNCREATE(CComputerGraphicDoc)
 
-	CString pathName;
-	qtmlManager tree;
+	qtmlManager data;
 // Attributes
 public:
-	void openFile(CString pathName);
+	bool openFile(CString pathName);
 // Operations
 public:
 
 // Overrides
 public:
 	virtual BOOL OnNewDocument();
+	virtual BOOL OnOpenDocument(CString pathName);
 	virtual void Serialize(CArchive& ar);
 #ifdef SHARED_HANDLERS
 	virtual void InitializeSearchContent();
