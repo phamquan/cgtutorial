@@ -3,6 +3,30 @@
 enum PIXELTYPE{PCANDIDATE, PCHOSEN, PNONE};
 enum RASTERIZEALG{DDA, BRESENHAM};
 
+struct PIXEL{
+	int x, y;
+	PIXEL();
+	PIXEL(int col, int row):
+	x(col), y(row)
+	{}
+};
+
+struct COLOR {
+	float red, green, blue, alpha;
+
+	COLOR():
+	red(1.0f), green(1.0f), blue(1.0f), alpha(1.0f)
+	{}
+
+	COLOR(float r, float g, float b):
+	red(r), green(g), blue(b), alpha(1.0f)
+	{};
+
+	COLOR(float r, float g, float b, float a):
+	red(r), green(g), blue(b), alpha(a)
+	{}
+};
+
 class CRasterizationConfig
 {
 private:
