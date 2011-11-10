@@ -15,6 +15,7 @@
 #include <GL/glu.h>
 #include <math.h>
 
+
 // CAboutDlg dialog used for App About
 
 class CAboutDlg : public CDialogEx
@@ -310,7 +311,7 @@ void CRasterizationIllustrationDlg::initParameter() {
 	m_dfLen = 2.0;
 	hRunStep = NULL;
 	dwRunStepId = 0;
-	m_config = new CRasterizationConfig(10, 8, 0.2);
+	m_config = new CRasterizationConfig(20, 16, 0.1);
 	int width = m_config->getWidth(),
 		height = m_config->getHeight();
 	if (width*height == 0) 
@@ -321,6 +322,7 @@ void CRasterizationIllustrationDlg::initParameter() {
 			for (int x = 0; x < width; x++)
 				m_pixelState[y*width + x] = PNONE;
 	}
+	this->Rasterize(PIXEL(0,0),PIXEL(9,2),DDA);
 }
 
 BOOL CRasterizationIllustrationDlg::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
@@ -350,24 +352,25 @@ void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEAL
 	//Thoi gian delay moi buoc
 	int nTime = 10;
 	m_pixelState[start.y*width + start.x] = m_pixelState[end.y*width + end.x] = PCHOSEN;
-	Sleep(nTime);
+	//Sleep(nTime);
 	switch(alg) {
 	case DDA:
 		{
-			float m = (float)((end.y - start.y)/(end.x - start.x));
-			int x, y=start.y;
+			float m = (float)(end.y - start.y)/(end.x - start.x);
+			int x;
+			float y = y=start.y;
 			if (end.x > start.x) {
 				for (x=start.x; x<=end.x; x++) {
-					y+=m;
-					m_pixelState[y*width + x] = PCHOSEN;
-					Sleep(nTime);
+					y+=(float)m;
+					m_pixelState[int(y+0.5)*width + x] = PCHOSEN;
+					//Sleep(nTime);
 				}
 			}
 			else {
 				for (x=start.x; x>=end.x; x--) {
 					y-=m;
-					m_pixelState[y*width + x] = PCHOSEN;
-					Sleep(nTime);
+					m_pixelState[int(y+0.5)*width + x] = PCHOSEN;
+					//Sleep(nTime);
 				}
 			}
 		}
@@ -381,6 +384,7 @@ void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEAL
 void CRasterizationIllustrationDlg::fillPixel(PIXEL pixel, COLOR color)
 {
 	float scale = m_config->getScale();
+	glColor3f(color.red, color.green, color.blue);
 	glBegin(GL_QUADS);
 		glVertex2f(pixel.x*scale, pixel.y*scale);
 		glVertex2f((pixel.x+1)*scale, pixel.y*scale);
@@ -395,5 +399,8 @@ void CRasterizationIllustrationDlg::drawPixel(void)
 	int width = m_config->getWidth();
 	int height = m_config->getHeight();
 	int x,y;
-	for (i=0;i<w
+	for (y = 0; y < height; y++)
+		for (x = 0; x < width; x++)
+			if (m_pixelState[y*width + x] == PCHOSEN)
+				fillPixel(PIXEL(x,y), COLOR(0.0f,1.0f,0.0f));
 }
