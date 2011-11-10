@@ -33,9 +33,11 @@ BEGIN_MESSAGE_MAP(CComputerGraphicApp, CWinAppEx)
 	ON_COMMAND(ID_APP_ABOUT, &CComputerGraphicApp::OnAppAbout)
 	// Standard file based document commands
 	ON_COMMAND(ID_FILE_NEW, &CWinAppEx::OnFileNew)
-	ON_COMMAND(ID_FILE_OPEN, &CWinAppEx::OnFileOpen)
+//	ON_COMMAND(ID_FILE_OPEN, &CWinAppEx::OnFileOpen)
 	// Standard print setup command
 	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinAppEx::OnFilePrintSetup)
+	ON_COMMAND(ID_FILE_OPEN, &CComputerGraphicApp::OnFileOpen)
+	ON_COMMAND(ID_FILE_OPEN, &CComputerGraphicApp::OnFileOpen)
 END_MESSAGE_MAP()
 
 
@@ -121,7 +123,6 @@ BOOL CComputerGraphicApp::InitInstance()
 
 	// Register the application's document templates.  Document templates
 	//  serve as the connection between documents, frame windows and views
-	CMultiDocTemplate* pDocTemplate;
 	pDocTemplate = new CMultiDocTemplate(IDR_ComputerGraphicTYPE,
 		RUNTIME_CLASS(CComputerGraphicDoc),
 		RUNTIME_CLASS(CChildFrame), // custom MDI child frame
@@ -226,9 +227,16 @@ void CComputerGraphicApp::LoadCustomState()
 
 void CComputerGraphicApp::SaveCustomState()
 {
+
 }
 
 // CComputerGraphicApp message handlers
 
-
-
+void CComputerGraphicApp::OnFileOpen()
+{
+	// TODO: Add your command handler code here
+	CFileDialog dlg (true,NULL,NULL,OFN_OVERWRITEPROMPT,CString("CG Tutorial Files (*.qtml)|*.qtml|"));
+	if(dlg.DoModal() == IDCANCEL)
+		return;
+	OpenDocumentFile(dlg.GetPathName());
+}

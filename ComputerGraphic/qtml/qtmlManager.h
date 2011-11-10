@@ -7,7 +7,7 @@ using namespace std;
 
 class qtmlManager
 {
-private:
+public:
 	TiXmlDocument *doc;
 	TiXmlNode *program;
 
