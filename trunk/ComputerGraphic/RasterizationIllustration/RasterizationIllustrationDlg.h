@@ -52,4 +52,5 @@ public:
 	void drawOrigin(void);
 	void Rasterize(PIXEL start, PIXEL end, RASTERIZEALG alg);
 	void fillPixel(PIXEL pixel, COLOR color);
+	void drawPixel(void);
 };
