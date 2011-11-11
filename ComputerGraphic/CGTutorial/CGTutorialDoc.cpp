@@ -145,3 +145,37 @@ void CCGTutorialDoc::Dump(CDumpContext& dc) const
 
 
 // CCGTutorialDoc commands
+
+
+BOOL CCGTutorialDoc::OnOpenDocument(LPCTSTR lpszPathName)
+{
+	if (!CDocument::OnOpenDocument(lpszPathName))
+		return FALSE;
+
+	char buf[1024];
+	wcstombs(buf,lpszPathName,1024);
+
+	if(!data.Load(buf))
+		return FALSE;
+
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+
+	pMainFrame->m_wndFileView.FillView(data.object);
+
+	return TRUE;
+}
+
+
+BOOL CCGTutorialDoc::OnSaveDocument(LPCTSTR lpszPathName)
+{
+	// TODO: Add your specialized code here and/or call the base class
+
+	return CDocument::OnSaveDocument(lpszPathName);
+}
+
+void CCGTutorialDoc::OnCloseDocument()
+{
+	// TODO: Add your specialized code here and/or call the base class
+
+	CDocument::OnCloseDocument();
+}

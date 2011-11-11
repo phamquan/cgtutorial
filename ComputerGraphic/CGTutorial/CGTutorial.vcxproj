@@ -161,7 +161,17 @@
   <ItemGroup>
     <ResourceCompile Include="CGTutorial.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\qtml\qtml.vcxproj">
+      <Project>{2c4c4a23-b490-4391-be36-9905acaa6b54}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="CGTutorial.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
