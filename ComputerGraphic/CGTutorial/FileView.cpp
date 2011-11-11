@@ -104,13 +104,12 @@ void CFileView::FillView(TiXmlNode *root) {
 	TiXmlNode* pChild = NULL;
 
 	HTREEITEM node = m_wndFileView.InsertItem(CString(root->Value()), 0, 0);
-	m_wndFileView.Expand(node,TVE_EXPAND);
 	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
+	m_wndFileView.Expand(node,TVE_EXPAND);
 
 	while (pChild = root->IterateChildren(pChild)) {
 		FillFile(pChild,1,node);
 	}
-
 	AdjustLayout();
 }
 
@@ -118,6 +117,7 @@ void CFileView::FillFileView()
 {
 	HTREEITEM node = m_wndFileView.InsertItem(CString("object"), 0, 0);
 	m_wndFileView.SetItemState(node, TVIS_BOLD, TVIS_BOLD);
+	m_wndFileView.Expand(node,TVE_EXPAND);
 }
 
 void CFileView::FillFile(TiXmlNode *root, int level, HTREEITEM parrent) {
@@ -136,11 +136,11 @@ void CFileView::FillFile(TiXmlNode *root, int level, HTREEITEM parrent) {
 	data+=")";
 
 	HTREEITEM node = m_wndFileView.InsertItem(data, level, level, parrent);
-	m_wndFileView.Expand(node,TVE_EXPAND);
-
+	
 	while (pChild = root->IterateChildren(pChild)) {
 		FillFile(pChild,level+1,node);
 	}
+	m_wndFileView.Expand(node,TVE_EXPAND);
 }
 
 void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
