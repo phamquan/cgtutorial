@@ -50,7 +50,17 @@ public:
 	CRasterizationConfig* getConfig();
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
 	void drawOrigin(void);
-	void Rasterize(PIXEL start, PIXEL end, RASTERIZEALG alg);
+	void Rasterize(PIXEL start, PIXEL end, RASTERIZEALG alg, bool isStep=false);
 	void fillPixel(PIXEL pixel, COLOR color);
 	void drawPixel(void);
+	static DWORD WINAPI ThreadProc(LPVOID lpParam);
+	void runStep(void);
+	void runAll(void);
+	afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/);
+	afx_msg void OnContextriRunstep();
+	afx_msg void OnContextriRunall();
+	void Erase(void);
+	afx_msg void OnContextriErase();
+	void setCamera(void);
+	afx_msg void OnMButtonDown(UINT nFlags, CPoint point);
 };
