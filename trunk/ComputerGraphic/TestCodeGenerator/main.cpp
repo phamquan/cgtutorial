@@ -120,11 +120,11 @@ void dump_to_stdout(const char* pFilename)
 }
 
 int main() {
-	//dump_to_stdout("example4.qtml");
+	dump_to_stdout("example4.qtml");
 	/*CCodeGenerator program("example4.qtml");
 	program.eval().println();*/
 	qtmlManager fking;
 	assert(fking.Load("example4.qtml"));
-	assert(fking.Load("example4.qtml"));
+	assert(fking.Load("example5.qtml"));
 	return 0;
 }
