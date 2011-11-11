@@ -61,26 +61,44 @@ BOOL CComputerGraphicDoc::OnNewDocument()
 	return TRUE;
 }
 
-BOOL CComputerGraphicDoc::OnOpenDocument(CString pathName)
+//BOOL CComputerGraphicDoc::OnOpenDocument(CString pathName)
+//{
+//	if (!CDocument::OnOpenDocument(pathName))
+//		return FALSE;
+//
+//	// TODO: add reinitialization code here
+//	// (SDI documents will reuse this document)
+//	this->SetTitle(pathName);
+//
+//	::AfxMessageBox(CString("dkm"));
+//	char buf[1024];
+//	wcstombs(buf,pathName,1024);
+//
+//	if(!data.Load(buf))
+//		::AfxMessageBox(CString("dkm"));
+//
+//	return TRUE;
+//}
+
+
+CComputerGraphicDoc * CComputerGraphicDoc::GetDoc()
 {
-	if (!CDocument::OnOpenDocument(pathName))
-		return FALSE;
+    CMDIChildWnd * pChild =
+        ((CMDIFrameWnd*)(AfxGetApp()->m_pMainWnd))->MDIGetActive(false);
 
-	// TODO: add reinitialization code here
-	// (SDI documents will reuse this document)
-	this->SetTitle(pathName);
+    if ( !pChild )
+        return NULL;
 
-	::AfxMessageBox(CString("dkm"));
-	char buf[1024];
-	wcstombs(buf,pathName,1024);
+    CDocument * pDoc = pChild->GetActiveDocument();
 
-	if(!data.Load(buf))
-		::AfxMessageBox(CString("dkm"));
+    if ( !pDoc )
+        return NULL;
 
-	return TRUE;
+    if ( ! pDoc->IsKindOf( RUNTIME_CLASS(CComputerGraphicDoc) ) )
+        return NULL;
+
+    return (CComputerGraphicDoc *) pDoc;
 }
-
-
 
 // CComputerGraphicDoc serialization
 
@@ -148,6 +166,7 @@ void CComputerGraphicDoc::SetSearchContent(const CString& value)
 	}
 }
 
+
 #endif // SHARED_HANDLERS
 
 // CComputerGraphicDoc diagnostics
@@ -164,3 +183,38 @@ void CComputerGraphicDoc::Dump(CDumpContext& dc) const
 }
 #endif //_DEBUG
 
+
+
+BOOL CComputerGraphicDoc::OnSaveDocument(LPCTSTR lpszPathName)
+{
+	// TODO: Add your specialized code here and/or call the base class
+
+	return CDocument::OnSaveDocument(lpszPathName);
+}
+
+
+void CComputerGraphicDoc::OnCloseDocument()
+{
+	// TODO: Add your specialized code here and/or call the base class
+	::AfxMessageBox(CString(this->GetPathName()));
+	CDocument::OnCloseDocument();
+}
+
+
+BOOL CComputerGraphicDoc::OnOpenDocument(LPCTSTR lpszPathName)
+{
+	if (!CDocument::OnOpenDocument(lpszPathName))
+		return FALSE;
+
+	// TODO:  Add your specialized creation code here
+	char buf[1024];
+	wcstombs(buf,lpszPathName,1024);
+
+	if(!data.Load(buf))
+		return FALSE;
+
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+
+	pMainFrame->m_wndFileView.FillView(data.object);
+	return TRUE;
+}
