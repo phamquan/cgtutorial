@@ -57,7 +57,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>codegen_d.lib; qtml.lib</AdditionalDependencies>
+      <AdditionalDependencies>codegen_d.lib; qtml_d.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>../Library</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
