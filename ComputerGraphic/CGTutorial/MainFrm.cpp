@@ -139,7 +139,7 @@ BOOL CMainFrame::CreateDockingWindows()
 
 	// Create file view
 	CString strFileView;
-	bNameValid = strFileView.LoadString(IDS_FILE_VIEW);
+	bNameValid = strFileView.LoadString(IDS_LAYOUT_VIEW);
 	ASSERT(bNameValid);
 	if (!m_wndFileView.Create(strFileView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_FILEVIEW, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT| CBRS_FLOAT_MULTI))
 	{
