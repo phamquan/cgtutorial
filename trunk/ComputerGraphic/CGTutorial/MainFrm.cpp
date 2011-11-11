@@ -34,6 +34,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CMainFrame::OnFilePrintPreview)
 	ON_UPDATE_COMMAND_UI(ID_FILE_PRINT_PREVIEW, &CMainFrame::OnUpdateFilePrintPreview)
 	ON_WM_SETTINGCHANGE()
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -42,6 +43,7 @@ CMainFrame::CMainFrame()
 {
 	// TODO: add member initialization code here
 	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_WINDOWS_7);
+	m_bInitSplitter = false;
 }
 
 CMainFrame::~CMainFrame()
@@ -107,10 +109,40 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/,
 	CCreateContext* pContext)
 {
-	return m_wndSplitter.Create(this,
-		2, 2,               // TODO: adjust the number of rows, columns
-		CSize(10, 10),      // TODO: adjust the minimum pane size
-		pContext);
+	//return m_wndSplitter.Create(this,
+	//	2, 2,               // TODO: adjust the number of rows, columns
+	//	CSize(10, 10),      // TODO: adjust the minimum pane size
+	//	pContext);
+	CRect cr; 
+	GetClientRect( &cr);
+
+	if ( !m_wndSplitter.CreateStatic( this, 1, 2 ) ) 
+	{ 
+		MessageBox( CString("Error setting up splitter frames!"), 
+					  CString("Init Error!"), MB_OK | MB_ICONERROR ); 
+		return FALSE; 
+	}
+
+	if ( !m_wndSplitter.CreateView( 0, 0, 
+       RUNTIME_CLASS(CCGTutorialView), 
+       CSize(cr.Width()/2, cr.Height()), pContext ) ) 
+	{ 
+		MessageBox( CString("Error setting up splitter frames!"), 
+					  CString("Init Error!"), MB_OK | MB_ICONERROR ); 
+		return FALSE; 
+	}
+
+	if ( !m_wndSplitter.CreateView( 0, 1, 
+			RUNTIME_CLASS(CCGTutorialView), 
+			CSize(cr.Width()/2, cr.Height()), pContext ) ) 
+	{ 
+		MessageBox( CString("Error setting up splitter frames!"), 
+					  CString("Init Error!"), MB_OK | MB_ICONERROR ); 
+		return FALSE; 
+	}
+
+	m_bInitSplitter = TRUE;
+	return TRUE;
 }
 
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
@@ -312,4 +344,23 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 {
 	CFrameWndEx::OnSettingChange(uFlags, lpszSection);
 	m_wndOutput.UpdateFonts();
+}
+
+
+void CMainFrame::OnSize(UINT nType, int cx, int cy)
+{
+	CFrameWndEx::OnSize(nType, cx, cy);
+
+	// TODO: Add your message handler code here
+	CRect cr;
+    GetWindowRect(&cr);
+
+    if (  m_bInitSplitter && nType != SIZE_MINIMIZED )
+    {
+        m_wndSplitter.SetRowInfo( 0, cy, 0 );
+        m_wndSplitter.SetColumnInfo( 0, cr.Width() / 2, 50);
+        m_wndSplitter.SetColumnInfo( 1, cr.Width() / 2, 50);
+
+        m_wndSplitter.RecalcLayout();
+    }
 }

@@ -17,6 +17,7 @@
 #include "ClassView.h"
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
+#include "CGTutorialView.h"
 
 class CMainFrame : public CFrameWndEx
 {
@@ -31,6 +32,7 @@ protected:
 	
 public:
 	CFileView m_wndFileView;
+	bool m_bInitSplitter;
 // Operations
 public:
 
@@ -70,6 +72,8 @@ protected:
 
 	BOOL CreateDockingWindows();
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
+public:
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 };
 
 
