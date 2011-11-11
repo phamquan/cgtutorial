@@ -12,6 +12,8 @@
 #pragma once
 
 #include "ViewTree.h"
+#include "ComputerGraphicDoc.h"
+#include "../qtml/tinyxml.h"
 
 class CFileViewToolBar : public CMFCToolBar
 {
@@ -32,15 +34,16 @@ public:
 
 	void AdjustLayout();
 	void OnChangeVisualStyle();
-
+	void FillView(TiXmlNode *root);
 // Attributes
 protected:
 	CFileViewToolBar m_wndToolBar;
 	CViewTree m_wndFileView;
 	CImageList m_FileViewImages;
-
+	//HTREEITEM hRoot;
 protected:
 	void FillFileView();
+	void FillFile(TiXmlNode *root, int level, HTREEITEM parrent);
 
 // Implementation
 

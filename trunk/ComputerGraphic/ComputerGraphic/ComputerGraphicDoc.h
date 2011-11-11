@@ -12,9 +12,9 @@
 // ComputerGraphicDoc.h : interface of the CComputerGraphicDoc class
 //
 
-#include "../qtml/qtmlManager.h"
-
 #pragma once
+#include "MainFrm.h"
+#include "../qtml/qtmlManager.h"
 
 static unsigned count = 0;
 
@@ -27,14 +27,16 @@ protected: // create from serialization only
 	qtmlManager data;
 // Attributes
 public:
+	static CComputerGraphicDoc * GetDoc();
 	bool openFile(CString pathName);
+
 // Operations
 public:
 
 // Overrides
 public:
 	virtual BOOL OnNewDocument();
-	virtual BOOL OnOpenDocument(CString pathName);
+//	virtual BOOL OnOpenDocument(CString pathName);
 	virtual void Serialize(CArchive& ar);
 #ifdef SHARED_HANDLERS
 	virtual void InitializeSearchContent();
@@ -59,4 +61,8 @@ protected:
 	// Helper function that sets search content for a Search Handler
 	void SetSearchContent(const CString& value);
 #endif // SHARED_HANDLERS
+public:
+	virtual BOOL OnSaveDocument(LPCTSTR lpszPathName);
+	virtual void OnCloseDocument();
+	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
 };

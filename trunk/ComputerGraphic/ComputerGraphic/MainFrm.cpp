@@ -307,10 +307,3 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 	m_wndOutput.UpdateFonts();
 }
 
-
-
-//void CMainFrame::OnFileOpen()
-//{
-//	// TODO: Add your command handler code here
-//	
-//}

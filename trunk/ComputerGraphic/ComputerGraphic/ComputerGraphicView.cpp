@@ -46,6 +46,7 @@ BEGIN_MESSAGE_MAP(CComputerGraphicView, CView)
 	ON_WM_DESTROY()
 	ON_WM_SIZE()
 
+//	ON_WM_CHILDACTIVATE()
 END_MESSAGE_MAP()
 
 // CComputerGraphicView construction/destruction
@@ -253,3 +254,12 @@ void CComputerGraphicView::OnInitialUpdate()
 }
 
 
+
+
+//void CComputerGraphicView::OnChildActivate()
+//{
+//	CView::OnChildActivate();
+//
+//	// TODO: Add your message handler code here
+//	::AfxMessageBox(CString("choose doc"));
+//}
