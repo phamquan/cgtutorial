@@ -12,6 +12,7 @@
 #pragma once
 
 #include "ViewTree.h"
+#include "../qtml/tinyxml.h"
 
 class CFileViewToolBar : public CMFCToolBar
 {
@@ -31,6 +32,7 @@ public:
 
 	void AdjustLayout();
 	void OnChangeVisualStyle();
+	void FillView(TiXmlNode *root);
 
 // Attributes
 protected:
@@ -41,7 +43,7 @@ protected:
 
 protected:
 	void FillFileView();
-
+	void FillFile(TiXmlNode *root, int level, HTREEITEM parrent);
 // Implementation
 public:
 	virtual ~CFileView();
