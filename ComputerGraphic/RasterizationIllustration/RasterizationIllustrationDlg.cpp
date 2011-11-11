@@ -263,6 +263,7 @@ void CRasterizationIllustrationDlg::OnSize(UINT nType, int cx, int cy)
 	glOrtho(-m_width, m_width, -m_height, m_height, -10.0, 10.0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	Invalidate();
 }
 
 
@@ -373,13 +374,14 @@ void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEAL
 				else {
 					for (x=start.x; x>=end.x; x--) {
 						y-=m;
-						m_pixelState[int(y+0.5)*width + x] = PCHOSEN;
+						m_pixelState[int(y-0.5)*width + x] = PCHOSEN;
 						Sleep(nTime);
 						this->Invalidate();
 					}
 				}
 			}
 			else {
+				m=1/m;
 				int y;
 				float x =start.x;
 				if (end.y > start.y) {
@@ -393,7 +395,7 @@ void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEAL
 				else {
 					for (y=start.y; y>=end.y; y--) {
 						x-=(float)m;
-						m_pixelState[y*width + int(x+0.5)] = PCHOSEN;
+						m_pixelState[y*width + int(x-0.5)] = PCHOSEN;
 						Sleep(nTime);
 						this->Invalidate();
 					}
@@ -437,7 +439,7 @@ DWORD WINAPI CRasterizationIllustrationDlg::ThreadProc(LPVOID lpParam)
 {
 	CRasterizationIllustrationDlg* pParent = (CRasterizationIllustrationDlg*) lpParam;
 
-	pParent->Rasterize(PIXEL(0,0),PIXEL(500,300),DDA, true);
+	pParent->Rasterize(PIXEL(0,0),PIXEL(100,300),DDA, true);
 
 	TerminateProcess(pParent->hRunStep, 1);
 	return 1;
@@ -458,7 +460,7 @@ void CRasterizationIllustrationDlg::runAll(void)
 	if (hRunStep) {
 		TerminateThread(hRunStep,1);
 	}
-	this->Rasterize(PIXEL(0,0),PIXEL(500,300),DDA);
+	this->Rasterize(PIXEL(0,0),PIXEL(100,300),DDA);
 }
 
 
