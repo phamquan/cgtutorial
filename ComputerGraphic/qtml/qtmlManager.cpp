@@ -21,6 +21,7 @@ void qtmlManager::Clear() {
 	if (doc) {
 		doc->Clear();
 		delete doc;
+		program = NULL;
 		doc = NULL;
 		environment = NULL;
 		object = NULL;
