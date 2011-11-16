@@ -317,7 +317,7 @@ void CRasterizationIllustrationDlg::initParameter() {
 	m_dfLen = 2.0;
 	hRunStep = NULL;
 	dwRunStepId = 0;
-	m_config = new CRasterizationConfig(800, 600, 0.1);
+	m_config = new CRasterizationConfig(800, 600, 0.008);
 	int width = m_config->getWidth(),
 		height = m_config->getHeight();
 	if (width*height == 0) 
