@@ -77,6 +77,10 @@ BEGIN_MESSAGE_MAP(CRasterizationIllustrationDlg, CDialogEx)
 	ON_COMMAND(ID_CONTEXTRI_RUNALL, &CRasterizationIllustrationDlg::OnContextriRunall)
 	ON_COMMAND(ID_CONTEXTRI_ERASE, &CRasterizationIllustrationDlg::OnContextriErase)
 	ON_WM_MBUTTONDOWN()
+	ON_COMMAND(ID_ALGORITHMFORRASTERIZATION_DIGITALDIFFERENTIALANALYZER, &CRasterizationIllustrationDlg::OnAlgorithmforrasterizationDigitaldifferentialanalyzer)
+	ON_UPDATE_COMMAND_UI(ID_ALGORITHMFORRASTERIZATION_DIGITALDIFFERENTIALANALYZER, &CRasterizationIllustrationDlg::OnUpdateAlgorithmforrasterizationDigitaldifferentialanalyzer)
+	ON_COMMAND(ID_ALGORITHMFORRASTERIZATION_BRESENHAMLINEALGORITHM, &CRasterizationIllustrationDlg::OnAlgorithmforrasterizationBresenhamlinealgorithm)
+	ON_UPDATE_COMMAND_UI(ID_ALGORITHMFORRASTERIZATION_BRESENHAMLINEALGORITHM, &CRasterizationIllustrationDlg::OnUpdateAlgorithmforrasterizationBresenhamlinealgorithm)
 END_MESSAGE_MAP()
 
 
@@ -317,7 +321,7 @@ void CRasterizationIllustrationDlg::initParameter() {
 	m_dfLen = 2.0;
 	hRunStep = NULL;
 	dwRunStepId = 0;
-	m_config = new CRasterizationConfig(800, 600, 0.008);
+	m_config = new CRasterizationConfig(800, 600, 0.008, DDA);
 	int width = m_config->getWidth(),
 		height = m_config->getHeight();
 	if (width*height == 0) 
@@ -404,6 +408,43 @@ void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEAL
 		}
 		break;
 	case BRESENHAM:
+		{
+			int x0 = start.x, y0=start.y, x1=end.x, y1=end.y;
+			bool steep = abs(y1 - y0) > abs(x1 - x0);
+			if (steep) {
+				swap(int, x0, y0);
+				swap(int, x1, y1);
+			}
+			if (x0 > x1) {
+				swap(int, x0, x1);
+				swap(int, y0, y1);
+			}
+			int deltax = x1 - x0;
+			int deltay = abs(y1 - y0);
+			int error = deltax / 2;
+			int ystep;
+			int y = y0;
+			if (y0 < y1) 
+				ystep = 1;
+			else ystep = -1;
+			for (int x = x0; x <= x1;x++) {
+				if (steep) {
+					m_pixelState[x*width + y] = PCHOSEN;
+					Sleep(nTime);
+					this->Invalidate();
+				}
+				else {
+					m_pixelState[y*width + x] = PCHOSEN;
+					Sleep(nTime);
+					this->Invalidate();
+				}
+				error = error - deltay;
+				if (error < 0) {
+					y = y + ystep;
+					error = error + deltax;
+				}
+			}
+		}
 		break;
 	}
 	Invalidate();
@@ -439,7 +480,7 @@ DWORD WINAPI CRasterizationIllustrationDlg::ThreadProc(LPVOID lpParam)
 {
 	CRasterizationIllustrationDlg* pParent = (CRasterizationIllustrationDlg*) lpParam;
 
-	pParent->Rasterize(PIXEL(0,0),PIXEL(100,300),DDA, true);
+	pParent->Rasterize(PIXEL(0,0),PIXEL(100,300),pParent->getConfig()->getAlgorithmRasterization(), true);
 
 	TerminateProcess(pParent->hRunStep, 1);
 	return 1;
@@ -460,7 +501,7 @@ void CRasterizationIllustrationDlg::runAll(void)
 	if (hRunStep) {
 		TerminateThread(hRunStep,1);
 	}
-	this->Rasterize(PIXEL(0,0),PIXEL(100,300),DDA);
+	this->Rasterize(PIXEL(0,0),PIXEL(100,300),m_config->getAlgorithmRasterization());
 }
 
 
@@ -528,4 +569,32 @@ void CRasterizationIllustrationDlg::OnMButtonDown(UINT nFlags, CPoint point)
 	// TODO: Add your message handler code here and/or call default
 	
 	CDialogEx::OnMButtonDown(nFlags, point);
+}
+
+
+void CRasterizationIllustrationDlg::OnAlgorithmforrasterizationDigitaldifferentialanalyzer()
+{
+	// TODO: Add your command handler code here
+	m_config->setAlgorithmRasterization(DDA);
+}
+
+
+void CRasterizationIllustrationDlg::OnUpdateAlgorithmforrasterizationDigitaldifferentialanalyzer(CCmdUI *pCmdUI)
+{
+	// TODO: Add your command update UI handler code here
+	pCmdUI->SetRadio(m_config->getAlgorithmRasterization() == DDA);
+}
+
+
+void CRasterizationIllustrationDlg::OnAlgorithmforrasterizationBresenhamlinealgorithm()
+{
+	// TODO: Add your command handler code here
+	m_config->setAlgorithmRasterization(BRESENHAM);
+}
+
+
+void CRasterizationIllustrationDlg::OnUpdateAlgorithmforrasterizationBresenhamlinealgorithm(CCmdUI *pCmdUI)
+{
+	// TODO: Add your command update UI handler code here
+	pCmdUI->SetRadio(m_config->getAlgorithmRasterization() == BRESENHAM);
 }
