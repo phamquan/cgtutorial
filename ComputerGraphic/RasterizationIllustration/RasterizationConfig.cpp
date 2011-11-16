@@ -7,8 +7,8 @@ CRasterizationConfig::CRasterizationConfig(void)
 {
 }
 
-CRasterizationConfig::CRasterizationConfig(int width, int height, float scale)
-	: m_width(width), m_height(height), m_scale(scale)
+CRasterizationConfig::CRasterizationConfig(int width, int height, float scale, RASTERIZEALG alg)
+	: m_width(width), m_height(height), m_scale(scale), m_rasterizealg(alg)
 {
 }
 
@@ -47,4 +47,16 @@ int CRasterizationConfig::getWidth(void)
 int CRasterizationConfig::getHeight(void)
 {
 	return m_height;
+}
+
+
+RASTERIZEALG CRasterizationConfig::getAlgorithmRasterization(void)
+{
+	return RASTERIZEALG();
+}
+
+
+void CRasterizationConfig::setAlgorithmRasterization(RASTERIZEALG alg)
+{
+	m_rasterizealg = alg;
 }

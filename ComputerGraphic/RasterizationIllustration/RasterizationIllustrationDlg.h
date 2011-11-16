@@ -63,4 +63,8 @@ public:
 	afx_msg void OnContextriErase();
 	void setCamera(void);
 	afx_msg void OnMButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnAlgorithmforrasterizationDigitaldifferentialanalyzer();
+	afx_msg void OnUpdateAlgorithmforrasterizationDigitaldifferentialanalyzer(CCmdUI *pCmdUI);
+	afx_msg void OnAlgorithmforrasterizationBresenhamlinealgorithm();
+	afx_msg void OnUpdateAlgorithmforrasterizationBresenhamlinealgorithm(CCmdUI *pCmdUI);
 };
