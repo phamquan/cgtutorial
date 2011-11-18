@@ -12,11 +12,11 @@
 #include <fstream.h>
 
 #include "resource.h"
-#include "MaterialDlg.h"
+//#include "MaterialDlg.h"
 #include "HomoPoint.h"
 #include "GL/gl.h"
 #include "GL/glu.h"
-#include "Texture.h"
+//#include "Texture.h"
 
 
 class CGeometricObject  

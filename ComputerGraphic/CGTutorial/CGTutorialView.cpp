@@ -39,6 +39,9 @@ BEGIN_MESSAGE_MAP(CCGTutorialView, CView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
 	ON_WM_SIZE()
+	ON_WM_PAINT()
+	ON_WM_CREATE()
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 // CCGTutorialView construction/destruction
@@ -258,4 +261,94 @@ void CCGTutorialView::EvalViewMatrix() {
 	glTranslatef(Pan.getX(),Pan.getY(),Pan.getZ());	
 	glGetFloatv(GL_MODELVIEW_MATRIX,m_ViewMatrix);
 	glPopMatrix();
+}
+
+void CCGTutorialView::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+	// TODO: Add your message handler code here
+	// Do not call CView::OnPaint() for painting messages
+	wglMakeCurrent(m_hDC,m_hRC); 
+	glDisable(GL_LIGHTING);
+	glDisable(GL_TEXTURE_2D);
+	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	EvalViewMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glMultMatrixf(m_ViewMatrix);
+
+	DrawCoordinate();
+
+	//TODO:
+	/*if(m_isCamera == TRUE)
+		camera.Draw();
+
+	if(m_isLight == TRUE) {
+		float m[4];
+		light.Draw();
+		light.GetPosition(m);
+		glLightfv(GL_LIGHT0,GL_POSITION,m);
+		light.Light.GetAmbient(m);
+		glLightfv(GL_LIGHT0,GL_AMBIENT,m);
+		light.Light.GetDiffuse(m);
+		glLightfv(GL_LIGHT0,GL_DIFFUSE,m);
+		light.Light.GetSpecular(m);
+		glLightfv(GL_LIGHT0,GL_SPECULAR,m);
+		light.Light.GetDirection(m);
+		glLightfv(GL_LIGHT0,GL_SPOT_DIRECTION,m);
+
+		glLightf(GL_LIGHT0,GL_SPOT_EXPONENT,light.Light.m_Exponent);
+		glLightf(GL_LIGHT0,GL_SPOT_CUTOFF,light.Light.m_Cutoff);
+		glLightf(GL_LIGHT0,GL_CONSTANT_ATTENUATION,light.Light.m_Constant);
+		glLightf(GL_LIGHT0,GL_LINEAR_ATTENUATION,light.Light.m_Linear);
+		glLightf(GL_LIGHT0,GL_QUADRATIC_ATTENUATION,light.Light.m_Quadratic);
+	}*/
+
+	for(int i = 2; i < m_listObjects.GetSize(); i++) {
+		//if(m_isLight == TRUE)
+		//	glEnable(GL_LIGHTING);
+		((CGeometricObject*)m_listObjects.GetAt(i))->Draw();
+	}
+
+	if(object != NULL)
+		object->Draw();
+
+	glFlush();
+	SwapBuffers(m_hDC);
+	//cameraframe->Invalidate();
+}
+
+
+int CCGTutorialView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CView::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO:  Add your specialized creation code here
+	SetupOpenGL();
+	//m_listObjects.Add(&light);
+	m_listObjects.Add(&camera);
+
+	//cameraframe = new CCameraFrame(&m_listObjects,&camera,&m_isLight);
+	//cameraframe->Create(IDD_CAMERA,this);
+	//cameraframe->ShowWindow(SW_HIDE);
+
+	//CameraMenu.LoadMenu(IDR_CAMERA);
+	//CameraMenu.GetSubMenu(0)->CheckMenuItem(ID_ORTHO,MF_CHECKED);
+	//
+	//LightMenu.LoadMenu(IDR_LIGHT);
+
+	//ShapeMenu.LoadMenu(IDR_SHAPE);
+
+	return 0;
+}
+
+
+BOOL CCGTutorialView::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	return true;
 }

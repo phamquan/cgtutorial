@@ -15,7 +15,7 @@
 #pragma once
 #include "GL/gl.h"
 #include "GL/glu.h"
-#include "HomoPoint.h"
+#include "GeometricObject.h"
 
 class CCGTutorialView : public CView
 {
@@ -28,6 +28,10 @@ public:
 	CCGTutorialDoc* GetDocument() const;
 	HDC  m_hDC;
 	HGLRC m_hRC;
+
+	CPtrArray m_listObjects;
+	CGeometricObject *object;
+	CCamera camera;
 
 	float m_width;
 	float m_height;
@@ -73,6 +77,9 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnPaint();
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };
 
 #ifndef _DEBUG  // debug version in CGTutorialView.cpp
