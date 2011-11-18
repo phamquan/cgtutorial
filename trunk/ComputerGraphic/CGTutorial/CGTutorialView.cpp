@@ -49,7 +49,21 @@ END_MESSAGE_MAP()
 CCGTutorialView::CCGTutorialView()
 {
 	// TODO: add construction code here
-
+	//m_isMouseDown = false;
+	//m_isMoving = false;
+	//m_isDrawing = false;
+	m_isCreated = false;
+	//m_isLight = false;
+	//m_isCamera = false;
+	//hit = -1;
+	object = NULL;
+	//count = 0;
+	m_near = -1000;
+	m_far = 1000;
+	//m_state = ORBIT;
+	//m_stateRotate = RXI;
+	//m_stateScale = SXI;
+	angle.setCoords(0,0,0);
 }
 
 CCGTutorialView::~CCGTutorialView()
@@ -139,7 +153,7 @@ CCGTutorialDoc* CCGTutorialView::GetDocument() const // non-debug version is inl
 
 
 // CCGTutorialView message handlers
-void CCGTutorialView::SetupOpenGL(void)
+void CCGTutorialView::SetupOpenGL()
 {
 	//Declare Pixel Format 
 	static PIXELFORMATDESCRIPTOR pfd = 
@@ -190,7 +204,6 @@ void CCGTutorialView::OnSize(UINT nType, int cx, int cy)
 
 	// TODO: Add your message handler code here
 	wglMakeCurrent(m_hDC, m_hRC); 
-	// TODO: Add your message handler code here
 	CRect rect;
 	GetClientRect(rect);
 	int w = rect.Width();
