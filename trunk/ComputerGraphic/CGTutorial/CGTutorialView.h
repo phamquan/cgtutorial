@@ -13,7 +13,9 @@
 //
 
 #pragma once
-
+#include "GL/gl.h"
+#include "GL/glu.h"
+#include "HomoPoint.h"
 
 class CCGTutorialView : public CView
 {
@@ -24,10 +26,26 @@ protected: // create from serialization only
 // Attributes
 public:
 	CCGTutorialDoc* GetDocument() const;
+	HDC  m_hDC;
+	HGLRC m_hRC;
 
+	float m_width;
+	float m_height;
+	float m_near;
+	float m_far;
+
+	float m_ViewMatrix[16];
+
+	bool m_isCreated;
+
+	CPoint3D angle;
+	CVector3D Pan;
 // Operations
 public:
-
+	void SetupOpenGL();
+	void DetroyOpenGL();
+	void DrawCoordinate();
+	void EvalViewMatrix();
 // Overrides
 public:
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
@@ -53,6 +71,8 @@ protected:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 };
 
 #ifndef _DEBUG  // debug version in CGTutorialView.cpp

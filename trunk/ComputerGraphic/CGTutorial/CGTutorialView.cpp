@@ -38,6 +38,7 @@ BEGIN_MESSAGE_MAP(CCGTutorialView, CView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CCGTutorialView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 // CCGTutorialView construction/destruction
@@ -135,3 +136,126 @@ CCGTutorialDoc* CCGTutorialView::GetDocument() const // non-debug version is inl
 
 
 // CCGTutorialView message handlers
+void CCGTutorialView::SetupOpenGL(void)
+{
+	//Declare Pixel Format 
+	static PIXELFORMATDESCRIPTOR pfd = 
+	{ 
+		sizeof(PIXELFORMATDESCRIPTOR), 
+		1, 
+		PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER, 
+		PFD_TYPE_RGBA, 
+		32, // bit depth 
+		0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 
+		32, // z-buffer depth 
+		8, 0, PFD_MAIN_PLANE, 0, 0, 0, 0, 
+	}; 
+	
+	// Get device context only once. 
+	m_hDC = GetDC()->m_hDC; 
+
+	// Set Pixel format. 
+	int nPixelFormat = ChoosePixelFormat(m_hDC, &pfd); 
+	SetPixelFormat(m_hDC, nPixelFormat, &pfd); 
+
+	// Create the OpenGL Rendering Context. 
+	m_hRC = wglCreateContext(m_hDC); 
+	wglMakeCurrent(m_hDC,m_hRC); 
+
+	glClearColor(0.769f, 0.812f, 0.824f, 0.0f);
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_NORMALIZE);
+	glShadeModel(GL_SMOOTH);
+}
+
+void CCGTutorialView::DetroyOpenGL() {
+	if(wglGetCurrentContext() != NULL)
+		wglMakeCurrent(NULL,NULL);
+	if(m_hRC != NULL)
+	{
+		wglDeleteContext(m_hRC);
+		m_hRC = NULL;
+	}
+}
+
+void CCGTutorialView::OnSize(UINT nType, int cx, int cy)
+{
+	CView::OnSize(nType, cx, cy);
+
+	// TODO: Add your message handler code here
+	wglMakeCurrent(m_hDC, m_hRC); 
+	// TODO: Add your message handler code here
+	CRect rect;
+	GetClientRect(rect);
+	int w = rect.Width();
+	int h = rect.Height();
+	glViewport(0, 0, w, h);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	if(m_isCreated == false) {
+		if (w <= h)	{
+			m_width = 2.0;
+			m_height = 2.0f * h / w;
+		} else {
+			m_height = 2.0;
+			m_width = 2.0f * w / h;
+		}
+	} else {
+		if (w <= h)	{
+			m_height = m_width * h / w;
+		} else {
+			m_width = m_height * w / h;
+		}
+	}
+	if(w != 0 && h != 0)
+		m_isCreated = true;
+
+	glOrtho(-m_width, m_width, -m_height, m_height, m_near, m_far);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+}
+
+void CCGTutorialView::DrawCoordinate() {
+	glBegin(GL_LINES);
+		glColor3f(1.0f,0.0f,0.0f);
+		glVertex3f(0.0f,0.0f,0.0f);
+		glVertex3f(1000.0f,0.0f,0.0f);
+		/*glVertex3f(1.1f,0.05f,0.0f);
+		glVertex3f(1.2f,-0.05f,0.0f);
+		glVertex3f(1.2f,0.05f,0.0f);
+		glVertex3f(1.1f,-0.05f,0.0f);*/
+		glColor3f(0.0f,1.0f,0.0f);
+		glVertex3f(0.0f,0.0f,0.0f);
+		glVertex3f(0.0f,1000.0f,0.0f);
+		/*glVertex3f(-0.05f,1.2f,0.0f);
+		glVertex3f(0.0f,1.15f,0.0f);
+		glVertex3f(0.05f,1.2f,0.0f);
+		glVertex3f(0.0f,1.15f,0.0f);
+		glVertex3f(0.0f,1.1f,0.0f);
+		glVertex3f(0.0f,1.15f,0.0f);*/
+		glColor3f(0.0f,0.0f,1.0f);
+		glVertex3f(0.0f,0.0f,0.0f);
+		glVertex3f(0.0f,0.0f,1000.0f);
+		/*glVertex3f(0.0f,0.05f,1.2f);
+		glVertex3f(0.0f,0.05f,1.1f);
+		glVertex3f(0.0f,-0.05f,1.2f);
+		glVertex3f(0.0f,-0.05f,1.1f);
+		glVertex3f(0.0f,0.05f,1.1f);
+		glVertex3f(0.0f,-0.05f,1.2f);*/
+	glEnd();
+}
+
+void CCGTutorialView::EvalViewMatrix() {
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+    glRotatef(angle.getY(),1,0,0);
+	glRotatef(angle.getX(),0,1,0);
+	glTranslatef(Pan.getX(),Pan.getY(),Pan.getZ());	
+	glGetFloatv(GL_MODELVIEW_MATRIX,m_ViewMatrix);
+	glPopMatrix();
+}
