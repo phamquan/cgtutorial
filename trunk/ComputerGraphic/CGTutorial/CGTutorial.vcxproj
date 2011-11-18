@@ -135,6 +135,8 @@
     <ClInclude Include="CGTutorialView.h" />
     <ClInclude Include="ClassView.h" />
     <ClInclude Include="FileView.h" />
+    <ClInclude Include="GeometricObject.h" />
+    <ClInclude Include="HomoPoint.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="OutputWnd.h" />
     <ClInclude Include="PropertiesWnd.h" />
@@ -149,6 +151,8 @@
     <ClCompile Include="CGTutorialView.cpp" />
     <ClCompile Include="ClassView.cpp" />
     <ClCompile Include="FileView.cpp" />
+    <ClCompile Include="GeometricObject.cpp" />
+    <ClCompile Include="HomoPoint.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
     <ClCompile Include="PropertiesWnd.cpp" />
