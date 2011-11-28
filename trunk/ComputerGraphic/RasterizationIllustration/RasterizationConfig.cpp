@@ -7,8 +7,8 @@ CRasterizationConfig::CRasterizationConfig(void)
 {
 }
 
-CRasterizationConfig::CRasterizationConfig(int width, int height, float scale, RASTERIZEALG alg)
-	: m_width(width), m_height(height), m_scale(scale), m_rasterizealg(alg)
+CRasterizationConfig::CRasterizationConfig(int width, int height, float scale, RASTERIZEALG alg, COLOR &backgroundColor)
+	: m_width(width), m_height(height), m_scale(scale), m_rasterizealg(alg), m_backgroundColor(backgroundColor)
 {
 }
 
@@ -59,4 +59,17 @@ RASTERIZEALG CRasterizationConfig::getAlgorithmRasterization(void)
 void CRasterizationConfig::setAlgorithmRasterization(RASTERIZEALG alg)
 {
 	m_rasterizealg = alg;
+}
+
+
+const COLOR& CRasterizationConfig::getBackgroundColor(void)
+{
+	//TODO: insert return statement here
+	return m_backgroundColor;
+}
+
+
+void CRasterizationConfig::setBackgroundColor(COLOR& color)
+{
+	m_backgroundColor = color;
 }
