@@ -35,6 +35,7 @@ private:
 	HDC m_hDC;
 	CRasterizationConfig *m_config;
 	PIXELTYPE *m_pixelState;
+	COLOR *m_pixelColor;
 	float m_width, m_height, m_dfLen;
 	HANDLE hRunStep;
 	DWORD  dwRunStepId;
@@ -67,4 +68,7 @@ public:
 	afx_msg void OnUpdateAlgorithmforrasterizationDigitaldifferentialanalyzer(CCmdUI *pCmdUI);
 	afx_msg void OnAlgorithmforrasterizationBresenhamlinealgorithm();
 	afx_msg void OnUpdateAlgorithmforrasterizationBresenhamlinealgorithm(CCmdUI *pCmdUI);
+protected:
+	afx_msg LRESULT OnKickidle(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnIdleupdatecmdui(WPARAM wParam, LPARAM lParam);
 };

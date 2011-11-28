@@ -11,6 +11,7 @@
 #define new DEBUG_NEW
 #endif
 
+#include <afxpriv.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <math.h>
@@ -81,6 +82,8 @@ BEGIN_MESSAGE_MAP(CRasterizationIllustrationDlg, CDialogEx)
 	ON_UPDATE_COMMAND_UI(ID_ALGORITHMFORRASTERIZATION_DIGITALDIFFERENTIALANALYZER, &CRasterizationIllustrationDlg::OnUpdateAlgorithmforrasterizationDigitaldifferentialanalyzer)
 	ON_COMMAND(ID_ALGORITHMFORRASTERIZATION_BRESENHAMLINEALGORITHM, &CRasterizationIllustrationDlg::OnAlgorithmforrasterizationBresenhamlinealgorithm)
 	ON_UPDATE_COMMAND_UI(ID_ALGORITHMFORRASTERIZATION_BRESENHAMLINEALGORITHM, &CRasterizationIllustrationDlg::OnUpdateAlgorithmforrasterizationBresenhamlinealgorithm)
+	ON_MESSAGE(WM_KICKIDLE, &CRasterizationIllustrationDlg::OnKickidle)
+	ON_MESSAGE(WM_IDLEUPDATECMDUI, &CRasterizationIllustrationDlg::OnIdleupdatecmdui)
 END_MESSAGE_MAP()
 
 
@@ -167,7 +170,8 @@ void CRasterizationIllustrationDlg::OnPaint()
 		wglMakeCurrent( m_hDC, m_hRC );
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		COLOR bg = m_config->getBackgroundColor();
+		glClearColor(bg.red, bg.green, bg.blue, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT); 
 		glColor3f(0.2f, 0.2f, 0.2f);
 		setCamera();
@@ -321,13 +325,14 @@ void CRasterizationIllustrationDlg::initParameter() {
 	m_dfLen = 2.0;
 	hRunStep = NULL;
 	dwRunStepId = 0;
-	m_config = new CRasterizationConfig(800, 600, 0.008, DDA);
+	m_config = new CRasterizationConfig(800, 600, 0.008, BRESENHAM, BLUE);
 	int width = m_config->getWidth(),
 		height = m_config->getHeight();
 	if (width*height == 0) 
 		m_pixelState = NULL;
 	else {
 		m_pixelState = new PIXELTYPE[width * height];
+		m_pixelColor = new COLOR[width * height];
 		Erase();
 	}
 }
@@ -418,6 +423,7 @@ void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEAL
 			if (x0 > x1) {
 				swap(int, x0, x1);
 				swap(int, y0, y1);
+				swap(COLOR, m_pixelColor[x0*width + y0], m_pixelColor[x1*width + y1]);
 			}
 			int deltax = x1 - x0;
 			int deltay = abs(y1 - y0);
@@ -427,6 +433,8 @@ void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEAL
 			if (y0 < y1) 
 				ystep = 1;
 			else ystep = -1;
+			COLOR delta = (m_pixelColor[x1*width + y1] - m_pixelColor[x0*width + y0])*(1.0f/float(x1-x0));
+			COLOR iter = m_pixelColor[x0*width + y0];
 			for (int x = x0; x <= x1;x++) {
 				if (steep) {
 					m_pixelState[x*width + y] = PCHOSEN;
@@ -471,8 +479,16 @@ void CRasterizationIllustrationDlg::drawPixel(void)
 	int x,y;
 	for (y = 0; y < height; y++)
 		for (x = 0; x < width; x++)
-			if (m_pixelState[y*width + x] == PCHOSEN)
+			switch (m_pixelState[y*width + x]) {
+			case PCHOSEN:
 				fillPixel(PIXEL(x,y), COLOR(0.0f,1.0f,0.0f));
+				break;
+			case PNONE:
+				//fillPixel(PIXEL(x,y), bg);
+				break;
+			default:
+				break;
+			}
 }
 
 
@@ -597,4 +613,19 @@ void CRasterizationIllustrationDlg::OnUpdateAlgorithmforrasterizationBresenhamli
 {
 	// TODO: Add your command update UI handler code here
 	pCmdUI->SetRadio(m_config->getAlgorithmRasterization() == BRESENHAM);
+}
+
+
+afx_msg LRESULT CRasterizationIllustrationDlg::OnKickidle(WPARAM wParam, LPARAM lParam)
+{
+	//UpdateDialogControls(this, FALSE);
+	//OnUpdateCmdUI(GetDlgItem(ID_ALGORITHMFORRASTERIZATION_DIGITALDIFFERENTIALANALYZER), wParam);
+	return 0;
+}
+
+
+afx_msg LRESULT CRasterizationIllustrationDlg::OnIdleupdatecmdui(WPARAM wParam, LPARAM lParam)
+{
+	GetDlgItem(ID_ALGORITHMFORRASTERIZATION_DIGITALDIFFERENTIALANALYZER)->SendMessage(WM_IDLEUPDATECMDUI);
+	return 0;
 }
