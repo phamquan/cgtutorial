@@ -156,34 +156,25 @@ CCGTutorialDoc* CCGTutorialView::GetDocument() const // non-debug version is inl
 void CCGTutorialView::SetupOpenGL()
 {
 	//Declare Pixel Format 
-	static PIXELFORMATDESCRIPTOR pfd = 
-	{ 
-		sizeof(PIXELFORMATDESCRIPTOR), 
-		1, 
-		PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER, 
-		PFD_TYPE_RGBA, 
-		32, // bit depth 
-		0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 
-		32, // z-buffer depth 
-		8, 0, PFD_MAIN_PLANE, 0, 0, 0, 0, 
-	}; 
-	
-	// Get device context only once. 
-	m_hDC = GetDC()->m_hDC; 
-
-	// Set Pixel format. 
-	int nPixelFormat = ChoosePixelFormat(m_hDC, &pfd); 
-	SetPixelFormat(m_hDC, nPixelFormat, &pfd); 
-
-	// Create the OpenGL Rendering Context. 
-	m_hRC = wglCreateContext(m_hDC); 
-	wglMakeCurrent(m_hDC,m_hRC); 
-
-	glClearColor(0.769f, 0.812f, 0.824f, 0.0f);
-
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHT0);
+	static PIXELFORMATDESCRIPTOR pfd =
+	{
+		sizeof(PIXELFORMATDESCRIPTOR),
+		1,
+		PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
+		PFD_TYPE_RGBA,
+		32, // bit depth
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		16, // z-buffer depth
+		0, 0, 0, 0, 0, 0, 0,
+	};
+	// Get device context only once.
+	m_hDC = GetDC()->m_hDC;
+	// Set Pixel format.
+	int nPixelFormat = ChoosePixelFormat(m_hDC, &pfd);
+	SetPixelFormat(m_hDC, nPixelFormat, &pfd);
+	// Create the OpenGL Rendering Context.
+	m_hRC = wglCreateContext(m_hDC);
+	wglMakeCurrent( m_hDC, m_hRC );
 	glEnable(GL_NORMALIZE);
 	glShadeModel(GL_SMOOTH);
 }
@@ -206,74 +197,14 @@ void CCGTutorialView::OnSize(UINT nType, int cx, int cy)
 	wglMakeCurrent(m_hDC, m_hRC); 
 	CRect rect;
 	GetClientRect(rect);
-	int w = rect.Width();
-	int h = rect.Height();
-	glViewport(0, 0, w, h);
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	if(m_isCreated == false) {
-		if (w <= h)	{
-			m_width = 2.0;
-			m_height = 2.0f * h / w;
-		} else {
-			m_height = 2.0;
-			m_width = 2.0f * w / h;
-		}
-	} else {
-		if (w <= h)	{
-			m_height = m_width * h / w;
-		} else {
-			m_width = m_height * w / h;
-		}
-	}
-	if(w != 0 && h != 0)
-		m_isCreated = true;
-
-	glOrtho(-m_width, m_width, -m_height, m_height, m_near, m_far);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	int size = min(rect.Width(), rect.Height());
+	glViewport(0, 0, size, size);
 }
 
 void CCGTutorialView::DrawCoordinate() {
-	glBegin(GL_LINES);
-		glColor3f(1.0f,0.0f,0.0f);
-		glVertex3f(0.0f,0.0f,0.0f);
-		glVertex3f(1000.0f,0.0f,0.0f);
-		/*glVertex3f(1.1f,0.05f,0.0f);
-		glVertex3f(1.2f,-0.05f,0.0f);
-		glVertex3f(1.2f,0.05f,0.0f);
-		glVertex3f(1.1f,-0.05f,0.0f);*/
-		glColor3f(0.0f,1.0f,0.0f);
-		glVertex3f(0.0f,0.0f,0.0f);
-		glVertex3f(0.0f,1000.0f,0.0f);
-		/*glVertex3f(-0.05f,1.2f,0.0f);
-		glVertex3f(0.0f,1.15f,0.0f);
-		glVertex3f(0.05f,1.2f,0.0f);
-		glVertex3f(0.0f,1.15f,0.0f);
-		glVertex3f(0.0f,1.1f,0.0f);
-		glVertex3f(0.0f,1.15f,0.0f);*/
-		glColor3f(0.0f,0.0f,1.0f);
-		glVertex3f(0.0f,0.0f,0.0f);
-		glVertex3f(0.0f,0.0f,1000.0f);
-		/*glVertex3f(0.0f,0.05f,1.2f);
-		glVertex3f(0.0f,0.05f,1.1f);
-		glVertex3f(0.0f,-0.05f,1.2f);
-		glVertex3f(0.0f,-0.05f,1.1f);
-		glVertex3f(0.0f,0.05f,1.1f);
-		glVertex3f(0.0f,-0.05f,1.2f);*/
-	glEnd();
 }
 
 void CCGTutorialView::EvalViewMatrix() {
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
-    glRotatef(angle.getY(),1,0,0);
-	glRotatef(angle.getX(),0,1,0);
-	glTranslatef(Pan.getX(),Pan.getY(),Pan.getZ());	
-	glGetFloatv(GL_MODELVIEW_MATRIX,m_ViewMatrix);
-	glPopMatrix();
 }
 
 void CCGTutorialView::OnPaint()
@@ -281,56 +212,20 @@ void CCGTutorialView::OnPaint()
 	CPaintDC dc(this); // device context for painting
 	// TODO: Add your message handler code here
 	// Do not call CView::OnPaint() for painting messages
-	wglMakeCurrent(m_hDC,m_hRC); 
-	glDisable(GL_LIGHTING);
-	glDisable(GL_TEXTURE_2D);
-	
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	wglMakeCurrent( m_hDC, m_hRC );
+	glClearColor(0.0f, 0.7f, 0.7f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT); 
+	glColor3f(1.0f, 0.0f, 0.0f);
 
-	EvalViewMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glMultMatrixf(m_ViewMatrix);
-
-	DrawCoordinate();
-
-	//TODO:
-	/*if(m_isCamera == TRUE)
-		camera.Draw();
-
-	if(m_isLight == TRUE) {
-		float m[4];
-		light.Draw();
-		light.GetPosition(m);
-		glLightfv(GL_LIGHT0,GL_POSITION,m);
-		light.Light.GetAmbient(m);
-		glLightfv(GL_LIGHT0,GL_AMBIENT,m);
-		light.Light.GetDiffuse(m);
-		glLightfv(GL_LIGHT0,GL_DIFFUSE,m);
-		light.Light.GetSpecular(m);
-		glLightfv(GL_LIGHT0,GL_SPECULAR,m);
-		light.Light.GetDirection(m);
-		glLightfv(GL_LIGHT0,GL_SPOT_DIRECTION,m);
-
-		glLightf(GL_LIGHT0,GL_SPOT_EXPONENT,light.Light.m_Exponent);
-		glLightf(GL_LIGHT0,GL_SPOT_CUTOFF,light.Light.m_Cutoff);
-		glLightf(GL_LIGHT0,GL_CONSTANT_ATTENUATION,light.Light.m_Constant);
-		glLightf(GL_LIGHT0,GL_LINEAR_ATTENUATION,light.Light.m_Linear);
-		glLightf(GL_LIGHT0,GL_QUADRATIC_ATTENUATION,light.Light.m_Quadratic);
-	}*/
-
-	for(int i = 2; i < m_listObjects.GetSize(); i++) {
-		//if(m_isLight == TRUE)
-		//	glEnable(GL_LIGHTING);
-		((CGeometricObject*)m_listObjects.GetAt(i))->Draw();
-	}
-
-	if(object != NULL)
-		object->Draw();
-
+	glBegin(GL_POLYGON);        
+		glVertex2f(- 0.5, - 0.5);        
+		glVertex2f(- 0.5,  0.5);        
+		glVertex2f(0.5,  0.5);        
+		glVertex2f(0.5, - 0.5);    
+	glEnd();
 	glFlush();
-	SwapBuffers(m_hDC);
-	//cameraframe->Invalidate();
+	
+	SwapBuffers(dc.m_ps.hdc);
 }
 
 
@@ -338,23 +233,8 @@ int CCGTutorialView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CView::OnCreate(lpCreateStruct) == -1)
 		return -1;
-
 	// TODO:  Add your specialized creation code here
 	SetupOpenGL();
-	//m_listObjects.Add(&light);
-	m_listObjects.Add(&camera);
-
-	//cameraframe = new CCameraFrame(&m_listObjects,&camera,&m_isLight);
-	//cameraframe->Create(IDD_CAMERA,this);
-	//cameraframe->ShowWindow(SW_HIDE);
-
-	//CameraMenu.LoadMenu(IDR_CAMERA);
-	//CameraMenu.GetSubMenu(0)->CheckMenuItem(ID_ORTHO,MF_CHECKED);
-	//
-	//LightMenu.LoadMenu(IDR_LIGHT);
-
-	//ShapeMenu.LoadMenu(IDR_SHAPE);
-
 	return 0;
 }
 
@@ -362,6 +242,5 @@ int CCGTutorialView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 BOOL CCGTutorialView::OnEraseBkgnd(CDC* pDC)
 {
 	// TODO: Add your message handler code here and/or call default
-
 	return true;
 }
