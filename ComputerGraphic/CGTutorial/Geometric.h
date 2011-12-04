@@ -1,8 +1,5 @@
 #pragma once
 #include "openglnode.h"
-#include "HomoPoint.h"
-#include "GL/gl.h"
-#include "GL/glu.h"
 
 class CGeometric :
 	public COpenGLNode
@@ -10,9 +7,11 @@ class CGeometric :
 public:
 	CGeometric(void);
 	virtual ~CGeometric(void);
-	void Clear();
 	void AddPoint(float x, float y, float z);
+	void ClearPoint();
 
+protected:
+	virtual void BeginOpenGL() = 0;
 	virtual void DoOpenGL();
 	virtual void EndOpenGL();
 

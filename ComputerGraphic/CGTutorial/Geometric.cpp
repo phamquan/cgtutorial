@@ -4,15 +4,15 @@
 
 CGeometric::CGeometric(void)
 {
-	Clear();
+	ClearPoint();
 }
 
 CGeometric::~CGeometric(void)
 {
-	Clear();
+	ClearPoint();
 }
 
-void CGeometric::Clear()
+void CGeometric::ClearPoint()
 {
 	m_listPoint.RemoveAll();
 }
@@ -31,7 +31,6 @@ void CGeometric::DoOpenGL()
 		glVertex3f(point->getX(),point->getY(),point->getZ());
 	}
 }
-
 
 void CGeometric::EndOpenGL()
 {
