@@ -1,13 +1,15 @@
 #include "StdAfx.h"
 #include "OpenGLNode.h"
 
-COpenGLNode::COpenGLNode(void)
+COpenGLNode::COpenGLNode(COpenGLNode *parrent)
 {
+	this->parent = parrent;
 	ClearChild();
 }
 
 COpenGLNode::~COpenGLNode(void)
 {
+	parent = NULL;
 	ClearChild();
 }
 
