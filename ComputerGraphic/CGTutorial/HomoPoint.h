@@ -1,21 +1,14 @@
 // HomoPoint.h: interface for the CHomoPoint class.
 //
 //////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_HOMOPOINT_H__5D869B5F_EE43_4F00_B61D_2CA7368C87DC__INCLUDED_)
-#define AFX_HOMOPOINT_H__5D869B5F_EE43_4F00_B61D_2CA7368C87DC__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
+
 #include  "math.h"
 #include "string.h"
 
 #define PI			3.14159265358979323846
 #define RAD_2_DEG	(180.0/PI)
 #define DEG_2_RAD	(PI/180.0)
-
-#endif // _MSC_VER > 1000
-
 
 class CHomoPoint
 {
@@ -112,5 +105,3 @@ protected:
 };
 
 bool InvertMatrix(float src[16], float inverse[16]);
-
-#endif // !defined(AFX_HOMOPOINT_H__5D869B5F_EE43_4F00_B61D_2CA7368C87DC__INCLUDED_)
