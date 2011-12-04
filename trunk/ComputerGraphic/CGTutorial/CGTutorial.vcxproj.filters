@@ -150,9 +150,6 @@
     <ClInclude Include="PropertiesWnd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeometricObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="HomoPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -163,6 +160,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Geometric.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Translate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scale.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rotate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -197,9 +203,6 @@
     <ClCompile Include="PropertiesWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeometricObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HomoPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -210,6 +213,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Geometric.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Translate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scale.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Rotate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
