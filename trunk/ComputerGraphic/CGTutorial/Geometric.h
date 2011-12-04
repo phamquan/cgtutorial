@@ -7,6 +7,7 @@ class CGeometric :
 public:
 	CGeometric(void);
 	virtual ~CGeometric(void);
+	void AddPoint(CPoint3D *point);
 	void AddPoint(float x, float y, float z);
 	void ClearPoint();
 
