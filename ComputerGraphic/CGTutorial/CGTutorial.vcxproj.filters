@@ -153,6 +153,9 @@
     <ClInclude Include="GeometricObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HomoPoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CGTutorial.cpp">
@@ -186,6 +189,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GeometricObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HomoPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
