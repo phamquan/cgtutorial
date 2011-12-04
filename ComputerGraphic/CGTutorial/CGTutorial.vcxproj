@@ -139,6 +139,7 @@
     <ClInclude Include="FileView.h" />
     <ClInclude Include="Geometric.h" />
     <ClInclude Include="HomoPoint.h" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="OpenGLNode.h" />
     <ClInclude Include="OutputWnd.h" />
@@ -160,6 +161,7 @@
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="Geometric.cpp" />
     <ClCompile Include="HomoPoint.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OpenGLNode.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
