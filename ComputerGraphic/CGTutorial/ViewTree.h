@@ -24,10 +24,18 @@ public:
 protected:
 	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
 
+	CImageList*	m_pDragImage;
+	BOOL		m_bLDragging;
+	HTREEITEM	m_hitemDrag,m_hitemDrop;
+
 // Implementation
 public:
 	virtual ~CViewTree();
 
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 };
