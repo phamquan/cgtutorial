@@ -13,7 +13,7 @@
 //
 
 #pragma once
-
+#include <GL\GL.h>
 
 class CCGTutorialView : public CView
 {
@@ -24,10 +24,13 @@ protected: // create from serialization only
 // Attributes
 public:
 	CCGTutorialDoc* GetDocument() const;
+	HDC  m_hDC;
+	HGLRC m_hRC;
 
 // Operations
 public:
-
+	void SetupOpenGL();
+	void DetroyOpenGL();
 // Overrides
 public:
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
@@ -53,6 +56,12 @@ protected:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnDestroy();
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnPaint();
 };
 
 #ifndef _DEBUG  // debug version in CGTutorialView.cpp

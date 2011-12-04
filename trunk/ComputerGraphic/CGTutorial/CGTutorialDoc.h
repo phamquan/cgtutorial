@@ -14,13 +14,15 @@
 
 
 #pragma once
-
+#include "MainFrm.h"
+#include "../qtml/qtmlManager.h"
 
 class CCGTutorialDoc : public CDocument
 {
 protected: // create from serialization only
 	CCGTutorialDoc();
 	DECLARE_DYNCREATE(CCGTutorialDoc)
+	qtmlManager data;
 
 // Attributes
 public:
@@ -55,4 +57,8 @@ protected:
 	// Helper function that sets search content for a Search Handler
 	void SetSearchContent(const CString& value);
 #endif // SHARED_HANDLERS
+public:
+	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
+	virtual BOOL OnSaveDocument(LPCTSTR lpszPathName);
+	virtual void OnCloseDocument();
 };

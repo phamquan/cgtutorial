@@ -29,7 +29,7 @@ protected: // create from serialization only
 protected:
 	CSplitterWnd m_wndSplitter;
 public:
-
+	CFileView         m_wndFileView;
 // Operations
 public:
 
@@ -51,8 +51,7 @@ protected:  // control bar embedded members
 	CMFCRibbonApplicationButton m_MainButton;
 	CMFCToolBarImages m_PanelImages;
 	CMFCRibbonStatusBar  m_wndStatusBar;
-	CFileView         m_wndFileView;
-	CClassView        m_wndClassView;
+	//CClassView        m_wndClassView;
 	COutputWnd        m_wndOutput;
 	CPropertiesWnd    m_wndProperties;
 

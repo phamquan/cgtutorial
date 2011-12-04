@@ -38,6 +38,11 @@ BEGIN_MESSAGE_MAP(CCGTutorialView, CView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CCGTutorialView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
+	ON_WM_CREATE()
+	ON_WM_DESTROY()
+	ON_WM_ERASEBKGND()
+	ON_WM_SIZE()
+	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 // CCGTutorialView construction/destruction
@@ -135,3 +140,102 @@ CCGTutorialDoc* CCGTutorialView::GetDocument() const // non-debug version is inl
 
 
 // CCGTutorialView message handlers
+void CCGTutorialView::SetupOpenGL()
+{
+	static PIXELFORMATDESCRIPTOR pfd =
+	{
+		sizeof(PIXELFORMATDESCRIPTOR),
+		1,
+		PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
+		PFD_TYPE_RGBA,
+		32, // bit depth
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		16, // z-buffer depth
+		0, 0, 0, 0, 0, 0, 0,
+	};
+
+	m_hDC = GetDC()->m_hDC;
+	
+	int nPixelFormat = ChoosePixelFormat(m_hDC, &pfd);
+	SetPixelFormat(m_hDC, nPixelFormat, &pfd);
+	
+	m_hRC = wglCreateContext(m_hDC);
+}
+
+void CCGTutorialView::DetroyOpenGL()
+{
+	if(wglGetCurrentContext() != NULL)
+		wglMakeCurrent(NULL,NULL);
+
+	if(m_hRC != NULL)
+	{
+		wglDeleteContext(m_hRC);
+		m_hRC = NULL;
+	}
+}
+
+
+
+int CCGTutorialView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CView::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO:  Add your specialized creation code here
+	SetupOpenGL();
+	return 0;
+}
+
+
+void CCGTutorialView::OnDestroy()
+{
+	CView::OnDestroy();
+
+	// TODO: Add your message handler code here
+	DetroyOpenGL();
+}
+
+
+BOOL CCGTutorialView::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	return true;
+}
+
+
+void CCGTutorialView::OnSize(UINT nType, int cx, int cy)
+{
+	CView::OnSize(nType, cx, cy);
+
+	// TODO: Add your message handler code here
+	wglMakeCurrent(m_hDC, m_hRC); 
+	CRect rect;
+	GetClientRect(rect);
+
+	int size = min(rect.Width(), rect.Height());
+	glViewport(0, 0, size, size);
+}
+
+
+void CCGTutorialView::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+	// TODO: Add your message handler code here
+	// Do not call CView::OnPaint() for painting messages
+
+	wglMakeCurrent( m_hDC, m_hRC );
+	glClearColor(0.0f, 0.7f, 0.7f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT); 
+	glColor3f(1.0f, 0.0f, 0.0f);
+
+	glBegin(GL_POLYGON);        
+		glVertex2f(- 0.5, - 0.5);        
+		glVertex2f(- 0.5,  0.5);        
+		glVertex2f(0.5,  0.5);        
+		glVertex2f(0.5, - 0.5);    
+	glEnd();
+	glFlush();
+	
+	SwapBuffers(dc.m_ps.hdc);
+}
