@@ -153,8 +153,9 @@ BOOL CCGTutorialDoc::OnOpenDocument(LPCTSTR lpszPathName)
 		return FALSE;
 
 	// TODO:  Add your specialized creation code here
+	size_t i;
 	char buf[1024];
-	wcstombs(buf,lpszPathName,1024);
+	wcstombs_s(&i,buf,lpszPathName,1024);
 
 	if(!data.Load(buf))
 		return FALSE;
