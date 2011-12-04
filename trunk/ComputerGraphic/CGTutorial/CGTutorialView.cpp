@@ -274,11 +274,10 @@ void PaintTree(TiXmlNode *root) {
 	TiXmlNode* pChild = NULL;
 
 	//HTREEITEM node = m_wndFileView.InsertItem(CString(root->Value()), 0, 0);
-	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
-	m_wndFileView.Expand(node,TVE_EXPAND);
+	//m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
+	//m_wndFileView.Expand(node,TVE_EXPAND);
 
-	while (pChild = root->IterateChildren(pChild)) {
-		FillFile(pChild,1,node);
-	}
-	AdjustLayout();
+	//while (pChild = root->IterateChildren(pChild)) {
+	//	FillFile(pChild,1,node);
+	//}
 }
