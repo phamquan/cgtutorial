@@ -50,7 +50,10 @@ END_MESSAGE_MAP()
 CCGTutorialView::CCGTutorialView()
 {
 	// TODO: add construction code here
+	m_isCreated = false;
 
+	m_near = -1000;
+	m_far = 1000;
 }
 
 CCGTutorialView::~CCGTutorialView()
@@ -160,6 +163,10 @@ void CCGTutorialView::SetupOpenGL()
 	SetPixelFormat(m_hDC, nPixelFormat, &pfd);
 	
 	m_hRC = wglCreateContext(m_hDC);
+	wglMakeCurrent(m_hDC,m_hRC); 
+
+	glClearColor(0.769f, 0.812f, 0.824f, 0.0f);
+	glEnable(GL_DEPTH_TEST);
 }
 
 void CCGTutorialView::DetroyOpenGL()
@@ -173,8 +180,6 @@ void CCGTutorialView::DetroyOpenGL()
 		m_hRC = NULL;
 	}
 }
-
-
 
 int CCGTutorialView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
@@ -212,9 +217,31 @@ void CCGTutorialView::OnSize(UINT nType, int cx, int cy)
 	wglMakeCurrent(m_hDC, m_hRC); 
 	CRect rect;
 	GetClientRect(rect);
+	int w = rect.Width();
+	int h = rect.Height();
+	glViewport(0, 0, w, h);
 
-	int size = min(rect.Width(), rect.Height());
-	glViewport(0, 0, size, size);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	if(m_isCreated == false) {
+		if (w <= h)	{
+			m_width = 2.0;
+			m_height = 2.0f * h / w;
+		} else {
+			m_height = 2.0;
+			m_width = 2.0f * w / h;
+		}
+	} else {
+		if (w <= h)	{
+			m_height = m_width * h / w;
+		} else {
+			m_width = m_height * w / h;
+		}
+	}
+	if(w != 0 && h != 0)
+		m_isCreated = true;
+
+	glOrtho(-m_width, m_width, -m_height, m_height, m_near, m_far);
 }
 
 
@@ -223,10 +250,12 @@ void CCGTutorialView::OnPaint()
 	CPaintDC dc(this); // device context for painting
 	// TODO: Add your message handler code here
 	// Do not call CView::OnPaint() for painting messages
-
 	wglMakeCurrent( m_hDC, m_hRC );
-	glClearColor(0.0f, 0.7f, 0.7f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT); 
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
 	glColor3f(1.0f, 0.0f, 0.0f);
 
 	glBegin(GL_POLYGON);        
@@ -235,7 +264,21 @@ void CCGTutorialView::OnPaint()
 		glVertex2f(0.5,  0.5);        
 		glVertex2f(0.5, - 0.5);    
 	glEnd();
+
+
 	glFlush();
-	
 	SwapBuffers(dc.m_ps.hdc);
+}
+
+void PaintTree(TiXmlNode *root) {
+	TiXmlNode* pChild = NULL;
+
+	//HTREEITEM node = m_wndFileView.InsertItem(CString(root->Value()), 0, 0);
+	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
+	m_wndFileView.Expand(node,TVE_EXPAND);
+
+	while (pChild = root->IterateChildren(pChild)) {
+		FillFile(pChild,1,node);
+	}
+	AdjustLayout();
 }

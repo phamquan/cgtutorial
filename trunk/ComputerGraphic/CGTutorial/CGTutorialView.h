@@ -27,6 +27,11 @@ public:
 	HDC  m_hDC;
 	HGLRC m_hRC;
 
+	float m_width;
+	float m_height;
+	float m_near;
+	float m_far;
+	bool m_isCreated;
 // Operations
 public:
 	void SetupOpenGL();
