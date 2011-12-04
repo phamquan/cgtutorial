@@ -144,6 +144,7 @@
     <ClInclude Include="OpenGLNode.h" />
     <ClInclude Include="OutputWnd.h" />
     <ClInclude Include="PropertiesWnd.h" />
+    <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Rotate.h" />
     <ClInclude Include="Scale.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="OpenGLNode.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
     <ClCompile Include="PropertiesWnd.cpp" />
+    <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Rotate.cpp" />
     <ClCompile Include="Scale.cpp" />
     <ClCompile Include="stdafx.cpp">

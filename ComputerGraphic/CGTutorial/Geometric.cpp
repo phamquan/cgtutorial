@@ -17,10 +17,14 @@ void CGeometric::ClearPoint()
 	m_listPoint.RemoveAll();
 }
 
+void CGeometric::AddPoint(CPoint3D *point)
+{
+	m_listPoint.Add(point);
+}
+
 void CGeometric::AddPoint(float x, float y, float z)
 {
-	CPoint3D *point = new CPoint3D(x,y,z);
-	m_listPoint.Add(point);
+	AddPoint(new CPoint3D(x,y,z));
 }
 
 void CGeometric::DoOpenGL()
