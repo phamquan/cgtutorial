@@ -23,11 +23,14 @@ public:
 // Overrides
 protected:
 	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+	BOOL m_bDragging;
+	HTREEITEM m_hitemDrag;
+    HTREEITEM m_hitemDrop;
+	CImageList* m_pDragImgList;
 
-	CImageList*	m_pDragImage;
-	BOOL		m_bLDragging;
-	HTREEITEM	m_hitemDrag,m_hitemDrop;
-
+	BOOL IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedParent);
+	void MoveItem(HTREEITEM hitemToBeMoved, HTREEITEM hitemInsertAfter);
+	BOOL TransferItem(HTREEITEM hitemDrag, HTREEITEM hitemDrop);
 // Implementation
 public:
 	virtual ~CViewTree();

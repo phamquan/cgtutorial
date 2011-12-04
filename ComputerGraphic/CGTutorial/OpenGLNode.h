@@ -6,7 +6,7 @@
 class COpenGLNode
 {
 public:
-	COpenGLNode(void);
+	COpenGLNode(COpenGLNode *parrent = NULL);
 	virtual ~COpenGLNode(void);
 	void AddChild(COpenGLNode* child);
 	void ClearChild();
@@ -18,6 +18,7 @@ protected:
 	virtual void EndOpenGL() = 0;
 
 protected:
+	COpenGLNode *parent;
 	CPtrArray m_listChild;
 };
 

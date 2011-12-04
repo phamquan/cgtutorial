@@ -23,10 +23,10 @@ static char THIS_FILE[] = __FILE__;
 
 CViewTree::CViewTree()
 {
-	m_pDragImage = NULL;
-	m_bLDragging = FALSE;
-	m_hitemDrag = NULL;
-	m_hitemDrop = NULL;
+	m_bDragging = FALSE;
+    m_pDragImgList = NULL;
+    m_hitemDrag = NULL;
+    m_hitemDrop = NULL;
 }
 
 CViewTree::~CViewTree()
@@ -60,79 +60,161 @@ BOOL CViewTree::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 
 void CViewTree::OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
 {
-	NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNMHDR;
-	*pResult = 0;
+	CPoint ptCurrent;
+    
+    GetCursorPos(&ptCurrent);
+    ScreenToClient(&ptCurrent);
 
-	m_hitemDrag = pNMTreeView->itemNew.hItem;
-	m_hitemDrop = NULL;
+	m_bDragging = TRUE;
+    m_hitemDrag = HitTest(ptCurrent);
+    m_hitemDrop = NULL;
 
-	m_pDragImage = CreateDragImage(m_hitemDrag);
-	if( !m_pDragImage )
-		return;
-
-	m_bLDragging = TRUE;
-	m_pDragImage->BeginDrag(0, CPoint(-15,-15));
-	POINT pt = pNMTreeView->ptDrag;
-	ClientToScreen( &pt );
-	m_pDragImage->DragEnter(this, pt);
-	SetCapture();
+	ASSERT(m_pDragImgList == NULL);
+    if(m_pDragImgList == NULL)
+    {
+		m_pDragImgList = CreateDragImage(m_hitemDrag);  // get the image list for dragging
+		m_pDragImgList->DragShowNolock(TRUE);
+		m_pDragImgList->SetDragCursorImage(0, CPoint(0, 0));
+		m_pDragImgList->BeginDrag(0, CPoint(0,0));
+		m_pDragImgList->DragMove(ptCurrent);
+		m_pDragImgList->DragEnter(this, ptCurrent);
+    }
 }
 
 
 void CViewTree::OnMouseMove(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
-	HTREEITEM	hitem;
-	UINT		flags;
+	HTREEITEM hitem;
 
-	if (m_bLDragging)
+	if (m_bDragging)
 	{
-		POINT pt = point;
-		ClientToScreen( &pt );
-		CImageList::DragMove(pt);
-		if ((hitem = HitTest(point, &flags)) != NULL)
-		{
-			CImageList::DragShowNolock(FALSE);
-			SelectDropTarget(hitem);
-			m_hitemDrop = hitem;
-			CImageList::DragShowNolock(TRUE);
-		}
-	}
+
+        ASSERT(m_pDragImgList != NULL);
+        if(m_pDragImgList != NULL)
+        {
+            m_pDragImgList->DragMove(point);
+            if ((hitem = HitTest(point)) != NULL)
+            {
+                m_pDragImgList->DragLeave(this);
+                SelectDropTarget(hitem);
+                m_hitemDrop = hitem;
+                m_pDragImgList->DragEnter(this, point);
+            }
+        }
+
+
+    }
 
 	CTreeCtrl::OnMouseMove(nFlags, point);
 }
 
+
 void CViewTree::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
-	CTreeCtrl::OnLButtonUp(nFlags, point);
-
-	if (m_bLDragging)
+	CRect rectWnd;
+    GetWindowRect(rectWnd);    
+	
+    if (m_bDragging)
 	{
-		m_bLDragging = FALSE;
-		CImageList::DragLeave(this);
-		CImageList::EndDrag();
+		ASSERT(m_pDragImgList != NULL);
+		m_pDragImgList->DragLeave(this);
+		m_pDragImgList->EndDrag();
+		delete m_pDragImgList;
+		m_pDragImgList = NULL;
+
+        /* I did this to resolve situations in my control where there could be ambiguity in whether or not an item could become a child of another item.  
+		if (m_hitemDrag != m_hitemDrop && !IsChildNodeOf(m_hitemDrop, m_hitemDrag) &&
+															GetParentItem(m_hitemDrag) != m_hitemDrop)
+		{
+
+            CMenu PopupMenu;
+            PopupMenu.Detach();
+            PopupMenu.CreatePopupMenu();
+            PopupMenu.AppendMenu(MF_STRING, TVN_POPUP_MOVE_INTO , "Move Into");
+            PopupMenu.AppendMenu(MF_STRING, TVN_POPUP_MOVE_AFTER, "Move After");
+            PopupMenu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_LEFTBUTTON, point.x + rectWnd.left, point.y + rectWnd.top, this);
+			//TransferItem(m_hitemDrag, m_hitemDrop);
+			//DeleteItem(m_hitemDrag);
+		}
+		else*/
+        if(m_hitemDrag != m_hitemDrop && !IsChildNodeOf(m_hitemDrop, m_hitemDrag) &&
+															GetParentItem(m_hitemDrag) != m_hitemDrop)
+        {
+            MoveItem(m_hitemDrag, m_hitemDrop);
+        }
+        else
+			MessageBeep(0);
+
 		ReleaseCapture();
-
-		delete m_pDragImage;
-
-		// Remove drop target highlighting
+		m_bDragging = FALSE;
 		SelectDropTarget(NULL);
 
-		if( m_hitemDrag == m_hitemDrop )
-			return;
-
-		// If Drag item is an ancestor of Drop item then return
-		HTREEITEM htiParent = m_hitemDrop;
-		while( (htiParent = GetParentItem( htiParent )) != NULL )
-		{
-			if( htiParent == m_hitemDrag ) return;
-		}
-
-		Expand( m_hitemDrop, TVE_EXPAND ) ;
-
-		HTREEITEM htiNew = CopyBranch( m_hitemDrag, m_hitemDrop);
-		DeleteItem(m_hitemDrag);
-		SelectItem( htiNew );
 	}
+
+	CTreeCtrl::OnLButtonUp(nFlags, point);
+}
+
+BOOL CViewTree::IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedParent)
+{
+	do
+	{
+		if (hitemChild == hitemSuspectedParent)
+			break;
+	}
+	while ((hitemChild = GetParentItem(hitemChild)) != NULL);
+
+	return (hitemChild != NULL);
+}
+
+void CViewTree::MoveItem(HTREEITEM hitemToBeMoved, HTREEITEM hitemInsertAfter)
+{
+    TV_INSERTSTRUCT tvStruct;
+    TCHAR cBuffer[50];
+    HTREEITEM hNewItem;
+
+    tvStruct.item.hItem = hitemToBeMoved;
+    tvStruct.item.cchTextMax = 49;
+    tvStruct.item.pszText = cBuffer;
+    tvStruct.item.mask = TVIF_CHILDREN | TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_TEXT | TVIF_PARAM;
+    GetItem(&tvStruct.item);
+    tvStruct.hParent = GetParentItem(hitemInsertAfter);
+    tvStruct.hInsertAfter = hitemInsertAfter;
+    tvStruct.item.mask = TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_TEXT | TVIF_PARAM;
+
+    hNewItem = InsertItem(&tvStruct);
+    HTREEITEM hChild = GetChildItem(hitemToBeMoved);
+    while(hChild != NULL)
+    {
+        TransferItem(hChild, hNewItem);
+        DeleteItem(hChild);
+        hChild = GetChildItem(hitemToBeMoved);
+    }
+    DeleteItem(hitemToBeMoved);
+}
+
+BOOL CViewTree::TransferItem(HTREEITEM hitemDrag, HTREEITEM hitemDrop) //Used to transfer items to a new parent.
+{
+	TV_INSERTSTRUCT     tvstruct;
+	TCHAR               sztBuffer[50];
+	HTREEITEM           hNewItem, hFirstChild;
+
+		// avoid an infinite recursion situation
+	tvstruct.item.hItem = hitemDrag;
+	tvstruct.item.cchTextMax = 49;
+	tvstruct.item.pszText = sztBuffer;
+	tvstruct.item.mask = TVIF_CHILDREN | TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_TEXT | TVIF_PARAM;
+	GetItem(&tvstruct.item);  // get information of the dragged element
+	tvstruct.hParent = hitemDrop;
+	tvstruct.hInsertAfter = TVI_LAST;
+	tvstruct.item.mask = TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_TEXT | TVIF_PARAM;
+	hNewItem = InsertItem(&tvstruct);
+
+	while ((hFirstChild = GetChildItem(hitemDrag)) != NULL)
+	{
+		TransferItem(hFirstChild, hNewItem);  // recursively transfer all the items
+		DeleteItem(hFirstChild);        // delete the first child and all its children
+	}
+	return TRUE;
 }
