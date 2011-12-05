@@ -36,13 +36,6 @@ BEGIN_MESSAGE_MAP(CFileView, CDockablePane)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 	ON_WM_CONTEXTMENU()
-	ON_COMMAND(ID_PROPERTIES, OnProperties)
-	ON_COMMAND(ID_OPEN, OnFileOpen)
-	ON_COMMAND(ID_OPEN_WITH, OnFileOpenWith)
-	ON_COMMAND(ID_DUMMY_COMPILE, OnDummyCompile)
-	ON_COMMAND(ID_EDIT_CUT, OnEditCut)
-	ON_COMMAND(ID_EDIT_COPY, OnEditCopy)
-	ON_COMMAND(ID_EDIT_CLEAR, OnEditClear)
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
 END_MESSAGE_MAP()
@@ -121,11 +114,7 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 		pAttrib = pAttrib->Next();
 	}
 
-	if(CString(node->Value()) == "object")
-	{
-		result = new COpenGLNode();
-	}
-	else if(CString(node->Value()) == "translate")
+	if(CString(node->Value()) == "translate")
 	{
 		result = new CTranslate();
 		((CTranslate*)result)->SetData(CPoint3D(atof(x),atof(y),atof(z)));
@@ -140,12 +129,13 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 		result = new CScale();
 		((CScale*)result)->SetData(CPoint3D(atof(x),atof(y),atof(z)));
 	}
-	else if(CString(node->Value()) == "polygon")
+	else if(CString(node->Value()) == "line")
 	{
-		result = new CGeometric();
+		result = new CLine();
 	}
 	else if(CString(node->Value()) == "point")
 	{
+		result = new CPoint4D(CPoint3D(atof(x),atof(y),atof(z)));
 	}
 
 	return result;
@@ -158,21 +148,21 @@ void CFileView::FillFileView()
 	m_wndFileView.Expand(node,TVE_EXPAND);
 }
 
-void CFileView::FillView(TiXmlNode *root) {
+void CFileView::FillView(TiXmlNode *troot, COpenGLNode *oroot)
+{
 	m_wndFileView.DeleteAllItems();
 	m_wndFileView.myMap.RemoveAll();
 
 	TiXmlNode* pChild = NULL;
-	COpenGLNode *openGL = XmltoOpenGL(root);
 
-	HTREEITEM node = m_wndFileView.InsertItem(CString(root->Value()), 0, 0);
+	HTREEITEM node = m_wndFileView.InsertItem(CString(troot->Value()), 0, 0);
 	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
 	m_wndFileView.Expand(node,TVE_EXPAND);
 	
-	m_wndFileView.myMap.SetAt(node,openGL);
+	m_wndFileView.myMap.SetAt(node,oroot);
 
-	while (pChild = root->IterateChildren(pChild)) {
-		FillFile(pChild,1,node,openGL);
+	while (pChild = troot->IterateChildren(pChild)) {
+		FillFile(pChild,1,node,oroot);
 	}
 	AdjustLayout();
 }
@@ -195,7 +185,7 @@ void CFileView::FillFile(TiXmlNode *root, int level, HTREEITEM hparrent, COpenGL
 	data+=")";
 
 	HTREEITEM node = m_wndFileView.InsertItem(data, level, level, hparrent);
-	m_wndFileViewm.yMap.SetAt(node,openGL);
+	m_wndFileView.myMap.SetAt(node,openGL);
 
 	while (pChild = root->IterateChildren(pChild)) {
 		FillFile(pChild,level+1,node,openGL);
@@ -225,11 +215,14 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 		if (hTreeItem != NULL)
 		{
 			pWndTree->SelectItem(hTreeItem);
+			COpenGLNode *node;
+			if(m_wndFileView.myMap.Lookup(hTreeItem,node)) {
+			}
 		}
 	}
 
 	pWndTree->SetFocus();
-	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EXPLORER, point.x, point.y, this, TRUE);
+	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_OBJECT, point.x, point.y, this, TRUE);
 }
 
 void CFileView::AdjustLayout()
@@ -246,42 +239,6 @@ void CFileView::AdjustLayout()
 
 	m_wndToolBar.SetWindowPos(NULL, rectClient.left, rectClient.top, rectClient.Width(), cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
 	m_wndFileView.SetWindowPos(NULL, rectClient.left + 1, rectClient.top + cyTlb + 1, rectClient.Width() - 2, rectClient.Height() - cyTlb - 2, SWP_NOACTIVATE | SWP_NOZORDER);
-}
-
-void CFileView::OnProperties()
-{
-	AfxMessageBox(_T("Properties...."));
-
-}
-
-void CFileView::OnFileOpen()
-{
-	// TODO: Add your command handler code here
-}
-
-void CFileView::OnFileOpenWith()
-{
-	// TODO: Add your command handler code here
-}
-
-void CFileView::OnDummyCompile()
-{
-	// TODO: Add your command handler code here
-}
-
-void CFileView::OnEditCut()
-{
-	// TODO: Add your command handler code here
-}
-
-void CFileView::OnEditCopy()
-{
-	// TODO: Add your command handler code here
-}
-
-void CFileView::OnEditClear()
-{
-	// TODO: Add your command handler code here
 }
 
 void CFileView::OnPaint()

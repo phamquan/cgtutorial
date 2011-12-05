@@ -4,10 +4,10 @@ class CLine :
 	public CGeometric
 {
 public:
-	CLine(void);
+	CLine();
 	virtual ~CLine(void);
 
 protected:
-	virtual void BeginOpenGL();
+	void BeginOpenGL();
 };
 

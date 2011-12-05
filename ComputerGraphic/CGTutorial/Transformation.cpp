@@ -3,6 +3,8 @@
 
 CTransformation::CTransformation(void)
 {
+	lockAdd = false;
+	lockDelete = false;
 }
 
 CTransformation::~CTransformation(void)

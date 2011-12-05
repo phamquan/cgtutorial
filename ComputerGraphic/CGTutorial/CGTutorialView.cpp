@@ -258,13 +258,14 @@ void CCGTutorialView::OnPaint()
 
 	glColor3f(1.0f, 0.0f, 0.0f);
 
-	glBegin(GL_POLYGON);        
+	/*glBegin(GL_POLYGON);        
 		glVertex2f(- 0.5, - 0.5);        
 		glVertex2f(- 0.5,  0.5);        
 		glVertex2f(0.5,  0.5);        
 		glVertex2f(0.5, - 0.5);    
-	glEnd();
+	glEnd();*/
 
+	this->GetDocument()->root.PaintOpenGL();
 
 	glFlush();
 	SwapBuffers(dc.m_ps.hdc);

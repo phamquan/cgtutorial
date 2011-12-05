@@ -10,14 +10,16 @@ public:
 	virtual ~COpenGLNode(void);
 	void AddChild(COpenGLNode* child);
 	void ClearChild();
-	virtual void PaintOpenGL();
+	void PaintOpenGL();
 
 protected:
-	virtual void BeginOpenGL() {};
-	virtual void DoOpenGL() {};
-	virtual void EndOpenGL() {};
+	virtual void BeginOpenGL();
+	virtual void DoOpenGL();
+	virtual void EndOpenGL();
 
 protected:
+	BOOLEAN lockAdd;
+	BOOLEAN lockDelete;
 	COpenGLNode *parent;
 	CPtrArray m_listChild;
 };

@@ -162,7 +162,7 @@ BOOL CCGTutorialDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 
-	pMainFrame->m_wndFileView.FillView(data.object);
+	pMainFrame->m_wndFileView.FillView(data.object,&root);
 
 	return TRUE;
 }

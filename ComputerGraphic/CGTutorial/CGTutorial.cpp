@@ -207,9 +207,9 @@ void CCGTutorialApp::PreLoadState()
 	bNameValid = strName.LoadString(IDS_EDIT_MENU);
 	ASSERT(bNameValid);
 	GetContextMenuManager()->AddMenu(strName, IDR_POPUP_EDIT);
-	bNameValid = strName.LoadString(IDS_EXPLORER);
+	bNameValid = strName.LoadString(IDS_OBJECT);
 	ASSERT(bNameValid);
-	GetContextMenuManager()->AddMenu(strName, IDR_POPUP_EXPLORER);
+	GetContextMenuManager()->AddMenu(strName, IDR_OBJECT);
 }
 
 void CCGTutorialApp::LoadCustomState()
