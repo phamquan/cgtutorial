@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<watermelon program='Computer Graphic Tutorial'>
+
+<environment>
+	<camera xpos=3 ypos=4 zpos=5 xlook=0 ylook=0 zlook=0 xup=0 yup=1 zup=0 />
+	
+	<projection type='ortho' left=-5 right=5 bottom=-3 top=3 near=5 far=100 />
+	
+	<lightsource xpos=0 ypos=0 zpos=0, 
+				rambient=1 gambient=1, bambient=0.5, 
+				rspecular=0.5 gspecular=0.5 bspecular=0.5, 
+				rdiffuse=0.25 gdiffuse=0.25 bdiffuse=0.5 />
+</environment>
+
+
+<object>
+	<line>
+		<point x=0 y=0 z=0 />
+		<point x=3 y=0 z=0 />
+	</line>
+</object>
+
+</watermelon>
