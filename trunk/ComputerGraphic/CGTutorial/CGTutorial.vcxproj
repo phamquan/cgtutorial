@@ -143,6 +143,7 @@
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="OpenGLNode.h" />
     <ClInclude Include="OutputWnd.h" />
+    <ClInclude Include="Point4D.h" />
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Resource.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OpenGLNode.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
+    <ClCompile Include="Point4D.cpp" />
     <ClCompile Include="PropertiesWnd.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Rotate.cpp" />

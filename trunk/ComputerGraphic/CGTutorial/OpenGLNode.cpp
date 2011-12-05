@@ -3,6 +3,8 @@
 
 COpenGLNode::COpenGLNode()
 {
+	lockAdd = false;
+	lockDelete = true;
 	ClearChild();
 }
 
@@ -34,4 +36,16 @@ void COpenGLNode::PaintOpenGL()
 	}
 
 	EndOpenGL();
+}
+
+void COpenGLNode::BeginOpenGL()
+{
+}
+
+void COpenGLNode::DoOpenGL()
+{
+}
+
+void COpenGLNode::EndOpenGL()
+{
 }
