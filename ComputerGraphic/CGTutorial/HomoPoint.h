@@ -47,6 +47,7 @@ public:
 	CPoint3D();
 	CPoint3D(const CPoint3D& aPoint);
 	CPoint3D(float x, float y, float z);
+	CPoint3D(float x, float y, float z, float w);
 	CPoint3D(float* xyzw);
 	CPoint3D(CVector3D aVect3D);
 	~CPoint3D(void);

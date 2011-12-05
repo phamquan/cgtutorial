@@ -12,7 +12,6 @@ public:
 	void ClearPoint();
 
 protected:
-	virtual void BeginOpenGL() = 0;
 	virtual void DoOpenGL();
 	virtual void EndOpenGL();
 

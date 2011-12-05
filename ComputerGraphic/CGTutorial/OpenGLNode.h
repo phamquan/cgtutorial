@@ -6,16 +6,16 @@
 class COpenGLNode
 {
 public:
-	COpenGLNode(COpenGLNode *parrent = NULL);
+	COpenGLNode();
 	virtual ~COpenGLNode(void);
 	void AddChild(COpenGLNode* child);
 	void ClearChild();
 	virtual void PaintOpenGL();
 
 protected:
-	virtual void BeginOpenGL() = 0;
-	virtual void DoOpenGL() = 0;
-	virtual void EndOpenGL() = 0;
+	virtual void BeginOpenGL() {};
+	virtual void DoOpenGL() {};
+	virtual void EndOpenGL() {};
 
 protected:
 	COpenGLNode *parent;

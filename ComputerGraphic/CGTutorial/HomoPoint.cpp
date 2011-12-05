@@ -86,6 +86,8 @@ CPoint3D::CPoint3D(const CPoint3D& aPoint): CHomoPoint(aPoint){
 }
 CPoint3D::CPoint3D(float x, float y, float z): CHomoPoint(x, y, z, 1.0f){
 }
+CPoint3D::CPoint3D(float x, float y, float z, float w): CHomoPoint(x, y, z, w){
+}
 CPoint3D::CPoint3D(float* xyzw): CHomoPoint(xyzw){
 };
 CPoint3D::CPoint3D(CVector3D aVect3D){
