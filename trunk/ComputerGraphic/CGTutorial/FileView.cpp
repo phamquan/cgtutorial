@@ -98,19 +98,57 @@ void CFileView::OnSize(UINT nType, int cx, int cy)
 	AdjustLayout();
 }
 
-void CFileView::FillView(TiXmlNode *root) {
-	m_wndFileView.DeleteAllItems();
+COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
+{
+	if(node == NULL)
+		return NULL;
 
+	COpenGLNode *result = NULL;
 	TiXmlNode* pChild = NULL;
+	CMap<char*,char*,char*,char*> attribute;
+	const char *x,*y,*z,*alpha;
 
-	HTREEITEM node = m_wndFileView.InsertItem(CString(root->Value()), 0, 0);
-	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
-	m_wndFileView.Expand(node,TVE_EXPAND);
-
-	while (pChild = root->IterateChildren(pChild)) {
-		FillFile(pChild,1,node);
+	TiXmlAttribute* pAttrib=node->ToElement()->FirstAttribute();
+	while(pAttrib) {
+		if(CString(pAttrib->Name()) == "x")
+			x = pAttrib->Value();
+		else if(CString(pAttrib->Name()) == "y")
+			y = pAttrib->Value();
+		else if(CString(pAttrib->Name()) == "z")
+			z = pAttrib->Value();
+		else if(CString(pAttrib->Name()) == "alpha")
+			alpha = pAttrib->Value();
+		pAttrib = pAttrib->Next();
 	}
-	AdjustLayout();
+
+	if(CString(node->Value()) == "object")
+	{
+		result = new COpenGLNode();
+	}
+	else if(CString(node->Value()) == "translate")
+	{
+		result = new CTranslate();
+		((CTranslate*)result)->SetData(CPoint3D(atof(x),atof(y),atof(z)));
+	}
+	else if(CString(node->Value()) == "rotate")
+	{
+		result = new CRotate();
+		((CRotate*)result)->SetData(CPoint3D(atof(x),atof(y),atof(z),atof(alpha)));
+	}
+	else if(CString(node->Value()) == "scale")
+	{
+		result = new CScale();
+		((CScale*)result)->SetData(CPoint3D(atof(x),atof(y),atof(z)));
+	}
+	else if(CString(node->Value()) == "polygon")
+	{
+		result = new CGeometric();
+	}
+	else if(CString(node->Value()) == "point")
+	{
+	}
+
+	return result;
 }
 
 void CFileView::FillFileView()
@@ -120,8 +158,29 @@ void CFileView::FillFileView()
 	m_wndFileView.Expand(node,TVE_EXPAND);
 }
 
-void CFileView::FillFile(TiXmlNode *root, int level, HTREEITEM parrent) {
+void CFileView::FillView(TiXmlNode *root) {
+	m_wndFileView.DeleteAllItems();
+	m_wndFileView.myMap.RemoveAll();
+
 	TiXmlNode* pChild = NULL;
+	COpenGLNode *openGL = XmltoOpenGL(root);
+
+	HTREEITEM node = m_wndFileView.InsertItem(CString(root->Value()), 0, 0);
+	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
+	m_wndFileView.Expand(node,TVE_EXPAND);
+	
+	m_wndFileView.myMap.SetAt(node,openGL);
+
+	while (pChild = root->IterateChildren(pChild)) {
+		FillFile(pChild,1,node,openGL);
+	}
+	AdjustLayout();
+}
+
+void CFileView::FillFile(TiXmlNode *root, int level, HTREEITEM hparrent, COpenGLNode *oparrent) {
+	TiXmlNode* pChild = NULL;
+	COpenGLNode *openGL = XmltoOpenGL(root);
+	oparrent->AddChild(openGL);
 
 	CString data = CString(root->Value()) + " (";
 	TiXmlAttribute* pAttrib=root->ToElement()->FirstAttribute();
@@ -135,10 +194,11 @@ void CFileView::FillFile(TiXmlNode *root, int level, HTREEITEM parrent) {
 	}
 	data+=")";
 
-	HTREEITEM node = m_wndFileView.InsertItem(data, level, level, parrent);
-	
+	HTREEITEM node = m_wndFileView.InsertItem(data, level, level, hparrent);
+	m_wndFileViewm.yMap.SetAt(node,openGL);
+
 	while (pChild = root->IterateChildren(pChild)) {
-		FillFile(pChild,level+1,node);
+		FillFile(pChild,level+1,node,openGL);
 	}
 	m_wndFileView.Expand(node,TVE_EXPAND);
 }

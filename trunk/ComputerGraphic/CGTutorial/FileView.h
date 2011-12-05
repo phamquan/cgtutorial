@@ -13,6 +13,10 @@
 
 #include "ViewTree.h"
 #include "../qtml/tinyxml.h"
+#include "Translate.h"
+#include "Rotate.h"
+#include "Scale.h"
+#include "Line.h"
 
 class CFileViewToolBar : public CMFCToolBar
 {
@@ -43,7 +47,8 @@ protected:
 
 protected:
 	void FillFileView();
-	void FillFile(TiXmlNode *root, int level, HTREEITEM parrent);
+	void FillFile(TiXmlNode *root, int level, HTREEITEM hparrent, COpenGLNode *oparrent);
+	COpenGLNode *XmltoOpenGL(TiXmlNode *node);
 
 // Implementation
 public:

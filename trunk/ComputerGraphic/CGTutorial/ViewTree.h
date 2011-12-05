@@ -10,6 +10,7 @@
 // All rights reserved.
 
 #pragma once
+#include "OpenGLNode.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CViewTree window
@@ -19,6 +20,7 @@ class CViewTree : public CTreeCtrl
 // Construction
 public:
 	CViewTree();
+	CMap<HTREEITEM,HTREEITEM,COpenGLNode*,COpenGLNode*> myMap;
 
 // Overrides
 protected:
@@ -31,6 +33,7 @@ protected:
 	BOOL IsChildNodeOf(HTREEITEM hitemChild, HTREEITEM hitemSuspectedParent);
 	void MoveItem(HTREEITEM hitemToBeMoved, HTREEITEM hitemInsertAfter);
 	BOOL TransferItem(HTREEITEM hitemDrag, HTREEITEM hitemDrop);
+	CImageList* CreateDragImageEx(HTREEITEM hItem);
 // Implementation
 public:
 	virtual ~CViewTree();

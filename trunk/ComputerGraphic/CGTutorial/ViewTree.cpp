@@ -69,42 +69,29 @@ void CViewTree::OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
     m_hitemDrag = HitTest(ptCurrent);
     m_hitemDrop = NULL;
 
-	ASSERT(m_pDragImgList == NULL);
-    if(m_pDragImgList == NULL)
-    {
-		m_pDragImgList = CreateDragImage(m_hitemDrag);  // get the image list for dragging
-		m_pDragImgList->DragShowNolock(TRUE);
-		m_pDragImgList->SetDragCursorImage(0, CPoint(0, 0));
-		m_pDragImgList->BeginDrag(0, CPoint(0,0));
-		m_pDragImgList->DragMove(ptCurrent);
-		m_pDragImgList->DragEnter(this, ptCurrent);
-    }
+    m_pDragImgList = CreateDragImageEx(m_hitemDrag);
+	m_pDragImgList->DragShowNolock(TRUE);
+	m_pDragImgList->SetDragCursorImage(0, CPoint(0, 0));
+	m_pDragImgList->BeginDrag(0, CPoint(0,0));
+	m_pDragImgList->DragEnter(this, ptCurrent);
 }
 
 
 void CViewTree::OnMouseMove(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
-	HTREEITEM hitem;
-
 	if (m_bDragging)
 	{
-
-        ASSERT(m_pDragImgList != NULL);
-        if(m_pDragImgList != NULL)
-        {
-            m_pDragImgList->DragMove(point);
-            if ((hitem = HitTest(point)) != NULL)
-            {
-                m_pDragImgList->DragLeave(this);
-                SelectDropTarget(hitem);
-                m_hitemDrop = hitem;
-                m_pDragImgList->DragEnter(this, point);
-            }
-        }
-
-
-    }
+		HTREEITEM hitem;
+		m_pDragImgList->DragMove(point);
+		if ((hitem = HitTest(point)) != NULL)
+		{
+			m_pDragImgList->DragLeave(this);
+			SelectDropTarget(hitem);
+			m_hitemDrop = hitem;
+			m_pDragImgList->DragEnter(this, point);
+		}
+	}
 
 	CTreeCtrl::OnMouseMove(nFlags, point);
 }
@@ -217,4 +204,43 @@ BOOL CViewTree::TransferItem(HTREEITEM hitemDrag, HTREEITEM hitemDrop) //Used to
 		DeleteItem(hFirstChild);        // delete the first child and all its children
 	}
 	return TRUE;
+}
+
+CImageList* CViewTree::CreateDragImageEx(HTREEITEM hItem)
+{
+	if(GetImageList(TVSIL_NORMAL) != NULL)
+		return CreateDragImage(hItem);
+
+	CRect rect;
+	GetItemRect(hItem, rect, TRUE);
+	rect.top = rect.left = 0;
+
+	// Create bitmap
+	CClientDC	dc (this);
+	CDC 		memDC;	
+
+	if(!memDC.CreateCompatibleDC(&dc))
+		return NULL;
+
+	CBitmap bitmap;
+	if(!bitmap.CreateCompatibleBitmap(&dc, rect.Width(), rect.Height()))
+		return NULL;
+
+	CBitmap* pOldMemDCBitmap = memDC.SelectObject( &bitmap );
+	CFont* pOldFont = memDC.SelectObject(GetFont());
+
+	memDC.FillSolidRect(&rect, RGB(0, 255, 0)); // Here green is used as mask color
+	memDC.SetTextColor(GetSysColor(COLOR_GRAYTEXT));
+	memDC.TextOut(rect.left, rect.top, GetItemText(hItem));
+
+	memDC.SelectObject( pOldFont );
+	memDC.SelectObject( pOldMemDCBitmap );
+
+	// Create imagelist
+	CImageList* pImageList = new CImageList;
+	pImageList->Create(rect.Width(), rect.Height(), 
+	 ILC_COLOR | ILC_MASK, 0, 1);
+	pImageList->Add(&bitmap, RGB(0, 255, 0)); // Here green is used as mask color
+
+	return pImageList;
 }
