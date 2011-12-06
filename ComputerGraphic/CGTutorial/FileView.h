@@ -17,6 +17,7 @@
 #include "Rotate.h"
 #include "Scale.h"
 #include "Line.h"
+#include "Rectangle.h"
 #include "Point4D.h"
 
 class CFileViewToolBar : public CMFCToolBar
@@ -38,6 +39,7 @@ public:
 	void AdjustLayout();
 	void OnChangeVisualStyle();
 	void FillView(TiXmlNode *troot, COpenGLNode *oroot);
+	void FillView(COpenGLNode *oroot);
 
 // Attributes
 protected:
@@ -46,10 +48,15 @@ protected:
 	CFileViewToolBar m_wndToolBar;
 
 protected:
-	void FillFileView();
-	void FillFile(TiXmlNode *root, int level, HTREEITEM hparrent, COpenGLNode *oparrent);
+	void FillFile(TiXmlNode *root, HTREEITEM hparrent, COpenGLNode *oparrent);
 	COpenGLNode *XmltoOpenGL(TiXmlNode *node);
+	void AddNode(COpenGLNode *newNode);
 
+	HTREEITEM hTreeItem;
+	COpenGLNode *node;
+
+	BOOLEAN lockAdd;
+	BOOLEAN lockDelete;
 // Implementation
 public:
 	virtual ~CFileView();
@@ -62,5 +69,9 @@ protected:
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnAddLine();
+	afx_msg void OnAddRectangle();
+	afx_msg void OnObjectDelete();
 };
 

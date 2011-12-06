@@ -5,7 +5,7 @@ class CGeometric :
 	public COpenGLNode
 {
 public:
-	CGeometric(void);
+	CGeometric(int maxChild, BOOLEAN lockDelete);
 	virtual ~CGeometric(void);
 
 protected:

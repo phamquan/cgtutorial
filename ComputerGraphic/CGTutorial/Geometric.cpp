@@ -1,14 +1,11 @@
 #include "StdAfx.h"
 #include "Geometric.h"
 
-
-CGeometric::CGeometric(void)
+CGeometric::CGeometric(int maxChild, BOOLEAN lockDelete) : COpenGLNode(maxChild,lockDelete)
 {
-	lockAdd = true;
-	lockDelete = true;
 }
 
-CGeometric::~CGeometric(void)
+CGeometric::~CGeometric()
 {
 }
 

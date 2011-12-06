@@ -6,11 +6,20 @@
 class COpenGLNode
 {
 public:
-	COpenGLNode();
+	COpenGLNode(int maxChild, BOOLEAN lockDelete);
 	virtual ~COpenGLNode(void);
+	COpenGLNode* GetParent();
+	CPtrArray *GetChilds();
+
 	void AddChild(COpenGLNode* child);
+	void RemoveChild(COpenGLNode* child);
 	void ClearChild();
 	void PaintOpenGL();
+
+	virtual CString ToString();
+
+	int GetMaxChild();
+	BOOLEAN IsLockDelete();
 
 protected:
 	virtual void BeginOpenGL();
@@ -18,9 +27,10 @@ protected:
 	virtual void EndOpenGL();
 
 protected:
-	BOOLEAN lockAdd;
 	BOOLEAN lockDelete;
 	COpenGLNode *parent;
 	CPtrArray m_listChild;
+	CString name;
+	int maxChild;
 };
 

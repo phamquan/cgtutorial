@@ -26,6 +26,8 @@ static char THIS_FILE[]=__FILE__;
 
 CFileView::CFileView()
 {
+	lockAdd = false;
+	lockDelete = false;
 }
 
 CFileView::~CFileView()
@@ -38,6 +40,9 @@ BEGIN_MESSAGE_MAP(CFileView, CDockablePane)
 	ON_WM_CONTEXTMENU()
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
+	ON_COMMAND(ID_ADD_LINE, &CFileView::OnAddLine)
+	ON_COMMAND(ID_ADD_RECTANGLE, &CFileView::OnAddRectangle)
+	ON_COMMAND(ID_OBJECT_DELETE, &CFileView::OnObjectDelete)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -79,7 +84,6 @@ int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.SetRouteCommandsViaFrame(FALSE);
 
 	// Fill in some static tree view data (dummy code, nothing magic here)
-	FillFileView();
 	AdjustLayout();
 
 	return 0;
@@ -133,6 +137,10 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 	{
 		result = new CLine();
 	}
+	else if(CString(node->Value()) == "rectangle")
+	{
+		result = new CRectangle();
+	}
 	else if(CString(node->Value()) == "point")
 	{
 		result = new CPoint4D(CPoint3D(atof(x),atof(y),atof(z)));
@@ -141,33 +149,36 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 	return result;
 }
 
-void CFileView::FillFileView()
-{
-	HTREEITEM node = m_wndFileView.InsertItem(CString("object"), 0, 0);
-	m_wndFileView.SetItemState(node, TVIS_BOLD, TVIS_BOLD);
-	m_wndFileView.Expand(node,TVE_EXPAND);
-}
-
 void CFileView::FillView(TiXmlNode *troot, COpenGLNode *oroot)
 {
 	m_wndFileView.DeleteAllItems();
 	m_wndFileView.myMap.RemoveAll();
 
-	TiXmlNode* pChild = NULL;
-
 	HTREEITEM node = m_wndFileView.InsertItem(CString(troot->Value()), 0, 0);
 	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
-	m_wndFileView.Expand(node,TVE_EXPAND);
 	
 	m_wndFileView.myMap.SetAt(node,oroot);
 
+	TiXmlNode* pChild = NULL;
 	while (pChild = troot->IterateChildren(pChild)) {
-		FillFile(pChild,1,node,oroot);
+		FillFile(pChild,node,oroot);
 	}
 	AdjustLayout();
 }
 
-void CFileView::FillFile(TiXmlNode *root, int level, HTREEITEM hparrent, COpenGLNode *oparrent) {
+void CFileView::FillView(COpenGLNode *oroot)
+{
+	m_wndFileView.DeleteAllItems();
+	m_wndFileView.myMap.RemoveAll();
+
+	HTREEITEM node = m_wndFileView.InsertItem(CString("object"), 0, 0);
+	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
+	
+	m_wndFileView.myMap.SetAt(node,oroot);
+	AdjustLayout();
+}
+
+void CFileView::FillFile(TiXmlNode *root, HTREEITEM hparrent, COpenGLNode *oparrent) {
 	TiXmlNode* pChild = NULL;
 	COpenGLNode *openGL = XmltoOpenGL(root);
 	oparrent->AddChild(openGL);
@@ -184,45 +195,12 @@ void CFileView::FillFile(TiXmlNode *root, int level, HTREEITEM hparrent, COpenGL
 	}
 	data+=")";
 
-	HTREEITEM node = m_wndFileView.InsertItem(data, level, level, hparrent);
+	HTREEITEM node = m_wndFileView.InsertItem(data, 0, 0, hparrent);
 	m_wndFileView.myMap.SetAt(node,openGL);
 
 	while (pChild = root->IterateChildren(pChild)) {
-		FillFile(pChild,level+1,node,openGL);
+		FillFile(pChild,node,openGL);
 	}
-	m_wndFileView.Expand(node,TVE_EXPAND);
-}
-
-void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
-{
-	CTreeCtrl* pWndTree = (CTreeCtrl*) &m_wndFileView;
-	ASSERT_VALID(pWndTree);
-
-	if (pWnd != pWndTree)
-	{
-		CDockablePane::OnContextMenu(pWnd, point);
-		return;
-	}
-
-	if (point != CPoint(-1, -1))
-	{
-		// Select clicked item:
-		CPoint ptTree = point;
-		pWndTree->ScreenToClient(&ptTree);
-
-		UINT flags = 0;
-		HTREEITEM hTreeItem = pWndTree->HitTest(ptTree, &flags);
-		if (hTreeItem != NULL)
-		{
-			pWndTree->SelectItem(hTreeItem);
-			COpenGLNode *node;
-			if(m_wndFileView.myMap.Lookup(hTreeItem,node)) {
-			}
-		}
-	}
-
-	pWndTree->SetFocus();
-	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_OBJECT, point.x, point.y, this, TRUE);
 }
 
 void CFileView::AdjustLayout()
@@ -290,4 +268,80 @@ void CFileView::OnChangeVisualStyle()
 	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
 }
 
+void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
+{
+	CTreeCtrl* pWndTree = (CTreeCtrl*) &m_wndFileView;
+	ASSERT_VALID(pWndTree);
 
+	if (pWnd != pWndTree)
+	{
+		CDockablePane::OnContextMenu(pWnd, point);
+		return;
+	}
+
+	if (point != CPoint(-1, -1))
+	{
+		// Select clicked item:
+		CPoint ptTree = point;
+		pWndTree->ScreenToClient(&ptTree);
+
+		UINT flags = 0;
+		hTreeItem = pWndTree->HitTest(ptTree, &flags);
+		if (hTreeItem != NULL)
+		{
+			pWndTree->SelectItem(hTreeItem);
+			if(m_wndFileView.myMap.Lookup(hTreeItem,node)) {
+				lockAdd = node->IsLockAdd();
+				lockDelete = node->IsLockDelete();
+			}
+			theApp.GetContextMenuManager()->ShowPopupMenu(IDR_OBJECT, point.x, point.y, this, TRUE);
+		}
+	}
+
+	pWndTree->SetFocus();
+}
+
+void CFileView::OnObjectDelete()
+{
+	// TODO: Add your command handler code here
+	if(lockDelete)
+		return;
+
+	node->GetParent()->RemoveChild(node);
+	m_wndFileView.DeleteItem(hTreeItem);
+
+	((CMainFrame*)AfxGetMainWnd())->GetActiveView()->Invalidate();
+}
+
+void CFileView::AddNode(COpenGLNode *newNode)
+{
+	node->AddChild(newNode);
+	HTREEITEM node = m_wndFileView.InsertItem(newNode->ToString(), 0, 0, hTreeItem);
+	m_wndFileView.myMap.SetAt(node,newNode);
+
+	for(int i=0; i<newNode->GetChilds()->GetSize(); i++)
+	{
+		COpenGLNode *ochild = (COpenGLNode*)newNode->GetChilds()->GetAt(i);
+		HTREEITEM hchild = m_wndFileView.InsertItem(ochild->ToString(), 0, 0, node);
+		m_wndFileView.myMap.SetAt(hchild,ochild);
+	}
+	((CMainFrame*)AfxGetMainWnd())->GetActiveView()->Invalidate();
+}
+
+void CFileView::OnAddLine()
+{
+	// TODO: Add your command handler code here
+	if(lockAdd)
+		return;
+
+	AddNode(new CLine(CPoint3D(0,0,0),CPoint3D(0,1,0)));
+}
+
+void CFileView::OnAddRectangle()
+{
+	// TODO: Add your command handler code here
+	if(lockAdd)
+		return;
+
+	AddNode(new CRectangle(CPoint3D(0,0,0),CPoint3D(0,1,0)));
+}

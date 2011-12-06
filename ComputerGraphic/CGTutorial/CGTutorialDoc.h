@@ -23,7 +23,7 @@ protected: // create from serialization only
 	CCGTutorialDoc();
 	DECLARE_DYNCREATE(CCGTutorialDoc)
 	qtmlManager data;
-	COpenGLNode root;
+	COpenGLNode *root;
 // Attributes
 public:
 
