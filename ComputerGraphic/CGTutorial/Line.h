@@ -6,7 +6,7 @@ class CLine :
 	public CGeometric
 {
 public:
-	CLine(CPoint3D begin, CPoint3D end);
+	CLine();
 	virtual ~CLine(void);
 
 protected:

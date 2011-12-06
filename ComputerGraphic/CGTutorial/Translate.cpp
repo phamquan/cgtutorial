@@ -1,11 +1,12 @@
 #include "StdAfx.h"
 #include "Translate.h"
 
-CTranslate::CTranslate(void)
+CTranslate::CTranslate()
 {
+	name = "translate";
 }
 
-CTranslate::~CTranslate(void)
+CTranslate::~CTranslate()
 {
 }
 

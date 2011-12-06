@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Point4D.h"
 
-CPoint4D::CPoint4D(CPoint3D data)
+CPoint4D::CPoint4D(CPoint3D data) : CGeometric(0,false)
 {
 	this->data = data;
 	name = "point";
@@ -17,7 +17,7 @@ CString CPoint4D::ToString()
 
 	char buff[1024];
 
-	sprintf(buff,"x=%f, y=%f, z=%d",data.getX(),data.getY(),data.getZ());
+	sprintf(buff,"x=%f, y=%f, z=%f",data.getX(),data.getY(),data.getZ());
 
 	return result + CString(buff) + ")";
 }

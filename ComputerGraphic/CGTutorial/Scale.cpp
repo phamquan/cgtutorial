@@ -1,12 +1,12 @@
 #include "StdAfx.h"
 #include "Scale.h"
 
-
-CScale::CScale(void)
+CScale::CScale()
 {
+	name = "scale";
 }
 
-CScale::~CScale(void)
+CScale::~CScale()
 {
 }
 

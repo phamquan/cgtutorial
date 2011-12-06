@@ -6,6 +6,7 @@ class CRotate :
 public:
 	CRotate(void);
 	virtual ~CRotate(void);
+	CString ToString();
 
 protected:
 	virtual void DoOpenGL();

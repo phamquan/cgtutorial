@@ -8,6 +8,7 @@ public:
 	CTransformation();
 	virtual ~CTransformation();
 	void SetData(CPoint3D src);
+	CString ToString();
 
 protected:
 	virtual void BeginOpenGL();
