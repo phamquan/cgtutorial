@@ -40,9 +40,10 @@ BEGIN_MESSAGE_MAP(CFileView, CDockablePane)
 	ON_WM_CONTEXTMENU()
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
-	ON_COMMAND(ID_ADD_LINE, &CFileView::OnAddLine)
-	ON_COMMAND(ID_ADD_RECTANGLE, &CFileView::OnAddRectangle)
+	ON_COMMAND(ID_ADDOBJECT_LINE, &CFileView::OnAddLine)
+	ON_COMMAND(ID_ADDOBJECT_RECTANGLE, &CFileView::OnAddRectangle)
 	ON_COMMAND(ID_OBJECT_DELETE, &CFileView::OnObjectDelete)
+	ON_COMMAND(ID_ADDOBJECT_POINT, &CFileView::OnAddobjectPoint)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -318,14 +319,16 @@ void CFileView::AddNode(COpenGLNode *newNode)
 	node->AddChild(newNode);
 	HTREEITEM node = m_wndFileView.InsertItem(newNode->ToString(), 0, 0, hTreeItem);
 	m_wndFileView.myMap.SetAt(node,newNode);
-
-	for(int i=0; i<newNode->GetChilds()->GetSize(); i++)
-	{
-		COpenGLNode *ochild = (COpenGLNode*)newNode->GetChilds()->GetAt(i);
-		HTREEITEM hchild = m_wndFileView.InsertItem(ochild->ToString(), 0, 0, node);
-		m_wndFileView.myMap.SetAt(hchild,ochild);
-	}
 	((CMainFrame*)AfxGetMainWnd())->GetActiveView()->Invalidate();
+}
+
+void CFileView::OnAddobjectPoint()
+{
+	// TODO: Add your command handler code here
+	if(lockAdd)
+		return;
+
+	AddNode(new CPoint4D());
 }
 
 void CFileView::OnAddLine()
@@ -334,7 +337,7 @@ void CFileView::OnAddLine()
 	if(lockAdd)
 		return;
 
-	AddNode(new CLine(CPoint3D(0,0,0),CPoint3D(0,1,0)));
+	AddNode(new CLine());
 }
 
 void CFileView::OnAddRectangle()
@@ -343,5 +346,6 @@ void CFileView::OnAddRectangle()
 	if(lockAdd)
 		return;
 
-	AddNode(new CRectangle(CPoint3D(0,0,0),CPoint3D(0,1,0)));
+	AddNode(new CRectangle());
 }
+

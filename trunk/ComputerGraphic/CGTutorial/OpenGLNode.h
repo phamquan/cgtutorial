@@ -18,7 +18,8 @@ public:
 
 	virtual CString ToString();
 
-	int GetMaxChild();
+	//int GetMaxChild();
+	BOOLEAN IsLockAdd();
 	BOOLEAN IsLockDelete();
 
 protected:

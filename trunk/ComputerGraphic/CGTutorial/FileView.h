@@ -73,5 +73,6 @@ public:
 	afx_msg void OnAddLine();
 	afx_msg void OnAddRectangle();
 	afx_msg void OnObjectDelete();
+	afx_msg void OnAddobjectPoint();
 };
 

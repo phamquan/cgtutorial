@@ -66,9 +66,9 @@ CString COpenGLNode::ToString()
 	return name + "()";
 }
 
-int COpenGLNode::GetMaxChild()
+BOOLEAN COpenGLNode::IsLockAdd()
 {
-	return maxChild;
+	return maxChild!=-1 && m_listChild.GetSize() >= maxChild;
 }
 
 BOOLEAN COpenGLNode::IsLockDelete()
