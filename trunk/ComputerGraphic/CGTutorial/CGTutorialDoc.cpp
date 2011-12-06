@@ -40,11 +40,12 @@ END_MESSAGE_MAP()
 CCGTutorialDoc::CCGTutorialDoc()
 {
 	// TODO: add one-time construction code here
-
+	root = new COpenGLNode(false,true);
 }
 
 CCGTutorialDoc::~CCGTutorialDoc()
 {
+	delete root;
 }
 
 BOOL CCGTutorialDoc::OnNewDocument()
@@ -54,12 +55,13 @@ BOOL CCGTutorialDoc::OnNewDocument()
 
 	// TODO: add reinitialization code here
 	// (SDI documents will reuse this document)
+	root->ClearChild();
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+
+	pMainFrame->m_wndFileView.FillView(root);
 
 	return TRUE;
 }
-
-
-
 
 // CCGTutorialDoc serialization
 
@@ -160,9 +162,10 @@ BOOL CCGTutorialDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	if(!data.Load(buf))
 		return FALSE;
 
+	root->ClearChild();
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 
-	pMainFrame->m_wndFileView.FillView(data.object,&root);
+	pMainFrame->m_wndFileView.FillView(data.object,root);
 
 	return TRUE;
 }

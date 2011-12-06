@@ -6,6 +6,7 @@ class CPoint4D :
 public:
 	CPoint4D(CPoint3D data);
 	virtual ~CPoint4D(void);
+	CString ToString();
 
 protected:
 	void DoOpenGL();

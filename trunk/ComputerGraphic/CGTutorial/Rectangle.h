@@ -5,6 +5,7 @@ class CRectangle :
 {
 public:
 	CRectangle(void);
+	CRectangle(CPoint3D begin, CPoint3D end);
 	virtual ~CRectangle(void);
 
 protected:

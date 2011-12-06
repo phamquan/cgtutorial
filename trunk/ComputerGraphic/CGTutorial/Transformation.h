@@ -5,8 +5,8 @@ class CTransformation :
 	public COpenGLNode
 {
 public:
-	CTransformation(void);
-	virtual ~CTransformation(void);
+	CTransformation();
+	virtual ~CTransformation();
 	void SetData(CPoint3D src);
 
 protected:

@@ -12,5 +12,5 @@ CRotate::~CRotate(void)
 
 void CRotate::DoOpenGL()
 {
-	glScalef(data.getX(),data.getY(),data.getZ());
+	glRotatef(data.getW(),data.getX(),data.getY(),data.getZ());
 }

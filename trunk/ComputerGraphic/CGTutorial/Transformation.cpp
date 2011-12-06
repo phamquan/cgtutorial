@@ -1,13 +1,11 @@
 #include "StdAfx.h"
 #include "Transformation.h"
 
-CTransformation::CTransformation(void)
+CTransformation::CTransformation() : COpenGLNode(-1,false)
 {
-	lockAdd = false;
-	lockDelete = false;
 }
 
-CTransformation::~CTransformation(void)
+CTransformation::~CTransformation()
 {
 }
 
