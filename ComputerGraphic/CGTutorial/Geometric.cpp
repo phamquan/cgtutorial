@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Geometric.h"
 
-CGeometric::CGeometric()
+CGeometric::CGeometric(char* label, int ID) : COpenGLNode(label,ID)
 {
 }
 

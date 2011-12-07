@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Transformation.h"
 
-CTransformation::CTransformation()
+CTransformation::CTransformation(char* label, int ID) : COpenGLNode(label,ID)
 {
 }
 
@@ -16,7 +16,7 @@ void CTransformation::SetData(CPoint3D src)
 
 CString CTransformation::ToString()
 {
-	CString result = name + " (";
+	CString result = label + " (";
 
 	char buff[1024];
 

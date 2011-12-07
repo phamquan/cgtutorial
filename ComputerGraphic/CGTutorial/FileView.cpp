@@ -165,7 +165,7 @@ void CFileView::FillView(TiXmlNode *troot, COpenGLNode *oroot)
 	AdjustLayout();
 }
 
-void CFileView::FillView(COpenGLNode *oroot)
+void CFileView::FillView(COpenGLNode *object, COpenGLNode* environment)
 {
 	m_wndFileView.DeleteAllItems();
 	m_wndFileView.myMap.RemoveAll();
@@ -173,7 +173,20 @@ void CFileView::FillView(COpenGLNode *oroot)
 	HTREEITEM node = m_wndFileView.InsertItem(CString("object"), 0, 0);
 	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
 	
-	m_wndFileView.myMap.SetAt(node,oroot);
+	m_wndFileView.myMap.SetAt(node,object);
+
+	node = m_wndFileView.InsertItem(CString("environment"), 0, 0);
+	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
+	
+	m_wndFileView.myMap.SetAt(node,environment);
+
+	for(int i=0; i<environment->GetChilds()->GetSize(); i++)
+	{
+		COpenGLNode* childnode = (COpenGLNode*)environment->GetChilds()->GetAt(i);
+		HTREEITEM child = m_wndFileView.InsertItem(childnode->ToString(), 0, 0, node);
+		m_wndFileView.myMap.SetAt(child,childnode);
+	}
+
 	AdjustLayout();
 }
 

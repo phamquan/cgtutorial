@@ -1,9 +1,8 @@
 #include "StdAfx.h"
 #include "Scale.h"
 
-CScale::CScale()
+CScale::CScale() : CTransformation("scale",NODE_SCALE)
 {
-	name = "scale";
 }
 
 CScale::~CScale()

@@ -1,10 +1,10 @@
 #include "StdAfx.h"
 #include "OpenGLNode.h"
 
-COpenGLNode::COpenGLNode()
+COpenGLNode::COpenGLNode(char *label, int ID)
 {
-	ID = NODE_ROOT;
-	name = "object";
+	this->ID = ID;
+	this->label = label;
 	ClearChild();
 }
 
@@ -62,7 +62,7 @@ void COpenGLNode::PaintOpenGL()
 
 CString COpenGLNode::ToString()
 {
-	return name + "()";
+	return label + " ()";
 }
 
 void COpenGLNode::BeginOpenGL()

@@ -16,6 +16,8 @@
 #pragma once
 #include "MainFrm.h"
 #include "../qtml/qtmlManager.h"
+#include "Camera.h"
+#include "Projection.h"
 
 class CCGTutorialDoc : public CDocument
 {
@@ -23,7 +25,12 @@ protected: // create from serialization only
 	CCGTutorialDoc();
 	DECLARE_DYNCREATE(CCGTutorialDoc)
 	qtmlManager data;
-	COpenGLNode *root;
+
+	COpenGLNode* object;
+	COpenGLNode* environment;
+
+	CCamera* camera;
+	CProjection* projection;
 // Attributes
 public:
 

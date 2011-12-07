@@ -5,8 +5,9 @@ class CTransformation :
 	public COpenGLNode
 {
 public:
-	CTransformation();
+	CTransformation(char* label, int ID);
 	virtual ~CTransformation();
+
 	void SetData(CPoint3D src);
 	CString ToString();
 

@@ -1,12 +1,11 @@
 #include "StdAfx.h"
 #include "Line.h"
 
-CLine::CLine() : CGeometric(2,false)
+CLine::CLine() : CGeometric("line",NODE_LINE)
 {
-	name = "line";
 }
 
-CLine::~CLine(void)
+CLine::~CLine()
 {
 }
 

@@ -3,6 +3,8 @@
 #include "GL/gl.h"
 #include "GL/glu.h"
 
+#define NODE_PROJECTION	-2
+#define NODE_CAMERA		-1
 #define NODE_NONE		0
 #define NODE_TRANSLATE	1
 #define NODE_ROTATE		2
@@ -15,11 +17,11 @@
 class COpenGLNode
 {
 public:
-	COpenGLNode(CString label, int ID);
+	COpenGLNode(char* label, int ID);
 	virtual ~COpenGLNode();
 
 	COpenGLNode* GetParent();
-	CPtrArray *GetChilds();
+	CPtrArray* GetChilds();
 
 	void AddChild(COpenGLNode* child);
 	void RemoveChild(COpenGLNode* child);
@@ -34,9 +36,8 @@ protected:
 	virtual void DoOpenGL();
 	virtual void EndOpenGL();
 
-
 protected:
-	COpenGLNode *parent;
+	COpenGLNode* parent;
 	CPtrArray m_listChild;
 
 	CString label;
