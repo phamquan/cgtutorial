@@ -26,8 +26,6 @@ static char THIS_FILE[]=__FILE__;
 
 CFileView::CFileView()
 {
-	lockAdd = false;
-	lockDelete = false;
 }
 
 CFileView::~CFileView()
@@ -291,10 +289,6 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 		if (hTreeItem != NULL)
 		{
 			pWndTree->SelectItem(hTreeItem);
-			if(m_wndFileView.myMap.Lookup(hTreeItem,node)) {
-				lockAdd = node->IsLockAdd();
-				lockDelete = node->IsLockDelete();
-			}
 			theApp.GetContextMenuManager()->ShowPopupMenu(IDR_OBJECT, point.x, point.y, this, TRUE);
 		}
 	}
@@ -305,9 +299,6 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 void CFileView::OnObjectDelete()
 {
 	// TODO: Add your command handler code here
-	if(lockDelete)
-		return;
-
 	node->GetParent()->RemoveChild(node);
 	m_wndFileView.DeleteItem(hTreeItem);
 
@@ -325,27 +316,18 @@ void CFileView::AddNode(COpenGLNode *newNode)
 void CFileView::OnAddobjectPoint()
 {
 	// TODO: Add your command handler code here
-	if(lockAdd)
-		return;
-
 	AddNode(new CPoint4D(CPoint3D(0,0,0)));
 }
 
 void CFileView::OnAddLine()
 {
 	// TODO: Add your command handler code here
-	if(lockAdd)
-		return;
-
 	AddNode(new CLine());
 }
 
 void CFileView::OnAddRectangle()
 {
 	// TODO: Add your command handler code here
-	if(lockAdd)
-		return;
-
 	AddNode(new CRectangle());
 }
 
