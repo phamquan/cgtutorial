@@ -328,7 +328,7 @@ void CFileView::OnAddobjectPoint()
 	if(lockAdd)
 		return;
 
-	AddNode(new CPoint4D());
+	AddNode(new CPoint4D(CPoint3D(0,0,0)));
 }
 
 void CFileView::OnAddLine()
