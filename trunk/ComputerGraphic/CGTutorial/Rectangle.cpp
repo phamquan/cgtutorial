@@ -2,7 +2,7 @@
 #include "Rectangle.h"
 #include "Point4D.h"
 
-CRectangle::CRectangle() : CGeometric(2,false)
+CRectangle::CRectangle() : CGeometric("rectangle",NODE_RECTANGLE)
 {
 }
 

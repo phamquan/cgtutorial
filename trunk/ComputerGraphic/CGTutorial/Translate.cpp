@@ -1,9 +1,8 @@
 #include "StdAfx.h"
 #include "Translate.h"
 
-CTranslate::CTranslate()
+CTranslate::CTranslate() : CTransformation("translate",NODE_TRANSLATE)
 {
-	name = "translate";
 }
 
 CTranslate::~CTranslate()

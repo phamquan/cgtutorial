@@ -132,10 +132,12 @@
     <None Include="res\writesmall.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="CGTutorial.h" />
     <ClInclude Include="CGTutorialDoc.h" />
     <ClInclude Include="CGTutorialView.h" />
     <ClInclude Include="ClassView.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="Geometric.h" />
     <ClInclude Include="HomoPoint.h" />
@@ -144,6 +146,7 @@
     <ClInclude Include="OpenGLNode.h" />
     <ClInclude Include="OutputWnd.h" />
     <ClInclude Include="Point4D.h" />
+    <ClInclude Include="Projection.h" />
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Resource.h" />
@@ -156,10 +159,12 @@
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CGTutorial.cpp" />
     <ClCompile Include="CGTutorialDoc.cpp" />
     <ClCompile Include="CGTutorialView.cpp" />
     <ClCompile Include="ClassView.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="Geometric.cpp" />
     <ClCompile Include="HomoPoint.cpp" />
@@ -168,6 +173,7 @@
     <ClCompile Include="OpenGLNode.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
     <ClCompile Include="Point4D.cpp" />
+    <ClCompile Include="Projection.cpp" />
     <ClCompile Include="PropertiesWnd.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Rotate.cpp" />

@@ -40,12 +40,23 @@ END_MESSAGE_MAP()
 CCGTutorialDoc::CCGTutorialDoc()
 {
 	// TODO: add one-time construction code here
-	root = new COpenGLNode(CString("object"),NODE_NONE);
+	object = new COpenGLNode("object",NODE_NONE);
+	environment = new COpenGLNode("enviroment",NODE_NONE);
+
+	camera = new CCamera();
+	camera->SetData(CPoint3D(0,0,10),CPoint3D(0,0,0),CPoint3D(0,1,0));
+	environment->AddChild(camera);
+
+	projection = new CProjection();
+	environment->AddChild(projection);
 }
 
 CCGTutorialDoc::~CCGTutorialDoc()
 {
-	delete root;
+	object->ClearChild();
+	delete object;
+	environment->ClearChild();
+	delete environment;
 }
 
 BOOL CCGTutorialDoc::OnNewDocument()
@@ -55,10 +66,10 @@ BOOL CCGTutorialDoc::OnNewDocument()
 
 	// TODO: add reinitialization code here
 	// (SDI documents will reuse this document)
-	root->ClearChild();
+	object->ClearChild();
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 
-	pMainFrame->m_wndFileView.FillView(root);
+	pMainFrame->m_wndFileView.FillView(object,environment);
 
 	return TRUE;
 }
@@ -162,10 +173,10 @@ BOOL CCGTutorialDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	if(!data.Load(buf))
 		return FALSE;
 
-	root->ClearChild();
+	object->ClearChild();
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 
-	pMainFrame->m_wndFileView.FillView(data.object,root);
+	pMainFrame->m_wndFileView.FillView(data.object,object);
 
 	return TRUE;
 }

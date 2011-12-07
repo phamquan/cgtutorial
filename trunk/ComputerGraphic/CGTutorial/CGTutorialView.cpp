@@ -265,7 +265,7 @@ void CCGTutorialView::OnPaint()
 		glVertex2f(0.5, - 0.5);    
 	glEnd();*/
 
-	this->GetDocument()->root->PaintOpenGL();
+	this->GetDocument()->object->PaintOpenGL();
 
 	glFlush();
 	SwapBuffers(dc.m_ps.hdc);

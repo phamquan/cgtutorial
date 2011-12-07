@@ -38,8 +38,8 @@ public:
 
 	void AdjustLayout();
 	void OnChangeVisualStyle();
-	void FillView(TiXmlNode *troot, COpenGLNode *oroot);
-	void FillView(COpenGLNode *oroot);
+	void FillView(TiXmlNode* troot, COpenGLNode* oroot);
+	void FillView(COpenGLNode* object, COpenGLNode* environment);
 
 // Attributes
 protected:

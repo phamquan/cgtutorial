@@ -1,9 +1,8 @@
 #include "StdAfx.h"
 #include "Rotate.h"
 
-CRotate::CRotate()
+CRotate::CRotate() : CTransformation("rotate",NODE_ROTATE)
 {
-	name = "rotate";
 }
 
 CRotate::~CRotate()
@@ -12,7 +11,7 @@ CRotate::~CRotate()
 
 CString CRotate::ToString()
 {
-	CString result = name + " (";
+	CString result = label + " (";
 
 	char buff[1024];
 
