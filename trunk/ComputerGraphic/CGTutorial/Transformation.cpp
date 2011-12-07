@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Transformation.h"
 
-CTransformation::CTransformation() : COpenGLNode(-1,false)
+CTransformation::CTransformation()
 {
 }
 

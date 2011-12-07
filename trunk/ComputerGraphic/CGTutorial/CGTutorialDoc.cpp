@@ -40,7 +40,7 @@ END_MESSAGE_MAP()
 CCGTutorialDoc::CCGTutorialDoc()
 {
 	// TODO: add one-time construction code here
-	root = new COpenGLNode(-1,true);
+	root = new COpenGLNode(CString("object"),NODE_NONE);
 }
 
 CCGTutorialDoc::~CCGTutorialDoc()

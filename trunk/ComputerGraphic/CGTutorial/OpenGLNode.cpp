@@ -1,15 +1,14 @@
 #include "StdAfx.h"
 #include "OpenGLNode.h"
 
-COpenGLNode::COpenGLNode(int maxChild, BOOLEAN lockDelete)
+COpenGLNode::COpenGLNode()
 {
-	this->maxChild = maxChild;
-	this->lockDelete = lockDelete;
+	ID = NODE_ROOT;
 	name = "object";
 	ClearChild();
 }
 
-COpenGLNode::~COpenGLNode(void)
+COpenGLNode::~COpenGLNode()
 {
 	ClearChild();
 }
@@ -64,16 +63,6 @@ void COpenGLNode::PaintOpenGL()
 CString COpenGLNode::ToString()
 {
 	return name + "()";
-}
-
-BOOLEAN COpenGLNode::IsLockAdd()
-{
-	return maxChild!=-1 && m_listChild.GetSize() >= maxChild;
-}
-
-BOOLEAN COpenGLNode::IsLockDelete()
-{
-	return lockDelete;
 }
 
 void COpenGLNode::BeginOpenGL()

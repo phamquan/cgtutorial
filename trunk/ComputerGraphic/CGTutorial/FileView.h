@@ -55,8 +55,6 @@ protected:
 	HTREEITEM hTreeItem;
 	COpenGLNode *node;
 
-	BOOLEAN lockAdd;
-	BOOLEAN lockDelete;
 // Implementation
 public:
 	virtual ~CFileView();
