@@ -253,18 +253,10 @@ void CCGTutorialView::OnPaint()
 	wglMakeCurrent( m_hDC, m_hRC );
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	glColor3f(0.0f, 0.0f, 0.0f);
 
-	glColor3f(1.0f, 0.0f, 0.0f);
-
-	/*glBegin(GL_POLYGON);        
-		glVertex2f(- 0.5, - 0.5);        
-		glVertex2f(- 0.5,  0.5);        
-		glVertex2f(0.5,  0.5);        
-		glVertex2f(0.5, - 0.5);    
-	glEnd();*/
-
+	this->GetDocument()->projection->PaintOpenGL();
+	this->GetDocument()->camera->PaintOpenGL();
 	this->GetDocument()->object->PaintOpenGL();
 
 	glFlush();
