@@ -108,17 +108,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/,
 	CCreateContext* pContext)
 {
-	BOOLEAN result = m_wndSplitter.CreateStatic(this,
-		1, 2);//,               // TODO: adjust the number of rows, columns
-		//CSize(10, 10),      // TODO: adjust the minimum pane size
-		//pContext);
-	CRect rect;
-	this->GetClientRect(&rect);
+	BOOLEAN result = m_wndSplitter.CreateStatic(this, 1, 2);
 
 	if(result)
 	{
-		m_wndSplitter.CreateView(0,0,RUNTIME_CLASS(CCGTutorialView),CSize(rect.Width()/2,0),pContext);
-		m_wndSplitter.CreateView(0,1,RUNTIME_CLASS(CCameraView),CSize(rect.Width()/2,0),pContext);
+		m_wndSplitter.CreateView(0,0,RUNTIME_CLASS(CCGTutorialView),CSize(200,0),pContext);
+		m_wndSplitter.CreateView(0,1,RUNTIME_CLASS(CCameraView),CSize(200,0),pContext);
 	}
 
 	return result;
@@ -130,7 +125,6 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 		return FALSE;
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
-
 	return TRUE;
 }
 
