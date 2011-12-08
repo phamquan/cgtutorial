@@ -29,7 +29,7 @@ protected: // create from serialization only
 protected:
 	CSplitterWnd m_wndSplitter;
 public:
-	CFileView         m_wndFileView;
+	CFileView m_wndFileView;
 // Operations
 public:
 

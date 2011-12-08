@@ -44,7 +44,6 @@ CCGTutorialDoc::CCGTutorialDoc()
 	environment = new COpenGLNode("enviroment",NODE_NONE);
 
 	camera = new CCamera();
-	camera->SetData(CPoint3D(0,0,10),CPoint3D(0,0,0),CPoint3D(0,1,0));
 	environment->AddChild(camera);
 
 	projection = new CProjection();
@@ -67,6 +66,8 @@ BOOL CCGTutorialDoc::OnNewDocument()
 	// TODO: add reinitialization code here
 	// (SDI documents will reuse this document)
 	object->ClearChild();
+	camera->SetData(CPoint3D(0,0,10),CPoint3D(0,0,0),CPoint3D(0,1,0));
+	projection->SetData(-1,1,-1,1,-1,1,ORTHO);
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 
 	pMainFrame->m_wndFileView.FillView(object,environment);
