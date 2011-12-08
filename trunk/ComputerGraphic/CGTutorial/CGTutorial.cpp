@@ -18,9 +18,6 @@
 #include "CGTutorial.h"
 #include "MainFrm.h"
 
-#include "CGTutorialDoc.h"
-#include "CGTutorialView.h"
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif

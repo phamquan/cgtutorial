@@ -14,7 +14,7 @@
 
 #include "stdafx.h"
 #include "CGTutorial.h"
-
+#include "CameraView.h"
 #include "MainFrm.h"
 
 #ifdef _DEBUG
@@ -34,6 +34,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CMainFrame::OnFilePrintPreview)
 	ON_UPDATE_COMMAND_UI(ID_FILE_PRINT_PREVIEW, &CMainFrame::OnUpdateFilePrintPreview)
 	ON_WM_SETTINGCHANGE()
+	ON_COMMAND(ID_VIEW_LAYOUT, &CMainFrame::OnViewLayout)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -107,10 +108,20 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/,
 	CCreateContext* pContext)
 {
-	return m_wndSplitter.Create(this,
-		1, 2,               // TODO: adjust the number of rows, columns
-		CSize(10, 10),      // TODO: adjust the minimum pane size
-		pContext);
+	BOOLEAN result = m_wndSplitter.CreateStatic(this,
+		1, 2);//,               // TODO: adjust the number of rows, columns
+		//CSize(10, 10),      // TODO: adjust the minimum pane size
+		//pContext);
+	CRect rect;
+	this->GetClientRect(&rect);
+
+	if(result)
+	{
+		m_wndSplitter.CreateView(0,0,RUNTIME_CLASS(CCGTutorialView),CSize(rect.Width()/2,0),pContext);
+		m_wndSplitter.CreateView(0,1,RUNTIME_CLASS(CCameraView),CSize(rect.Width()/2,0),pContext);
+	}
+
+	return result;
 }
 
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
@@ -312,4 +323,11 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 {
 	CFrameWndEx::OnSettingChange(uFlags, lpszSection);
 	m_wndOutput.UpdateFonts();
+}
+
+
+void CMainFrame::OnViewLayout()
+{
+	// TODO: Add your command handler code here
+	m_wndFileView.ShowPane(TRUE,FALSE,TRUE);
 }

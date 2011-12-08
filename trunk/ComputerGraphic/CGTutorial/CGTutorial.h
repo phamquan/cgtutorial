@@ -18,7 +18,8 @@
 #endif
 
 #include "resource.h"       // main symbols
-
+#include "CGTutorialDoc.h"
+#include "CGTutorialView.h"
 
 // CCGTutorialApp:
 // See CGTutorial.cpp for the implementation of this class
