@@ -255,8 +255,12 @@ void CCGTutorialView::OnPaint()
 
 	glColor3f(0.0f, 0.0f, 0.0f);
 
-	this->GetDocument()->projection->PaintOpenGL();
-	this->GetDocument()->camera->PaintOpenGL();
+	//this->GetDocument()->projection->PaintOpenGL();
+	//this->GetDocument()->camera->PaintOpenGL();
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(1,1,1,0,0,0,0,1,0);
+
 	this->GetDocument()->object->PaintOpenGL();
 
 	glFlush();

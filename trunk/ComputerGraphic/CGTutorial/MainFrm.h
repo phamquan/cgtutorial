@@ -27,8 +27,9 @@ protected: // create from serialization only
 
 // Attributes
 protected:
-	CSplitterWnd m_wndSplitter;
+	
 public:
+	CSplitterWnd m_wndSplitter;
 	CFileView m_wndFileView;
 // Operations
 public:
