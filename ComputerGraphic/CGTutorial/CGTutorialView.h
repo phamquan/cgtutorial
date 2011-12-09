@@ -13,7 +13,7 @@
 //
 
 #pragma once
-#include <GL\GL.h>
+#include "../Library/GL/glut.h"
 
 class CCGTutorialView : public CView
 {
