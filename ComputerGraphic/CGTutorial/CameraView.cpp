@@ -134,9 +134,9 @@ void CCameraView::OnPaint()
 	CMainFrame* mainFrame = (CMainFrame*)AfxGetMainWnd();
 	CCGTutorialDoc* doc = (CCGTutorialDoc*) mainFrame->GetActiveDocument();
 
-	doc->projection->PaintOpenGL();
+	/*doc->projection->PaintOpenGL();
 	doc->camera->PaintOpenGL();
-	doc->object->PaintOpenGL();
+	doc->object->PaintOpenGL();*/
 
 	glFlush();
 	SwapBuffers(dc.m_ps.hdc);
