@@ -14,13 +14,13 @@
 
 
 <object>
-	<rotate x=0 y=0 z=1 alpha=-90>
+	<rotate x=0 y=0 z=1 angle=-90>
 		<line>
 			<point x=0 y=0 z=0 />
 			<point x=1 y=0 z=0 />
 		</line>
 	</rotate>
-	<rotate x=0 y=0 z=1 alpha=45>
+	<rotate x=0 y=0 z=1 angle=45>
 		<rectangle>
 			<point x=0 y=0 z=0 />
 			<point x=1 y=0 z=0 />
