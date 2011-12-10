@@ -94,49 +94,54 @@ void CFileView::OnSize(UINT nType, int cx, int cy)
 	AdjustLayout();
 }
 
+const char* GetValue(char* name,TiXmlNode* node)
+{
+	TiXmlAttribute* pAttrib=node->ToElement()->FirstAttribute();
+	while(pAttrib) {
+		if(CString(pAttrib->Name()) == CString(name))
+			return pAttrib->Value();
+		pAttrib = pAttrib->Next();
+	}
+	return NULL;
+}
+
 COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 {
 	if(node == NULL)
 		return NULL;
 
 	COpenGLNode *result = NULL;
-	TiXmlNode* pChild = NULL;
-	CMap<char*,char*,char*,char*> attribute;
-	const char *x,*y,*z,*alpha;
-
-	TiXmlAttribute* pAttrib=node->ToElement()->FirstAttribute();
-	while(pAttrib) {
-		if(CString(pAttrib->Name()) == "x")
-			x = pAttrib->Value();
-		else if(CString(pAttrib->Name()) == "y")
-			y = pAttrib->Value();
-		else if(CString(pAttrib->Name()) == "z")
-			z = pAttrib->Value();
-		else if(CString(pAttrib->Name()) == "alpha")
-			alpha = pAttrib->Value();
-		pAttrib = pAttrib->Next();
-	}
-
-
-	if(CString(node->Value()) == "translate")
+	if(CString(node->Value()) == "camera")
 	{
-		result = new CTranslate();
-		((CTranslate*)result)->SetData(CPoint3D(atof(x),atof(y),atof(z)));
+		result = new CCamera();
+		((CCamera*)result)->SetData(CPoint3D(atof(GetValue("xpos",node)),atof(GetValue("ypos",node)),atof(GetValue("zpos",node))),
+									CPoint3D(atof(GetValue("xlook",node)),atof(GetValue("ylook",node)),atof(GetValue("zlook",node))),
+									CPoint3D(atof(GetValue("xup",node)),atof(GetValue("yup",node)),atof(GetValue("zup",node))));
+	}
+	else if(CString(node->Value()) == "projection")
+	{
+		result = new CProjection();
+		if(CString(GetValue("type",node)) == CString("ortho"))
+			((CProjection*)result)->SetData(atof(GetValue("left",node)),atof(GetValue("right",node)),atof(GetValue("top",node)),
+											atof(GetValue("bottom",node)),atof(GetValue("near",node)),atof(GetValue("far",node)),ORTHO);
+		else
+			((CProjection*)result)->SetData(atof(GetValue("left",node)),atof(GetValue("right",node)),atof(GetValue("top",node)),
+											atof(GetValue("bottom",node)),atof(GetValue("near",node)),atof(GetValue("far",node)),FRUSTUM);
 	}
 	else if(CString(node->Value()) == "translate")
 	{
 		result = new CTranslate();
-		((CTranslate*)result)->SetData(CPoint3D(atof(x),atof(y),atof(z)));
+		((CTranslate*)result)->SetData(CPoint3D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node))));
 	}
 	else if(CString(node->Value()) == "rotate")
 	{
 		result = new CRotate();
-		((CRotate*)result)->SetData(CPoint3D(atof(x),atof(y),atof(z),atof(alpha)));
+		((CRotate*)result)->SetData(CPoint3D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("angle",node))));
 	}
 	else if(CString(node->Value()) == "scale")
 	{
 		result = new CScale();
-		((CScale*)result)->SetData(CPoint3D(atof(x),atof(y),atof(z)));
+		((CScale*)result)->SetData(CPoint3D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node))));
 	}
 	else if(CString(node->Value()) == "line")
 	{
@@ -148,33 +153,42 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 	}
 	else if(CString(node->Value()) == "point")
 	{
-		result = new CPoint4D(CPoint3D(atof(x),atof(y),atof(z)));
+		result = new CPoint4D(CPoint3D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node))));
 	}
 
 	return result;
 }
 
-void CFileView::FillView(TiXmlNode* tobject, TiXmlNode* tcamera, TiXmlNode* projection, COpenGLNode* oobject, COpenGLNode* oenvironment)
+void CFileView::FillView(TiXmlNode* tobject, TiXmlNode* tcamera, TiXmlNode* tprojection, COpenGLNode* oobject, COpenGLNode* oenvironment)
 {
 	m_wndFileView.DeleteAllItems();
 	m_wndFileView.myMap.RemoveAll();
+	oenvironment->ClearChild();
 
 	HTREEITEM node = m_wndFileView.InsertItem(CString("object"), 0, 0);
 	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
 	
 	m_wndFileView.myMap.SetAt(node,oobject);
 
-	node = m_wndFileView.InsertItem(CString("environment"), 0, 0);
-	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
-
-	m_wndFileView.myMap.SetAt(node,oenvironment);
-
 	TiXmlNode* pChild = NULL;
 	while (pChild = tobject->IterateChildren(pChild)) {
 		FillFile(pChild,node,oobject);
 	}
 
+	node = m_wndFileView.InsertItem(CString("environment"), 0, 0);
+	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
 
+	m_wndFileView.myMap.SetAt(node,oenvironment);
+
+	COpenGLNode* camera = XmltoOpenGL(tcamera);
+	oenvironment->AddChild(camera);
+	HTREEITEM child = m_wndFileView.InsertItem(camera->ToString(), 0, 0, node);
+	m_wndFileView.myMap.SetAt(child,camera);
+
+	COpenGLNode* projection = XmltoOpenGL(tprojection);
+	oenvironment->AddChild(projection);
+	child = m_wndFileView.InsertItem(projection->ToString(), 0, 0, node);
+	m_wndFileView.myMap.SetAt(child,projection);
 
 	AdjustLayout();
 }
