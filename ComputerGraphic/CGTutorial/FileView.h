@@ -38,7 +38,7 @@ public:
 
 	void AdjustLayout();
 	void OnChangeVisualStyle();
-	void FillView(TiXmlNode* troot, COpenGLNode* oroot);
+	void FillView(TiXmlNode* tobject, TiXmlNode* tcamera, TiXmlNode* projection, COpenGLNode* oobject, COpenGLNode* oenvironment);
 	void FillView(COpenGLNode* object, COpenGLNode* environment);
 
 // Attributes
