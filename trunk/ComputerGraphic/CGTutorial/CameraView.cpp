@@ -218,7 +218,9 @@ void CCameraView::OnPaint()
 
 	glColor3f(0.0f, 0.0f, 0.0f);
 
-	this->GetDocument()->object->PaintOpenGL();
+	GetDocument()->projection->PaintOpenGL();
+	GetDocument()->camera->PaintOpenGL();
+	GetDocument()->object->PaintOpenGL();
 
 	glFlush();
 	SwapBuffers(dc.m_ps.hdc);
