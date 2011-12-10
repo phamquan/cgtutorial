@@ -117,7 +117,13 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 		pAttrib = pAttrib->Next();
 	}
 
+
 	if(CString(node->Value()) == "translate")
+	{
+		result = new CTranslate();
+		((CTranslate*)result)->SetData(CPoint3D(atof(x),atof(y),atof(z)));
+	}
+	else if(CString(node->Value()) == "translate")
 	{
 		result = new CTranslate();
 		((CTranslate*)result)->SetData(CPoint3D(atof(x),atof(y),atof(z)));
@@ -148,20 +154,28 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 	return result;
 }
 
-void CFileView::FillView(TiXmlNode *troot, COpenGLNode *oroot)
+void CFileView::FillView(TiXmlNode* tobject, TiXmlNode* tcamera, TiXmlNode* projection, COpenGLNode* oobject, COpenGLNode* oenvironment)
 {
 	m_wndFileView.DeleteAllItems();
 	m_wndFileView.myMap.RemoveAll();
 
-	HTREEITEM node = m_wndFileView.InsertItem(CString(troot->Value()), 0, 0);
+	HTREEITEM node = m_wndFileView.InsertItem(CString("object"), 0, 0);
 	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
 	
-	m_wndFileView.myMap.SetAt(node,oroot);
+	m_wndFileView.myMap.SetAt(node,oobject);
+
+	node = m_wndFileView.InsertItem(CString("environment"), 0, 0);
+	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
+
+	m_wndFileView.myMap.SetAt(node,oenvironment);
 
 	TiXmlNode* pChild = NULL;
-	while (pChild = troot->IterateChildren(pChild)) {
-		FillFile(pChild,node,oroot);
+	while (pChild = tobject->IterateChildren(pChild)) {
+		FillFile(pChild,node,oobject);
 	}
+
+
+
 	AdjustLayout();
 }
 

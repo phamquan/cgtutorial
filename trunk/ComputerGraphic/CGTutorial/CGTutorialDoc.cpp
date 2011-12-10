@@ -177,7 +177,7 @@ BOOL CCGTutorialDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	object->ClearChild();
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 
-	pMainFrame->m_wndFileView.FillView(data.object,object);
+	pMainFrame->m_wndFileView.FillView(data.object,data.environment,object,environment);
 	pMainFrame->m_wndSplitter.GetPane(0,0)->Invalidate();
 	pMainFrame->m_wndSplitter.GetPane(0,1)->Invalidate();
 	return TRUE;
