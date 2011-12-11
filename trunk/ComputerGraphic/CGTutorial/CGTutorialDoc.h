@@ -16,8 +16,7 @@
 #pragma once
 #include "MainFrm.h"
 #include "../qtml/qtmlManager.h"
-#include "Camera.h"
-#include "Projection.h"
+#include "Environment.h"
 
 class CCGTutorialDoc : public CDocument
 {
@@ -27,10 +26,8 @@ protected: // create from serialization only
 	qtmlManager data;
 
 	COpenGLNode* object;
-	COpenGLNode* environment;
+	CEnvironment* environment;
 
-	CCamera* camera;
-	CProjection* projection;
 // Attributes
 public:
 

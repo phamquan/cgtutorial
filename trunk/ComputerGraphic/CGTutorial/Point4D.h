@@ -4,13 +4,12 @@ class CPoint4D :
 	public CGeometric
 {
 public:
-	CPoint4D(CPoint3D data);
-	virtual ~CPoint4D(void);
+	CPoint4D(CPoint3D point);
+	virtual ~CPoint4D();
 	CString ToString();
 
 protected:
+	void BeginOpenGL();
 	void DoOpenGL();
-	void EndOpenGL();
-	CPoint3D data;
 };
 

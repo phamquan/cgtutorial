@@ -38,10 +38,11 @@ BEGIN_MESSAGE_MAP(CFileView, CDockablePane)
 	ON_WM_CONTEXTMENU()
 	ON_WM_PAINT()
 	ON_WM_SETFOCUS()
-	ON_COMMAND(ID_ADDOBJECT_LINE, &CFileView::OnAddLine)
-	ON_COMMAND(ID_ADDOBJECT_RECTANGLE, &CFileView::OnAddRectangle)
-	ON_COMMAND(ID_OBJECT_DELETE, &CFileView::OnObjectDelete)
 	ON_COMMAND(ID_ADDOBJECT_POINT, &CFileView::OnAddobjectPoint)
+	ON_COMMAND(ID_ADDOBJECT_LINE, &CFileView::OnAddobjectLine)
+	ON_COMMAND(ID_ADDOBJECT_RECTANGLE, &CFileView::OnAddobjectRectangle)
+	ON_COMMAND(ID_OBJECT_DELETE, &CFileView::OnObjectDelete)
+	ON_COMMAND(ID_OBJECT_ADDCOLOR, &CFileView::OnObjectAddcolor)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -113,43 +114,39 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 	COpenGLNode *result = NULL;
 	if(CString(node->Value()) == "camera")
 	{
-		result = new CCamera();
-		((CCamera*)result)->SetData(CPoint3D(atof(GetValue("xpos",node)),atof(GetValue("ypos",node)),atof(GetValue("zpos",node))),
+		result = new CCamera(CPoint3D(atof(GetValue("xpos",node)),atof(GetValue("ypos",node)),atof(GetValue("zpos",node))),
 									CPoint3D(atof(GetValue("xlook",node)),atof(GetValue("ylook",node)),atof(GetValue("zlook",node))),
 									CPoint3D(atof(GetValue("xup",node)),atof(GetValue("yup",node)),atof(GetValue("zup",node))));
 	}
 	else if(CString(node->Value()) == "projection")
 	{
-		result = new CProjection();
 		if(CString(GetValue("type",node)) == CString("ortho"))
-			((CProjection*)result)->SetData(atof(GetValue("left",node)),atof(GetValue("right",node)),atof(GetValue("top",node)),
-											atof(GetValue("bottom",node)),atof(GetValue("near",node)),atof(GetValue("far",node)),ORTHO);
+			result = new CProjection(atof(GetValue("left",node)),atof(GetValue("right",node)),atof(GetValue("bottom",node)),
+											atof(GetValue("top",node)),atof(GetValue("near",node)),atof(GetValue("far",node)),ORTHO);
 		else
-			((CProjection*)result)->SetData(atof(GetValue("left",node)),atof(GetValue("right",node)),atof(GetValue("top",node)),
-											atof(GetValue("bottom",node)),atof(GetValue("near",node)),atof(GetValue("far",node)),FRUSTUM);
+			result = new CProjection(atof(GetValue("left",node)),atof(GetValue("right",node)),atof(GetValue("bottom",node)),
+											atof(GetValue("top",node)),atof(GetValue("near",node)),atof(GetValue("far",node)),FRUSTUM);
 	}
 	else if(CString(node->Value()) == "translate")
 	{
-		result = new CTranslate();
-		((CTranslate*)result)->SetData(CPoint3D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node))));
+		result = new CTranslate(CPoint3D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node))));
 	}
 	else if(CString(node->Value()) == "rotate")
 	{
-		result = new CRotate();
-		((CRotate*)result)->SetData(CPoint3D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("angle",node))));
+		result = new CRotate(CPoint3D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("angle",node))));
 	}
 	else if(CString(node->Value()) == "scale")
 	{
-		result = new CScale();
-		((CScale*)result)->SetData(CPoint3D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node))));
+		result = new CScale(CPoint3D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node))));
 	}
 	else if(CString(node->Value()) == "line")
 	{
-		result = new CLine();
+		result = new CLine(CPoint3D(atof(GetValue("x1",node)),atof(GetValue("y1",node)),atof(GetValue("z1",node))),
+						   CPoint3D(atof(GetValue("x2",node)),atof(GetValue("y2",node)),atof(GetValue("z2",node))));
 	}
 	else if(CString(node->Value()) == "rectangle")
 	{
-		result = new CRectangle();
+		result = new CRectangle(atof(GetValue("top",node)),atof(GetValue("left",node)),atof(GetValue("bottom",node)),atof(GetValue("right",node)));
 	}
 	else if(CString(node->Value()) == "point")
 	{
@@ -159,11 +156,10 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 	return result;
 }
 
-void CFileView::FillView(TiXmlNode* tobject, TiXmlNode* tcamera, TiXmlNode* tprojection, COpenGLNode* oobject, COpenGLNode* oenvironment)
+void CFileView::FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNode* oobject, CEnvironment* oenvironment)
 {
 	m_wndFileView.DeleteAllItems();
 	m_wndFileView.myMap.RemoveAll();
-	oenvironment->ClearChild();
 
 	HTREEITEM node = m_wndFileView.InsertItem(CString("object"), 0, 0);
 	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
@@ -180,15 +176,10 @@ void CFileView::FillView(TiXmlNode* tobject, TiXmlNode* tcamera, TiXmlNode* tpro
 
 	m_wndFileView.myMap.SetAt(node,oenvironment);
 
-	COpenGLNode* camera = XmltoOpenGL(tcamera);
-	oenvironment->AddChild(camera);
-	HTREEITEM child = m_wndFileView.InsertItem(camera->ToString(), 0, 0, node);
-	m_wndFileView.myMap.SetAt(child,camera);
-
-	COpenGLNode* projection = XmltoOpenGL(tprojection);
-	oenvironment->AddChild(projection);
-	child = m_wndFileView.InsertItem(projection->ToString(), 0, 0, node);
-	m_wndFileView.myMap.SetAt(child,projection);
+	pChild = NULL;
+	while (pChild = tenvironment->IterateChildren(pChild)) {
+		FillFile(pChild,node,oenvironment);
+	}
 
 	AdjustLayout();
 }
@@ -329,6 +320,7 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 		hTreeItem = pWndTree->HitTest(ptTree, &flags);
 		if (hTreeItem != NULL)
 		{
+			m_wndFileView.myMap.Lookup(hTreeItem,node);
 			pWndTree->SelectItem(hTreeItem);
 			theApp.GetContextMenuManager()->ShowPopupMenu(IDR_OBJECT, point.x, point.y, this, TRUE);
 		}
@@ -337,13 +329,29 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 	pWndTree->SetFocus();
 }
 
-void CFileView::OnObjectDelete()
+BOOLEAN CFileView::ValidateAdd()
 {
-	// TODO: Add your command handler code here
-	node->GetParent()->RemoveChild(node);
-	m_wndFileView.DeleteItem(hTreeItem);
+	switch(node->GetID()) {
+	case NODE_OBJECT:
+	case NODE_TRANSLATE:
+	case NODE_ROTATE:
+	case NODE_SCALE:
+	case NODE_COLOR:
+		return true;
+	}
+	return false;
+}
 
-	((CMainFrame*)AfxGetMainWnd())->GetActiveView()->Invalidate();
+BOOLEAN CFileView::ValidateDelete()
+{
+	switch(node->GetID()) {
+	case NODE_OBJECT:
+	case NODE_ENVIRONMENT:
+	case NODE_CAMERA:
+	case NODE_PROJECTION:
+		return false;
+	}
+	return true;
 }
 
 void CFileView::AddNode(COpenGLNode *newNode)
@@ -351,24 +359,62 @@ void CFileView::AddNode(COpenGLNode *newNode)
 	node->AddChild(newNode);
 	HTREEITEM node = m_wndFileView.InsertItem(newNode->ToString(), 0, 0, hTreeItem);
 	m_wndFileView.myMap.SetAt(node,newNode);
-	((CMainFrame*)AfxGetMainWnd())->GetActiveView()->Invalidate();
+
+	((CMainFrame*)AfxGetMainWnd())->m_wndSplitter.GetPane(0,0)->Invalidate();
+	((CMainFrame*)AfxGetMainWnd())->m_wndSplitter.GetPane(0,1)->Invalidate();
+}
+
+void CFileView::OnObjectDelete()
+{
+	// TODO: Add your command handler code here
+	if(ValidateDelete()) {
+		node->GetParent()->RemoveChild(node);
+		m_wndFileView.DeleteItem(hTreeItem);
+		((CMainFrame*)AfxGetMainWnd())->m_wndSplitter.GetPane(0,0)->Invalidate();
+		((CMainFrame*)AfxGetMainWnd())->m_wndSplitter.GetPane(0,1)->Invalidate();
+	}
 }
 
 void CFileView::OnAddobjectPoint()
 {
 	// TODO: Add your command handler code here
-	AddNode(new CPoint4D(CPoint3D(0,0,0)));
+	if(ValidateAdd()) {
+		CDlgPoint dlg;
+		if(dlg.DoModal() == IDOK)
+			AddNode(new CPoint4D(CPoint3D(dlg.m_X,dlg.m_Y,dlg.m_Z)));
+	}
 }
 
-void CFileView::OnAddLine()
+void CFileView::OnAddobjectLine()
 {
 	// TODO: Add your command handler code here
-	AddNode(new CLine());
+	if(ValidateAdd()) {
+		CDlgLine dlg;
+		if(dlg.DoModal() == IDOK)
+			AddNode(new CLine(CPoint3D(dlg.m_X1,dlg.m_Y1,dlg.m_Z1),CPoint3D(dlg.m_X2,dlg.m_Y2,dlg.m_Z2)));
+	}
 }
 
-void CFileView::OnAddRectangle()
+void CFileView::OnAddobjectRectangle()
 {
 	// TODO: Add your command handler code here
-	AddNode(new CRectangle());
+	if(ValidateAdd()) {
+		CDlgRectangle dlg;
+		if(dlg.DoModal() == IDOK)
+			AddNode(new CRectangle(dlg.m_Top,dlg.m_Left,dlg.m_Bottom,dlg.m_Right));
+	}
 }
 
+
+
+void CFileView::OnObjectAddcolor()
+{
+	// TODO: Add your command handler code here
+	if(ValidateAdd()) {
+		CColorDialog dlg;
+		if(dlg.DoModal() == IDOK) {
+			COLORREF color = dlg.GetColor();
+			AddNode(new CColor(GetRValue(color)/255.0,GetGValue(color)/255.0,GetBValue(color)/255.0));
+		}
+	}
+}

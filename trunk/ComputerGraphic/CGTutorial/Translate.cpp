@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Translate.h"
 
-CTranslate::CTranslate() : CTransformation("translate",NODE_TRANSLATE)
+CTranslate::CTranslate(CPoint3D data) : CTransformation(data,"translate",NODE_TRANSLATE)
 {
 }
 

@@ -40,14 +40,8 @@ END_MESSAGE_MAP()
 CCGTutorialDoc::CCGTutorialDoc()
 {
 	// TODO: add one-time construction code here
-	object = new COpenGLNode("object",NODE_NONE);
-	environment = new COpenGLNode("enviroment",NODE_NONE);
-
-	camera = new CCamera();
-	environment->AddChild(camera);
-
-	projection = new CProjection();
-	environment->AddChild(projection);
+	object = new COpenGLNode("object",NODE_OBJECT);
+	environment = new CEnvironment();
 }
 
 CCGTutorialDoc::~CCGTutorialDoc()
@@ -66,10 +60,11 @@ BOOL CCGTutorialDoc::OnNewDocument()
 	// TODO: add reinitialization code here
 	// (SDI documents will reuse this document)
 	object->ClearChild();
-	camera->SetData(CPoint3D(0,0,10),CPoint3D(0,0,0),CPoint3D(0,1,0));
-	projection->SetData(-1,1,-1,1,-1,1,ORTHO);
-	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	environment->ClearChild();
+	environment->AddChild(new CProjection(-1,1,-1,1,-1,1,ORTHO));
+	environment->AddChild(new CCamera(CPoint3D(0,0,10),CPoint3D(0,0,0),CPoint3D(0,1,0)));
 
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 	pMainFrame->m_wndFileView.FillView(object,environment);
 
 	return TRUE;
@@ -175,9 +170,10 @@ BOOL CCGTutorialDoc::OnOpenDocument(LPCTSTR lpszPathName)
 		return FALSE;
 
 	object->ClearChild();
-	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	environment->ClearChild();
 
-	pMainFrame->m_wndFileView.FillView(data.object,data.camera,data.projection,object,environment);
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	pMainFrame->m_wndFileView.FillView(data.object,data.environment,object,environment);
 	pMainFrame->m_wndSplitter.GetPane(0,0)->Invalidate();
 	pMainFrame->m_wndSplitter.GetPane(0,1)->Invalidate();
 	return TRUE;

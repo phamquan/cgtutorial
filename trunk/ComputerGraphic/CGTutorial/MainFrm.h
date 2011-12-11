@@ -14,7 +14,6 @@
 
 #pragma once
 #include "FileView.h"
-#include "ClassView.h"
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
 

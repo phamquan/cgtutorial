@@ -8,13 +8,14 @@ class CProjection :
 	public COpenGLNode
 {
 public:
-	CProjection();
+	CProjection(float left, float right, float bottom, float top, float mnear, float mdfar, int type);
 	virtual ~CProjection(void);
-	void SetData(float left, float right, float top, float bottom, float mnear, float mdfar, int type);
 	CString ToString();
 
 protected:
 	void DoOpenGL();
+
+protected:
 	int type;
 	CPoint3D data1;
 	CPoint3D data2;

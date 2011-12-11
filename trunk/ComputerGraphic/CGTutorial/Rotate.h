@@ -4,8 +4,8 @@ class CRotate :
 	public CTransformation
 {
 public:
-	CRotate(void);
-	virtual ~CRotate(void);
+	CRotate(CPoint3D data);
+	virtual ~CRotate();
 	CString ToString();
 
 protected:

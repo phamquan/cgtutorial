@@ -10,5 +10,9 @@ public:
 
 protected:
 	virtual void EndOpenGL();
+
+protected:
+	CPoint3D data1;
+	CPoint3D data2;
 };
 

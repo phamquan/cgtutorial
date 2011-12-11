@@ -2,31 +2,19 @@
 <watermelon program='Computer Graphic Tutorial'>
 
 <environment>
-	<camera xpos=3 ypos=4 zpos=5 xlook=0 ylook=0 zlook=0 xup=0 yup=1 zup=0 />
+	<camera xpos=1 ypos=1 zpos=1 xlook=0 ylook=0 zlook=0 xup=0 yup=1 zup=0 />
 	
-	<projection type='ortho' left=-5 right=5 bottom=-3 top=3 near=5 far=100 />
-	
-	<lightsource xpos=0 ypos=0 zpos=0, 
-				rambient=1 gambient=1, bambient=0.5, 
-				rspecular=0.5 gspecular=0.5 bspecular=0.5, 
-				rdiffuse=0.25 gdiffuse=0.25 bdiffuse=0.5 />
+	<projection type='ortho' left=-5 right=5 bottom=-3 top=3 near=-10 far=100 />
+
 </environment>
 
 
 <object>
 	<rotate x=0 y=0 z=1 angle=-90>
-		<line>
-			<point x=0 y=0 z=0 />
-			<point x=1 y=0 z=0 />
-		</line>
+		<line x1=0 y1=0 z1=0 x2=1 y2=0 z2=0 />
 	</rotate>
 	<rotate x=0 y=0 z=1 angle=45>
-		<rectangle>
-			<point x=0 y=0 z=0 />
-			<point x=1 y=0 z=0 />
-			<point x=1 y=1 z=0 />
-			<point x=0 y=1 z=0 />
-		</rectangle>
+		<rectangle top=1 bottom=0 left=0 right=1 />
 	</rotate>
 </object>
 

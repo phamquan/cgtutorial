@@ -13,12 +13,19 @@
 
 #include "ViewTree.h"
 #include "../qtml/tinyxml.h"
+#include "Environment.h"
 #include "Translate.h"
 #include "Rotate.h"
 #include "Scale.h"
+#include "Color.h"
 #include "Line.h"
 #include "Rectangle.h"
 #include "Point4D.h"
+
+#include "DlgRotate.h"
+#include "DlgPoint.h"
+#include "DlgLine.h"
+#include "DlgRectangle.h"
 
 class CFileViewToolBar : public CMFCToolBar
 {
@@ -38,7 +45,7 @@ public:
 
 	void AdjustLayout();
 	void OnChangeVisualStyle();
-	void FillView(TiXmlNode* tobject, TiXmlNode* tcamera, TiXmlNode* tprojection, COpenGLNode* oobject, COpenGLNode* oenvironment);
+	void FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNode* oobject, CEnvironment* oenvironment);
 	void FillView(COpenGLNode* object, COpenGLNode* environment);
 
 // Attributes
@@ -48,6 +55,9 @@ protected:
 	CFileViewToolBar m_wndToolBar;
 
 protected:
+	BOOLEAN ValidateAdd();
+	BOOLEAN ValidateDelete();
+
 	void FillFile(TiXmlNode *root, HTREEITEM hparrent, COpenGLNode *oparrent);
 	COpenGLNode *XmltoOpenGL(TiXmlNode *node);
 	void AddNode(COpenGLNode *newNode);
@@ -68,9 +78,10 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnAddLine();
-	afx_msg void OnAddRectangle();
+	afx_msg void OnAddobjectLine();
+	afx_msg void OnAddobjectRectangle();
 	afx_msg void OnObjectDelete();
 	afx_msg void OnAddobjectPoint();
+	afx_msg void OnObjectAddcolor();
 };
 

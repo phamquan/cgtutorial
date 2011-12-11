@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Scale.h"
 
-CScale::CScale() : CTransformation("scale",NODE_SCALE)
+CScale::CScale(CPoint3D data) : CTransformation(data,"scale",NODE_SCALE)
 {
 }
 

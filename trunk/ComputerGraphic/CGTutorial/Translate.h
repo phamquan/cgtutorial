@@ -5,8 +5,8 @@ class CTranslate :
 	public CTransformation
 {
 public:
-	CTranslate(void);
-	virtual ~CTranslate(void);
+	CTranslate(CPoint3D data);
+	virtual ~CTranslate();
 
 protected:
 	virtual void DoOpenGL();

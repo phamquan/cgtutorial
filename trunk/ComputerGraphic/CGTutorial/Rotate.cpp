@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Rotate.h"
 
-CRotate::CRotate() : CTransformation("rotate",NODE_ROTATE)
+CRotate::CRotate(CPoint3D data) : CTransformation(data,"rotate",NODE_ROTATE)
 {
 }
 

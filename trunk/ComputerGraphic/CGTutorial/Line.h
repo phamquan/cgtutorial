@@ -6,10 +6,12 @@ class CLine :
 	public CGeometric
 {
 public:
-	CLine();
-	virtual ~CLine(void);
+	CLine(CPoint3D begin, CPoint3D end);
+	virtual ~CLine();
+	CString ToString();
 
 protected:
 	void BeginOpenGL();
+	void DoOpenGL();
 };
 

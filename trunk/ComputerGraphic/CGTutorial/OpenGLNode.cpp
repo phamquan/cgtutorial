@@ -13,6 +13,11 @@ COpenGLNode::~COpenGLNode()
 	ClearChild();
 }
 
+int COpenGLNode::GetID()
+{
+	return ID;
+}
+
 COpenGLNode* COpenGLNode::GetParent()
 {
 	return parent;
@@ -63,16 +68,4 @@ void COpenGLNode::PaintOpenGL()
 CString COpenGLNode::ToString()
 {
 	return label + " ()";
-}
-
-void COpenGLNode::BeginOpenGL()
-{
-}
-
-void COpenGLNode::DoOpenGL()
-{
-}
-
-void COpenGLNode::EndOpenGL()
-{
 }
