@@ -4,8 +4,8 @@ class CScale :
 	public CTransformation
 {
 public:
-	CScale(void);
-	virtual ~CScale(void);
+	CScale(CPoint3D data);
+	virtual ~CScale();
 
 protected:
 	virtual void DoOpenGL();

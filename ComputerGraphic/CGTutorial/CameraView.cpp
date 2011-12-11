@@ -218,8 +218,7 @@ void CCameraView::OnPaint()
 
 	glColor3f(0.0f, 0.0f, 0.0f);
 
-	GetDocument()->projection->PaintOpenGL();
-	GetDocument()->camera->PaintOpenGL();
+	//GetDocument()->environment->PaintOpenGL();
 	GetDocument()->object->PaintOpenGL();
 
 	glFlush();

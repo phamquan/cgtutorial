@@ -137,8 +137,11 @@
     <ClInclude Include="CGTutorial.h" />
     <ClInclude Include="CGTutorialDoc.h" />
     <ClInclude Include="CGTutorialView.h" />
-    <ClInclude Include="ClassView.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="DlgLine.h" />
+    <ClInclude Include="DlgPoint.h" />
+    <ClInclude Include="DlgRectangle.h" />
+    <ClInclude Include="Environment.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="Geometric.h" />
     <ClInclude Include="HomoPoint.h" />
@@ -165,8 +168,11 @@
     <ClCompile Include="CGTutorial.cpp" />
     <ClCompile Include="CGTutorialDoc.cpp" />
     <ClCompile Include="CGTutorialView.cpp" />
-    <ClCompile Include="ClassView.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="DlgLine.cpp" />
+    <ClCompile Include="DlgPoint.cpp" />
+    <ClCompile Include="DlgRectangle.cpp" />
+    <ClCompile Include="Environment.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="Geometric.cpp" />
     <ClCompile Include="HomoPoint.cpp" />

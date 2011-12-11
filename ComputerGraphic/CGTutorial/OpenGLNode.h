@@ -1,24 +1,26 @@
 #pragma once
 #include "HomoPoint.h"
-#include "GL/gl.h"
-#include "GL/glu.h"
+#include "GL/glut.h"
 
-#define NODE_PROJECTION	-2
-#define NODE_CAMERA		-1
+#define NODE_PROJECTION	-3
+#define NODE_CAMERA		-2
+#define NODE_ENVIRONMENT -1
 #define NODE_NONE		0
-#define NODE_TRANSLATE	1
-#define NODE_ROTATE		2
-#define NODE_SCALE		3
-#define NODE_COLOR		4
-#define NODE_POINT		5
-#define NODE_LINE		6
-#define NODE_RECTANGLE	7
+#define NODE_OBJECT		1
+#define NODE_TRANSLATE	2
+#define NODE_ROTATE		3
+#define NODE_SCALE		4
+#define NODE_COLOR		5
+#define NODE_POINT		6
+#define NODE_LINE		7
+#define NODE_RECTANGLE	8
 
 class COpenGLNode
 {
 public:
 	COpenGLNode(char* label, int ID);
 	virtual ~COpenGLNode();
+	int GetID();
 
 	COpenGLNode* GetParent();
 	CPtrArray* GetChilds();
@@ -32,9 +34,9 @@ public:
 	virtual CString ToString();
 
 protected:
-	virtual void BeginOpenGL();
-	virtual void DoOpenGL();
-	virtual void EndOpenGL();
+	virtual void BeginOpenGL() {};
+	virtual void DoOpenGL() {};
+	virtual void EndOpenGL() {};
 
 protected:
 	COpenGLNode* parent;

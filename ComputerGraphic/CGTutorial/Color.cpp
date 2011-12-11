@@ -1,18 +1,19 @@
 #include "StdAfx.h"
 #include "Color.h"
 
-CColor::CColor() : COpenGLNode("color",NODE_COLOR)
+CColor::CColor(float red, float green, float blue) : COpenGLNode("color",NODE_COLOR)
 {
+	data.setCoords(red,green,blue);
 }
 
 CColor::~CColor()
 {
 }
 
-void CColor::SetData(float red, float green, float blue, float alpha)
-{
-	data.setCoords(red,green,blue,alpha);
-}
+//void CColor::SetData(float red, float green, float blue, float alpha)
+//{
+//	data.setCoords(red,green,blue,alpha);
+//}
 
 CString CColor::ToString()
 {
@@ -20,13 +21,23 @@ CString CColor::ToString()
 
 	char buff[1024];
 
-	sprintf(buff,"red=%5.2f, green=%5.2f, blue=%5.2f, alpha=%5.2f",
-		data.getX(),data.getY(),data.getZ(),data.getW());
+	sprintf(buff,"red=%5.2f, green=%5.2f, blue=%5.2f",
+		data.getX(),data.getY(),data.getZ());
 
 	return result + CString(buff) + ")";
+}
+
+void CColor::BeginOpenGL()
+{
+	glGetFloatv(GL_CURRENT_COLOR,currentColor);
 }
 
 void CColor::DoOpenGL()
 {
 	glColor4f(data.getX(),data.getY(),data.getZ(),data.getW());
+}
+
+void CColor::EndOpenGL()
+{
+	glColor4fv(currentColor);
 }

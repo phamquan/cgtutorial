@@ -5,13 +5,18 @@ class CColor :
 	public COpenGLNode
 {
 public:
-	CColor();
-	virtual ~CColor(void);
-	void SetData(float red, float green, float blue, float alpha);
+	CColor(float red, float green, float blue);
+	virtual ~CColor();
+	//void SetData();
 	CString ToString();
 
 protected:
+	void BeginOpenGL();
 	void DoOpenGL();
+	void EndOpenGL();
+
+protected:
 	CPoint3D data;
+	float currentColor[4];
 };
 

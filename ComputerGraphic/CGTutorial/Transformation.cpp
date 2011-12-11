@@ -1,17 +1,13 @@
 #include "StdAfx.h"
 #include "Transformation.h"
 
-CTransformation::CTransformation(char* label, int ID) : COpenGLNode(label,ID)
+CTransformation::CTransformation(CPoint3D src, char* label, int ID) : COpenGLNode(label,ID)
 {
+	data = src;
 }
 
 CTransformation::~CTransformation()
 {
-}
-
-void CTransformation::SetData(CPoint3D src)
-{
-	data = src;
 }
 
 CString CTransformation::ToString()

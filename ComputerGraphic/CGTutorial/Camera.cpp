@@ -1,19 +1,15 @@
 #include "StdAfx.h"
 #include "Camera.h"
 
-CCamera::CCamera() : COpenGLNode("camera",NODE_CAMERA)
-{
-}
-
-CCamera::~CCamera()
-{
-}
-
-void CCamera::SetData(CPoint3D pos, CPoint3D look, CPoint3D up)
+CCamera::CCamera(CPoint3D pos, CPoint3D look, CPoint3D up) : COpenGLNode("camera",NODE_CAMERA)
 {
 	this->pos = pos;
 	this->look = look;
 	this->up = up;
+}
+
+CCamera::~CCamera()
+{
 }
 
 CString CCamera::ToString()
@@ -28,9 +24,14 @@ CString CCamera::ToString()
 	return result + CString(buff) + ")";
 }
 
-void CCamera::DoOpenGL()
+void CCamera::BeginOpenGL()
 {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+void CCamera::DoOpenGL()
+{
+
 	gluLookAt(pos.getX(),pos.getY(),pos.getZ(),look.getX(),look.getY(),look.getZ(),up.getX(),up.getY(),up.getZ());
 }

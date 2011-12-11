@@ -4,11 +4,12 @@ class CRectangle :
 	public CGeometric
 {
 public:
-	CRectangle(void);
-	CRectangle(CPoint3D begin, CPoint3D end);
-	virtual ~CRectangle(void);
+	CRectangle(float top, float left, float bottom, float right);
+	virtual ~CRectangle();
+	CString ToString();
 
 protected:
-	virtual void BeginOpenGL();
+	void BeginOpenGL();
+	void DoOpenGL();
 };
 
