@@ -43,6 +43,10 @@ BEGIN_MESSAGE_MAP(CFileView, CDockablePane)
 	ON_COMMAND(ID_ADDOBJECT_RECTANGLE, &CFileView::OnAddobjectRectangle)
 	ON_COMMAND(ID_OBJECT_DELETE, &CFileView::OnObjectDelete)
 	ON_COMMAND(ID_OBJECT_ADDCOLOR, &CFileView::OnObjectAddcolor)
+	ON_COMMAND(ID_ADDTRANSFORMATION_TRANSLATE, &CFileView::OnAddtransformationTranslate)
+	ON_COMMAND(ID_ADDTRANSFORMATION_SCALE, &CFileView::OnAddtransformationScale)
+	ON_COMMAND(ID_ADDTRANSFORMATION_ROTATE, &CFileView::OnAddtransformationRotate)
+	ON_COMMAND(ID_OBJECT_EDIT, &CFileView::OnObjectEdit)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -364,6 +368,18 @@ void CFileView::AddNode(COpenGLNode *newNode)
 	((CMainFrame*)AfxGetMainWnd())->m_wndSplitter.GetPane(0,1)->Invalidate();
 }
 
+void CFileView::OnObjectAddcolor()
+{
+	// TODO: Add your command handler code here
+	if(ValidateAdd()) {
+		CColorDialog dlg;
+		if(dlg.DoModal() == IDOK) {
+			COLORREF color = dlg.GetColor();
+			AddNode(new CColor(GetRValue(color)/255.0,GetGValue(color)/255.0,GetBValue(color)/255.0));
+		}
+	}
+}
+
 void CFileView::OnObjectDelete()
 {
 	// TODO: Add your command handler code here
@@ -407,14 +423,13 @@ void CFileView::OnAddobjectRectangle()
 
 
 
-void CFileView::OnObjectAddcolor()
+void CFileView::OnObjectEdit()
 {
 	// TODO: Add your command handler code here
-	if(ValidateAdd()) {
-		CColorDialog dlg;
-		if(dlg.DoModal() == IDOK) {
-			COLORREF color = dlg.GetColor();
-			AddNode(new CColor(GetRValue(color)/255.0,GetGValue(color)/255.0,GetBValue(color)/255.0));
-		}
+	switch(node->GetID()) {
+	case NODE_POINT:
+		CDlgPoint dlg;
+		if(dlg.DoModal() == 
+		break;
 	}
 }

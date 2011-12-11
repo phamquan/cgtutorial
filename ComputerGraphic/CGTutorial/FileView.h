@@ -83,5 +83,9 @@ public:
 	afx_msg void OnObjectDelete();
 	afx_msg void OnAddobjectPoint();
 	afx_msg void OnObjectAddcolor();
+	afx_msg void OnAddtransformationTranslate();
+	afx_msg void OnAddtransformationScale();
+	afx_msg void OnAddtransformationRotate();
+	afx_msg void OnObjectEdit();
 };
 
