@@ -43,6 +43,8 @@ BEGIN_MESSAGE_MAP(CCGTutorialView, CView)
 	ON_WM_ERASEBKGND()
 	ON_WM_SIZE()
 	ON_WM_PAINT()
+	ON_COMMAND(ID_SHOW_CAMERA, &CCGTutorialView::OnShowCamera)
+	ON_UPDATE_COMMAND_UI(ID_SHOW_CAMERA, &CCGTutorialView::OnUpdateShowCamera)
 END_MESSAGE_MAP()
 
 // CCGTutorialView construction/destruction
@@ -54,6 +56,7 @@ CCGTutorialView::CCGTutorialView()
 
 	m_near = -1000;
 	m_far = 1000;
+	isShowCamera = true;
 }
 
 CCGTutorialView::~CCGTutorialView()
@@ -253,16 +256,49 @@ void CCGTutorialView::OnPaint()
 	wglMakeCurrent( m_hDC, m_hRC );
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glColor3f(0.0f, 0.0f, 0.0f);
-
-	//this->GetDocument()->projection->PaintOpenGL();
-	//this->GetDocument()->camera->PaintOpenGL();
+	//EvalViewMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	//glMultMatrixf(m_ViewMatrix);
+	
 	gluLookAt(1,1,1,0,0,0,0,1,0);
 
+	DrawCoordinate();
+
+	if(isShowCamera)
+		this->GetDocument()->environment->DrawCamera();
+
+	glColor3f(0.0f, 0.0f, 0.0f);
 	this->GetDocument()->object->PaintOpenGL();
 
 	glFlush();
 	SwapBuffers(dc.m_ps.hdc);
+}
+
+void CCGTutorialView::OnShowCamera()
+{
+	// TODO: Add your command handler code here
+	isShowCamera = !isShowCamera;
+	Invalidate();
+}
+
+
+void CCGTutorialView::OnUpdateShowCamera(CCmdUI *pCmdUI)
+{
+	// TODO: Add your command update UI handler code here
+	pCmdUI->SetCheck(isShowCamera);
+}
+
+void CCGTutorialView::DrawCoordinate() {
+	glBegin(GL_LINES);
+		glColor3f(1.0f,0.0f,0.0f);
+		glVertex3f(0.0f,0.0f,0.0f);
+		glVertex3f(1000.0f,0.0f,0.0f);
+		glColor3f(0.0f,1.0f,0.0f);
+		glVertex3f(0.0f,0.0f,0.0f);
+		glVertex3f(0.0f,1000.0f,0.0f);
+		glColor3f(0.0f,0.0f,1.0f);
+		glVertex3f(0.0f,0.0f,0.0f);
+		glVertex3f(0.0f,0.0f,1000.0f);
+	glEnd();
 }

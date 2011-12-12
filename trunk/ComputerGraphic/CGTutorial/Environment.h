@@ -11,5 +11,7 @@ public:
 	virtual ~CEnvironment();
 	CCamera* GetCamera();
 	CProjection* GetProjection();
+
+	void DrawCamera();
 };
 

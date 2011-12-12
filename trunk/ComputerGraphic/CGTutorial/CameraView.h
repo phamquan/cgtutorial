@@ -25,6 +25,7 @@ public:
 public:
 	void SetupOpenGL();
 	void DetroyOpenGL();
+	void DrawCoordinate();
 // Overrides
 public:
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
