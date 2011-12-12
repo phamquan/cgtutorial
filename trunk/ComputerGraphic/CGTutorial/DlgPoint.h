@@ -8,6 +8,7 @@ class CDlgPoint : public CDialogEx
 
 public:
 	CDlgPoint(CWnd* pParent = NULL);   // standard constructor
+	CDlgPoint(float x, float y, float z, CWnd* pParent = NULL);
 	virtual ~CDlgPoint();
 
 // Dialog Data

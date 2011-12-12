@@ -133,20 +133,20 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 	}
 	else if(CString(node->Value()) == "translate")
 	{
-		result = new CTranslate(CPoint3D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node))));
+		result = new CTranslate(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)));
 	}
 	else if(CString(node->Value()) == "rotate")
 	{
-		result = new CRotate(CPoint3D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("angle",node))));
+		result = new CRotate(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("angle",node)));
 	}
 	else if(CString(node->Value()) == "scale")
 	{
-		result = new CScale(CPoint3D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node))));
+		result = new CScale(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)));
 	}
 	else if(CString(node->Value()) == "line")
 	{
-		result = new CLine(CPoint3D(atof(GetValue("x1",node)),atof(GetValue("y1",node)),atof(GetValue("z1",node))),
-						   CPoint3D(atof(GetValue("x2",node)),atof(GetValue("y2",node)),atof(GetValue("z2",node))));
+		result = new CLine(atof(GetValue("x1",node)),atof(GetValue("y1",node)),atof(GetValue("z1",node)),
+						   atof(GetValue("x2",node)),atof(GetValue("y2",node)),atof(GetValue("z2",node)));
 	}
 	else if(CString(node->Value()) == "rectangle")
 	{
@@ -154,7 +154,7 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 	}
 	else if(CString(node->Value()) == "point")
 	{
-		result = new CPoint4D(CPoint3D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node))));
+		result = new CPoint4D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)));
 	}
 
 	return result;
@@ -391,13 +391,107 @@ void CFileView::OnObjectDelete()
 	}
 }
 
+void CFileView::OnObjectEdit()
+{
+	// TODO: Add your command handler code here
+	int id = node->GetID();
+	float x1,y1,z1,x2,y2,z2,w;
+	BOOLEAN edit = false;
+	if(id == NODE_PROJECTION) {
+		((CProjection*)node)->GetData(x1,y1,z1,x2,y2,z2,id);
+		CDlgProjection dlg(x1,y1,z1,x2,y2,z2,id);
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			((CProjection*)node)->SetData(dlg.m_Left,dlg.m_Right,dlg.m_Bottom,dlg.m_Top,dlg.m_Near,dlg.m_Far,dlg.type);
+		}
+	} else if(id == NODE_TRANSLATE) {
+		((CTranslate*)node)->GetData(x1,y1,z1,w);
+		CDlgPoint dlg(x1,y1,z1);
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			((CTranslate*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z);
+		}
+	} else if(id == NODE_SCALE) {
+		((CScale*)node)->GetData(x1,y1,z1,w);
+		CDlgPoint dlg(x1,y1,z1);
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			((CScale*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z);
+		}
+	} else if(id == NODE_ROTATE) {
+		((CRotate*)node)->GetData(x1,y1,z1,w);
+		CDlgRotate dlg(x1,y1,z1,w);
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			((CRotate*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_Angle);
+		}
+	} else if(id == NODE_POINT) {
+		((CPoint4D*)node)->GetData(x1,y1,z1);
+		CDlgPoint dlg(x1,y1,z1);
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			((CPoint4D*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z);
+		}
+	} else if(id == NODE_LINE) {
+		((CLine*)node)->GetData(x1,y1,z1,x2,y2,z2);
+		CDlgLine dlg(x1,y1,z1,x2,y2,z2);
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			((CLine*)node)->SetData(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2);
+		}
+	} else if(id == NODE_RECTANGLE) {
+		((CRectangle*)node)->GetData(x1,y1,x2,y2);
+		CDlgRectangle dlg(x1,y1,x2,y2);
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			((CRectangle*)node)->SetData(dlg.m_Top,dlg.m_Left,dlg.m_Bottom,dlg.m_Right);
+		}
+	}
+
+	if(edit) {
+		m_wndFileView.SetItemText(hTreeItem,node->ToString());
+		((CMainFrame*)AfxGetMainWnd())->m_wndSplitter.GetPane(0,0)->Invalidate();
+		((CMainFrame*)AfxGetMainWnd())->m_wndSplitter.GetPane(0,1)->Invalidate();
+	}
+}
+
+void CFileView::OnAddtransformationTranslate()
+{
+	// TODO: Add your command handler code here
+	if(ValidateAdd()) {
+		CDlgPoint dlg;
+		if(dlg.DoModal() == IDOK)
+			AddNode(new CTranslate(dlg.m_X,dlg.m_Y,dlg.m_Z));
+	}
+}
+
+void CFileView::OnAddtransformationScale()
+{
+	// TODO: Add your command handler code here
+	if(ValidateAdd()) {
+		CDlgPoint dlg;
+		if(dlg.DoModal() == IDOK)
+			AddNode(new CScale(dlg.m_X,dlg.m_Y,dlg.m_Z));
+	}
+}
+
+void CFileView::OnAddtransformationRotate()
+{
+	// TODO: Add your command handler code here
+	if(ValidateAdd()) {
+		CDlgRotate dlg;
+		if(dlg.DoModal() == IDOK)
+			AddNode(new CRotate(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_Angle));
+	}
+}
+
 void CFileView::OnAddobjectPoint()
 {
 	// TODO: Add your command handler code here
 	if(ValidateAdd()) {
 		CDlgPoint dlg;
 		if(dlg.DoModal() == IDOK)
-			AddNode(new CPoint4D(CPoint3D(dlg.m_X,dlg.m_Y,dlg.m_Z)));
+			AddNode(new CPoint4D(dlg.m_X,dlg.m_Y,dlg.m_Z));
 	}
 }
 
@@ -407,7 +501,7 @@ void CFileView::OnAddobjectLine()
 	if(ValidateAdd()) {
 		CDlgLine dlg;
 		if(dlg.DoModal() == IDOK)
-			AddNode(new CLine(CPoint3D(dlg.m_X1,dlg.m_Y1,dlg.m_Z1),CPoint3D(dlg.m_X2,dlg.m_Y2,dlg.m_Z2)));
+			AddNode(new CLine(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2));
 	}
 }
 
@@ -418,18 +512,5 @@ void CFileView::OnAddobjectRectangle()
 		CDlgRectangle dlg;
 		if(dlg.DoModal() == IDOK)
 			AddNode(new CRectangle(dlg.m_Top,dlg.m_Left,dlg.m_Bottom,dlg.m_Right));
-	}
-}
-
-
-
-void CFileView::OnObjectEdit()
-{
-	// TODO: Add your command handler code here
-	switch(node->GetID()) {
-	case NODE_POINT:
-		CDlgPoint dlg;
-		if(dlg.DoModal() == 
-		break;
 	}
 }

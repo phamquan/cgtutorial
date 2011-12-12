@@ -4,7 +4,7 @@ class CScale :
 	public CTransformation
 {
 public:
-	CScale(CPoint3D data);
+	CScale(float x, float y, float z);
 	virtual ~CScale();
 
 protected:

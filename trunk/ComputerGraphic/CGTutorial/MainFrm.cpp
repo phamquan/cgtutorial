@@ -112,8 +112,8 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/,
 
 	if(result)
 	{
-		m_wndSplitter.CreateView(0,0,RUNTIME_CLASS(CCGTutorialView),CSize(200,0),pContext);
-		m_wndSplitter.CreateView(0,1,RUNTIME_CLASS(CCameraView),CSize(200,0),pContext);
+		m_wndSplitter.CreateView(0,0,RUNTIME_CLASS(CCGTutorialView),CSize(500,0),pContext);
+		m_wndSplitter.CreateView(0,1,RUNTIME_CLASS(CCameraView),CSize(500,0),pContext);
 	}
 
 	return result;

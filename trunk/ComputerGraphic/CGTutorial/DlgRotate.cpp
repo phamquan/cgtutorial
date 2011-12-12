@@ -21,6 +21,16 @@ CDlgRotate::CDlgRotate(CWnd* pParent /*=NULL*/)
 	m_Z = 0.0f;
 }
 
+CDlgRotate::CDlgRotate(float x, float y, float z, float angle, CWnd* pParent /*=NULL*/)
+	: CDialogEx(CDlgRotate::IDD, pParent)
+{
+
+	m_Angle = angle;
+	m_X = x;
+	m_Y = y;
+	m_Z = z;
+}
+
 CDlgRotate::~CDlgRotate()
 {
 }

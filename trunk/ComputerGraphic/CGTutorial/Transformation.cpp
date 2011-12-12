@@ -1,13 +1,25 @@
 #include "StdAfx.h"
 #include "Transformation.h"
 
-CTransformation::CTransformation(CPoint3D src, char* label, int ID) : COpenGLNode(label,ID)
+CTransformation::CTransformation(char* label, int ID) : COpenGLNode(label,ID)
 {
-	data = src;
 }
 
 CTransformation::~CTransformation()
 {
+}
+
+void CTransformation::SetData(float x, float y, float z, float angle)
+{
+	data.setCoords(x,y,z,angle);
+}
+
+void CTransformation::GetData(float &x, float &y, float &z, float &angle)
+{
+	x = data.getX();
+	y = data.getY();
+	z = data.getZ();
+	angle = data.getW();
 }
 
 CString CTransformation::ToString()

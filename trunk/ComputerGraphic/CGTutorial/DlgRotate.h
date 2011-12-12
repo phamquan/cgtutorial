@@ -10,6 +10,7 @@ class CDlgRotate : public CDialogEx
 
 public:
 	CDlgRotate(CWnd* pParent = NULL);   // standard constructor
+	CDlgRotate(float x, float y, float z, float angle, CWnd* pParent = NULL);
 	virtual ~CDlgRotate();
 
 // Dialog Data

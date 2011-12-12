@@ -5,7 +5,7 @@ class CTranslate :
 	public CTransformation
 {
 public:
-	CTranslate(CPoint3D data);
+	CTranslate(float x, float y, float z);
 	virtual ~CTranslate();
 
 protected:

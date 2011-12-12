@@ -23,6 +23,18 @@ CDlgLine::CDlgLine(CWnd* pParent /*=NULL*/)
 	m_Z2 = 0.0f;
 }
 
+CDlgLine::CDlgLine(float x1, float y1, float z1, float x2, float y2, float z2, CWnd* pParent /*=NULL*/)
+	: CDialogEx(CDlgLine::IDD, pParent)
+{
+
+	m_X1 = x1;
+	m_X2 = x2;
+	m_Y1 = y1;
+	m_Y2 = y2;
+	m_Z1 = z1;
+	m_Z2 = z2;
+}
+
 CDlgLine::~CDlgLine()
 {
 }

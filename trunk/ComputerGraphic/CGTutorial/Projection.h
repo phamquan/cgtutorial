@@ -1,8 +1,8 @@
 #pragma once
 #include "OpenGLNode.h"
 
-#define ORTHO	1
-#define FRUSTUM	2
+#define ORTHO	0
+#define FRUSTUM	1
 
 class CProjection :
 	public COpenGLNode
@@ -10,6 +10,9 @@ class CProjection :
 public:
 	CProjection(float left, float right, float bottom, float top, float mnear, float mdfar, int type);
 	virtual ~CProjection(void);
+
+	void SetData(float left, float right, float bottom, float top, float mnear, float mdfar, int type);
+	void GetData(float &left, float &right, float &bottom, float &top, float &mnear, float &mdfar, int &type);
 	CString ToString();
 
 protected:

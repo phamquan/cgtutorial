@@ -4,12 +4,25 @@
 
 CRectangle::CRectangle(float top, float left, float bottom, float right) : CGeometric("rectangle",NODE_RECTANGLE)
 {
-	data1.setCoords(top,left,0);
-	data2.setCoords(bottom,right,0);
+	SetData(top,left,bottom,right);
 }
 
 CRectangle::~CRectangle()
 {
+}
+
+void CRectangle::SetData(float top, float left, float bottom, float right)
+{
+	data1.setCoords(top,left,0);
+	data2.setCoords(bottom,right,0);
+}
+
+void CRectangle::GetData(float &top, float &left, float &bottom, float &right)
+{
+	top = data1.getX();
+	left = data1.getY();
+	bottom = data2.getX();
+	right = data2.getY();
 }
 
 CString CRectangle::ToString()

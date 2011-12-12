@@ -204,6 +204,9 @@
     <ClInclude Include="DlgRotate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DlgProjection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CGTutorial.cpp">
@@ -288,6 +291,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DlgRotate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgProjection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

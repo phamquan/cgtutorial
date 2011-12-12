@@ -140,6 +140,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="DlgLine.h" />
     <ClInclude Include="DlgPoint.h" />
+    <ClInclude Include="DlgProjection.h" />
     <ClInclude Include="DlgRectangle.h" />
     <ClInclude Include="DlgRotate.h" />
     <ClInclude Include="Environment.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="DlgLine.cpp" />
     <ClCompile Include="DlgPoint.cpp" />
+    <ClCompile Include="DlgProjection.cpp" />
     <ClCompile Include="DlgRectangle.cpp" />
     <ClCompile Include="DlgRotate.cpp" />
     <ClCompile Include="Environment.cpp" />
