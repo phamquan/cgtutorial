@@ -138,6 +138,7 @@
     <ClInclude Include="CGTutorialDoc.h" />
     <ClInclude Include="CGTutorialView.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="DlgCamera.h" />
     <ClInclude Include="DlgLine.h" />
     <ClInclude Include="DlgPoint.h" />
     <ClInclude Include="DlgProjection.h" />
@@ -171,6 +172,7 @@
     <ClCompile Include="CGTutorialDoc.cpp" />
     <ClCompile Include="CGTutorialView.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="DlgCamera.cpp" />
     <ClCompile Include="DlgLine.cpp" />
     <ClCompile Include="DlgPoint.cpp" />
     <ClCompile Include="DlgProjection.cpp" />
