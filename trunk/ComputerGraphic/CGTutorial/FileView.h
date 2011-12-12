@@ -22,6 +22,7 @@
 #include "Rectangle.h"
 #include "Point4D.h"
 
+#include "DlgShowMatrix.h"
 #include "DlgProjection.h"
 #include "DlgCamera.h"
 #include "DlgRotate.h"
@@ -50,6 +51,7 @@ public:
 	void FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNode* oobject, CEnvironment* oenvironment);
 	void FillView(COpenGLNode* object, COpenGLNode* environment);
 
+	void ShowModelMatrix();
 // Attributes
 protected:
 	CViewTree m_wndFileView;

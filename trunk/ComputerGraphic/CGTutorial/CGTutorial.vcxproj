@@ -144,6 +144,7 @@
     <ClInclude Include="DlgProjection.h" />
     <ClInclude Include="DlgRectangle.h" />
     <ClInclude Include="DlgRotate.h" />
+    <ClInclude Include="DlgShowMatrix.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="Geometric.h" />
@@ -178,6 +179,7 @@
     <ClCompile Include="DlgProjection.cpp" />
     <ClCompile Include="DlgRectangle.cpp" />
     <ClCompile Include="DlgRotate.cpp" />
+    <ClCompile Include="DlgShowMatrix.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="Geometric.cpp" />
