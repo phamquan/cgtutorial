@@ -52,7 +52,7 @@ int CRasterizationConfig::getHeight(void)
 
 RASTERIZEALG CRasterizationConfig::getAlgorithmRasterization(void)
 {
-	return RASTERIZEALG();
+	return m_rasterizealg;
 }
 
 

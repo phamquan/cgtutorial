@@ -31,8 +31,14 @@ struct COLOR {
 	COLOR operator-(const COLOR& op) {
 		return COLOR(red-op.red, green-op.green, blue-op.blue);
 	}
-	COLOR operator*(const float op) {
+	COLOR operator*(const float& op) {
 		return COLOR(red*op, green*op, blue*op);
+	}
+	COLOR& operator+=(const COLOR& op) {
+		this->red += op.red;
+		this->green += op.green;
+		this->blue += op.blue;
+		return *this;
 	}
 };
 
