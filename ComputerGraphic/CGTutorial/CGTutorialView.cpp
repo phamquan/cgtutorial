@@ -255,13 +255,10 @@ void CCGTutorialView::OnSize(UINT nType, int cx, int cy)
 
 void CCGTutorialView::EvalViewMatrix() {
 	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
 	glLoadIdentity();
     glRotatef(angle.getY(),1,0,0);
 	glRotatef(angle.getX(),0,1,0);
-	//glTranslatef(Pan.getX(),Pan.getY(),Pan.getZ());	
 	glGetFloatv(GL_MODELVIEW_MATRIX,m_ViewMatrix);
-	glPopMatrix();
 }
 
 void CCGTutorialView::OnPaint()
@@ -277,7 +274,7 @@ void CCGTutorialView::OnPaint()
 	glLoadIdentity();
 	glMultMatrixf(m_ViewMatrix);
 	
-	gluLookAt(1,1,1,0,0,0,0,1,0);
+	//gluLookAt(1,1,1,0,0,0,0,1,0);
 
 	DrawCoordinate();
 
