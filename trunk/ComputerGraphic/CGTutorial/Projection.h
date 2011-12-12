@@ -16,7 +16,9 @@ public:
 	CString ToString();
 
 protected:
+	void BeginOpenGL();
 	void DoOpenGL();
+	void EndOpenGL();
 
 protected:
 	int type;

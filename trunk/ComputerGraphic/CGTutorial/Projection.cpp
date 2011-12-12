@@ -44,12 +44,21 @@ CString CProjection::ToString()
 		return result + "type=frustum " + CString(buff) + ")";
 }
 
-void CProjection::DoOpenGL()
+void CProjection::BeginOpenGL()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+}
+
+void CProjection::DoOpenGL()
+{
 	if(type == ORTHO)
 		glOrtho(data1.getX(),data1.getY(),data1.getZ(),data2.getX(),data2.getY(),data2.getZ());
 	else
 		glFrustum(data1.getX(),data1.getY(),data1.getZ(),data2.getX(),data2.getY(),data2.getZ());
+}
+
+void CProjection::EndOpenGL()
+{
+	glMatrixMode(GL_MODELVIEW);
 }
