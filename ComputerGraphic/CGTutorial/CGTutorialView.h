@@ -32,12 +32,17 @@ public:
 	float m_near;
 	float m_far;
 	bool m_isCreated;
+	CPoint3D angle;
+	CPoint3D start;
+	float m_ViewMatrix[16];
+	BOOLEAN m_isMouseDown;
 
 	BOOLEAN isShowCamera;
 // Operations
 public:
 	void SetupOpenGL();
 	void DetroyOpenGL();
+	void EvalViewMatrix();
 	void DrawCoordinate();
 // Overrides
 public:
@@ -72,6 +77,10 @@ public:
 	afx_msg void OnPaint();
 	afx_msg void OnShowCamera();
 	afx_msg void OnUpdateShowCamera(CCmdUI *pCmdUI);
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
 };
 
 #ifndef _DEBUG  // debug version in CGTutorialView.cpp

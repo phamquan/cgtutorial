@@ -45,6 +45,10 @@ BEGIN_MESSAGE_MAP(CCGTutorialView, CView)
 	ON_WM_PAINT()
 	ON_COMMAND(ID_SHOW_CAMERA, &CCGTutorialView::OnShowCamera)
 	ON_UPDATE_COMMAND_UI(ID_SHOW_CAMERA, &CCGTutorialView::OnUpdateShowCamera)
+	ON_WM_LBUTTONDOWN()
+	ON_WM_MOUSEMOVE()
+	ON_WM_LBUTTONUP()
+	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
 // CCGTutorialView construction/destruction
@@ -57,6 +61,7 @@ CCGTutorialView::CCGTutorialView()
 	m_near = -1000;
 	m_far = 1000;
 	isShowCamera = true;
+	m_isMouseDown = false;
 }
 
 CCGTutorialView::~CCGTutorialView()
@@ -219,13 +224,12 @@ void CCGTutorialView::OnSize(UINT nType, int cx, int cy)
 	// TODO: Add your message handler code here
 	wglMakeCurrent(m_hDC, m_hRC); 
 	CRect rect;
-	GetClientRect(rect);
+	GetClientRect(&rect);
+
 	int w = rect.Width();
 	int h = rect.Height();
 	glViewport(0, 0, w, h);
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
 	if(m_isCreated == false) {
 		if (w <= h)	{
 			m_width = 2.0;
@@ -244,9 +248,21 @@ void CCGTutorialView::OnSize(UINT nType, int cx, int cy)
 	if(w != 0 && h != 0)
 		m_isCreated = true;
 
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
 	glOrtho(-m_width, m_width, -m_height, m_height, m_near, m_far);
 }
 
+void CCGTutorialView::EvalViewMatrix() {
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+    glRotatef(angle.getY(),1,0,0);
+	glRotatef(angle.getX(),0,1,0);
+	//glTranslatef(Pan.getX(),Pan.getY(),Pan.getZ());	
+	glGetFloatv(GL_MODELVIEW_MATRIX,m_ViewMatrix);
+	glPopMatrix();
+}
 
 void CCGTutorialView::OnPaint()
 {
@@ -256,10 +272,10 @@ void CCGTutorialView::OnPaint()
 	wglMakeCurrent( m_hDC, m_hRC );
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//EvalViewMatrix();
+	EvalViewMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	//glMultMatrixf(m_ViewMatrix);
+	glMultMatrixf(m_ViewMatrix);
 	
 	gluLookAt(1,1,1,0,0,0,0,1,0);
 
@@ -301,4 +317,52 @@ void CCGTutorialView::DrawCoordinate() {
 		glVertex3f(0.0f,0.0f,0.0f);
 		glVertex3f(0.0f,0.0f,1000.0f);
 	glEnd();
+}
+
+void CCGTutorialView::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	m_isMouseDown = true;
+	start.setCoords(point.x,point.y,0);
+	Invalidate();
+}
+
+
+void CCGTutorialView::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	if (m_isMouseDown) {
+		angle.setCoords(angle.getX() + (point.x - start.getX())/5,
+						angle.getY() + (point.y - start.getY())/5,
+						0);
+		if(angle.getX()<0) angle.setX(angle.getX()+360);
+		else if (angle.getX()>360) angle.setX(angle.getX()-360);
+		if(angle.getY()<0) angle.setY(angle.getY()+360);
+		else if (angle.getY()>360) angle.setY(angle.getY()-360);
+		start.setCoords(point.x,point.y,0);
+		Invalidate();
+	}
+}
+
+
+void CCGTutorialView::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	m_isMouseDown = false;
+}
+
+
+BOOL CCGTutorialView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+	// TODO: Add your message handler code here and/or call default
+	float zoomY = (zDelta<0)? m_height*0.1:-m_height*0.1;
+	float zoomX = zoomY*m_width/m_height;
+	m_width += zoomX;
+	m_height += zoomY;
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-m_width, m_width, -m_height, m_height, m_near, m_far);
+	Invalidate();
+
+	return CView::OnMouseWheel(nFlags, zDelta, pt);
 }

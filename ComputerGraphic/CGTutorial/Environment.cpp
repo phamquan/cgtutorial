@@ -24,6 +24,25 @@ void CEnvironment::DrawCamera()
 	if(m_listChild.GetSize() < 2)
 		return;
 
+	float m[16];
+	float n[16];
+	CProjection* projection = GetProjection();
+	CCamera* camera = GetCamera();
+
+	//Calculate camera position
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	camera->PaintOpenGL();
+	glGetFloatv(GL_MODELVIEW_MATRIX,m);
+	glPopMatrix();
+	//End calulate camera position
+
+	//Reverse camera position;
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	InvertMatrix(m,n);
+	glMultMatrixf(n);
+	
 	glBegin(GL_LINES);
 		glColor3f(1.0f,0.0f,0.0f);
 		glVertex3f(0.0f,0.0f,0.0f);
@@ -99,55 +118,49 @@ void CEnvironment::DrawCamera()
 		radius-=offset;
 		z -= offset;
 	}
-	float m[16];
-	float n[16];
-	float x1,y1,z1,x2,y2,z2;
-	int type;
-	CCamera* camera = GetCamera();
-	CProjection* projection = GetProjection();
-	projection->GetData(x1,y1,z1,x2,y2,z2,type),
 
+	//Calculate projection square
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
-	glLoadIdentity();
-	
-	if(type == ORTHO)
-		glOrtho(x1,y1,z1,x2,y2,z2);
-	else
-		glFrustum(x1,y1,z1,x2,y2,z2);
-
+	projection->PaintOpenGL();
 	glGetFloatv(GL_PROJECTION_MATRIX,m);
-	InvertMatrix(m,n);
 	glPopMatrix();
+	//End calculate projection square
 
+	//Reverse projection square
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
+	InvertMatrix(m,n);
 	glMultMatrixf(n);
 
 	glColor3f(0.5,0.7,0.5);
 	glBegin(GL_QUADS);
-	glVertex3f(-1.0,-1.0,-1.0);
-	glVertex3f( 1.0,-1.0,-1.0);
-	glVertex3f( 1.0, 1.0,-1.0);
-	glVertex3f(-1.0, 1.0,-1.0);
-
-	glVertex3f(-1.0,-1.0, 1.0);
-	glVertex3f( 1.0,-1.0, 1.0);
-	glVertex3f( 1.0, 1.0, 1.0);
-	glVertex3f(-1.0, 1.0, 1.0);
+		glVertex3f(-1.0,-1.0,-1.0);
+		glVertex3f( 1.0,-1.0,-1.0);
+		glVertex3f( 1.0, 1.0,-1.0);
+		glVertex3f(-1.0, 1.0,-1.0);
+		glVertex3f(-1.0,-1.0, 1.0);
+		glVertex3f( 1.0,-1.0, 1.0);
+		glVertex3f( 1.0, 1.0, 1.0);
+		glVertex3f(-1.0, 1.0, 1.0);
 	glEnd();
 
 	glColor3f(0.0,0.0,0.0);
 	glBegin(GL_LINES);
-	glVertex3f(-1.0,-1.0,-1.0);
-	glVertex3f(-1.0,-1.0, 1.0);
-	glVertex3f( 1.0,-1.0,-1.0);
-	glVertex3f( 1.0,-1.0, 1.0);
-	glVertex3f( 1.0, 1.0,-1.0);
-	glVertex3f( 1.0, 1.0, 1.0);
-	glVertex3f(-1.0, 1.0,-1.0);
-	glVertex3f(-1.0, 1.0, 1.0);
+		glVertex3f(-1.0,-1.0,-1.0);
+		glVertex3f(-1.0,-1.0, 1.0);
+		glVertex3f( 1.0,-1.0,-1.0);
+		glVertex3f( 1.0,-1.0, 1.0);
+		glVertex3f( 1.0, 1.0,-1.0);
+		glVertex3f( 1.0, 1.0, 1.0);
+		glVertex3f(-1.0, 1.0,-1.0);
+		glVertex3f(-1.0, 1.0, 1.0);
 	glEnd();
 
+	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
+	//End reverse projeciton square
+
+	glPopMatrix();
+	//End reverse camera position
 }
