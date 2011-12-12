@@ -44,9 +44,7 @@ void CDlgShowMatrix::OnPaint()
 	CRect rect;
 	GetClientRect(&rect);
 
-	for(int i=0; i<10; i++)
-		dc.DrawText(CString("dasdasdasd"),-1,CRect(0,i*2,rect.Width(),rect.Height()), DT_TOP | DT_LEFT);
-	//dc.DrawText(CString("dasdasdasd"),-1,CRect(0,20,rect.Width(),rect.Height()), DT_TOP | DT_LEFT);
+	dc.TextOutW(0,10,CString("dasdasdasd"),-1);
 }
 
 
