@@ -361,6 +361,7 @@ void CRasterizationIllustrationDlg::drawOrigin(void)
 void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEALG alg, bool isStep)
 {
 	int width = m_config->getWidth();
+	 
 	//Thoi gian delay moi buoc
 	int nTime = isStep? 50 : 0;
 	m_pixelState[start.y*width + start.x] = m_pixelState[end.y*width + end.x] = PCHOSEN;
@@ -415,8 +416,15 @@ void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEAL
 	case BRESENHAM:
 		{
 			int x0 = start.x, y0=start.y, x1=end.x, y1=end.y;
+			m_pixelColor[x0*width + y0] = start.color;
+			m_pixelColor[x1*width + y1] = end.color;
+			COLOR iter = m_pixelColor[x0*width + y0];
+
+			COLOR delta = (m_pixelColor[x1*width + y1] - m_pixelColor[x0*width + y0])*(1.0f/float(x1-x0));
+
 			bool steep = abs(y1 - y0) > abs(x1 - x0);
 			if (steep) {
+				delta = (m_pixelColor[x1*width + y1] - m_pixelColor[x0*width + y0])*(1.0f/float(y1-y0));
 				swap(int, x0, y0);
 				swap(int, x1, y1);
 			}
@@ -433,16 +441,19 @@ void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEAL
 			if (y0 < y1) 
 				ystep = 1;
 			else ystep = -1;
-			COLOR delta = (m_pixelColor[x1*width + y1] - m_pixelColor[x0*width + y0])*(1.0f/float(x1-x0));
-			COLOR iter = m_pixelColor[x0*width + y0];
+			
 			for (int x = x0; x <= x1;x++) {
 				if (steep) {
 					m_pixelState[x*width + y] = PCHOSEN;
+					m_pixelColor[x*width + y] = iter;
+					iter += delta;
 					Sleep(nTime);
 					this->Invalidate();
 				}
 				else {
 					m_pixelState[y*width + x] = PCHOSEN;
+					m_pixelColor[y*width + x] = iter;
+					iter += delta;
 					Sleep(nTime);
 					this->Invalidate();
 				}
@@ -481,7 +492,7 @@ void CRasterizationIllustrationDlg::drawPixel(void)
 		for (x = 0; x < width; x++)
 			switch (m_pixelState[y*width + x]) {
 			case PCHOSEN:
-				fillPixel(PIXEL(x,y), COLOR(0.0f,1.0f,0.0f));
+				fillPixel(PIXEL(x,y), m_pixelColor[y*width+x]);
 				break;
 			case PNONE:
 				//fillPixel(PIXEL(x,y), bg);
@@ -496,7 +507,7 @@ DWORD WINAPI CRasterizationIllustrationDlg::ThreadProc(LPVOID lpParam)
 {
 	CRasterizationIllustrationDlg* pParent = (CRasterizationIllustrationDlg*) lpParam;
 
-	pParent->Rasterize(PIXEL(0,0),PIXEL(100,300),pParent->getConfig()->getAlgorithmRasterization(), true);
+	pParent->Rasterize(PIXEL(0,0,RED),PIXEL(100,300,GREEN),pParent->getConfig()->getAlgorithmRasterization(), true);
 
 	TerminateProcess(pParent->hRunStep, 1);
 	return 1;
@@ -517,7 +528,7 @@ void CRasterizationIllustrationDlg::runAll(void)
 	if (hRunStep) {
 		TerminateThread(hRunStep,1);
 	}
-	this->Rasterize(PIXEL(0,0),PIXEL(100,300),m_config->getAlgorithmRasterization());
+	this->Rasterize(PIXEL(0,0,RED),PIXEL(100,300,GREEN),m_config->getAlgorithmRasterization());
 }
 
 
