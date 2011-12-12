@@ -1,8 +1,9 @@
 #include "StdAfx.h"
 #include "Translate.h"
 
-CTranslate::CTranslate(CPoint3D data) : CTransformation(data,"translate",NODE_TRANSLATE)
+CTranslate::CTranslate(float x, float y, float z) : CTransformation("translate",NODE_TRANSLATE)
 {
+	SetData(x,y,z);
 }
 
 CTranslate::~CTranslate()

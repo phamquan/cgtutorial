@@ -10,6 +10,7 @@ class CDlgRectangle : public CDialogEx
 
 public:
 	CDlgRectangle(CWnd* pParent = NULL);   // standard constructor
+	CDlgRectangle(float top, float left, float bottom, float right, CWnd* pParent = NULL);
 	virtual ~CDlgRectangle();
 
 // Dialog Data

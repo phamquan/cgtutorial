@@ -21,6 +21,16 @@ CDlgRectangle::CDlgRectangle(CWnd* pParent /*=NULL*/)
 	m_Top = 0.0f;
 }
 
+CDlgRectangle::CDlgRectangle(float top, float left, float bottom, float right, CWnd* pParent /*=NULL*/)
+	: CDialogEx(CDlgRectangle::IDD, pParent)
+{
+
+	m_Bottom = top;
+	m_Left = left;
+	m_Right = bottom;
+	m_Top = right;
+}
+
 CDlgRectangle::~CDlgRectangle()
 {
 }

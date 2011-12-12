@@ -6,8 +6,11 @@ class CLine :
 	public CGeometric
 {
 public:
-	CLine(CPoint3D begin, CPoint3D end);
+	CLine(float x1, float y1, float z1, float x2, float y2, float z2);
 	virtual ~CLine();
+
+	void SetData(float x1, float y1, float z1, float x2, float y2, float z2);
+	void GetData(float &x1, float &y1, float &z1, float &x2, float &y2, float &z2);
 	CString ToString();
 
 protected:

@@ -5,10 +5,12 @@ class CTransformation :
 	public COpenGLNode
 {
 public:
-	CTransformation(CPoint3D src, char* label, int ID);
+	CTransformation(char* label, int ID);
 	virtual ~CTransformation();
 	CString ToString();
 
+	void SetData(float x, float y, float z, float angle = 0);
+	void GetData(float &x, float &y, float &z, float &angle);
 protected:
 	virtual void BeginOpenGL();
 	virtual void EndOpenGL();

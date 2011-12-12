@@ -20,6 +20,15 @@ CDlgPoint::CDlgPoint(CWnd* pParent /*=NULL*/)
 	m_Z = 0.0f;
 }
 
+CDlgPoint::CDlgPoint(float x, float y, float z, CWnd* pParent /*=NULL*/)
+	: CDialogEx(CDlgPoint::IDD, pParent)
+{
+
+	m_X = x;
+	m_Y = y;
+	m_Z = z;
+}
+
 CDlgPoint::~CDlgPoint()
 {
 }

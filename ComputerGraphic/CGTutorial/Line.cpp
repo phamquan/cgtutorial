@@ -1,14 +1,29 @@
 #include "StdAfx.h"
 #include "Line.h"
 
-CLine::CLine(CPoint3D begin, CPoint3D end) : CGeometric("line",NODE_LINE)
+CLine::CLine(float x1, float y1, float z1, float x2, float y2, float z2) : CGeometric("line",NODE_LINE)
 {
-	data1 = begin;
-	data2 = end;
+	SetData(x1, y1, z1, x2, y2, z2);
 }
 
 CLine::~CLine()
 {
+}
+
+void CLine::SetData(float x1, float y1, float z1, float x2, float y2, float z2)
+{
+	data1.setCoords(x1,y1,z1);
+	data2.setCoords(x2,y2,z2);
+}
+
+void CLine::GetData(float &x1, float &y1, float &z1, float &x2, float &y2, float &z2)
+{
+	x1 = data1.getX();
+	y1 = data1.getY();
+	z1 = data1.getZ();
+	x2 = data2.getX();
+	y2 = data2.getY();
+	z2 = data2.getZ();
 }
 
 CString CLine::ToString()

@@ -22,6 +22,7 @@
 #include "Rectangle.h"
 #include "Point4D.h"
 
+#include "DlgProjection.h"
 #include "DlgRotate.h"
 #include "DlgPoint.h"
 #include "DlgLine.h"
