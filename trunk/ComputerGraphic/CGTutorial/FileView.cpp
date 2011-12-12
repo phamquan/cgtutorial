@@ -118,9 +118,9 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 	COpenGLNode *result = NULL;
 	if(CString(node->Value()) == "camera")
 	{
-		result = new CCamera(CPoint3D(atof(GetValue("xpos",node)),atof(GetValue("ypos",node)),atof(GetValue("zpos",node))),
-									CPoint3D(atof(GetValue("xlook",node)),atof(GetValue("ylook",node)),atof(GetValue("zlook",node))),
-									CPoint3D(atof(GetValue("xup",node)),atof(GetValue("yup",node)),atof(GetValue("zup",node))));
+		result = new CCamera(atof(GetValue("xpos",node)),atof(GetValue("ypos",node)),atof(GetValue("zpos",node)),
+							 atof(GetValue("xlook",node)),atof(GetValue("ylook",node)),atof(GetValue("zlook",node)),
+							 atof(GetValue("xup",node)),atof(GetValue("yup",node)),atof(GetValue("zup",node)));
 	}
 	else if(CString(node->Value()) == "projection")
 	{
@@ -395,7 +395,7 @@ void CFileView::OnObjectEdit()
 {
 	// TODO: Add your command handler code here
 	int id = node->GetID();
-	float x1,y1,z1,x2,y2,z2,w;
+	float x1,y1,z1,x2,y2,z2,x3,y3,z3,w;
 	BOOLEAN edit = false;
 	if(id == NODE_PROJECTION) {
 		((CProjection*)node)->GetData(x1,y1,z1,x2,y2,z2,id);
@@ -403,6 +403,13 @@ void CFileView::OnObjectEdit()
 		if(dlg.DoModal() == IDOK) {
 			edit = true;
 			((CProjection*)node)->SetData(dlg.m_Left,dlg.m_Right,dlg.m_Bottom,dlg.m_Top,dlg.m_Near,dlg.m_Far,dlg.type);
+		}
+	} else if(id == NODE_CAMERA) {
+		((CCamera*)node)->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
+		CDlgCamera dlg(x1,y1,z1,x2,y2,z2,x3,y3,z3);
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			((CCamera*)node)->SetData(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2,dlg.m_X3,dlg.m_Y3,dlg.m_Z3);
 		}
 	} else if(id == NODE_TRANSLATE) {
 		((CTranslate*)node)->GetData(x1,y1,z1,w);

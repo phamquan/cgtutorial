@@ -1,17 +1,34 @@
 #include "StdAfx.h"
 #include "Camera.h"
 
-CCamera::CCamera(CPoint3D pos, CPoint3D look, CPoint3D up) : COpenGLNode("camera",NODE_CAMERA)
+CCamera::CCamera(float xpos, float ypos, float zpos, float xlook, float ylook, float zlook, float xup, float yup, float zup) : COpenGLNode("camera",NODE_CAMERA)
 {
-	this->pos = pos;
-	this->look = look;
-	this->up = up;
+	SetData(xpos, ypos, zpos, xlook, ylook, zlook, xup, yup, zup);
 }
 
 CCamera::~CCamera()
 {
 }
 
+void CCamera::SetData(float xpos, float ypos, float zpos, float xlook, float ylook, float zlook, float xup, float yup, float zup)
+{
+	pos.setCoords(xpos, ypos, zpos);
+	look.setCoords(xlook, ylook, zlook);
+	up.setCoords(xup, yup, zup);
+}
+void CCamera::GetData(float &xpos, float &ypos, float &zpos, float &xlook, float &ylook, float &zlook, float &xup, float &yup, float &zup)
+{
+	xpos = pos.getX();
+	ypos = pos.getY();
+	zpos = pos.getZ();
+	xlook = look.getX();
+	ylook = look.getY();
+	zlook = look.getZ();
+	xup = up.getX();
+	yup = up.getY();
+	zup = up.getZ();
+}
+	
 CString CCamera::ToString()
 {
 	CString result = label + " (";
