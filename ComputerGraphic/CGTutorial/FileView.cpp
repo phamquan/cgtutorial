@@ -333,6 +333,21 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 	pWndTree->SetFocus();
 }
 
+void CFileView::ShowModelMatrix()
+{
+	CDlgShowMatrix dlg;
+	dlg.DoModal();
+
+	hTreeItem = m_wndFileView.GetSelectedItem();
+
+	if(hTreeItem != NULL) {
+		m_wndFileView.myMap.Lookup(hTreeItem,node);
+		if(node->GetID() == NODE_POINT) {
+			
+		}
+	}
+}
+
 BOOLEAN CFileView::ValidateAdd()
 {
 	switch(node->GetID()) {

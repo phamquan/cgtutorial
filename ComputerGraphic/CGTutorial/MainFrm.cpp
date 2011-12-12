@@ -35,6 +35,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_UPDATE_COMMAND_UI(ID_FILE_PRINT_PREVIEW, &CMainFrame::OnUpdateFilePrintPreview)
 	ON_WM_SETTINGCHANGE()
 	ON_COMMAND(ID_VIEW_LAYOUT, &CMainFrame::OnViewLayout)
+	ON_COMMAND(ID_MODEL_MATRIX, &CMainFrame::OnModelMatrix)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -324,4 +325,11 @@ void CMainFrame::OnViewLayout()
 {
 	// TODO: Add your command handler code here
 	m_wndFileView.ShowPane(TRUE,FALSE,TRUE);
+}
+
+
+void CMainFrame::OnModelMatrix()
+{
+	// TODO: Add your command handler code here
+	m_wndFileView.ShowModelMatrix();
 }
