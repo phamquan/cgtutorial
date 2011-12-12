@@ -4,7 +4,7 @@
 #include "ScrollDialog.h"
 // CDlgShowMatrix dialog
 
-class CDlgShowMatrix : public CScrollDialog
+class CDlgShowMatrix : public CDialogEx
 {
 	DECLARE_DYNAMIC(CDlgShowMatrix)
 

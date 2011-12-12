@@ -219,8 +219,23 @@ void CCameraView::OnPaint()
 	glColor3f(0.0f, 0.0f, 0.0f);
 
 	GetDocument()->environment->PaintOpenGL();
+	DrawCoordinate();
 	GetDocument()->object->PaintOpenGL();
 
 	glFlush();
 	SwapBuffers(dc.m_ps.hdc);
+}
+
+void CCameraView::DrawCoordinate() {
+	glBegin(GL_LINES);
+		glColor3f(1.0f,0.0f,0.0f);
+		glVertex3f(0.0f,0.0f,0.0f);
+		glVertex3f(1000.0f,0.0f,0.0f);
+		glColor3f(0.0f,1.0f,0.0f);
+		glVertex3f(0.0f,0.0f,0.0f);
+		glVertex3f(0.0f,1000.0f,0.0f);
+		glColor3f(0.0f,0.0f,1.0f);
+		glVertex3f(0.0f,0.0f,0.0f);
+		glVertex3f(0.0f,0.0f,1000.0f);
+	glEnd();
 }

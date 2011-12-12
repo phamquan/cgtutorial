@@ -32,10 +32,13 @@ public:
 	float m_near;
 	float m_far;
 	bool m_isCreated;
+
+	BOOLEAN isShowCamera;
 // Operations
 public:
 	void SetupOpenGL();
 	void DetroyOpenGL();
+	void DrawCoordinate();
 // Overrides
 public:
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
@@ -67,6 +70,8 @@ public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnPaint();
+	afx_msg void OnShowCamera();
+	afx_msg void OnUpdateShowCamera(CCmdUI *pCmdUI);
 };
 
 #ifndef _DEBUG  // debug version in CGTutorialView.cpp

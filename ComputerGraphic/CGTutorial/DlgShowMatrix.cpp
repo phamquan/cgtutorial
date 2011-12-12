@@ -9,10 +9,10 @@
 
 // CDlgShowMatrix dialog
 
-IMPLEMENT_DYNAMIC(CDlgShowMatrix, CScrollDialog)
+IMPLEMENT_DYNAMIC(CDlgShowMatrix, CDialogEx)
 
 CDlgShowMatrix::CDlgShowMatrix(CWnd* pParent /*=NULL*/)
-	: CScrollDialog(CDlgShowMatrix::IDD, pParent)
+	: CDialogEx(CDlgShowMatrix::IDD, pParent)
 {
 
 }
@@ -23,11 +23,11 @@ CDlgShowMatrix::~CDlgShowMatrix()
 
 void CDlgShowMatrix::DoDataExchange(CDataExchange* pDX)
 {
-	CScrollDialog::DoDataExchange(pDX);
+	CDialogEx::DoDataExchange(pDX);
 }
 
 
-BEGIN_MESSAGE_MAP(CDlgShowMatrix, CScrollDialog)
+BEGIN_MESSAGE_MAP(CDlgShowMatrix, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
@@ -50,7 +50,7 @@ void CDlgShowMatrix::OnPaint()
 
 BOOL CDlgShowMatrix::OnInitDialog()
 {
-	CScrollDialog::OnInitDialog();
+	CDialogEx::OnInitDialog();
 
 	// TODO:  Add extra initialization here
 	GetWindowRect(m_rect);
