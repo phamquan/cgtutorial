@@ -216,10 +216,9 @@ void CCameraView::OnPaint()
 	wglMakeCurrent( m_hDC, m_hRC );
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glColor3f(0.0f, 0.0f, 0.0f);
-
 	GetDocument()->environment->PaintOpenGL();
 	DrawCoordinate();
+	glColor3f(0.0f, 0.0f, 0.0f);
 	GetDocument()->object->PaintOpenGL();
 
 	glFlush();

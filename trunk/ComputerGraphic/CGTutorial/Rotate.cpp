@@ -16,7 +16,7 @@ CString CRotate::ToString()
 
 	char buff[1024];
 
-	sprintf(buff,"x=%f, y=%f, z=%f, alpha=%f",data.getX(),data.getY(),data.getZ(),data.getW());
+	sprintf(buff,"x=%5.2f, y=%5.2f, z=%5.2f, alpha=%5.2f",data.getX(),data.getY(),data.getZ(),data.getW());
 
 	return result + CString(buff) + ")";
 }
