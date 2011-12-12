@@ -1,6 +1,6 @@
 #pragma once
 
-#include "resource.h"
+#include "Resource.h"
 
 // CDlgCamera dialog
 
@@ -9,7 +9,7 @@ class CDlgCamera : public CDialogEx
 	DECLARE_DYNAMIC(CDlgCamera)
 
 public:
-	CDlgCamera(CWnd* pParent = NULL);   // standard constructor
+	CDlgCamera(float xpos, float ypos, float zpos, float xlook, float ylook, float zlook, float xup, float yup, float zup, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CDlgCamera();
 
 // Dialog Data
@@ -28,4 +28,6 @@ public:
 	float m_Y3;
 	float m_Z1;
 	float m_Z2;
+	float m_Z3;
+	afx_msg void OnBnClickedOk();
 };
