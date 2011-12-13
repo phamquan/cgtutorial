@@ -210,10 +210,10 @@
     <ClInclude Include="DlgCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DlgShowMatrix.h">
+    <ClInclude Include="ScrollDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ScrollDialog.h">
+    <ClInclude Include="DlgShowMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -308,10 +308,10 @@
     <ClCompile Include="DlgCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DlgShowMatrix.cpp">
+    <ClCompile Include="ScrollDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ScrollDialog.cpp">
+    <ClCompile Include="DlgShowMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
