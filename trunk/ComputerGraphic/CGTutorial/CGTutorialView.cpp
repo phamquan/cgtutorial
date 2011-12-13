@@ -258,7 +258,7 @@ void CCGTutorialView::EvalViewMatrix() {
 	glLoadIdentity();
     glRotatef(angle.getY(),1,0,0);
 	glRotatef(angle.getX(),0,1,0);
-	glGetFloatv(GL_MODELVIEW_MATRIX,m_ViewMatrix);
+	//glGetFloatv(GL_MODELVIEW_MATRIX,m_ViewMatrix);
 }
 
 void CCGTutorialView::OnPaint()
@@ -270,11 +270,7 @@ void CCGTutorialView::OnPaint()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	EvalViewMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glMultMatrixf(m_ViewMatrix);
-	
-	//gluLookAt(1,1,1,0,0,0,0,1,0);
+	gluLookAt(1,1,1,0,0,0,0,1,0);
 
 	DrawCoordinate();
 

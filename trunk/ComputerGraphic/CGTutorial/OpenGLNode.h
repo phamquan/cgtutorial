@@ -35,7 +35,7 @@ public:
 
 protected:
 	virtual void BeginOpenGL() {};
-	virtual void DoOpenGL() {};
+	virtual void DoOpenGL();
 	virtual void EndOpenGL() {};
 
 protected:

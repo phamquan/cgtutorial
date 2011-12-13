@@ -11,12 +11,18 @@ CEnvironment::~CEnvironment()
 
 CCamera* CEnvironment::GetCamera()
 {
-	return (CCamera*)m_listChild.GetAt(1);
+	for(int i=0; i<m_listChild.GetSize(); i++)
+		if(((COpenGLNode*)m_listChild.GetAt(i))->GetID() == NODE_CAMERA)
+			return (CCamera*)m_listChild.GetAt(i);
+	return NULL;
 }
 
 CProjection* CEnvironment::GetProjection()
 {
-	return (CProjection*)m_listChild.GetAt(0);
+	for(int i=0; i<m_listChild.GetSize(); i++)
+		if(((COpenGLNode*)m_listChild.GetAt(i))->GetID() == NODE_PROJECTION)
+			return (CProjection*)m_listChild.GetAt(i);
+	return NULL;
 }
 
 void CEnvironment::DrawCamera()
