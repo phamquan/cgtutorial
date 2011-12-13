@@ -69,3 +69,8 @@ CString COpenGLNode::ToString()
 {
 	return label + " ()";
 }
+
+void COpenGLNode::DoOpenGL()
+{
+	glMatrixMode(GL_MODELVIEW);
+}

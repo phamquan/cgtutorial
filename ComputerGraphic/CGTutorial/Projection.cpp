@@ -57,8 +57,3 @@ void CProjection::DoOpenGL()
 	else
 		glFrustum(data1.getX(),data1.getY(),data1.getZ(),data2.getX(),data2.getY(),data2.getZ());
 }
-
-void CProjection::EndOpenGL()
-{
-	glMatrixMode(GL_MODELVIEW);
-}
