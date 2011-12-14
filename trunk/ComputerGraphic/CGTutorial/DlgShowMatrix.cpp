@@ -16,6 +16,7 @@ CDlgShowMatrix::CDlgShowMatrix(CString name, COpenGLNode* node, CWnd* pParent /*
 {
 	title = name;
 	root = node;
+	count[0]  = count[1] = count[2] = 1;
 }
 
 CDlgShowMatrix::~CDlgShowMatrix()
@@ -128,14 +129,44 @@ void CDlgShowMatrix::OnPaint()
 	CPaintDC dc(this); // device context for painting
 	// TODO: Add your message handler code here
 	// Do not call CDialogEx::OnPaint() for painting messages
+	int top=0;
+	ShowNode(&dc,root->GetParent(),top,10);
+}
 
+void CDlgShowMatrix::ShowNode(CDC* cdc, COpenGLNode* node, int &top, int left) {
 	float m[16];
-	for(int i=0; i<16; i++)
-		m[i] = 0;
+	int id = node->GetID();
+	char buff[128];
 
-	int left = 10, top = 0;
-	ShowMatrix(&dc,CString("I"),m,top,left);
-	ShowMatrix(&dc,CString("I"),m,top,left);
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	float x1,y1,z1,w1;
+	if(id == NODE_OBJECT) {
+		glGetFloatv(GL_MODELVIEW_MATRIX,m);
+		ShowMatrix(cdc,CString("I"),m,top,left);
+	} else {
+		if(id != NODE_COLOR) {			
+			if(id == NODE_TRANSLATE) {
+				sprintf(buff,"T%d",count[0]++);
+				((CTranslate*)node)->GetData(x1,y1,z1,w1);
+				glTranslatef(x1,y1,z1);
+			} else if(id == NODE_SCALE) {
+				sprintf(buff,"S%d",count[1]++);
+				((CScale*)node)->GetData(x1,y1,z1,w1);
+				glScalef(x1,y1,z1);
+			} else if(id == NODE_ROTATE) {
+				sprintf(buff,"R%d",count[2]++);
+				((CRotate*)node)->GetData(x1,y1,z1,w1);
+				glRotatef(w1,x1,y1,z1);
+			}
+			glGetFloatv(GL_MODELVIEW_MATRIX,m);
+			ShowMatrix(cdc,CString(buff),m,top,left);
+		}
+		ShowNode(cdc,node->GetParent(),top,left);
+	}
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
 }
 
 void CDlgShowMatrix::ShowMatrix(CDC* cdc, CString name, float m[16], int &top, int left)

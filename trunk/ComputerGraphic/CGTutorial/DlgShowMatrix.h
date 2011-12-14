@@ -16,12 +16,15 @@ public:
 	CRect m_rect;
 	CString title;
 	COpenGLNode* root;
+
+	int count[3];
 // Dialog Data
 	enum { IDD = IDD_SHOW_MATRIX };
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	static void ShowMatrix(CDC* dc, CString name, float m[16], int &top, int left);
+	void ShowNode(CDC* cdc, COpenGLNode* node, int &top, int left);
 
 	DECLARE_MESSAGE_MAP()
 public:
