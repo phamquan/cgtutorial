@@ -335,15 +335,19 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 void CFileView::ShowModelMatrix()
 {
-	CDlgShowMatrix dlg;
-	dlg.DoModal();
-
 	hTreeItem = m_wndFileView.GetSelectedItem();
 
 	if(hTreeItem != NULL) {
 		m_wndFileView.myMap.Lookup(hTreeItem,node);
-		if(node->GetID() == NODE_POINT) {
-			
+		CDlgShowMatrix dlg(CString("Model Matrix"),node);
+		switch(node->GetID()) {
+		case NODE_POINT:
+		case NODE_LINE:
+		case NODE_RECTANGLE:
+			dlg.DoModal();
+			break;
+		default:
+			AfxMessageBox(CString("Please choose geometric object"));
 		}
 	}
 }
