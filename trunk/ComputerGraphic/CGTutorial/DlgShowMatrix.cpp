@@ -11,10 +11,11 @@
 
 IMPLEMENT_DYNAMIC(CDlgShowMatrix, CDialogEx)
 
-CDlgShowMatrix::CDlgShowMatrix(CWnd* pParent /*=NULL*/)
+CDlgShowMatrix::CDlgShowMatrix(CString name, COpenGLNode* node, CWnd* pParent /*=NULL*/)
 	: CDialogEx(CDlgShowMatrix::IDD, pParent)
 {
-
+	title = name;
+	root = node;
 }
 
 CDlgShowMatrix::~CDlgShowMatrix()
@@ -44,6 +45,7 @@ BOOL CDlgShowMatrix::OnInitDialog()
 	// TODO:  Add extra initialization here
 	GetWindowRect(m_rect);
 	m_nScrollPos = 0;
+	this->SetWindowTextW(title);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -127,9 +129,29 @@ void CDlgShowMatrix::OnPaint()
 	// TODO: Add your message handler code here
 	// Do not call CDialogEx::OnPaint() for painting messages
 
-	dc.DrawText(CString("dasdasd"),-1,CRect(0,0,100,100),DT_TOP|DT_LEFT);
-	dc.DrawText(CString("dasdasd"),-1,CRect(0,20,100,100),DT_TOP|DT_LEFT);
-	dc.DrawText(CString("dasdasd"),-1,CRect(0,40,100,100),DT_TOP|DT_LEFT);
-	dc.DrawText(CString("dasdasd"),-1,CRect(0,60,100,100),DT_TOP|DT_LEFT);
-	dc.DrawText(CString("dasdasd"),-1,CRect(0,80,100,100),DT_TOP|DT_LEFT);
+	float m[16];
+	for(int i=0; i<16; i++)
+		m[i] = 0;
+
+	int left = 10, top = 0;
+	ShowMatrix(&dc,CString("I"),m,top,left);
+	ShowMatrix(&dc,CString("I"),m,top,left);
+}
+
+void CDlgShowMatrix::ShowMatrix(CDC* cdc, CString name, float m[16], int &top, int left)
+{
+	char buff[1024];
+
+	top += 10;
+	cdc->TextOutW(left, top+30, name += " =");
+	left += (int)cdc->GetTextExtent(name += " = ").cx;
+
+	for(int i=0; i<4; i++) {
+		for(int j=0; j<4; j++) {
+			sprintf(buff,"%5.2f",m[i*4+j]);
+			cdc->TextOutW(left+j*50,top+i*20,CString(buff));
+		}
+	}
+
+	top += 20*4 + 10;
 }

@@ -62,6 +62,7 @@ CCGTutorialView::CCGTutorialView()
 	m_far = 1000;
 	isShowCamera = true;
 	m_isMouseDown = false;
+	angle.setCoords(-45,45,0);
 }
 
 CCGTutorialView::~CCGTutorialView()
@@ -270,7 +271,7 @@ void CCGTutorialView::OnPaint()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	EvalViewMatrix();
-	gluLookAt(1,1,1,0,0,0,0,1,0);
+	//gluLookAt(1,1,1,0,0,0,0,1,0);
 
 	DrawCoordinate();
 

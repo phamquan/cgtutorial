@@ -327,7 +327,6 @@ void CMainFrame::OnViewLayout()
 	m_wndFileView.ShowPane(TRUE,FALSE,TRUE);
 }
 
-
 void CMainFrame::OnModelMatrix()
 {
 	// TODO: Add your command handler code here

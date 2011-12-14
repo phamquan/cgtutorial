@@ -8,17 +8,20 @@ class CDlgShowMatrix : public CDialogEx
 	DECLARE_DYNAMIC(CDlgShowMatrix)
 
 public:
-	CDlgShowMatrix(CWnd* pParent = NULL);   // standard constructor
+	CDlgShowMatrix(CString name, COpenGLNode* node, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CDlgShowMatrix();
 
 	int m_nCurHeight;
 	int m_nScrollPos;
 	CRect m_rect;
+	CString title;
+	COpenGLNode* root;
 // Dialog Data
 	enum { IDD = IDD_SHOW_MATRIX };
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	static void ShowMatrix(CDC* dc, CString name, float m[16], int &top, int left);
 
 	DECLARE_MESSAGE_MAP()
 public:
