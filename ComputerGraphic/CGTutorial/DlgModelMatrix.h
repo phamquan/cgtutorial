@@ -21,7 +21,10 @@ public:
 	enum { IDD = IDD_DIALOG_PIPELINE };
 
 protected:
-	static void ShowMatrix(CDC* dc, CString name, CString rear, float m[16], int &top, int left);
+	void ShowMatrix(CDC* cdc, CString name, CString rear, float m[16], int &top, int left);
+	void ShowMatrix(CDC* cdc, float m[16], int top, int left);
+	void ShowPoint(CDC* cdc, CString name, CPoint3D point, int &top, int left);
+	void ShowPoint(CDC* cdc, CPoint3D point, int top, int left);
 	void ShowNode(CDC* cdc, COpenGLNode* node, int &top, int left);
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
