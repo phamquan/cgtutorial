@@ -213,7 +213,10 @@
     <ClInclude Include="ScrollDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DlgShowMatrix.h">
+    <ClInclude Include="DlgModelMatrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgViewMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -311,7 +314,10 @@
     <ClCompile Include="ScrollDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DlgShowMatrix.cpp">
+    <ClCompile Include="DlgModelMatrix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgViewMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -339,7 +339,26 @@ void CFileView::ShowModelMatrix()
 
 	if(hTreeItem != NULL) {
 		m_wndFileView.myMap.Lookup(hTreeItem,node);
-		CDlgShowMatrix dlg(CString("Model Matrix"),node);
+		CDlgModelMatrix dlg(node);
+		switch(node->GetID()) {
+		case NODE_POINT:
+		case NODE_LINE:
+		case NODE_RECTANGLE:
+			dlg.DoModal();
+			break;
+		default:
+			AfxMessageBox(CString("Please choose geometric object"));
+		}
+	}
+}
+
+void CFileView::ShowViewMatrix()
+{
+	hTreeItem = m_wndFileView.GetSelectedItem();
+
+	if(hTreeItem != NULL) {
+		m_wndFileView.myMap.Lookup(hTreeItem,node);
+		CDlgModelMatrix dlg(node);
 		switch(node->GetID()) {
 		case NODE_POINT:
 		case NODE_LINE:
