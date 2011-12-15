@@ -71,6 +71,7 @@ protected:
 public:
 	afx_msg void OnViewLayout();
 	afx_msg void OnModelMatrix();
+	afx_msg void OnViewMatrix();
 };
 
 

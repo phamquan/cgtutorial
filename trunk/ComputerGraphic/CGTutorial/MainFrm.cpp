@@ -36,6 +36,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_WM_SETTINGCHANGE()
 	ON_COMMAND(ID_VIEW_LAYOUT, &CMainFrame::OnViewLayout)
 	ON_COMMAND(ID_MODEL_MATRIX, &CMainFrame::OnModelMatrix)
+	ON_COMMAND(ID_VIEW_MATRIX, &CMainFrame::OnViewMatrix)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -331,4 +332,11 @@ void CMainFrame::OnModelMatrix()
 {
 	// TODO: Add your command handler code here
 	m_wndFileView.ShowModelMatrix();
+}
+
+
+void CMainFrame::OnViewMatrix()
+{
+	// TODO: Add your command handler code here
+	m_wndFileView.ShowViewMatrix();
 }
