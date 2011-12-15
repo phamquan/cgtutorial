@@ -4,14 +4,13 @@
 #include "stdafx.h"
 #include "CGTutorial.h"
 #include "DlgModelMatrix.h"
-#include "afxdialogex.h"
 
 // CDlgModelMatrix dialog
 
-IMPLEMENT_DYNAMIC(CDlgModelMatrix, CDialogEx)
+IMPLEMENT_DYNAMIC(CDlgModelMatrix, CDlgMatrix)
 
 CDlgModelMatrix::CDlgModelMatrix(COpenGLNode* node, CWnd* pParent /*=NULL*/)
-	: CDialogEx(CDlgModelMatrix::IDD, pParent)
+	: CDlgMatrix(pParent)
 {
 	root = node;
 }
@@ -22,11 +21,11 @@ CDlgModelMatrix::~CDlgModelMatrix()
 
 void CDlgModelMatrix::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+	CDlgMatrix::DoDataExchange(pDX);
 }
 
 
-BEGIN_MESSAGE_MAP(CDlgModelMatrix, CDialogEx)
+BEGIN_MESSAGE_MAP(CDlgModelMatrix, CDlgMatrix)
 	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
@@ -124,31 +123,11 @@ void CDlgModelMatrix::ShowMatrix(CDC* cdc, CString name, CString rear, float m[1
 	cdc->TextOutW(left, top+30, name);
 	left += (int)cdc->GetTextExtent(name).cx+10;
 
-	ShowMatrix(cdc,m,top,left);
+	CDlgMatrix::ShowMatrix(cdc,m,top,left);
 
 	cdc->TextOutW(left+250,top+30,rear);
 
 	top += 20*4 + 10;
-}
-
-void CDlgModelMatrix::ShowMatrix(CDC* cdc, float m[16], int top, int left)
-{
-	char buff[128];
-	cdc->MoveTo(left+5,top-5);
-	cdc->LineTo(left-5,top-5);
-	cdc->LineTo(left-5,top+80);
-	cdc->LineTo(left+5,top+80);
-	for(int i=0; i<4; i++) {
-		for(int j=0; j<4; j++) {
-			sprintf(buff,"%5.3f",m[i+j*4]);
-			cdc->TextOutW(left+j*50,top+i*20,CString(buff));
-		}
-	}
-	left += 185;
-	cdc->MoveTo(left-5,top-5);
-	cdc->LineTo(left+5,top-5);
-	cdc->LineTo(left+5,top+80);
-	cdc->LineTo(left-5,top+80);
 }
 
 void CDlgModelMatrix::ShowPoint(CDC* cdc, CString name, CPoint3D point, int &top, int left)
@@ -158,35 +137,11 @@ void CDlgModelMatrix::ShowPoint(CDC* cdc, CString name, CPoint3D point, int &top
 	cdc->TextOutW(left, top+30, newname);
 	left += (int)cdc->GetTextExtent(newname).cx+10;
 
-	ShowMatrix(cdc,sum,top,left);
-	ShowPoint(cdc,point,top,left+205);
+	CDlgMatrix::ShowMatrix(cdc,sum,top,left);
+	CDlgMatrix::ShowPoint(cdc,point,top,left+205);
 	cdc->TextOutW(left+250,top+30,CString("="));
 	CPoint3D newpoint = MultMatrixPoint(sum,point);
-	ShowPoint(cdc,newpoint,top,left+270);
+	CDlgMatrix::ShowPoint(cdc,newpoint,top,left+270);
 
 	top += 20*4 + 10;
-}
-
-void CDlgModelMatrix::ShowPoint(CDC* cdc, CPoint3D point, int top, int left)
-{
-	char buff[128];
-	cdc->MoveTo(left+5,top-5);
-	cdc->LineTo(left-5,top-5);
-	cdc->LineTo(left-5,top+80);
-	cdc->LineTo(left+5,top+80);
-
-	sprintf(buff,"%5.3f",point.getX());
-	cdc->TextOutW(left,top,CString(buff));
-	sprintf(buff,"%5.3f",point.getY());
-	cdc->TextOutW(left,top+20,CString(buff));
-	sprintf(buff,"%5.3f",point.getZ());
-	cdc->TextOutW(left,top+40,CString(buff));
-	sprintf(buff,"%5.3f",point.getW());
-	cdc->TextOutW(left,top+60,CString(buff));
-
-	left += 35;
-	cdc->MoveTo(left-5,top-5);
-	cdc->LineTo(left+5,top-5);
-	cdc->LineTo(left+5,top+80);
-	cdc->LineTo(left-5,top+80);
 }
