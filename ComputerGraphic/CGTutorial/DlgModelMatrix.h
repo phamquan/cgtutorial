@@ -1,6 +1,5 @@
 #pragma once
 
-#include "resource.h"
 #include "DlgMatrix.h"
 
 // CDlgModelMatrix dialog
@@ -19,8 +18,6 @@ public:
 	int count[3];
 
 protected:
-	void ShowMatrix(CDC* cdc, CString name, CString rear, float m[16], int &top, int left);
-	void ShowPoint(CDC* cdc, CString name, CPoint3D point, int &top, int left);
 	void ShowNode(CDC* cdc, COpenGLNode* node, int &top, int left);
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

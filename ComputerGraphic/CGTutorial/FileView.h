@@ -55,6 +55,7 @@ public:
 
 	void ShowModelMatrix();
 	void ShowViewMatrix();
+	void ShowProjectionMatrix();
 // Attributes
 protected:
 	CViewTree m_wndFileView;

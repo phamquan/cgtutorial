@@ -59,32 +59,14 @@ void CDlgViewMatrix::OnPaint()
 		if(root->GetID() == NODE_POINT) {
 			CPoint4D* newpoint = ((CPoint4D*)root)->CalculateModel();
 			newpoint->GetData(x1,y1,z1);
-			ShowPointMatrix(&dc,CString("P1'"),CPoint3D(x1,y1,z1),top,left);
+			ShowMatrixPoint(&dc,CString("V"),CString("P1'"),sum,CPoint3D(x1,y1,z1),top,left);
 		} else if(root->GetID() == NODE_LINE) {
 			CLine* newline = ((CLine*)root)->CalculateModel();
 			newline->GetData(x1,y1,z1,x2,y2,z2);
-			ShowPointMatrix(&dc,CString("P1'"),CPoint3D(x1,y1,z1),top,left);
-			ShowPointMatrix(&dc,CString("P2'"),CPoint3D(x2,y2,z2),top,left);
+			ShowMatrixPoint(&dc,CString("V"),CString("P1'"),sum,CPoint3D(x1,y1,z1),top,left);
+			ShowMatrixPoint(&dc,CString("V"),CString("P2'"),sum,CPoint3D(x2,y2,z2),top,left);
 		}
 	}
-	/*ShowNode(&dc,root->GetParent(),top,left);
-	ShowMatrix(&dc,CString("M = ") + total,CString(),sum,top,left);*/
-}
-
-void CDlgViewMatrix::ShowPointMatrix(CDC* cdc, CString name, CPoint3D point, int &top, int left)
-{
-	top += 10;
-	CString newname = name + "' = M*" + name + " =";
-	cdc->TextOutW(left, top+30, newname);
-	left += (int)cdc->GetTextExtent(newname).cx+10;
-
-	CDlgMatrix::ShowMatrix(cdc,sum,top,left);
-	CDlgMatrix::ShowPoint(cdc,point,top,left+205);
-	cdc->TextOutW(left+250,top+30,CString("="));
-	CPoint3D newpoint = MultMatrixPoint(sum,point);
-	CDlgMatrix::ShowPoint(cdc,newpoint,top,left+270);
-
-	top += 20*4 + 10;
 }
 
 void CDlgViewMatrix::ShowCamera(CDC* cdc, int &top, int left) {
@@ -118,27 +100,18 @@ void CDlgViewMatrix::ShowCamera(CDC* cdc, int &top, int left) {
 
 	ShowMatrix(cdc,CString("T"),CString("glTranslate(x=-eye.x, y=-eye.y, z=-eye.z)"),sum,top,left);
 	
-	top += 10;
-	cdc->TextOutW(left, top+30, CString("M ="));
-	left += (int)cdc->GetTextExtent(CString("M =")).cx + 10;
-
 	CString data[16] = {CString("u.x"), CString("v.x"), CString("n.x"), CString("0.000"),
 					CString("u.y"), CString("v.y"), CString("n.y"), CString("0.000"),
 					CString("u.z"), CString("v.z"), CString ("n.z"), CString("0.000"),
 					CString("0.000"), CString("0.000"), CString("0.000"), CString("1.000")};
-
-	CDlgMatrix::ShowMatrix(cdc,data,top,left);
-	cdc->TextOutW(left+200,top+30,CString("="));
 
 	sum[0] = u.getX(), sum[1] = v.getX(), sum[2] = n.getX(), sum[3] = 0;
 	sum[4] = u.getY(), sum[5] = v.getY(), sum[6] = n.getY(), sum[7] = 0;
 	sum[8] = u.getZ(), sum[9] = v.getZ(), sum[10] = n.getZ(), sum[11] = 0;
 	sum[12] = 0; sum[13] = 0; sum[14] = 0; sum[15] = 1;
 
-	CDlgMatrix::ShowMatrix(cdc,sum,top,left+220);
-	top += 90;
+	ShowMatrixMatrix(cdc,CString("M ="),data,sum,top,left);
 
-	left -= (int)cdc->GetTextExtent(CString("M =")).cx + 10;
 	glLoadIdentity();
 	gluLookAt(x1,y1,z1,x2,y2,z2,x3,y3,z3);
 	glGetFloatv(GL_MODELVIEW_MATRIX,sum);
@@ -147,28 +120,4 @@ void CDlgViewMatrix::ShowCamera(CDC* cdc, int &top, int left) {
 
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
-}
-
-void CDlgViewMatrix::ShowMatrix(CDC* cdc, CString name, CString rear, float m[16], int &top, int left)
-{
-	top += 10;
-	name += " =";
-	cdc->TextOutW(left, top+30, name);
-	left += (int)cdc->GetTextExtent(name).cx+10;
-
-	CDlgMatrix::ShowMatrix(cdc,m,top,left);
-
-	cdc->TextOutW(left+250,top+30,rear);
-
-	top += 20*4 + 10;
-}
-
-void CDlgViewMatrix::ShowPoint(CDC* cdc, CString name, CHomoPoint point, int top, int left)
-{
-	top += 10;
-	name += " =";
-	cdc->TextOutW(left, top+30, name);
-	left += (int)cdc->GetTextExtent(name).cx+10;
-
-	CDlgMatrix::ShowPoint(cdc,point,top,left);
 }

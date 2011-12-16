@@ -222,6 +222,9 @@
     <ClInclude Include="DlgMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DlgProjectionMatrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CGTutorial.cpp">
@@ -324,6 +327,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DlgMatrix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgProjectionMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -373,6 +373,27 @@ void CFileView::ShowViewMatrix()
 	}
 }
 
+void CFileView::ShowProjectionMatrix()
+{
+	COpenGLNode *envi;
+	m_wndFileView.myMap.Lookup(environment,envi);
+	hTreeItem = m_wndFileView.GetSelectedItem();
+
+	if(hTreeItem == NULL) {
+		CDlgViewMatrix dlg(((CEnvironment*)envi)->GetCamera(),NULL);
+		dlg.DoModal();
+	} else {
+		m_wndFileView.myMap.Lookup(hTreeItem,node);
+		if(node->GetID() == NODE_POINT || node->GetID() == NODE_LINE || node->GetID() == NODE_RECTANGLE) {
+			CDlgViewMatrix dlg(((CEnvironment*)envi)->GetCamera(),node);
+			dlg.DoModal();
+		} else {
+			CDlgViewMatrix dlg(((CEnvironment*)envi)->GetCamera(),NULL);
+			dlg.DoModal();
+		}
+	}
+}
+
 BOOLEAN CFileView::ValidateAdd()
 {
 	switch(node->GetID()) {
