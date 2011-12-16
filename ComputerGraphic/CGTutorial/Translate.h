@@ -8,7 +8,6 @@ public:
 	CTranslate(float x, float y, float z);
 	virtual ~CTranslate();
 
-protected:
-	virtual void DoOpenGL();
+	void DoOpenGL();
 };
 

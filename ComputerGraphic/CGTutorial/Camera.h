@@ -11,10 +11,10 @@ public:
 	void SetData(float xpos, float ypos, float zpos, float xlook, float ylook, float zlook, float xup, float yup, float zup);
 	void GetData(float &xpos, float &ypos, float &zpos, float &xlook, float &ylook, float &zlook, float &xup, float &yup, float &zup);
 	CString ToString();
+	void DoOpenGL();
 
 protected:
 	void BeginOpenGL();
-	void DoOpenGL();
 
 protected:
 	CPoint3D pos;

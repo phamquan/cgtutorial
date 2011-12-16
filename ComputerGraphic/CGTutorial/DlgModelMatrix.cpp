@@ -93,16 +93,19 @@ void CDlgModelMatrix::ShowNode(CDC* cdc, COpenGLNode* node, int &top, int left) 
 		if(id != NODE_COLOR) {			
 			if(id == NODE_TRANSLATE) {
 				sprintf(buff,"T%d",count[0]++);
-				((CTranslate*)node)->GetData(x1,y1,z1,w1);
-				glTranslatef(x1,y1,z1);
+				node->DoOpenGL();
+				/*((CTranslate*)node)->GetData(x1,y1,z1,w1);
+				glTranslatef(x1,y1,z1);*/
 			} else if(id == NODE_SCALE) {
 				sprintf(buff,"S%d",count[1]++);
-				((CScale*)node)->GetData(x1,y1,z1,w1);
-				glScalef(x1,y1,z1);
+				node->DoOpenGL();
+				/*((CScale*)node)->GetData(x1,y1,z1,w1);
+				glScalef(x1,y1,z1);*/
 			} else if(id == NODE_ROTATE) {
 				sprintf(buff,"R%d",count[2]++);
-				((CRotate*)node)->GetData(x1,y1,z1,w1);
-				glRotatef(w1,x1,y1,z1);
+				node->DoOpenGL();
+				/*((CRotate*)node)->GetData(x1,y1,z1,w1);
+				glRotatef(w1,x1,y1,z1);*/
 			}
 			total = CString("*") + buff + total;
 			glGetFloatv(GL_MODELVIEW_MATRIX,m);

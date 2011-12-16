@@ -175,20 +175,20 @@ void CFileView::FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNod
 		FillFile(pChild,node,oobject);
 	}
 
-	node = m_wndFileView.InsertItem(CString("environment"), 0, 0);
-	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
+	environment = m_wndFileView.InsertItem(CString("environment"), 0, 0);
+	m_wndFileView.SetItemState(environment,TVIS_BOLD,TVIS_BOLD);
 
-	m_wndFileView.myMap.SetAt(node,oenvironment);
+	m_wndFileView.myMap.SetAt(environment,oenvironment);
 
 	pChild = NULL;
 	while (pChild = tenvironment->IterateChildren(pChild)) {
-		FillFile(pChild,node,oenvironment);
+		FillFile(pChild,environment,oenvironment);
 	}
 
 	AdjustLayout();
 }
 
-void CFileView::FillView(COpenGLNode *object, COpenGLNode* environment)
+void CFileView::FillView(COpenGLNode *object, COpenGLNode* oenvironment)
 {
 	m_wndFileView.DeleteAllItems();
 	m_wndFileView.myMap.RemoveAll();
@@ -198,15 +198,15 @@ void CFileView::FillView(COpenGLNode *object, COpenGLNode* environment)
 	
 	m_wndFileView.myMap.SetAt(node,object);
 
-	node = m_wndFileView.InsertItem(CString("environment"), 0, 0);
-	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
+	environment = m_wndFileView.InsertItem(CString("environment"), 0, 0);
+	m_wndFileView.SetItemState(environment,TVIS_BOLD,TVIS_BOLD);
 	
-	m_wndFileView.myMap.SetAt(node,environment);
+	m_wndFileView.myMap.SetAt(environment,oenvironment);
 
-	for(int i=0; i<environment->GetChilds()->GetSize(); i++)
+	for(int i=0; i<oenvironment->GetChilds()->GetSize(); i++)
 	{
-		COpenGLNode* childnode = (COpenGLNode*)environment->GetChilds()->GetAt(i);
-		HTREEITEM child = m_wndFileView.InsertItem(childnode->ToString(), 0, 0, node);
+		COpenGLNode* childnode = (COpenGLNode*)oenvironment->GetChilds()->GetAt(i);
+		HTREEITEM child = m_wndFileView.InsertItem(childnode->ToString(), 0, 0, environment);
 		m_wndFileView.myMap.SetAt(child,childnode);
 	}
 
@@ -354,19 +354,21 @@ void CFileView::ShowModelMatrix()
 
 void CFileView::ShowViewMatrix()
 {
+	COpenGLNode *envi;
+	m_wndFileView.myMap.Lookup(environment,envi);
 	hTreeItem = m_wndFileView.GetSelectedItem();
 
-	if(hTreeItem != NULL) {
+	if(hTreeItem == NULL) {
+		CDlgViewMatrix dlg(((CEnvironment*)envi)->GetCamera(),NULL);
+		dlg.DoModal();
+	} else {
 		m_wndFileView.myMap.Lookup(hTreeItem,node);
-		CDlgModelMatrix dlg(node);
-		switch(node->GetID()) {
-		case NODE_POINT:
-		case NODE_LINE:
-		case NODE_RECTANGLE:
+		if(node->GetID() == NODE_POINT || node->GetID() == NODE_LINE || node->GetID() == NODE_RECTANGLE) {
+			CDlgViewMatrix dlg(((CEnvironment*)envi)->GetCamera(),node);
 			dlg.DoModal();
-			break;
-		default:
-			AfxMessageBox(CString("Please choose geometric object"));
+		} else {
+			CDlgViewMatrix dlg(((CEnvironment*)envi)->GetCamera(),NULL);
+			dlg.DoModal();
 		}
 	}
 }
