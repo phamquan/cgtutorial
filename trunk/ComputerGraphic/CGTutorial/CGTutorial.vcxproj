@@ -144,6 +144,7 @@
     <ClInclude Include="DlgModelMatrix.h" />
     <ClInclude Include="DlgPoint.h" />
     <ClInclude Include="DlgProjection.h" />
+    <ClInclude Include="DlgProjectionMatrix.h" />
     <ClInclude Include="DlgRectangle.h" />
     <ClInclude Include="DlgRotate.h" />
     <ClInclude Include="DlgViewMatrix.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="DlgModelMatrix.cpp" />
     <ClCompile Include="DlgPoint.cpp" />
     <ClCompile Include="DlgProjection.cpp" />
+    <ClCompile Include="DlgProjectionMatrix.cpp" />
     <ClCompile Include="DlgRectangle.cpp" />
     <ClCompile Include="DlgRotate.cpp" />
     <ClCompile Include="DlgViewMatrix.cpp" />

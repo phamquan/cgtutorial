@@ -25,7 +25,7 @@ void CGeometric::PreCalculateModel()
 	while(parent != NULL)
 	{
 		glLoadIdentity();
-		if(parent->GetID() == NODE_TRANSLATE)
+		if(parent->GetID() == NODE_TRANSLATE || parent->GetID() == NODE_SCALE || parent->GetID() == NODE_ROTATE)
 		{
 			parent->DoOpenGL();
 			glMultMatrixf(tmp);

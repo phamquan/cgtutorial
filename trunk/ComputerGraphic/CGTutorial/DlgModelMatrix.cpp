@@ -67,12 +67,12 @@ void CDlgModelMatrix::OnPaint()
 	switch(root->GetID()) {
 	case NODE_POINT:
 		((CPoint4D*)root)->GetData(x1,y1,z1);
-		ShowPoint(&dc,CString("P"),CPoint3D(x1,y1,z1),top,left);
+		ShowMatrixPoint(&dc,CString("M"),CString("P"),sum,CPoint3D(x1,y1,z1),top,left);
 		break;
 	case NODE_LINE:
 		((CLine*)root)->GetData(x1,y1,z1,x2,y2,z2);
-		ShowPoint(&dc,CString("P1"),CPoint3D(x1,y1,z1),top,left);
-		ShowPoint(&dc,CString("P2"),CPoint3D(x2,y2,z2),top,left);
+		ShowMatrixPoint(&dc,CString("M"),CString("P1"),sum,CPoint3D(x1,y1,z1),top,left);
+		ShowMatrixPoint(&dc,CString("M"),CString("P2"),sum,CPoint3D(x2,y2,z2),top,left);
 		break;
 	}
 }
@@ -117,34 +117,4 @@ void CDlgModelMatrix::ShowNode(CDC* cdc, COpenGLNode* node, int &top, int left) 
 	}
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
-}
-
-void CDlgModelMatrix::ShowMatrix(CDC* cdc, CString name, CString rear, float m[16], int &top, int left)
-{
-	top += 10;
-	name += " =";
-	cdc->TextOutW(left, top+30, name);
-	left += (int)cdc->GetTextExtent(name).cx+10;
-
-	CDlgMatrix::ShowMatrix(cdc,m,top,left);
-
-	cdc->TextOutW(left+250,top+30,rear);
-
-	top += 20*4 + 10;
-}
-
-void CDlgModelMatrix::ShowPoint(CDC* cdc, CString name, CPoint3D point, int &top, int left)
-{
-	top += 10;
-	CString newname = name + "' = M*" + name + " =";
-	cdc->TextOutW(left, top+30, newname);
-	left += (int)cdc->GetTextExtent(newname).cx+10;
-
-	CDlgMatrix::ShowMatrix(cdc,sum,top,left);
-	CDlgMatrix::ShowPoint(cdc,point,top,left+205);
-	cdc->TextOutW(left+250,top+30,CString("="));
-	CPoint3D newpoint = MultMatrixPoint(sum,point);
-	CDlgMatrix::ShowPoint(cdc,newpoint,top,left+270);
-
-	top += 20*4 + 10;
 }
