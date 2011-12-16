@@ -1,5 +1,8 @@
 #pragma once
 #include "openglnode.h"
+#include "Translate.h"
+#include "Scale.h"
+#include "Rotate.h"
 
 class CGeometric :
 	public COpenGLNode
@@ -12,6 +15,10 @@ protected:
 	virtual void EndOpenGL();
 
 protected:
+	void PreCalculateModel();
+	void PosCalculateModel();
+
+	float tmp[16];
 	CPoint3D data1;
 	CPoint3D data2;
 };

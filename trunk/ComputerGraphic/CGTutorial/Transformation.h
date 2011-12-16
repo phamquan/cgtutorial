@@ -11,6 +11,7 @@ public:
 
 	void SetData(float x, float y, float z, float angle = 0);
 	void GetData(float &x, float &y, float &z, float &angle);
+
 protected:
 	virtual void BeginOpenGL();
 	virtual void EndOpenGL();

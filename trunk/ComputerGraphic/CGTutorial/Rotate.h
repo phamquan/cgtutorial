@@ -8,8 +8,6 @@ public:
 	virtual ~CRotate();
 
 	CString ToString();
-
-protected:
-	virtual void DoOpenGL();
+	void DoOpenGL();
 };
 

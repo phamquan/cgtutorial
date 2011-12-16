@@ -7,7 +7,6 @@ public:
 	CScale(float x, float y, float z);
 	virtual ~CScale();
 
-protected:
-	virtual void DoOpenGL();
+	void DoOpenGL();
 };
 

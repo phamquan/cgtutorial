@@ -24,12 +24,10 @@ protected: // create from serialization only
 	CCGTutorialDoc();
 	DECLARE_DYNCREATE(CCGTutorialDoc)
 	qtmlManager data;
-
 	COpenGLNode* object;
-	CEnvironment* environment;
-
 // Attributes
 public:
+	CEnvironment* environment;
 
 // Operations
 public:

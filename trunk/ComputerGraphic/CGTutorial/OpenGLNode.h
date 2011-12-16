@@ -30,12 +30,12 @@ public:
 	void ClearChild();
 
 	void PaintOpenGL();
+	virtual void DoOpenGL();
 
 	virtual CString ToString();
 
 protected:
 	virtual void BeginOpenGL() {};
-	virtual void DoOpenGL();
 	virtual void EndOpenGL() {};
 
 protected:

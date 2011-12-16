@@ -11,6 +11,7 @@
 
 #pragma once
 
+
 #include "ViewTree.h"
 #include "../qtml/tinyxml.h"
 #include "Environment.h"
@@ -71,6 +72,7 @@ protected:
 	HTREEITEM hTreeItem;
 	COpenGLNode *node;
 
+	HTREEITEM environment;
 // Implementation
 public:
 	virtual ~CFileView();

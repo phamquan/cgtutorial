@@ -167,8 +167,10 @@ BOOL CCGTutorialDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	char buf[1024];
 	wcstombs_s(&i,buf,lpszPathName,1024);
 
-	if(!data.Load(buf))
+	if(!data.Load(buf)) {
+		AfxMessageBox(CString("Wrong format file"));
 		return FALSE;
+	}
 
 	object->ClearChild();
 	environment->ClearChild();
