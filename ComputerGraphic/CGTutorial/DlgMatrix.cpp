@@ -108,6 +108,7 @@ void CDlgMatrix::ShowMatrixPoint(CDC* cdc, CString matrix, CString name, float m
 void CDlgMatrix::ShowMatrixMatrix(CDC* cdc, CString name, CString n[16], float m[16], int &top, int left)
 {
 	top += 10;
+	name += " =";
 	cdc->TextOutW(left, top+30, name);
 	left += (int)cdc->GetTextExtent(name).cx;
 

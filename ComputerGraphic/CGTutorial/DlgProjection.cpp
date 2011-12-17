@@ -54,7 +54,13 @@ void CDlgProjection::OnBnClickedOk()
 {
 	// TODO: Add your control notification handler code here
 	UpdateData(TRUE);
-	CDialogEx::OnOK();
+
+	if(type == FRUSTUM && m_Near <= 0)
+		AfxMessageBox(CString("near of frustum must greater than 0"));
+	else if(type == FRUSTUM && m_Far <= 0)
+		AfxMessageBox(CString("far of frustum must greater than 0"));
+	else
+		CDialogEx::OnOK();
 }
 
 

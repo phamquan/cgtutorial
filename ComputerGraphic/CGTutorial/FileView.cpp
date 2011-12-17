@@ -363,13 +363,8 @@ void CFileView::ShowViewMatrix()
 		dlg.DoModal();
 	} else {
 		m_wndFileView.myMap.Lookup(hTreeItem,node);
-		if(node->GetID() == NODE_POINT || node->GetID() == NODE_LINE || node->GetID() == NODE_RECTANGLE) {
-			CDlgViewMatrix dlg(((CEnvironment*)envi)->GetCamera(),node);
-			dlg.DoModal();
-		} else {
-			CDlgViewMatrix dlg(((CEnvironment*)envi)->GetCamera(),NULL);
-			dlg.DoModal();
-		}
+		CDlgViewMatrix dlg(((CEnvironment*)envi)->GetCamera(),node);
+		dlg.DoModal();
 	}
 }
 
@@ -380,17 +375,12 @@ void CFileView::ShowProjectionMatrix()
 	hTreeItem = m_wndFileView.GetSelectedItem();
 
 	if(hTreeItem == NULL) {
-		CDlgViewMatrix dlg(((CEnvironment*)envi)->GetCamera(),NULL);
+		CDlgProjectionMatrix dlg(((CEnvironment*)envi)->GetProjection(),NULL);
 		dlg.DoModal();
 	} else {
 		m_wndFileView.myMap.Lookup(hTreeItem,node);
-		if(node->GetID() == NODE_POINT || node->GetID() == NODE_LINE || node->GetID() == NODE_RECTANGLE) {
-			CDlgViewMatrix dlg(((CEnvironment*)envi)->GetCamera(),node);
-			dlg.DoModal();
-		} else {
-			CDlgViewMatrix dlg(((CEnvironment*)envi)->GetCamera(),NULL);
-			dlg.DoModal();
-		}
+		CDlgProjectionMatrix dlg(((CEnvironment*)envi)->GetProjection(),node);
+		dlg.DoModal();
 	}
 }
 

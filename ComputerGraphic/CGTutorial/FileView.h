@@ -25,6 +25,7 @@
 
 #include "DlgModelMatrix.h"
 #include "DlgViewMatrix.h"
+#include "DlgProjectionMatrix.h"
 #include "DlgProjection.h"
 #include "DlgCamera.h"
 #include "DlgRotate.h"
