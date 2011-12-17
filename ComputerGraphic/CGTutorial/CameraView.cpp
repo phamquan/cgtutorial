@@ -204,7 +204,7 @@ void CCameraView::OnSize(UINT nType, int cx, int cy)
 	GetClientRect(rect);
 	int w = rect.Width();
 	int h = rect.Height();
-	glViewport(0, 0, w, h);
+	glViewport(w/4, h/4, w/2, h/2);
 }
 
 
