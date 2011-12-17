@@ -61,7 +61,7 @@ BOOL CCGTutorialDoc::OnNewDocument()
 	// (SDI documents will reuse this document)
 	object->ClearChild();
 	environment->ClearChild();
-	environment->AddChild(new CProjection(-1,1,-1,1,-1,1,ORTHO));
+	environment->AddChild(new CProjection(-1,1,-1,1,1,-1,ORTHO));
 	environment->AddChild(new CCamera(0,0,0,0,0,-1,0,1,0));
 
 
