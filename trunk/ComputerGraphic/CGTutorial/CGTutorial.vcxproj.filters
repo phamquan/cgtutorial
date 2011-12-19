@@ -225,6 +225,12 @@
     <ClInclude Include="DlgProjectionMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DlgPipeLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TabPipeLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CGTutorial.cpp">
@@ -330,6 +336,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DlgProjectionMatrix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgPipeLine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TabPipeLine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -335,53 +335,54 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 void CFileView::ShowModelMatrix()
 {
-	hTreeItem = m_wndFileView.GetSelectedItem();
+	//hTreeItem = m_wndFileView.GetSelectedItem();
 
-	if(hTreeItem != NULL) {
-		m_wndFileView.myMap.Lookup(hTreeItem,node);
-		CDlgModelMatrix dlg(node);
-		switch(node->GetID()) {
-		case NODE_POINT:
-		case NODE_LINE:
-		case NODE_RECTANGLE:
-			dlg.DoModal();
-			break;
-		default:
-			AfxMessageBox(CString("Please choose geometric object"));
-		}
-	}
+	//if(hTreeItem != NULL) {
+	//	m_wndFileView.myMap.Lookup(hTreeItem,node);
+	//	CDlgModelMatrix dlg;
+	//	dlg.SetData(node);
+	//	switch(node->GetID()) {
+	//	case NODE_POINT:
+	//	case NODE_LINE:
+	//	case NODE_RECTANGLE:
+	//		dlg.DoModal();
+	//		break;
+	//	default:
+	//		AfxMessageBox(CString("Please choose geometric object"));
+	//	}
+	//}
 }
 
 void CFileView::ShowViewMatrix()
 {
-	COpenGLNode *envi;
-	m_wndFileView.myMap.Lookup(environment,envi);
-	hTreeItem = m_wndFileView.GetSelectedItem();
+	//COpenGLNode *envi;
+	//m_wndFileView.myMap.Lookup(environment,envi);
+	//hTreeItem = m_wndFileView.GetSelectedItem();
 
-	if(hTreeItem == NULL) {
-		CDlgViewMatrix dlg(((CEnvironment*)envi)->GetCamera(),NULL);
-		dlg.DoModal();
-	} else {
-		m_wndFileView.myMap.Lookup(hTreeItem,node);
-		CDlgViewMatrix dlg(((CEnvironment*)envi)->GetCamera(),node);
-		dlg.DoModal();
-	}
+	//if(hTreeItem == NULL) {
+	//	CDlgViewMatrix dlg(((CEnvironment*)envi)->GetCamera(),NULL);
+	//	dlg.DoModal();
+	//} else {
+	//	m_wndFileView.myMap.Lookup(hTreeItem,node);
+	//	CDlgViewMatrix dlg(((CEnvironment*)envi)->GetCamera(),node);
+	//	dlg.DoModal();
+	//}
 }
 
 void CFileView::ShowProjectionMatrix()
 {
-	COpenGLNode *envi;
-	m_wndFileView.myMap.Lookup(environment,envi);
-	hTreeItem = m_wndFileView.GetSelectedItem();
+	//COpenGLNode *envi;
+	//m_wndFileView.myMap.Lookup(environment,envi);
+	//hTreeItem = m_wndFileView.GetSelectedItem();
 
-	if(hTreeItem == NULL) {
-		CDlgProjectionMatrix dlg(((CEnvironment*)envi)->GetProjection(),NULL);
-		dlg.DoModal();
-	} else {
-		m_wndFileView.myMap.Lookup(hTreeItem,node);
-		CDlgProjectionMatrix dlg(((CEnvironment*)envi)->GetProjection(),node);
-		dlg.DoModal();
-	}
+	//if(hTreeItem == NULL) {
+	//	CDlgProjectionMatrix dlg(((CEnvironment*)envi)->GetProjection(),NULL);
+	//	dlg.DoModal();
+	//} else {
+	//	m_wndFileView.myMap.Lookup(hTreeItem,node);
+	//	CDlgProjectionMatrix dlg(((CEnvironment*)envi)->GetProjection(),node);
+	//	dlg.DoModal();
+	//}
 }
 
 BOOLEAN CFileView::ValidateAdd()
@@ -570,5 +571,17 @@ void CFileView::OnAddobjectRectangle()
 		CDlgRectangle dlg;
 		if(dlg.DoModal() == IDOK)
 			AddNode(new CRectangle(dlg.m_Top,dlg.m_Left,dlg.m_Bottom,dlg.m_Right));
+	}
+}
+
+COpenGLNode* CFileView::GetSelected()
+{
+	hTreeItem = m_wndFileView.GetSelectedItem();
+
+	if(hTreeItem == NULL) {
+		return NULL;
+	} else {
+		m_wndFileView.myMap.Lookup(hTreeItem,node);
+		return node;
 	}
 }

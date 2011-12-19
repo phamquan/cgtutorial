@@ -4,11 +4,10 @@
 
 IMPLEMENT_DYNAMIC(CDlgProjectionMatrix, CDlgMatrix)
 
-CDlgProjectionMatrix::CDlgProjectionMatrix(CProjection *proj, COpenGLNode* node, CWnd* pParent /*=NULL*/)
+CDlgProjectionMatrix::CDlgProjectionMatrix(CProjection *proj, CWnd* pParent /*=NULL*/)
 	: CDlgMatrix(pParent)
 {
 	projection = proj;
-	root = node;
 }
 
 CDlgProjectionMatrix::~CDlgProjectionMatrix(void)

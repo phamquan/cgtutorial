@@ -142,6 +142,7 @@
     <ClInclude Include="DlgLine.h" />
     <ClInclude Include="DlgMatrix.h" />
     <ClInclude Include="DlgModelMatrix.h" />
+    <ClInclude Include="DlgPipeLine.h" />
     <ClInclude Include="DlgPoint.h" />
     <ClInclude Include="DlgProjection.h" />
     <ClInclude Include="DlgProjectionMatrix.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Scale.h" />
     <ClInclude Include="ScrollDialog.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TabPipeLine.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Transformation.h" />
     <ClInclude Include="Translate.h" />
@@ -181,6 +183,7 @@
     <ClCompile Include="DlgLine.cpp" />
     <ClCompile Include="DlgMatrix.cpp" />
     <ClCompile Include="DlgModelMatrix.cpp" />
+    <ClCompile Include="DlgPipeLine.cpp" />
     <ClCompile Include="DlgPoint.cpp" />
     <ClCompile Include="DlgProjection.cpp" />
     <ClCompile Include="DlgProjectionMatrix.cpp" />
@@ -206,6 +209,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TabPipeLine.cpp" />
     <ClCompile Include="Transformation.cpp" />
     <ClCompile Include="Translate.cpp" />
     <ClCompile Include="ViewTree.cpp" />

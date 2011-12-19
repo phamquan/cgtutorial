@@ -10,11 +10,10 @@
 
 IMPLEMENT_DYNAMIC(CDlgViewMatrix, CDlgMatrix)
 
-CDlgViewMatrix::CDlgViewMatrix(CCamera *cam, COpenGLNode* node, CWnd* pParent /*=NULL*/)
+CDlgViewMatrix::CDlgViewMatrix(CCamera *cam, CWnd* pParent /*=NULL*/)
 	: CDlgMatrix(pParent)
 {
 	camera = cam;
-	root = node;
 }
 
 CDlgViewMatrix::~CDlgViewMatrix()
@@ -54,17 +53,18 @@ void CDlgViewMatrix::OnPaint()
 	int top = 0, left = 10;
 	float x1,y1,z1,x2,y2,z2;
 	ShowCamera(&dc,top,left);
-	if(root != NULL)
+	if(in != NULL)
 	{
-		if(root->GetID() == NODE_POINT) {
-			CPoint4D* newpoint = ((CPoint4D*)root)->CalculateModel();
-			newpoint->GetData(x1,y1,z1);
-			ShowMatrixPoint(&dc,CString("V"),CString("P1'"),sum,CPoint3D(x1,y1,z1),top,left);
-		} else if(root->GetID() == NODE_LINE) {
-			CLine* newline = ((CLine*)root)->CalculateModel();
-			newline->GetData(x1,y1,z1,x2,y2,z2);
-			ShowMatrixPoint(&dc,CString("V"),CString("P1'"),sum,CPoint3D(x1,y1,z1),top,left);
-			ShowMatrixPoint(&dc,CString("V"),CString("P2'"),sum,CPoint3D(x2,y2,z2),top,left);
+		CPoint3D p1, p2;
+		if(in->GetID() == NODE_POINT) {
+			((CPoint4D*)in)->GetData(x1,y1,z1);
+			p1 = ShowMatrixPoint(&dc,CString("V"),CString("P1'"),sum,CPoint3D(x1,y1,z1),top,left);
+			((CPoint4D*)out)->SetData(p1.getX(),p1.getY(),p1.getZ());
+		} else if(in->GetID() == NODE_LINE) {
+			((CLine*)in)->GetData(x1,y1,z1,x2,y2,z2);
+			p1 = ShowMatrixPoint(&dc,CString("V"),CString("P1'"),sum,CPoint3D(x1,y1,z1),top,left);
+			p2 = ShowMatrixPoint(&dc,CString("V"),CString("P2'"),sum,CPoint3D(x2,y2,z2),top,left);
+			((CLine*)out)->SetData(p1.getX(),p1.getY(),p1.getZ(),p2.getX(),p2.getY(),p2.getZ());
 		}
 	}
 }

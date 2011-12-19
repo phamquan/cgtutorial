@@ -8,11 +8,10 @@ class CDlgViewMatrix : public CDlgMatrix
 	DECLARE_DYNAMIC(CDlgViewMatrix)
 
 public:
-	CDlgViewMatrix(CCamera *cam, COpenGLNode* node, CWnd* pParent = NULL);   // standard constructor
+	CDlgViewMatrix(CCamera *cam, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CDlgViewMatrix();
 
 	CCamera* camera;
-	COpenGLNode* root;
 
 protected:
 	float sum[16];
