@@ -7,11 +7,10 @@ class CDlgProjectionMatrix :
 {
 	DECLARE_DYNAMIC(CDlgProjectionMatrix)
 public:
-	CDlgProjectionMatrix(CProjection *proj, COpenGLNode* node, CWnd* pParent = NULL);   // standard constructor
+	CDlgProjectionMatrix(CProjection *proj, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CDlgProjectionMatrix();
 
 	CProjection* projection;
-	COpenGLNode* root;
 
 protected:
 	float sum[16];

@@ -57,6 +57,7 @@ public:
 	void ShowModelMatrix();
 	void ShowViewMatrix();
 	void ShowProjectionMatrix();
+	COpenGLNode* GetSelected();
 // Attributes
 protected:
 	CViewTree m_wndFileView;

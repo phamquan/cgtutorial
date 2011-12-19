@@ -54,7 +54,6 @@ protected:  // control bar embedded members
 	//CClassView        m_wndClassView;
 	COutputWnd        m_wndOutput;
 	CPropertiesWnd    m_wndProperties;
-
 // Generated message map functions
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -74,6 +73,7 @@ public:
 	afx_msg void OnViewMatrix();
 //	afx_msg void OnProjectionMatrix();
 	afx_msg void OnProjectionMatrix();
+	afx_msg void OnPipeline();
 };
 
 

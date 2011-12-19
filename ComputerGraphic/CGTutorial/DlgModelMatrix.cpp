@@ -9,10 +9,9 @@
 
 IMPLEMENT_DYNAMIC(CDlgModelMatrix, CDlgMatrix)
 
-CDlgModelMatrix::CDlgModelMatrix(COpenGLNode* node, CWnd* pParent /*=NULL*/)
+CDlgModelMatrix::CDlgModelMatrix(CWnd* pParent /*=NULL*/)
 	: CDlgMatrix(pParent)
 {
-	root = node;
 }
 
 CDlgModelMatrix::~CDlgModelMatrix()
@@ -31,8 +30,6 @@ END_MESSAGE_MAP()
 
 
 // CDlgModelMatrix message handlers
-
-
 BOOL CDlgModelMatrix::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -50,30 +47,22 @@ void CDlgModelMatrix::OnPaint()
 	// TODO: Add your message handler code here
 	// Do not call CDialogEx::OnPaint() for painting messages
 	int top = 0, left = 10;
-	count[0]  = count[1] = count[2] = 1;
-	total = "";
-	for(int i=0; i<16; i++)
-		sum[i] = 0;
-	sum[0] = sum[5] = sum[10] = sum[15] = 1;
+		
+	if(in == NULL) {
+		dc.TextOutW(left,top,CString("Select geometric object to view data"));
+	} else {
+		count[0]  = count[1] = count[2] = 1;
+		total = "";
+		for(int i=0; i<16; i++)
+			sum[i] = 0;
+		sum[0] = sum[5] = sum[10] = sum[15] = 1;
+		
+		ShowNode(&dc,in->GetParent(),top,left);
 
-	ShowNode(&dc,root->GetParent(),top,left);
-
-	if(total == "")
-		ShowMatrix(&dc,CString("M"),CString(),sum,top,left);
-	else
-		ShowMatrix(&dc,CString("M = ") + total,CString(),sum,top,left);
-
-	float x1,y1,z1,x2,y2,z2;
-	switch(root->GetID()) {
-	case NODE_POINT:
-		((CPoint4D*)root)->GetData(x1,y1,z1);
-		ShowMatrixPoint(&dc,CString("M"),CString("P"),sum,CPoint3D(x1,y1,z1),top,left);
-		break;
-	case NODE_LINE:
-		((CLine*)root)->GetData(x1,y1,z1,x2,y2,z2);
-		ShowMatrixPoint(&dc,CString("M"),CString("P1"),sum,CPoint3D(x1,y1,z1),top,left);
-		ShowMatrixPoint(&dc,CString("M"),CString("P2"),sum,CPoint3D(x2,y2,z2),top,left);
-		break;
+		if(total == "")
+			ShowMatrix(&dc,CString("M"),CString(),sum,top,left);
+		else
+			ShowMatrix(&dc,CString("M = ") + total,CString(),sum,top,left);
 	}
 }
 
@@ -89,23 +78,32 @@ void CDlgModelMatrix::ShowNode(CDC* cdc, COpenGLNode* node, int &top, int left) 
 	if(id == NODE_OBJECT) {
 		total = total.Right(total.GetLength()-1);
 		glGetFloatv(GL_MODELVIEW_MATRIX,m);
+		CPoint3D p1, p2; 
+		float x1,y1,z1,x2,y2,z2;
+		switch(in->GetID()) {
+		case NODE_POINT:
+			((CPoint4D*)in)->GetData(x1,y1,z1);
+			p1 = ShowMatrixPoint(cdc,CString("M"),CString("P"),sum,CPoint3D(x1,y1,z1),top,left);
+			((CPoint4D*)out)->SetData(p1.getX(),p1.getY(),p1.getZ());
+			break;
+		case NODE_LINE:
+			((CLine*)in)->GetData(x1,y1,z1,x2,y2,z2);
+			p1 = ShowMatrixPoint(cdc,CString("M"),CString("P1"),sum,CPoint3D(x1,y1,z1),top,left);
+			p2 = ShowMatrixPoint(cdc,CString("M"),CString("P2"),sum,CPoint3D(x2,y2,z2),top,left);
+			((CLine*)out)->SetData(p1.getX(),p1.getY(),p1.getZ(),p2.getX(),p2.getY(),p2.getZ());
+			break;
+		}
 	} else {
 		if(id != NODE_COLOR) {			
 			if(id == NODE_TRANSLATE) {
 				sprintf(buff,"T%d",count[0]++);
 				node->DoOpenGL();
-				/*((CTranslate*)node)->GetData(x1,y1,z1,w1);
-				glTranslatef(x1,y1,z1);*/
 			} else if(id == NODE_SCALE) {
 				sprintf(buff,"S%d",count[1]++);
 				node->DoOpenGL();
-				/*((CScale*)node)->GetData(x1,y1,z1,w1);
-				glScalef(x1,y1,z1);*/
 			} else if(id == NODE_ROTATE) {
 				sprintf(buff,"R%d",count[2]++);
 				node->DoOpenGL();
-				/*((CRotate*)node)->GetData(x1,y1,z1,w1);
-				glRotatef(w1,x1,y1,z1);*/
 			}
 			total = CString("*") + buff + total;
 			glGetFloatv(GL_MODELVIEW_MATRIX,m);

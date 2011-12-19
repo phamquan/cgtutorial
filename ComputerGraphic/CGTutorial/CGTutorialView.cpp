@@ -63,6 +63,8 @@ CCGTutorialView::CCGTutorialView()
 	isShowCamera = true;
 	m_isMouseDown = false;
 	angle.setCoords(-45,45,0);
+
+	pipeLine = NULL;
 }
 
 CCGTutorialView::~CCGTutorialView()
@@ -359,4 +361,13 @@ BOOL CCGTutorialView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 	Invalidate();
 
 	return CView::OnMouseWheel(nFlags, zDelta, pt);
+}
+
+void CCGTutorialView::ShowPipeLine()
+{
+	if(pipeLine == NULL) {
+		pipeLine = new CDlgPipeLine(GetDocument()->environment);
+		pipeLine->Create(CDlgPipeLine::IDD,this);
+	}
+	pipeLine->ShowWindow(SW_SHOW);
 }

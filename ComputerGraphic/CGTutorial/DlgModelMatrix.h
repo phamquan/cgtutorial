@@ -9,12 +9,11 @@ class CDlgModelMatrix : public CDlgMatrix
 	DECLARE_DYNAMIC(CDlgModelMatrix)
 
 public:
-	CDlgModelMatrix(COpenGLNode* node, CWnd* pParent = NULL);   // standard constructor
+	CDlgModelMatrix(CWnd* pParent = NULL);   // standard constructor
 	virtual ~CDlgModelMatrix();
 
 	CString total;
 	float sum[16];
-	COpenGLNode* root;
 	int count[3];
 
 protected:

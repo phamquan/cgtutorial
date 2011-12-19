@@ -32,6 +32,13 @@ END_MESSAGE_MAP()
 
 
 // CDlgMatrix message handlers
+void CDlgMatrix::SetData(COpenGLNode* in, COpenGLNode* out)
+{
+	this->in = in;
+	this->out = out;
+	Invalidate();
+}
+
 int CDlgMatrix::ShowMatrix(CDC* cdc, float m[16], const int top, int &left)
 {
 	char buff[128];
@@ -86,7 +93,7 @@ void CDlgMatrix::ShowMatrix(CDC* cdc, CString name, CString rear, float m[16], i
 	top = bottom;
 }
 
-void CDlgMatrix::ShowMatrixPoint(CDC* cdc, CString matrix, CString name, float m[16], CPoint3D point, int &top, int left)
+CPoint3D CDlgMatrix::ShowMatrixPoint(CDC* cdc, CString matrix, CString name, float m[16], CPoint3D point, int &top, int left)
 {
 	top += 10;
 	CString newname = name + "' = " + matrix + "*" + name + " =";
@@ -103,6 +110,8 @@ void CDlgMatrix::ShowMatrixPoint(CDC* cdc, CString matrix, CString name, float m
 	ShowPoint(cdc,newpoint,top,left);
 
 	top = bottom;
+
+	return newpoint;
 }
 
 void CDlgMatrix::ShowMatrixMatrix(CDC* cdc, CString name, CString n[16], float m[16], int &top, int left)
