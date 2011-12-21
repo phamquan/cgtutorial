@@ -166,3 +166,22 @@ void CDlgMatrix::ShowPoint(CDC* cdc, CString name, CHomoPoint point, int top, in
 
 	ShowPoint(cdc,point,top,left);
 }
+
+void CDlgMatrix::ShowMatrixPoint(CDC* cdc, CString matrix, CString point, int &top, int left)
+{
+	float x1,y1,z1,x2,y2,z2;
+	if(in != NULL)
+	{
+		CPoint3D p1, p2;
+		if(in->GetID() == NODE_POINT) {
+			((CPoint4D*)in)->GetData(x1,y1,z1);
+			p1 = ShowMatrixPoint(cdc,matrix,CString("P")+point,sum,CPoint3D(x1,y1,z1),top,left);
+			((CPoint4D*)out)->SetData(p1.getX(),p1.getY(),p1.getZ());
+		} else if(in->GetID() == NODE_LINE) {
+			((CLine*)in)->GetData(x1,y1,z1,x2,y2,z2);
+			p1 = ShowMatrixPoint(cdc,matrix,CString("P1")+point,sum,CPoint3D(x1,y1,z1),top,left);
+			p2 = ShowMatrixPoint(cdc,matrix,CString("P2")+point,sum,CPoint3D(x2,y2,z2),top,left);
+			((CLine*)out)->SetData(p1.getX(),p1.getY(),p1.getZ(),p2.getX(),p2.getY(),p2.getZ());
+		}
+	}
+}

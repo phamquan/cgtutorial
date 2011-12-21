@@ -15,9 +15,6 @@ protected:
 	virtual void EndOpenGL();
 
 protected:
-	void PreCalculateModel();
-	void PosCalculateModel();
-
 	float tmp[16];
 	CPoint3D data1;
 	CPoint3D data2;

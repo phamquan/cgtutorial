@@ -202,9 +202,8 @@ void CCameraView::OnSize(UINT nType, int cx, int cy)
 	wglMakeCurrent(m_hDC, m_hRC); 
 	CRect rect;
 	GetClientRect(rect);
-	int w = rect.Width();
-	int h = rect.Height();
-	glViewport(w/4, h/4, w/2, h/2);
+	width = rect.Width();
+	height = rect.Height();
 }
 
 
@@ -215,6 +214,24 @@ void CCameraView::OnPaint()
 	// Do not call CView::OnPaint() for painting messages
 	wglMakeCurrent( m_hDC, m_hRC );
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	float x1, y1, z1, x2, y2, z2;
+	int w;
+	GetDocument()->environment->GetProjection()->GetData(x1,y1,z1,x2,y2,z2,w);
+
+	glColor3f(0,0,0);
+	glBegin(GL_LINE_LOOP);
+		glVertex2f(x1,x2);
+		glVertex2f(x1,z1);
+		glVertex2f(y1,z1);
+		glVertex2f(y1,x2);
+	glEnd();
+
+	GetDocument()->environment->GetViewPort()->GetData(x1,y1,z1,x2,w);
+	if(w == VIEWPORT_CUSTOM)
+		glViewport(x1,y1,z1,x2);
+	else
+		glViewport(0,0,width,height);
 
 	GetDocument()->environment->PaintOpenGL();
 	DrawCoordinate();

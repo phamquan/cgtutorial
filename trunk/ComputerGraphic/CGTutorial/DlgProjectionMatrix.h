@@ -13,8 +13,6 @@ public:
 	CProjection* projection;
 
 protected:
-	float sum[16];
-
 	void ShowProjection(CDC* cdc, int &top, int left);
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

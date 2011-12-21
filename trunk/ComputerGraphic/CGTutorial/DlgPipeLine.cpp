@@ -18,6 +18,7 @@ CDlgPipeLine::CDlgPipeLine(CEnvironment *env, CWnd* pParent /*=NULL*/)
 	object = NULL;
 	camera = NULL;
 	world = NULL;
+	clipping = NULL;
 
 	modelDlg = new CDlgModelMatrix();
 	viewDlg = new CDlgViewMatrix(env->GetCamera());
@@ -31,6 +32,9 @@ CDlgPipeLine::~CDlgPipeLine()
 
 	if(world != NULL)
 		delete world;
+
+	if(clipping != NULL)
+		delete clipping;
 
 	if(modelDlg != NULL)
 		delete modelDlg;
@@ -67,6 +71,11 @@ void CDlgPipeLine::SetData(COpenGLNode* in) {
 	if(world != NULL) {
 		delete world;
 		world = NULL;
+	}
+
+	if(clipping != NULL) {
+		delete clipping;
+		clipping = NULL;
 	}
 
 	if(in != NULL) {

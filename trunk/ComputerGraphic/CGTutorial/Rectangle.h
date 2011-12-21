@@ -1,5 +1,6 @@
 #pragma once
 #include "geometric.h"
+
 class CRectangle :
 	public CGeometric
 {

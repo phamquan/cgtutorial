@@ -39,9 +39,9 @@ CString CProjection::ToString()
 			data1.getX(),data1.getY(),data1.getZ(),data2.getX(),data2.getY(),data2.getZ());
 
 	if(type == ORTHO)
-		return result + "type=ortho " + CString(buff) + ")";	
+		return result + "type=ortho, " + CString(buff) + ")";	
 	else
-		return result + "type=frustum " + CString(buff) + ")";
+		return result + "type=frustum, " + CString(buff) + ")";
 }
 
 void CProjection::BeginOpenGL()

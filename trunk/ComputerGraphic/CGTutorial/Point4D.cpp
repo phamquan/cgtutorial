@@ -10,17 +10,6 @@ CPoint4D::~CPoint4D()
 {
 }
 
-CPoint4D* CPoint4D::CalculateModel()
-{
-	PreCalculateModel();
-
-	CPoint3D newdata = MultMatrixPoint(tmp,data1);
-	CPoint4D *newpoint = new CPoint4D(newdata.getX(), newdata.getY(), newdata.getZ());
-
-	PosCalculateModel();
-	return newpoint;
-}
-
 void CPoint4D::SetData(float x, float y, float z)
 {
 	data1.setCoords(x, y, z);

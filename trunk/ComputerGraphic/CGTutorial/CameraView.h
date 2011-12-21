@@ -16,6 +16,8 @@ public:
 	HDC  m_hDC;
 	HGLRC m_hRC;
 
+	int width;
+	int height;
 	//float m_width;
 	//float m_height;
 	//float m_near;

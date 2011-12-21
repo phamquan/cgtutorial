@@ -10,18 +10,6 @@ CLine::~CLine()
 {
 }
 
-CLine* CLine::CalculateModel()
-{
-	PreCalculateModel();
-
-	CPoint3D newdata1 = MultMatrixPoint(tmp,data1);
-	CPoint3D newdata2 = MultMatrixPoint(tmp,data2);
-	CLine *newpoint = new CLine(newdata1.getX(), newdata1.getY(), newdata1.getZ(), newdata2.getX(), newdata2.getY(), newdata2.getZ());
-
-	PosCalculateModel();
-	return newpoint;
-}
-
 void CLine::SetData(float x1, float y1, float z1, float x2, float y2, float z2)
 {
 	data1.setCoords(x1,y1,z1);

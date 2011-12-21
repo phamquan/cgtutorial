@@ -63,7 +63,7 @@ BOOL CCGTutorialDoc::OnNewDocument()
 	environment->ClearChild();
 	environment->AddChild(new CProjection(-1,1,-1,1,1,-1,ORTHO));
 	environment->AddChild(new CCamera(0,0,0,0,0,-1,0,1,0));
-
+	environment->AddChild(new CViewPort(0,0,0,0,VIEWPORT_DEFAULT));
 
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 	pMainFrame->m_wndFileView.FillView(object,environment);

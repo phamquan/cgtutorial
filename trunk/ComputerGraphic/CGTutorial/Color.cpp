@@ -3,17 +3,24 @@
 
 CColor::CColor(float red, float green, float blue) : COpenGLNode("color",NODE_COLOR)
 {
-	data.setCoords(red,green,blue);
+	SetData(red,green,blue);
 }
 
 CColor::~CColor()
 {
 }
 
-//void CColor::SetData(float red, float green, float blue, float alpha)
-//{
-//	data.setCoords(red,green,blue,alpha);
-//}
+void CColor::SetData(float red, float green, float blue)
+{
+	data.setCoords(red,green,blue);
+}
+
+void CColor::GetData(float &red, float &green, float &blue)
+{
+	red = data.getX();
+	green = data.getY();
+	blue = data.getZ();
+}
 
 CString CColor::ToString()
 {

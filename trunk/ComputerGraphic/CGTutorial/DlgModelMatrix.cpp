@@ -63,6 +63,8 @@ void CDlgModelMatrix::OnPaint()
 			ShowMatrix(&dc,CString("M"),CString(),sum,top,left);
 		else
 			ShowMatrix(&dc,CString("M = ") + total,CString(),sum,top,left);
+
+		ShowMatrixPoint(&dc,CString("M"),CString(),top,left);
 	}
 }
 
@@ -78,21 +80,6 @@ void CDlgModelMatrix::ShowNode(CDC* cdc, COpenGLNode* node, int &top, int left) 
 	if(id == NODE_OBJECT) {
 		total = total.Right(total.GetLength()-1);
 		glGetFloatv(GL_MODELVIEW_MATRIX,m);
-		CPoint3D p1, p2; 
-		float x1,y1,z1,x2,y2,z2;
-		switch(in->GetID()) {
-		case NODE_POINT:
-			((CPoint4D*)in)->GetData(x1,y1,z1);
-			p1 = ShowMatrixPoint(cdc,CString("M"),CString("P"),sum,CPoint3D(x1,y1,z1),top,left);
-			((CPoint4D*)out)->SetData(p1.getX(),p1.getY(),p1.getZ());
-			break;
-		case NODE_LINE:
-			((CLine*)in)->GetData(x1,y1,z1,x2,y2,z2);
-			p1 = ShowMatrixPoint(cdc,CString("M"),CString("P1"),sum,CPoint3D(x1,y1,z1),top,left);
-			p2 = ShowMatrixPoint(cdc,CString("M"),CString("P2"),sum,CPoint3D(x2,y2,z2),top,left);
-			((CLine*)out)->SetData(p1.getX(),p1.getY(),p1.getZ(),p2.getX(),p2.getY(),p2.getZ());
-			break;
-		}
 	} else {
 		if(id != NODE_COLOR) {			
 			if(id == NODE_TRANSLATE) {

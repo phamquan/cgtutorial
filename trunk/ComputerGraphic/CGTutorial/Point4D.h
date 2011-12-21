@@ -7,7 +7,6 @@ public:
 	CPoint4D(float x, float y, float z);
 	virtual ~CPoint4D();
 
-	CPoint4D* CalculateModel();
 	void SetData(float x, float y, float z);
 	void GetData(float &x, float &y, float &z);
 	CString ToString();

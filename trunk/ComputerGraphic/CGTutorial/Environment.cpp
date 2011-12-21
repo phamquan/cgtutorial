@@ -25,6 +25,14 @@ CProjection* CEnvironment::GetProjection()
 	return NULL;
 }
 
+CViewPort* CEnvironment::GetViewPort()
+{
+	for(int i=0; i<m_listChild.GetSize(); i++)
+		if(((COpenGLNode*)m_listChild.GetAt(i))->GetID() == NODE_VIEWPORT)
+			return (CViewPort*)m_listChild.GetAt(i);
+	return NULL;
+}
+
 void CEnvironment::DrawCamera()
 {
 	if(m_listChild.GetSize() < 2)

@@ -11,7 +11,6 @@
 
 #pragma once
 
-
 #include "ViewTree.h"
 #include "../qtml/tinyxml.h"
 #include "Environment.h"
@@ -98,5 +97,6 @@ public:
 	afx_msg void OnAddtransformationScale();
 	afx_msg void OnAddtransformationRotate();
 	afx_msg void OnObjectEdit();
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 };
 

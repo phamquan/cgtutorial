@@ -2,6 +2,7 @@
 #include "HomoPoint.h"
 #include "GL/glut.h"
 
+#define NODE_VIEWPORT	-4
 #define NODE_PROJECTION	-3
 #define NODE_CAMERA		-2
 #define NODE_ENVIRONMENT -1

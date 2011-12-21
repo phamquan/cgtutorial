@@ -13,7 +13,6 @@ public:
 	virtual ~CDlgModelMatrix();
 
 	CString total;
-	float sum[16];
 	int count[3];
 
 protected:

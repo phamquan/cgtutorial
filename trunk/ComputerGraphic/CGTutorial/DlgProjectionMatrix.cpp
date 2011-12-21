@@ -40,6 +40,7 @@ void CDlgProjectionMatrix::OnPaint()
 	// Do not call CDlgMatrix::OnPaint() for painting messages
 	int top = 0, left = 10;
 	ShowProjection(&dc,top,left);
+	ShowMatrixPoint(&dc,CString("P"),CString("''"),top,left);
 }
 
 void CDlgProjectionMatrix::ShowProjection(CDC* cdc, int &top, int left)
