@@ -47,6 +47,7 @@ BEGIN_MESSAGE_MAP(CFileView, CDockablePane)
 	ON_COMMAND(ID_ADDTRANSFORMATION_SCALE, &CFileView::OnAddtransformationScale)
 	ON_COMMAND(ID_ADDTRANSFORMATION_ROTATE, &CFileView::OnAddtransformationRotate)
 	ON_COMMAND(ID_OBJECT_EDIT, &CFileView::OnObjectEdit)
+	ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -124,12 +125,20 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 	}
 	else if(CString(node->Value()) == "projection")
 	{
-		if(CString(GetValue("type",node)) == CString("ortho"))
+		if(CString(GetValue("type",node)) == "ortho")
 			result = new CProjection(atof(GetValue("left",node)),atof(GetValue("right",node)),atof(GetValue("bottom",node)),
 											atof(GetValue("top",node)),atof(GetValue("near",node)),atof(GetValue("far",node)),ORTHO);
-		else
+		else if(CString(GetValue("type",node)) == "frustum")
 			result = new CProjection(atof(GetValue("left",node)),atof(GetValue("right",node)),atof(GetValue("bottom",node)),
 											atof(GetValue("top",node)),atof(GetValue("near",node)),atof(GetValue("far",node)),FRUSTUM);
+	}
+	else if(CString(node->Value()) == "viewport")
+	{
+		if(CString(GetValue("type",node)) == "default")
+			result = new CViewPort(0,0,0,0,VIEWPORT_DEFAULT);
+		else if(CString(GetValue("type",node)) == "custom")
+			result = new CViewPort(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("width",node)),
+											atof(GetValue("height",node)),VIEWPORT_CUSTOM);
 	}
 	else if(CString(node->Value()) == "translate")
 	{
@@ -484,6 +493,13 @@ void CFileView::OnObjectEdit()
 			edit = true;
 			((CRotate*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_Angle);
 		}
+	} else if(id == NODE_COLOR) {
+		CColorDialog dlg;
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			COLORREF color = dlg.GetColor();
+			((CColor*)node)->SetData(GetRValue(color)/255.0,GetGValue(color)/255.0,GetBValue(color)/255.0);
+		}
 	} else if(id == NODE_POINT) {
 		((CPoint4D*)node)->GetData(x1,y1,z1);
 		CDlgPoint dlg(x1,y1,z1);
@@ -584,4 +600,11 @@ COpenGLNode* CFileView::GetSelected()
 		m_wndFileView.myMap.Lookup(hTreeItem,node);
 		return node;
 	}
+}
+
+void CFileView::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	CDockablePane::OnLButtonDown(nFlags, point);
 }

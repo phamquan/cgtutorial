@@ -19,6 +19,8 @@ public:
 	COpenGLNode* camera;
 	COpenGLNode* world;
 	COpenGLNode* clipping;
+	COpenGLNode* divide;
+	COpenGLNode* window;
 
 	CDlgModelMatrix* modelDlg;
 	CDlgViewMatrix* viewDlg;

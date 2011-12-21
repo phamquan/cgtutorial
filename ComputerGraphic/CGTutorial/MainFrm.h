@@ -35,6 +35,7 @@ public:
 
 // Overrides
 public:
+	void RefreshPipeLine();
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 

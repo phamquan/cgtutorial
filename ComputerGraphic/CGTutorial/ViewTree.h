@@ -11,7 +11,6 @@
 
 #pragma once
 #include "OpenGLNode.h"
-
 /////////////////////////////////////////////////////////////////////////////
 // CViewTree window
 
@@ -44,4 +43,5 @@ public:
 	afx_msg void OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 };

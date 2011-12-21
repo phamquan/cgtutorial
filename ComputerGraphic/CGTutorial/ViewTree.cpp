@@ -37,6 +37,7 @@ BEGIN_MESSAGE_MAP(CViewTree, CTreeCtrl)
 	ON_NOTIFY_REFLECT(TVN_BEGINDRAG, &CViewTree::OnTvnBegindrag)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
+	ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -243,4 +244,11 @@ CImageList* CViewTree::CreateDragImageEx(HTREEITEM hItem)
 	pImageList->Add(&bitmap, RGB(0, 255, 0)); // Here green is used as mask color
 
 	return pImageList;
+}
+
+void CViewTree::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	CTreeCtrl::OnLButtonDown(nFlags, point);
 }

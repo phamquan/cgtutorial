@@ -165,11 +165,10 @@
     <ClInclude Include="Rotate.h" />
     <ClInclude Include="Scale.h" />
     <ClInclude Include="ScrollDialog.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="TabPipeLine.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Transformation.h" />
     <ClInclude Include="Translate.h" />
+    <ClInclude Include="ViewPort.h" />
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
   <ItemGroup>
@@ -209,9 +208,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="TabPipeLine.cpp" />
     <ClCompile Include="Transformation.cpp" />
     <ClCompile Include="Translate.cpp" />
+    <ClCompile Include="ViewPort.cpp" />
     <ClCompile Include="ViewTree.cpp" />
   </ItemGroup>
   <ItemGroup>

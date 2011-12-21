@@ -117,9 +117,6 @@
     <ClInclude Include="CGTutorial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -228,7 +225,7 @@
     <ClInclude Include="DlgPipeLine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TabPipeLine.h">
+    <ClInclude Include="ViewPort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -341,7 +338,7 @@
     <ClCompile Include="DlgPipeLine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TabPipeLine.cpp">
+    <ClCompile Include="ViewPort.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

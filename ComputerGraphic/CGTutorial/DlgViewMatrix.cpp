@@ -51,22 +51,8 @@ void CDlgViewMatrix::OnPaint()
 	// TODO: Add your message handler code here
 	// Do not call CDlgMatrix::OnPaint() for painting messages
 	int top = 0, left = 10;
-	float x1,y1,z1,x2,y2,z2;
 	ShowCamera(&dc,top,left);
-	if(in != NULL)
-	{
-		CPoint3D p1, p2;
-		if(in->GetID() == NODE_POINT) {
-			((CPoint4D*)in)->GetData(x1,y1,z1);
-			p1 = ShowMatrixPoint(&dc,CString("V"),CString("P1'"),sum,CPoint3D(x1,y1,z1),top,left);
-			((CPoint4D*)out)->SetData(p1.getX(),p1.getY(),p1.getZ());
-		} else if(in->GetID() == NODE_LINE) {
-			((CLine*)in)->GetData(x1,y1,z1,x2,y2,z2);
-			p1 = ShowMatrixPoint(&dc,CString("V"),CString("P1'"),sum,CPoint3D(x1,y1,z1),top,left);
-			p2 = ShowMatrixPoint(&dc,CString("V"),CString("P2'"),sum,CPoint3D(x2,y2,z2),top,left);
-			((CLine*)out)->SetData(p1.getX(),p1.getY(),p1.getZ(),p2.getX(),p2.getY(),p2.getZ());
-		}
-	}
+	ShowMatrixPoint(&dc,CString("V"),CString("'"),top,left);
 }
 
 void CDlgViewMatrix::ShowCamera(CDC* cdc, int &top, int left) {
@@ -110,7 +96,7 @@ void CDlgViewMatrix::ShowCamera(CDC* cdc, int &top, int left) {
 	sum[8] = u.getZ(), sum[9] = v.getZ(), sum[10] = n.getZ(), sum[11] = 0;
 	sum[12] = 0; sum[13] = 0; sum[14] = 0; sum[15] = 1;
 
-	ShowMatrixMatrix(cdc,CString("M ="),data,sum,top,left);
+	ShowMatrixMatrix(cdc,CString("M"),data,sum,top,left);
 
 	glLoadIdentity();
 	gluLookAt(x1,y1,z1,x2,y2,z2,x3,y3,z3);

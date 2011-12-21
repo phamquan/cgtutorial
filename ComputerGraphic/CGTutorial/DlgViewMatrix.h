@@ -14,8 +14,6 @@ public:
 	CCamera* camera;
 
 protected:
-	float sum[16];
-
 	void ShowCamera(CDC* cdc, int &top, int left);
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

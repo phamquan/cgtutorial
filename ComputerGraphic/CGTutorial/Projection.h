@@ -14,7 +14,6 @@ public:
 	void SetData(float left, float right, float bottom, float top, float mnear, float mdfar, int type);
 	void GetData(float &left, float &right, float &bottom, float &top, float &mnear, float &mdfar, int &type);
 	CString ToString();
-	int GetType() {return type;}
 
 protected:
 	void BeginOpenGL();

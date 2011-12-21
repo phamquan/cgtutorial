@@ -7,7 +7,10 @@ class CColor :
 public:
 	CColor(float red, float green, float blue);
 	virtual ~CColor();
-	//void SetData();
+
+	void SetData(float red, float green, float blue);
+	void GetData(float &red, float &green, float &blue);
+
 	CString ToString();
 
 protected:
