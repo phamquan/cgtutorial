@@ -1,6 +1,7 @@
 #pragma once
 
 #include "resource.h"
+#include "DlgDivideW.h"
 
 // CDlgPipeLine dialog
 
@@ -16,15 +17,16 @@ public:
 
 	CEnvironment* environment;
 	COpenGLNode* object;
-	COpenGLNode* camera;
-	COpenGLNode* world;
-	COpenGLNode* clipping;
-	COpenGLNode* divide;
-	COpenGLNode* window;
+	CPtrArray* camera;
+	CPtrArray* world;
+	CPtrArray* clipping;
+	CPtrArray* divide;
+	CPtrArray* window;
 
 	CDlgModelMatrix* modelDlg;
 	CDlgViewMatrix* viewDlg;
 	CDlgProjectionMatrix* projectionDlg;
+	CDlgDivideW* divideWDlg;
 
 // Dialog Data
 	enum { IDD = IDD_DIALOG_PIPELINE1 };

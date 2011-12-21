@@ -594,12 +594,19 @@ COpenGLNode* CFileView::GetSelected()
 {
 	hTreeItem = m_wndFileView.GetSelectedItem();
 
-	if(hTreeItem == NULL) {
-		return NULL;
-	} else {
+	if(hTreeItem != NULL) {
 		m_wndFileView.myMap.Lookup(hTreeItem,node);
-		return node;
+		switch(node->GetID()) {
+		case NODE_TRANSLATE:
+		case NODE_ROTATE:
+		case NODE_SCALE:
+		case NODE_POINT:
+		case NODE_LINE:
+		case NODE_RECTANGLE:
+			return node;
+		}
 	}
+	return NULL;
 }
 
 void CFileView::OnLButtonDown(UINT nFlags, CPoint point)
