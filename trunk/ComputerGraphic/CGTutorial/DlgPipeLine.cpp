@@ -16,34 +16,30 @@ CDlgPipeLine::CDlgPipeLine(CEnvironment *env, CWnd* pParent /*=NULL*/)
 {
 	environment = env;
 	object = NULL;
-	camera = NULL;
-	world = NULL;
-	clipping = NULL;
+	camera = new CPtrArray();
+	world = new CPtrArray();
+	clipping = new CPtrArray();
+	divide = new CPtrArray();
+	window = new CPtrArray();
 
 	modelDlg = new CDlgModelMatrix();
 	viewDlg = new CDlgViewMatrix(env->GetCamera());
 	projectionDlg = new CDlgProjectionMatrix(env->GetProjection());
+	divideWDlg = new CDlgDivideW();
 }
 
 CDlgPipeLine::~CDlgPipeLine()
 {
-	if(camera != NULL)
-		delete camera;
+	delete camera;
+	delete world;
+	delete clipping;
+	delete divide;
+	delete window;
 
-	if(world != NULL)
-		delete world;
-
-	if(clipping != NULL)
-		delete clipping;
-
-	if(modelDlg != NULL)
-		delete modelDlg;
-
-	if(viewDlg != NULL)
-		delete viewDlg;
-	
-	if(projectionDlg != NULL)
-		delete projectionDlg;
+	delete modelDlg;
+	delete viewDlg;
+	delete projectionDlg;
+	delete divideWDlg;
 }
 
 void CDlgPipeLine::DoDataExchange(CDataExchange* pDX)
@@ -63,41 +59,10 @@ END_MESSAGE_MAP()
 void CDlgPipeLine::SetData(COpenGLNode* in) {
 	object = in;
 
-	if(camera != NULL) {
-		delete camera;
-		camera = NULL;
-	}
-
-	if(world != NULL) {
-		delete world;
-		world = NULL;
-	}
-
-	if(clipping != NULL) {
-		delete clipping;
-		clipping = NULL;
-	}
-
-	if(in != NULL) {
-		switch(in->GetID()) {
-		case NODE_POINT:
-			camera = new CPoint4D(0,0,0);
-			world = new CPoint4D(0,0,0);
-			break;
-		case NODE_LINE:
-			camera = new CLine(0,0,0,0,0,0);
-			world = new CLine(0,0,0,0,0,0);
-			break;
-		case NODE_RECTANGLE:
-			camera = new CRectangle(0,0,0,0);
-			world = new CRectangle(0,0,0,0);
-			break;
-		}
-	}
-
 	modelDlg->SetData(object,camera);
 	viewDlg->SetData(camera,world);
 	projectionDlg->SetData(world,clipping);
+	divideWDlg->SetData(clipping,divide);
 }
 
 BOOL CDlgPipeLine::OnInitDialog()
@@ -110,6 +75,8 @@ BOOL CDlgPipeLine::OnInitDialog()
 	m_Tab.InsertItem(0,CString("Model Matrix"), -1);
 	m_Tab.InsertItem(1,CString("View Matrix"), -1);
 	m_Tab.InsertItem(2,CString("Projection Matrix"), -1);
+	m_Tab.InsertItem(3,CString("Divide W"), -1);
+
 	m_Tab.AdjustRect(FALSE, &TabRect);
 	
 	modelDlg->Create(CDlgMatrix::IDD,&m_Tab);
@@ -121,6 +88,9 @@ BOOL CDlgPipeLine::OnInitDialog()
 
 	projectionDlg->Create(CDlgMatrix::IDD,&m_Tab);
 	projectionDlg->MoveWindow(TabRect);
+
+	divideWDlg->Create(CDlgMatrix::IDD,&m_Tab);
+	divideWDlg->MoveWindow(TabRect);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
@@ -134,17 +104,26 @@ void CDlgPipeLine::OnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 		modelDlg->ShowWindow(SW_SHOW);
 		viewDlg->ShowWindow(SW_HIDE);
 		projectionDlg->ShowWindow(SW_HIDE);
+		divideWDlg->ShowWindow(SW_HIDE);
 		break;
 	case 1:
 		modelDlg->ShowWindow(SW_HIDE);
 		viewDlg->ShowWindow(SW_SHOW);
 		projectionDlg->ShowWindow(SW_HIDE);
+		divideWDlg->ShowWindow(SW_HIDE);
 		break;
 	case 2:
 		modelDlg->ShowWindow(SW_HIDE);
 		viewDlg->ShowWindow(SW_HIDE);
 		projectionDlg->ShowWindow(SW_SHOW);
+		divideWDlg->ShowWindow(SW_HIDE);
 		break;	
+	case 3:
+		modelDlg->ShowWindow(SW_HIDE);
+		viewDlg->ShowWindow(SW_HIDE);
+		projectionDlg->ShowWindow(SW_HIDE);
+		divideWDlg->ShowWindow(SW_SHOW);
+		break;
 	}
 	*pResult = 0;
 }

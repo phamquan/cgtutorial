@@ -32,7 +32,7 @@ END_MESSAGE_MAP()
 
 
 // CDlgMatrix message handlers
-void CDlgMatrix::SetData(COpenGLNode* in, COpenGLNode* out)
+void CDlgMatrix::SetData(CPtrArray* in, CPtrArray* out)
 {
 	this->in = in;
 	this->out = out;
@@ -93,7 +93,7 @@ void CDlgMatrix::ShowMatrix(CDC* cdc, CString name, CString rear, float m[16], i
 	top = bottom;
 }
 
-CPoint3D CDlgMatrix::ShowMatrixPoint(CDC* cdc, CString matrix, CString name, float m[16], CPoint3D point, int &top, int left)
+CPoint3D* CDlgMatrix::ShowMatrixPoint(CDC* cdc, CString matrix, CString name, float m[16], CPoint3D point, int &top, int left)
 {
 	top += 10;
 	CString newname = name + "' = " + matrix + "*" + name + " =";
@@ -111,7 +111,7 @@ CPoint3D CDlgMatrix::ShowMatrixPoint(CDC* cdc, CString matrix, CString name, flo
 
 	top = bottom;
 
-	return newpoint;
+	return new CPoint3D(newpoint);
 }
 
 void CDlgMatrix::ShowMatrixMatrix(CDC* cdc, CString name, CString n[16], float m[16], int &top, int left)
@@ -167,21 +167,28 @@ void CDlgMatrix::ShowPoint(CDC* cdc, CString name, CHomoPoint point, int top, in
 	ShowPoint(cdc,point,top,left);
 }
 
+void CDlgMatrix::ShowPointPoint(CDC* cdc, CString name, CHomoPoint point1, CHomoPoint point2, int top, int left) {
+	top += 10;
+	name += " =";
+	cdc->TextOutW(left, top+30, name);
+	left += (int)cdc->GetTextExtent(name).cx;
+
+	ShowPoint(cdc,point1,top,left);
+	cdc->TextOutW(left+5,top+30,CString("="));
+	left += cdc->GetTextExtent(CString(" =")).cx;
+	ShowPoint(cdc,point2,top,left);
+}
+
 void CDlgMatrix::ShowMatrixPoint(CDC* cdc, CString matrix, CString point, int &top, int left)
 {
-	float x1,y1,z1,x2,y2,z2;
 	if(in != NULL)
 	{
-		CPoint3D p1, p2;
-		if(in->GetID() == NODE_POINT) {
-			((CPoint4D*)in)->GetData(x1,y1,z1);
-			p1 = ShowMatrixPoint(cdc,matrix,CString("P")+point,sum,CPoint3D(x1,y1,z1),top,left);
-			((CPoint4D*)out)->SetData(p1.getX(),p1.getY(),p1.getZ());
-		} else if(in->GetID() == NODE_LINE) {
-			((CLine*)in)->GetData(x1,y1,z1,x2,y2,z2);
-			p1 = ShowMatrixPoint(cdc,matrix,CString("P1")+point,sum,CPoint3D(x1,y1,z1),top,left);
-			p2 = ShowMatrixPoint(cdc,matrix,CString("P2")+point,sum,CPoint3D(x2,y2,z2),top,left);
-			((CLine*)out)->SetData(p1.getX(),p1.getY(),p1.getZ(),p2.getX(),p2.getY(),p2.getZ());
+		out->RemoveAll();
+		for(int i=0; i<in->GetSize(); i++) {
+			CPoint3D* p = (CPoint3D*)in->GetAt(i);
+			char buf[128];
+			itoa(i+1,buf,10);
+			out->Add(ShowMatrixPoint(cdc,matrix,CString("P") + CString(buf) + point,sum,*p,top,left));
 		}
 	}
 }
