@@ -24,14 +24,12 @@ void CColor::GetData(float &red, float &green, float &blue)
 
 CString CColor::ToString()
 {
-	CString result = label + " (";
-
 	char buff[1024];
 
-	sprintf(buff,"red=%5.2f, green=%5.2f, blue=%5.2f",
+	sprintf_s(buff,"(red=%5.2f, green=%5.2f, blue=%5.2f)",
 		data.getX(),data.getY(),data.getZ());
 
-	return result + CString(buff) + ")";
+	return label + CString(buff);
 }
 
 void CColor::BeginOpenGL()

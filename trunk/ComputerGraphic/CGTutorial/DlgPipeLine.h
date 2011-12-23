@@ -2,6 +2,7 @@
 
 #include "resource.h"
 #include "DlgDivideW.h"
+#include "DlgViewPort.h"
 
 // CDlgPipeLine dialog
 
@@ -27,6 +28,7 @@ public:
 	CDlgViewMatrix* viewDlg;
 	CDlgProjectionMatrix* projectionDlg;
 	CDlgDivideW* divideWDlg;
+	CDlgViewPort* viewPortDlg;
 
 // Dialog Data
 	enum { IDD = IDD_DIALOG_PIPELINE1 };

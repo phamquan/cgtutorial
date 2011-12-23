@@ -12,13 +12,11 @@ CRotate::~CRotate()
 
 CString CRotate::ToString()
 {
-	CString result = label + " (";
-
 	char buff[1024];
 
-	sprintf(buff,"x=%5.2f, y=%5.2f, z=%5.2f, alpha=%5.2f",data.getX(),data.getY(),data.getZ(),data.getW());
+	sprintf_s(buff,"(x=%5.2f, y=%5.2f, z=%5.2f, alpha=%5.2f)",data.getX(),data.getY(),data.getZ(),data.getW());
 
-	return result + CString(buff) + ")";
+	return label + CString(buff);
 }
 
 void CRotate::DoOpenGL()

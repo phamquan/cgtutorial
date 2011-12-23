@@ -4,16 +4,9 @@
 #include "stdafx.h"
 // SHARED_HANDLERS can be defined in an ATL project implementing preview, thumbnail
 // and search filter handlers and allows sharing of document code with that project.
-#ifndef SHARED_HANDLERS
 #include "CGTutorial.h"
-#endif
-
 #include "CGTutorialDoc.h"
 #include "CGTutorialView.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#endif
 
 
 // CCameraView

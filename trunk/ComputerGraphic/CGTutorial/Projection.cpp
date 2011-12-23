@@ -31,17 +31,15 @@ void CProjection::GetData(float &left, float &right, float &bottom, float &top, 
 	
 CString CProjection::ToString()
 {
-	CString result = label + " (";
-
 	char buff[1024];
 
-	sprintf(buff,"left=%5.2f, right=%5.2f, bottom=%5.2f, top=%5.2f, near=%5.2f, far=%5.2f",
+	sprintf_s(buff,"(left=%5.2f, right=%5.2f, bottom=%5.2f, top=%5.2f, near=%5.2f, far=%5.2f)",
 			data1.getX(),data1.getY(),data1.getZ(),data2.getX(),data2.getY(),data2.getZ());
 
 	if(type == ORTHO)
-		return result + "type=ortho, " + CString(buff) + ")";	
+		return label + "type=ortho, " + CString(buff);	
 	else
-		return result + "type=frustum, " + CString(buff) + ")";
+		return label + "type=frustum, " + CString(buff);
 }
 
 void CProjection::BeginOpenGL()
