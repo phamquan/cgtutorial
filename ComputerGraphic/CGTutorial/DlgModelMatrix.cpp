@@ -84,20 +84,19 @@ void CDlgModelMatrix::ShowNode(CDC* cdc, COpenGLNode* node, int &top, int left) 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
-	float x1,y1,z1,w1;
 	if(id == NODE_OBJECT) {
 		total = total.Right(total.GetLength()-1);
 		glGetFloatv(GL_MODELVIEW_MATRIX,m);
 	} else {
 		if(id != NODE_COLOR) {			
 			if(id == NODE_TRANSLATE) {
-				sprintf(buff,"T%d",count[0]++);
+				sprintf_s(buff,"T%d",count[0]++);
 				node->DoOpenGL();
 			} else if(id == NODE_SCALE) {
-				sprintf(buff,"S%d",count[1]++);
+				sprintf_s(buff,"S%d",count[1]++);
 				node->DoOpenGL();
 			} else if(id == NODE_ROTATE) {
-				sprintf(buff,"R%d",count[2]++);
+				sprintf_s(buff,"R%d",count[2]++);
 				node->DoOpenGL();
 			}
 			total = CString("*") + buff + total;

@@ -56,8 +56,6 @@ void CDlgViewMatrix::OnPaint()
 }
 
 void CDlgViewMatrix::ShowCamera(CDC* cdc, int &top, int left) {
-	char buff[128];
-	
 	float x1,y1,z1,x2,y2,z2,x3,y3,z3;
 	camera->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
 

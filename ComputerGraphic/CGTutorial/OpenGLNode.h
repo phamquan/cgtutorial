@@ -1,6 +1,6 @@
 #pragma once
 #include "HomoPoint.h"
-#include "GL/glut.h"
+#include "../Library/GL/glut.h"
 
 #define NODE_VIEWPORT	-4
 #define NODE_PROJECTION	-3

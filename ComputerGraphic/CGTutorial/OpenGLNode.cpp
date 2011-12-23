@@ -67,7 +67,7 @@ void COpenGLNode::PaintOpenGL()
 
 CString COpenGLNode::ToString()
 {
-	return label + " ()";
+	return label;
 }
 
 void COpenGLNode::DoOpenGL()

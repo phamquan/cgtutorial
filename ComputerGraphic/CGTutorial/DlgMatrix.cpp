@@ -44,7 +44,7 @@ int CDlgMatrix::ShowMatrix(CDC* cdc, float m[16], const int top, int &left)
 	char buff[128];
 	CString n[16];
 	for(int i=0; i<16; i++) {
-		sprintf(buff,"%5.3f",m[i]);
+		sprintf_s(buff,"%5.3f",m[i]);
 		n[i] = CString(buff);
 	}
 	return ShowMatrix(cdc,n,top,left);
@@ -144,7 +144,7 @@ void CDlgMatrix::ShowPoint(CDC* cdc, CHomoPoint point, const int top, int &left)
 	char buff[128];
 	int max = 0;
 	for(int i=0; i<4; i++) {//row
-		sprintf(buff,"%5.3f",x[i]);
+		sprintf_s(buff,"%5.3f",x[i]);
 		int width = cdc->GetTextExtent(CString(buff)).cx;
 		cdc->TextOutW(left,top+(height+5)*i,CString(buff));
 		if(max < width)
@@ -187,7 +187,7 @@ void CDlgMatrix::ShowMatrixPoint(CDC* cdc, CString matrix, CString point, int &t
 		for(int i=0; i<in->GetSize(); i++) {
 			CPoint3D* p = (CPoint3D*)in->GetAt(i);
 			char buf[128];
-			itoa(i+1,buf,10);
+			_itoa_s(i+1,buf,10);
 			out->Add(ShowMatrixPoint(cdc,matrix,CString("P") + CString(buf) + point,sum,*p,top,left));
 		}
 	}

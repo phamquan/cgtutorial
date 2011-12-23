@@ -1,42 +1,43 @@
 #include "StdAfx.h"
 #include "CGTutorial.h"
-#include "DlgDivideW.h"
+#include "DlgViewPort.h"
 
-IMPLEMENT_DYNAMIC(CDlgDivideW, CDlgMatrix)
+IMPLEMENT_DYNAMIC(CDlgViewPort, CDlgMatrix)
 
-CDlgDivideW::CDlgDivideW(CWnd* pParent /*=NULL*/)
+CDlgViewPort::CDlgViewPort(CViewPort* vp, CWnd* pParent /*=NULL*/)
 	: CDlgMatrix(pParent)
 {
+	viewport = vp;
 }
 
-CDlgDivideW::~CDlgDivideW()
+CDlgViewPort::~CDlgViewPort()
 {
 }
 
-void CDlgDivideW::DoDataExchange(CDataExchange* pDX)
+void CDlgViewPort::DoDataExchange(CDataExchange* pDX)
 {
 	CDlgMatrix::DoDataExchange(pDX);
 }
 
 
-BEGIN_MESSAGE_MAP(CDlgDivideW, CDlgMatrix)
+BEGIN_MESSAGE_MAP(CDlgViewPort, CDlgMatrix)
 	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 
 // CDlgModelMatrix message handlers
-BOOL CDlgDivideW::OnInitDialog()
+BOOL CDlgViewPort::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
 	// TODO:  Add extra initialization here
-	this->SetWindowTextW(CString("Divide W"));
+	this->SetWindowTextW(CString("View port"));
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
 
-void CDlgDivideW::OnPaint()
+void CDlgViewPort::OnPaint()
 {
 	CPaintDC dc(this); // device context for painting
 	// TODO: Add your message handler code here
@@ -51,14 +52,7 @@ void CDlgDivideW::OnPaint()
 			CPoint3D* p = (CPoint3D*)in->GetAt(i);
 			char buf[128];
 			_itoa_s(i+1,buf,10);
-			CString name = CString("P") + buf + "'''";
-			if(p->getW() == 1) {
-				ShowPoint(&dc,name,*p,top,left);
-				out->Add(new CPoint3D(*p));
-			} else {
-				ShowPointPoint(&dc,name,*p,CPoint3D(p->getX()/p->getW(),p->getY()/p->getW(),p->getZ()/p->getW()),top,left);
-				out->Add(new CPoint3D(p->getX()/p->getW(),p->getY()/p->getW(),p->getZ()/p->getW()));
-			}
+			CString name = CString("P") + buf + "''''";
 			top += 100;
 		}
 	}

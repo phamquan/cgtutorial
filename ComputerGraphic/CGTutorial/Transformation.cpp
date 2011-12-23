@@ -24,13 +24,11 @@ void CTransformation::GetData(float &x, float &y, float &z, float &angle)
 
 CString CTransformation::ToString()
 {
-	CString result = label + " (";
-
 	char buff[1024];
 
-	sprintf(buff,"x=%5.2f, y=%5.2f, z=%5.2f",data.getX(),data.getY(),data.getZ());
+	sprintf_s(buff,"(x=%5.2f, y=%5.2f, z=%5.2f)",data.getX(),data.getY(),data.getZ());
 
-	return result + CString(buff) + ")";
+	return label + CString(buff);
 }
 
 void CTransformation::BeginOpenGL()

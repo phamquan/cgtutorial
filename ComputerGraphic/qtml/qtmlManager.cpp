@@ -122,6 +122,8 @@ bool qtmlManager::exploreEnvironment(TiXmlNode *pParent) {
 						camera = (TiXmlElement*)pChild;
 				else if (!v.compareTo("LIGHTSOURCE"))
 					lightsource->push_back(pChild);
+				else if (!v.compareTo("VIEWPORT")) {
+				}
 			}
 			break;
 		case TiXmlNode::COMMENT:
@@ -143,7 +145,7 @@ bool qtmlManager::exploreObject(TiXmlNode *pParent) {
 
 bool qtmlManager::explore() {
 	if (exploreDoc(doc))
-		return exploreProgram(program) & exploreEnvironment(environment) & exploreObject(object);
+		return exploreProgram(program) && exploreEnvironment(environment) && exploreObject(object);
 	else {
 		Clear();
 		return false;

@@ -26,6 +26,7 @@ CDlgPipeLine::CDlgPipeLine(CEnvironment *env, CWnd* pParent /*=NULL*/)
 	viewDlg = new CDlgViewMatrix(env->GetCamera());
 	projectionDlg = new CDlgProjectionMatrix(env->GetProjection());
 	divideWDlg = new CDlgDivideW();
+	viewPortDlg = new CDlgViewPort(env->GetViewPort());
 }
 
 CDlgPipeLine::~CDlgPipeLine()
@@ -40,6 +41,7 @@ CDlgPipeLine::~CDlgPipeLine()
 	delete viewDlg;
 	delete projectionDlg;
 	delete divideWDlg;
+	delete viewPortDlg;
 }
 
 void CDlgPipeLine::DoDataExchange(CDataExchange* pDX)
@@ -63,6 +65,7 @@ void CDlgPipeLine::SetData(COpenGLNode* in) {
 	viewDlg->SetData(camera,world);
 	projectionDlg->SetData(world,clipping);
 	divideWDlg->SetData(clipping,divide);
+	viewPortDlg->SetData(divide,window);
 }
 
 BOOL CDlgPipeLine::OnInitDialog()
@@ -76,6 +79,7 @@ BOOL CDlgPipeLine::OnInitDialog()
 	m_Tab.InsertItem(1,CString("View Matrix"), -1);
 	m_Tab.InsertItem(2,CString("Projection Matrix"), -1);
 	m_Tab.InsertItem(3,CString("Divide W"), -1);
+	m_Tab.InsertItem(4,CString("View Port"), -1);
 
 	m_Tab.AdjustRect(FALSE, &TabRect);
 	
@@ -92,6 +96,9 @@ BOOL CDlgPipeLine::OnInitDialog()
 	divideWDlg->Create(CDlgMatrix::IDD,&m_Tab);
 	divideWDlg->MoveWindow(TabRect);
 
+	viewPortDlg->Create(CDlgMatrix::IDD,&m_Tab);
+	viewPortDlg->MoveWindow(TabRect);
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -105,24 +112,35 @@ void CDlgPipeLine::OnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 		viewDlg->ShowWindow(SW_HIDE);
 		projectionDlg->ShowWindow(SW_HIDE);
 		divideWDlg->ShowWindow(SW_HIDE);
+		viewPortDlg->ShowWindow(SW_HIDE);
 		break;
 	case 1:
 		modelDlg->ShowWindow(SW_HIDE);
 		viewDlg->ShowWindow(SW_SHOW);
 		projectionDlg->ShowWindow(SW_HIDE);
 		divideWDlg->ShowWindow(SW_HIDE);
+		viewPortDlg->ShowWindow(SW_HIDE);
 		break;
 	case 2:
 		modelDlg->ShowWindow(SW_HIDE);
 		viewDlg->ShowWindow(SW_HIDE);
 		projectionDlg->ShowWindow(SW_SHOW);
 		divideWDlg->ShowWindow(SW_HIDE);
+		viewPortDlg->ShowWindow(SW_HIDE);
 		break;	
 	case 3:
 		modelDlg->ShowWindow(SW_HIDE);
 		viewDlg->ShowWindow(SW_HIDE);
 		projectionDlg->ShowWindow(SW_HIDE);
 		divideWDlg->ShowWindow(SW_SHOW);
+		viewPortDlg->ShowWindow(SW_HIDE);
+		break;
+	case 4:
+		modelDlg->ShowWindow(SW_HIDE);
+		viewDlg->ShowWindow(SW_HIDE);
+		projectionDlg->ShowWindow(SW_HIDE);
+		divideWDlg->ShowWindow(SW_HIDE);
+		viewPortDlg->ShowWindow(SW_SHOW);
 		break;
 	}
 	*pResult = 0;
