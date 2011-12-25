@@ -39,6 +39,7 @@ private:
 	float m_width, m_height, m_dfLen;
 	HANDLE hRunStep;
 	DWORD  dwRunStepId;
+	bool m_isLeftMouseDown, m_isMidMouseDown;
 public:
 	void initParameter();
 	void setupOpenGL(void);
@@ -71,4 +72,9 @@ public:
 protected:
 	afx_msg LRESULT OnKickidle(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnIdleupdatecmdui(WPARAM wParam, LPARAM lParam);
+public:
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnMButtonUp(UINT nFlags, CPoint point);
 };
