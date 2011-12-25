@@ -84,6 +84,10 @@ BEGIN_MESSAGE_MAP(CRasterizationIllustrationDlg, CDialogEx)
 	ON_UPDATE_COMMAND_UI(ID_ALGORITHMFORRASTERIZATION_BRESENHAMLINEALGORITHM, &CRasterizationIllustrationDlg::OnUpdateAlgorithmforrasterizationBresenhamlinealgorithm)
 	ON_MESSAGE(WM_KICKIDLE, &CRasterizationIllustrationDlg::OnKickidle)
 	ON_MESSAGE(WM_IDLEUPDATECMDUI, &CRasterizationIllustrationDlg::OnIdleupdatecmdui)
+	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONUP()
+	ON_WM_MOUSEMOVE()
+	ON_WM_MBUTTONUP()
 END_MESSAGE_MAP()
 
 
@@ -325,6 +329,7 @@ void CRasterizationIllustrationDlg::initParameter() {
 	m_dfLen = 2.0;
 	hRunStep = NULL;
 	dwRunStepId = 0;
+	m_isLeftMouseDown = m_isMidMouseDown = false;
 	m_config = new CRasterizationConfig(800, 600, 0.008, BRESENHAM, BLUE);
 	int width = m_config->getWidth(),
 		height = m_config->getHeight();
@@ -591,14 +596,6 @@ void CRasterizationIllustrationDlg::setCamera(void)
 }
 
 
-void CRasterizationIllustrationDlg::OnMButtonDown(UINT nFlags, CPoint point)
-{
-	// TODO: Add your message handler code here and/or call default
-	
-	CDialogEx::OnMButtonDown(nFlags, point);
-}
-
-
 void CRasterizationIllustrationDlg::OnAlgorithmforrasterizationDigitaldifferentialanalyzer()
 {
 	// TODO: Add your command handler code here
@@ -639,4 +636,53 @@ afx_msg LRESULT CRasterizationIllustrationDlg::OnIdleupdatecmdui(WPARAM wParam, 
 {
 	GetDlgItem(ID_ALGORITHMFORRASTERIZATION_DIGITALDIFFERENTIALANALYZER)->SendMessage(WM_IDLEUPDATECMDUI);
 	return 0;
+}
+
+
+void CRasterizationIllustrationDlg::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	m_isLeftMouseDown = true;
+		CRect rect;
+	GetClientRect(rect);
+	//Change from window coordinate system to real coordinate system
+	float x = (float)2 * m_width * point.x/rect.Width() - m_width;
+	float y = 2 * m_height * (rect.Height() - point.y)/ (float)rect.Height() - m_height;
+
+	CDialogEx::OnLButtonDown(nFlags, point);
+}
+
+
+void CRasterizationIllustrationDlg::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	m_isLeftMouseDown = false;
+
+	CDialogEx::OnLButtonUp(nFlags, point);
+}
+
+
+void CRasterizationIllustrationDlg::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	if (m_isLeftMouseDown) {
+	}
+
+	CDialogEx::OnMouseMove(nFlags, point);
+}
+
+void CRasterizationIllustrationDlg::OnMButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	m_isMidMouseDown = true;
+	
+	CDialogEx::OnMButtonDown(nFlags, point);
+}
+
+void CRasterizationIllustrationDlg::OnMButtonUp(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	m_isMidMouseDown = false;
+
+	CDialogEx::OnMButtonUp(nFlags, point);
 }
