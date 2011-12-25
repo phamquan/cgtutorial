@@ -40,6 +40,7 @@ private:
 	HANDLE hRunStep;
 	DWORD  dwRunStepId;
 	bool m_isLeftMouseDown, m_isMidMouseDown;
+	float startX, startY, targetX, targetY;
 public:
 	void initParameter();
 	void setupOpenGL(void);

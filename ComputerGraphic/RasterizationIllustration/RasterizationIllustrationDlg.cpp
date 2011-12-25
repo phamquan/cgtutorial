@@ -174,6 +174,7 @@ void CRasterizationIllustrationDlg::OnPaint()
 		wglMakeCurrent( m_hDC, m_hRC );
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
+		glTranslated(targetX, targetY, 0);
 		COLOR bg = m_config->getBackgroundColor();
 		glClearColor(bg.red, bg.green, bg.blue, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT); 
@@ -340,6 +341,7 @@ void CRasterizationIllustrationDlg::initParameter() {
 		m_pixelColor = new COLOR[width * height];
 		Erase();
 	}
+	targetX = targetY = 0.0f;
 }
 
 BOOL CRasterizationIllustrationDlg::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
@@ -643,11 +645,13 @@ void CRasterizationIllustrationDlg::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
 	m_isLeftMouseDown = true;
-		CRect rect;
+	CRect rect;
 	GetClientRect(rect);
 	//Change from window coordinate system to real coordinate system
 	float x = (float)2 * m_width * point.x/rect.Width() - m_width;
 	float y = 2 * m_height * (rect.Height() - point.y)/ (float)rect.Height() - m_height;
+	startX = x;
+	startY = y;
 
 	CDialogEx::OnLButtonDown(nFlags, point);
 }
@@ -666,6 +670,16 @@ void CRasterizationIllustrationDlg::OnMouseMove(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
 	if (m_isLeftMouseDown) {
+		CRect rect;
+		GetClientRect(rect);
+		//Change from window coordinate system to real coordinate system
+		float x = (float)2 * m_width * point.x/rect.Width() - m_width;
+		float y = 2 * m_height * (rect.Height() - point.y)/ (float)rect.Height() - m_height;
+		targetX = x - startX + targetX;
+		targetY = y - startY + targetY;
+		startX = x;
+		startY = y;
+		Invalidate();
 	}
 
 	CDialogEx::OnMouseMove(nFlags, point);
