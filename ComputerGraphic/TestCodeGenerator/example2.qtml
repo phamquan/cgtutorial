@@ -5,6 +5,8 @@
 	<camera xpos=0 ypos=0 zpos=0 xlook=0 ylook=0 zlook=-1 xup=0 yup=1 zup=0 />
 	
 	<projection type='ortho' left=-1 right=1 bottom=-1 top=1 near=-1 far=1 />
+	
+	<viewport type='default' />
 </environment>
 
 
