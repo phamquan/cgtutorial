@@ -70,10 +70,6 @@ protected:
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
 public:
 	afx_msg void OnViewLayout();
-	afx_msg void OnModelMatrix();
-	afx_msg void OnViewMatrix();
-//	afx_msg void OnProjectionMatrix();
-	afx_msg void OnProjectionMatrix();
 	afx_msg void OnPipeline();
 };
 

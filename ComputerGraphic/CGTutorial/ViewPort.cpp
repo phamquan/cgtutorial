@@ -29,11 +29,11 @@ CString CViewPort::ToString()
 {
 	char buff[1024];
 
-	sprintf_s(buff,"(x=%5.2f, y=%5.2f, width=%5.2f, height=%5.2f)",
+	sprintf_s(buff,"x=%5.2f, y=%5.2f, width=%5.2f, height=%5.2f)",
 			data.getX(),data.getY(),data.getZ(),data.getW());
 
 	if(type == VIEWPORT_DEFAULT)
-		return label + CString("type=default");	
+		return label + CString("(type=default)");	
 	else
-		return label + CString("type=custom, ") + CString(buff);
+		return label + CString("(type=custom, ") + CString(buff);
 }

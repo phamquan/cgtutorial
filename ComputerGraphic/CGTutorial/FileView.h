@@ -53,9 +53,6 @@ public:
 	void FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNode* oobject, CEnvironment* oenvironment);
 	void FillView(COpenGLNode* object, COpenGLNode* environment);
 
-	void ShowModelMatrix();
-	void ShowViewMatrix();
-	void ShowProjectionMatrix();
 	COpenGLNode* GetSelected();
 // Attributes
 protected:

@@ -28,7 +28,7 @@ protected: // create from serialization only
 // Attributes
 public:
 	CEnvironment* environment;
-
+	void Init();
 // Operations
 public:
 

@@ -33,13 +33,13 @@ CString CProjection::ToString()
 {
 	char buff[1024];
 
-	sprintf_s(buff,"(left=%5.2f, right=%5.2f, bottom=%5.2f, top=%5.2f, near=%5.2f, far=%5.2f)",
+	sprintf_s(buff,"left=%5.2f, right=%5.2f, bottom=%5.2f, top=%5.2f, near=%5.2f, far=%5.2f)",
 			data1.getX(),data1.getY(),data1.getZ(),data2.getX(),data2.getY(),data2.getZ());
 
 	if(type == ORTHO)
-		return label + "type=ortho, " + CString(buff);	
+		return label + "(type=ortho, " + CString(buff);	
 	else
-		return label + "type=frustum, " + CString(buff);
+		return label + "(type=frustum, " + CString(buff);
 }
 
 void CProjection::BeginOpenGL()
