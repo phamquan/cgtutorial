@@ -31,7 +31,7 @@ void CCamera::GetData(float &xpos, float &ypos, float &zpos, float &xlook, float
 	
 CString CCamera::ToString()
 {
-	char buff[1024];
+	char buff[128];
 
 	sprintf_s(buff,"(xpos=%5.2f, ypos=%5.2f, zpos=%5.2f, xlook=%5.2f, ylook=%5.2f, zlook=%5.2f, xup=%5.2f, yup=%5.2f, zup=%5.2f)",
 		pos.getX(),pos.getY(),pos.getZ(),look.getX(),look.getY(),look.getZ(),up.getX(),up.getY(),up.getZ());

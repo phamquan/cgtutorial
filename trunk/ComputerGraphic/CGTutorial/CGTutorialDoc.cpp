@@ -42,6 +42,7 @@ CCGTutorialDoc::CCGTutorialDoc()
 	// TODO: add one-time construction code here
 	object = new COpenGLNode("object",NODE_OBJECT);
 	environment = new CEnvironment();
+	Init();
 }
 
 CCGTutorialDoc::~CCGTutorialDoc()
@@ -61,9 +62,7 @@ BOOL CCGTutorialDoc::OnNewDocument()
 	// (SDI documents will reuse this document)
 	object->ClearChild();
 	environment->ClearChild();
-	environment->AddChild(new CProjection(-1,1,-1,1,1,-1,ORTHO));
-	environment->AddChild(new CCamera(0,0,0,0,0,-1,0,1,0));
-	environment->AddChild(new CViewPort(0,0,0,0,VIEWPORT_DEFAULT));
+	Init();	
 
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 	pMainFrame->m_wndFileView.FillView(object,environment);
@@ -71,6 +70,11 @@ BOOL CCGTutorialDoc::OnNewDocument()
 	return TRUE;
 }
 
+void CCGTutorialDoc::Init() {
+	environment->AddChild(new CProjection(-1,1,-1,1,1,-1,ORTHO));
+	environment->AddChild(new CCamera(0,0,0,0,0,-1,0,1,0));
+	environment->AddChild(new CViewPort(0,0,0,0,VIEWPORT_DEFAULT));
+}
 // CCGTutorialDoc serialization
 
 void CCGTutorialDoc::Serialize(CArchive& ar)
@@ -177,8 +181,9 @@ BOOL CCGTutorialDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 	pMainFrame->m_wndFileView.FillView(data.object,data.environment,object,environment);
-	pMainFrame->m_wndSplitter.GetPane(0,0)->Invalidate();
-	pMainFrame->m_wndSplitter.GetPane(0,1)->Invalidate();
+	pMainFrame->GetActiveDocument()->UpdateAllViews(NULL);
+//	pMainFrame->m_wndSplitter.GetPane(0,0)->Invalidate();
+//	pMainFrame->m_wndSplitter.GetPane(0,1)->Invalidate();
 	return TRUE;
 }
 

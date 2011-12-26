@@ -24,7 +24,7 @@ void CColor::GetData(float &red, float &green, float &blue)
 
 CString CColor::ToString()
 {
-	char buff[1024];
+	char buff[128];
 
 	sprintf_s(buff,"(red=%5.2f, green=%5.2f, blue=%5.2f)",
 		data.getX(),data.getY(),data.getZ());

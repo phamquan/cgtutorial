@@ -12,7 +12,7 @@ CRotate::~CRotate()
 
 CString CRotate::ToString()
 {
-	char buff[1024];
+	char buff[128];
 
 	sprintf_s(buff,"(x=%5.2f, y=%5.2f, z=%5.2f, alpha=%5.2f)",data.getX(),data.getY(),data.getZ(),data.getW());
 

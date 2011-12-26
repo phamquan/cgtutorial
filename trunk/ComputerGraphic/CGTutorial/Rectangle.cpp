@@ -27,7 +27,7 @@ void CRectangle::GetData(float &top, float &left, float &bottom, float &right)
 
 CString CRectangle::ToString()
 {
-	char buff[1024];
+	char buff[128];
 
 	sprintf_s(buff,"(top=%5.2f, left=%5.2f, bottom=%5.2f, right=%5.2f)",data1.getX(),data1.getY(),data2.getX(),data2.getY());
 
