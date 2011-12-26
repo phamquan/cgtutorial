@@ -57,7 +57,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../Library</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib; qtml_d.lib</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
