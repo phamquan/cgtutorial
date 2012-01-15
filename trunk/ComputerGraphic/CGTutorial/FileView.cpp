@@ -560,6 +560,5 @@ COpenGLNode* CFileView::GetSelected()
 void CFileView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
-
 	CDockablePane::OnLButtonDown(nFlags, point);
 }

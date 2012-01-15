@@ -11,6 +11,7 @@
 
 #include "stdafx.h"
 #include "ViewTree.h"
+#include "MainFrm.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -248,7 +249,8 @@ CImageList* CViewTree::CreateDragImageEx(HTREEITEM hItem)
 
 void CViewTree::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	// TODO: Add your message handler code here and/or call default
-
 	CTreeCtrl::OnLButtonDown(nFlags, point);
+	// TODO: Add your message handler code here and/or call default
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	pMainFrame->RefreshPipeLine();
 }
