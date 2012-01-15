@@ -44,6 +44,16 @@ BOOL CDlgViewMatrix::OnInitDialog()
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
+void CDlgViewMatrix::SetData(CPtrArray* in, CPtrArray* out)
+{
+	this->in = in;
+	this->out = out;
+
+	CalCamera();
+	out->RemoveAll();
+
+	Invalidate();
+}
 
 void CDlgViewMatrix::OnPaint()
 {
@@ -51,11 +61,6 @@ void CDlgViewMatrix::OnPaint()
 	// TODO: Add your message handler code here
 	// Do not call CDlgMatrix::OnPaint() for painting messages
 	int top = 0, left = 10;
-	ShowCamera(&dc,top,left);
-	ShowMatrixPoint(&dc,CString("V"),CString("'"),top,left);
-}
-
-void CDlgViewMatrix::ShowCamera(CDC* cdc, int &top, int left) {
 	float x1,y1,z1,x2,y2,z2,x3,y3,z3;
 	camera->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
 
@@ -66,14 +71,52 @@ void CDlgViewMatrix::ShowCamera(CDC* cdc, int &top, int left) {
 	CVector3D u = up.crossProduct(n);
 	CVector3D v = n.crossProduct(u);
 
-	ShowPoint(cdc,CString("eye"),eye,top,left);
-	ShowPoint(cdc,CString("center"),center,top,left+200);
-	ShowPoint(cdc,CString("up"),up,top,left+400);
+	ShowPoint(&dc,CString("eye"),eye,top,left);
+	ShowPoint(&dc,CString("center"),center,top,left+200);
+	ShowPoint(&dc,CString("up"),up,top,left+400);
 	top += 100;
-	ShowPoint(cdc,CString("n = eye - center"),n,top,left);	
-	ShowPoint(cdc,CString("u = up x n"),u,top,left+200);
-	ShowPoint(cdc,CString("v = n x u"),v,top,left+400);
+	ShowPoint(&dc,CString("n = eye - center"),n,top,left);	
+	ShowPoint(&dc,CString("u = up x n"),u,top,left+200);
+	ShowPoint(&dc,CString("v = n x u"),v,top,left+400);
 	top += 100;
+
+		
+	CString data[16] = {CString("u.x"), CString("v.x"), CString("n.x"), CString("0.000"),
+					CString("u.y"), CString("v.y"), CString("n.y"), CString("0.000"),
+					CString("u.z"), CString("v.z"), CString ("n.z"), CString("0.000"),
+					CString("0.000"), CString("0.000"), CString("0.000"), CString("1.000")};
+
+	Element* e = (Element*)matrix.GetAt(0);
+	ShowMatrix(&dc,e->font,e->tail,e->data,top,left);
+	
+	e = (Element*)matrix.GetAt(1);
+	ShowMatrixMatrix(&dc,e->font,data,e->data,top,left);
+
+	e = (Element*)matrix.GetAt(2);
+	ShowMatrix(&dc,e->font,e->tail,e->data,top,left);
+	
+	for(int i=0; i<out->GetSize(); i++)
+	{
+		char buff[128];
+		sprintf_s(buff,"P%d'' = V*P%d'",i+1,i+1);
+		ShowPoint(&dc,CString(buff),*((CPoint3D*)out->GetAt(i)),top,left);
+		top += 100;
+	}
+}
+
+void CDlgViewMatrix::CalCamera()
+{
+	matrix.RemoveAll();
+
+	float x1,y1,z1,x2,y2,z2,x3,y3,z3;
+	camera->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
+
+	CPoint3D eye(x1,y1,z1);
+	CPoint3D center(x2,y2,z2);
+	CVector3D up(x3,y3,z3);
+	CVector3D n = eye - center;
+	CVector3D u = up.crossProduct(n);
+	CVector3D v = n.crossProduct(u);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
@@ -82,25 +125,20 @@ void CDlgViewMatrix::ShowCamera(CDC* cdc, int &top, int left) {
 
 	glGetFloatv(GL_MODELVIEW_MATRIX,sum);
 
-	ShowMatrix(cdc,CString("T"),CString("glTranslate(x=-eye.x, y=-eye.y, z=-eye.z)"),sum,top,left);
-	
-	CString data[16] = {CString("u.x"), CString("v.x"), CString("n.x"), CString("0.000"),
-					CString("u.y"), CString("v.y"), CString("n.y"), CString("0.000"),
-					CString("u.z"), CString("v.z"), CString ("n.z"), CString("0.000"),
-					CString("0.000"), CString("0.000"), CString("0.000"), CString("1.000")};
+	matrix.Add(new Element(CString("T"),CString("glTranslate(x=-eye.x, y=-eye.y, z=-eye.z)"),sum));
 
 	sum[0] = u.getX(), sum[1] = v.getX(), sum[2] = n.getX(), sum[3] = 0;
 	sum[4] = u.getY(), sum[5] = v.getY(), sum[6] = n.getY(), sum[7] = 0;
 	sum[8] = u.getZ(), sum[9] = v.getZ(), sum[10] = n.getZ(), sum[11] = 0;
 	sum[12] = 0; sum[13] = 0; sum[14] = 0; sum[15] = 1;
 
-	ShowMatrixMatrix(cdc,CString("M"),data,sum,top,left);
+	matrix.Add(new Element(CString("M"),CString(""),sum));
 
 	glLoadIdentity();
 	gluLookAt(x1,y1,z1,x2,y2,z2,x3,y3,z3);
 	glGetFloatv(GL_MODELVIEW_MATRIX,sum);
 
-	ShowMatrix(cdc,CString("V = M*T"), CString(), sum, top, left);
+	matrix.Add(new Element(CString("V = M*T"), CString(), sum));
 
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();

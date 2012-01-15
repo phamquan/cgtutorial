@@ -13,8 +13,10 @@ public:
 
 	CCamera* camera;
 
+	void SetData(CPtrArray* in, CPtrArray* out);
+
 protected:
-	void ShowCamera(CDC* cdc, int &top, int left);
+	void CalCamera();
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 

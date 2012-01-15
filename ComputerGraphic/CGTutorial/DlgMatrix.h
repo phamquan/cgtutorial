@@ -3,6 +3,17 @@
 #include "Resource.h"
 
 // CDlgMatrix dialog
+class Element
+{
+public :
+	Element(CString f, CString t, float*d) : font(f),tail(t) {
+		for(int i=0; i<16; i++)
+			data[i] = d[i];
+	}
+	CString font;
+	CString tail;
+	float data[16];
+};
 
 class CDlgMatrix : public CDialogEx
 {
@@ -16,6 +27,7 @@ public:
 	
 	CPtrArray* in;
 	CPtrArray* out;
+	CPtrArray matrix;
 	float sum[16];
 
 	enum { IDD = IDD_DIALOG_PIPELINE };

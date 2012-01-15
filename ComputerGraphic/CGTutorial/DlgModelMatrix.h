@@ -20,8 +20,8 @@ public:
 	int count[3];
 
 protected:
-	void ShowNode(CDC* cdc, COpenGLNode* node, int &top, int left);
-	void ShowMatrixPoint(CDC* cdc, CString matrix, CString point, int &top, int left);
+	void CalNode(COpenGLNode* node);
+	void CalMatrixPoint();
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
