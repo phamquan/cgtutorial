@@ -52,20 +52,18 @@ void CDlgModelMatrix::OnPaint()
 	if(object == NULL) {
 		dc.TextOutW(left,top,CString("Select geometric object to view data"));
 	} else {
-		count[0]  = count[1] = count[2] = 1;
-		total = "";
-		for(int i=0; i<16; i++)
-			sum[i] = 0;
-		sum[0] = sum[5] = sum[10] = sum[15] = 1;
-		
-		ShowNode(&dc,object->GetParent(),top,left);
-
-		if(total == "")
-			ShowMatrix(&dc,CString("M"),CString(),sum,top,left);
-		else
-			ShowMatrix(&dc,CString("M = ") + total,CString(),sum,top,left);
-
-		ShowMatrixPoint(&dc,CString("M"),CString(),top,left);
+		for(int i=0; i<matrix.GetSize(); i++)
+		{
+			Element* e = (Element*)matrix.GetAt(i);
+			ShowMatrix(&dc,e->font,e->tail,e->data,top,left);
+		}
+		for(int i=0; i<out->GetSize(); i++)
+		{
+			char buff[128];
+			sprintf_s(buff,"P%d' = M*P%d",i+1,i+1);
+			ShowPoint(&dc,CString(buff),*((CPoint3D*)out->GetAt(i)),top,left);
+			top += 100;
+		}
 	}
 }
 
@@ -73,10 +71,26 @@ void CDlgModelMatrix::SetData(COpenGLNode* in, CPtrArray* out)
 {
 	object = in;
 	this->out = out;
+
+	if(object != NULL) {
+		count[0]  = count[1] = count[2] = 1;
+		total = "";
+		for(int i=0; i<16; i++)
+			sum[i] = 0;
+		sum[0] = sum[5] = sum[10] = sum[15] = 1;
+		matrix.RemoveAll();
+		CalNode(object->GetParent());
+		if(total == "")
+			matrix.Add(new Element(CString("M"),CString(),sum));
+		else
+			matrix.Add(new Element(CString("M = ") + total,CString(),sum));
+		CalMatrixPoint();
+	}
+
 	Invalidate();
 }
 
-void CDlgModelMatrix::ShowNode(CDC* cdc, COpenGLNode* node, int &top, int left) {
+void CDlgModelMatrix::CalNode(COpenGLNode* node) {
 	float m[16];
 	int id = node->GetID();
 	char buff[128];
@@ -103,24 +117,24 @@ void CDlgModelMatrix::ShowNode(CDC* cdc, COpenGLNode* node, int &top, int left) 
 			glGetFloatv(GL_MODELVIEW_MATRIX,m);
 			glMultMatrixf(sum);
 			glGetFloatv(GL_MODELVIEW_MATRIX,sum);
-			ShowMatrix(cdc,CString(buff),node->ToString(),m,top,left);
+			matrix.Add(new Element(CString(buff),node->ToString(),m));
 		}
-		ShowNode(cdc,node->GetParent(),top,left);
+		CalNode(node->GetParent());
 	}
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
 }
 
-void CDlgModelMatrix::ShowMatrixPoint(CDC* cdc, CString matrix, CString point, int &top, int left)
+void CDlgModelMatrix::CalMatrixPoint()
 {
 	out->RemoveAll();
 	float x1,y1,z1,x2,y2,z2;
 	if(object->GetID() == NODE_POINT) {
 		((CPoint4D*)object)->GetData(x1,y1,z1);
-		out->Add(CDlgMatrix::ShowMatrixPoint(cdc,matrix,CString("P1")+point,sum,CPoint3D(x1,y1,z1),top,left));
+		out->Add(new CPoint3D(MultMatrixPoint(sum,CPoint3D(x1,y1,z1))));
 	} else if(object->GetID() == NODE_LINE) {
 		((CLine*)object)->GetData(x1,y1,z1,x2,y2,z2);
-		out->Add(CDlgMatrix::ShowMatrixPoint(cdc,matrix,CString("P1")+point,sum,CPoint3D(x1,y1,z1),top,left));
-		out->Add(CDlgMatrix::ShowMatrixPoint(cdc,matrix,CString("P2")+point,sum,CPoint3D(x2,y2,z2),top,left));
+		out->Add(new CPoint3D(MultMatrixPoint(sum,CPoint3D(x1,y1,z1))));
+		out->Add(new CPoint3D(MultMatrixPoint(sum,CPoint3D(x2,y2,z2))));
 	}
 }
