@@ -47,7 +47,7 @@ public:
 	void DetroyOpenGL();
 	void EvalViewMatrix();
 	void DrawCoordinate();
-	void ShowPipeLine();
+	void ShowPipeLine(COpenGLNode* node);
 // Overrides
 public:
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view

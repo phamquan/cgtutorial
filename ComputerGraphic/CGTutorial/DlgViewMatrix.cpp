@@ -50,7 +50,7 @@ void CDlgViewMatrix::SetData(CPtrArray* in, CPtrArray* out)
 	this->out = out;
 
 	CalCamera();
-	out->RemoveAll();
+	CalMatrixPoint();
 
 	Invalidate();
 }
@@ -64,13 +64,6 @@ void CDlgViewMatrix::OnPaint()
 	float x1,y1,z1,x2,y2,z2,x3,y3,z3;
 	camera->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
 
-	CPoint3D eye(x1,y1,z1);
-	CPoint3D center(x2,y2,z2);
-	CVector3D up(x3,y3,z3);
-	CVector3D n = eye - center;
-	CVector3D u = up.crossProduct(n);
-	CVector3D v = n.crossProduct(u);
-
 	ShowPoint(&dc,CString("eye"),eye,top,left);
 	ShowPoint(&dc,CString("center"),center,top,left+200);
 	ShowPoint(&dc,CString("up"),up,top,left+400);
@@ -80,7 +73,6 @@ void CDlgViewMatrix::OnPaint()
 	ShowPoint(&dc,CString("v = n x u"),v,top,left+400);
 	top += 100;
 
-		
 	CString data[16] = {CString("u.x"), CString("v.x"), CString("n.x"), CString("0.000"),
 					CString("u.y"), CString("v.y"), CString("n.y"), CString("0.000"),
 					CString("u.z"), CString("v.z"), CString ("n.z"), CString("0.000"),
@@ -99,8 +91,7 @@ void CDlgViewMatrix::OnPaint()
 	{
 		char buff[128];
 		sprintf_s(buff,"P%d'' = V*P%d'",i+1,i+1);
-		ShowPoint(&dc,CString(buff),*((CPoint3D*)out->GetAt(i)),top,left);
-		top += 100;
+		ShowMatrixPoint(&dc,CString(buff),sum,(CPoint3D*)in->GetAt(i),(CPoint3D*)out->GetAt(i),top,left);
 	}
 }
 
@@ -111,12 +102,12 @@ void CDlgViewMatrix::CalCamera()
 	float x1,y1,z1,x2,y2,z2,x3,y3,z3;
 	camera->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
 
-	CPoint3D eye(x1,y1,z1);
-	CPoint3D center(x2,y2,z2);
-	CVector3D up(x3,y3,z3);
-	CVector3D n = eye - center;
-	CVector3D u = up.crossProduct(n);
-	CVector3D v = n.crossProduct(u);
+	eye.setCoords(x1,y1,z1);
+	center.setCoords(x2,y2,z2);
+	up.setCoords(x3,y3,z3);
+	n = eye - center;
+	u = up.crossProduct(n);
+	v = n.crossProduct(u);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();

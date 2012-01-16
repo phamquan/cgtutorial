@@ -475,6 +475,7 @@ void CFileView::OnObjectEdit()
 		m_wndFileView.SetItemText(hTreeItem,node->ToString());
 		((CMainFrame*)AfxGetMainWnd())->m_wndSplitter.GetPane(0,0)->Invalidate();
 		((CMainFrame*)AfxGetMainWnd())->m_wndSplitter.GetPane(0,1)->Invalidate();
+		((CMainFrame*)AfxGetMainWnd())->RefreshPipeLine();
 	}
 }
 

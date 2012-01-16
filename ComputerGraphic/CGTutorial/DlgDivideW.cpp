@@ -46,20 +46,38 @@ void CDlgDivideW::OnPaint()
 	if(in->GetSize() == 0) {
 		dc.TextOutW(left,top,CString("Select geometric object to view data"));
 	} else {
-		out->RemoveAll();
-		for(int i=0; i<in->GetSize(); i++) {
+		for(int i=0; i<out->GetSize(); i++) {
 			CPoint3D* p = (CPoint3D*)in->GetAt(i);
 			char buf[128];
-			_itoa_s(i+1,buf,10);
-			CString name = CString("P") + buf + "'''";
+			sprintf_s(buf,"P%d'''",i+1);
 			if(p->getW() == 1) {
-				ShowPoint(&dc,name,*p,top,left);
-				out->Add(new CPoint3D(*p));
+				ShowPoint(&dc,CString(buf),*p,top,left);
 			} else {
-				ShowPointPoint(&dc,name,*p,CPoint3D(p->getX()/p->getW(),p->getY()/p->getW(),p->getZ()/p->getW()),top,left);
-				out->Add(new CPoint3D(p->getX()/p->getW(),p->getY()/p->getW(),p->getZ()/p->getW()));
+				ShowPointPoint(&dc,CString(buf),*p,*((CPoint3D*)out->GetAt(i)),top,left);
 			}
 			top += 100;
+		}
+	}
+}
+
+void CDlgDivideW::SetData(CPtrArray* in, CPtrArray* out)
+{
+	this->in = in;
+	this->out = out;
+
+	CalW();
+
+	Invalidate();
+}
+
+void CDlgDivideW::CalW() {
+	out->RemoveAll();
+	for(int i=0; i<in->GetSize(); i++) {
+		CPoint3D* p = (CPoint3D*)in->GetAt(i);
+		if(p->getW() == 1) {
+			out->Add(new CPoint3D(*p));
+		} else {
+			out->Add(new CPoint3D(p->getX()/p->getW(),p->getY()/p->getW(),p->getZ()/p->getW()));
 		}
 	}
 }

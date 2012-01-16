@@ -331,7 +331,7 @@ void CMainFrame::OnPipeline()
 {
 	// TODO: Add your command handler code here
 	CCGTutorialView* pView = (CCGTutorialView*)GetActiveView();
-	pView->ShowPipeLine();
+	pView->ShowPipeLine(m_wndFileView.GetSelected());
 }
 
 void CMainFrame::RefreshPipeLine()

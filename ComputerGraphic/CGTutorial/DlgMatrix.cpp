@@ -32,13 +32,6 @@ END_MESSAGE_MAP()
 
 
 // CDlgMatrix message handlers
-void CDlgMatrix::SetData(CPtrArray* in, CPtrArray* out)
-{
-	this->in = in;
-	this->out = out;
-	Invalidate();
-}
-
 int CDlgMatrix::ShowMatrix(CDC* cdc, float m[16], const int top, int &left)
 {
 	char buff[128];
@@ -93,25 +86,22 @@ void CDlgMatrix::ShowMatrix(CDC* cdc, CString name, CString rear, float m[16], i
 	top = bottom;
 }
 
-CPoint3D* CDlgMatrix::ShowMatrixPoint(CDC* cdc, CString matrix, CString name, float m[16], CPoint3D point, int &top, int left)
+void CDlgMatrix::ShowMatrixPoint(CDC* cdc, CString name, float m[16], CPoint3D* in, CPoint3D* out, int &top, int left)
 {
 	top += 10;
-	CString newname = name + "' = " + matrix + "*" + name + " =";
-	cdc->TextOutW(left, top+30, newname);
-	left += (int)cdc->GetTextExtent(newname).cx;
+	name += " =";
+	cdc->TextOutW(left, top+30, name);
+	left += (int)cdc->GetTextExtent(name).cx;
 
 	int bottom = ShowMatrix(cdc,m,top,left);
-	ShowPoint(cdc,point,top,left);
+	ShowPoint(cdc,*in,top,left);
 
 	cdc->TextOutW(left+5,top+30,CString("="));
 	left += cdc->GetTextExtent(CString(" =")).cx;
 
-	CPoint3D newpoint = MultMatrixPoint(m,point);
-	ShowPoint(cdc,newpoint,top,left);
+	ShowPoint(cdc,*out,top,left);
 
 	top = bottom;
-
-	return new CPoint3D(newpoint);
 }
 
 void CDlgMatrix::ShowMatrixMatrix(CDC* cdc, CString name, CString n[16], float m[16], int &top, int left)
@@ -179,16 +169,24 @@ void CDlgMatrix::ShowPointPoint(CDC* cdc, CString name, CHomoPoint point1, CHomo
 	ShowPoint(cdc,point2,top,left);
 }
 
-void CDlgMatrix::ShowMatrixPoint(CDC* cdc, CString matrix, CString point, int &top, int left)
+//void CDlgMatrix::ShowMatrixPoint(CDC* cdc, CString matrix, CString point, int &top, int left)
+//{
+//	if(in != NULL)
+//	{
+//		out->RemoveAll();
+//		for(int i=0; i<in->GetSize(); i++) {
+//			CPoint3D* p = (CPoint3D*)in->GetAt(i);
+//			char buf[128];
+//			_itoa_s(i+1,buf,10);
+//			//out->Add(ShowMatrixPoint(cdc,matrix,CString("P") + CString(buf) + point,sum,*p,top,left));
+//		}
+//	}
+//}
+
+void CDlgMatrix::CalMatrixPoint()
 {
-	if(in != NULL)
-	{
-		out->RemoveAll();
-		for(int i=0; i<in->GetSize(); i++) {
-			CPoint3D* p = (CPoint3D*)in->GetAt(i);
-			char buf[128];
-			_itoa_s(i+1,buf,10);
-			out->Add(ShowMatrixPoint(cdc,matrix,CString("P") + CString(buf) + point,sum,*p,top,left));
-		}
+	out->RemoveAll();
+	for(int i=0; i<in->GetSize(); i++) {
+		out->Add(new CPoint3D(MultMatrixPoint(sum,*((CPoint3D*)in->GetAt(i)))));
 	}
 }
