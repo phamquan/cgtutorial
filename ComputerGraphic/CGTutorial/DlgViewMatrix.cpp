@@ -10,10 +10,12 @@
 
 IMPLEMENT_DYNAMIC(CDlgViewMatrix, CDlgMatrix)
 
-CDlgViewMatrix::CDlgViewMatrix(CCamera *cam, CWnd* pParent /*=NULL*/)
+CDlgViewMatrix::CDlgViewMatrix(CCamera *camera, CPtrArray* in, CPtrArray* out, CWnd* pParent /*=NULL*/)
 	: CDlgMatrix(pParent)
 {
-	camera = cam;
+	this->camera = camera;
+	this->in = in;
+	this->out = out;
 }
 
 CDlgViewMatrix::~CDlgViewMatrix()
@@ -42,17 +44,6 @@ BOOL CDlgViewMatrix::OnInitDialog()
 	this->SetWindowTextW(CString("View Matrix"));
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
-}
-
-void CDlgViewMatrix::SetData(CPtrArray* in, CPtrArray* out)
-{
-	this->in = in;
-	this->out = out;
-
-	CalCamera();
-	CalMatrixPoint();
-
-	Invalidate();
 }
 
 void CDlgViewMatrix::OnPaint()
@@ -95,7 +86,7 @@ void CDlgViewMatrix::OnPaint()
 	}
 }
 
-void CDlgViewMatrix::CalCamera()
+void CDlgViewMatrix::Refresh()
 {
 	matrix.RemoveAll();
 
@@ -133,4 +124,7 @@ void CDlgViewMatrix::CalCamera()
 
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
+
+	CalMatrixPoint();
+	Invalidate();
 }

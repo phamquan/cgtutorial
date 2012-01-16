@@ -6,12 +6,11 @@ class CDlgDivideW : public CDlgMatrix
 	DECLARE_DYNAMIC(CDlgDivideW)
 
 public:
-	CDlgDivideW(CWnd* pParent = NULL);   // standard constructor
+	CDlgDivideW(CPtrArray* in, CPtrArray* out, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CDlgDivideW();
 
-	void SetData(CPtrArray* in, CPtrArray* out);
+	void Refresh();
 protected:
-	void CalW();
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 

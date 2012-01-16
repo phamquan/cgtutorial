@@ -9,11 +9,12 @@
 
 IMPLEMENT_DYNAMIC(CDlgModelMatrix, CDlgMatrix)
 
-CDlgModelMatrix::CDlgModelMatrix(CWnd* pParent /*=NULL*/)
+CDlgModelMatrix::CDlgModelMatrix(CPtrArray* out, CWnd* pParent /*=NULL*/)
 	: CDlgMatrix(pParent)
 {
 	object = NULL;
 	in = new CPtrArray();
+	this->out = out;
 }
 
 CDlgModelMatrix::~CDlgModelMatrix()
@@ -68,11 +69,9 @@ void CDlgModelMatrix::OnPaint()
 	}
 }
 
-void CDlgModelMatrix::SetData(COpenGLNode* obj, CPtrArray* out)
+void CDlgModelMatrix::Refresh(COpenGLNode* obj)
 {
 	object = obj;
-	this->out = out;
-
 	if(object != NULL) {
 		count[0]  = count[1] = count[2] = 1;
 		total = "";

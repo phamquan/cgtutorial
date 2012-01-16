@@ -4,10 +4,12 @@
 
 IMPLEMENT_DYNAMIC(CDlgViewPort, CDlgMatrix)
 
-CDlgViewPort::CDlgViewPort(CViewPort* vp, CWnd* pParent /*=NULL*/)
+CDlgViewPort::CDlgViewPort(CViewPort* vp, CPtrArray* in, CPtrArray* out, CWnd* pParent /*=NULL*/)
 	: CDlgMatrix(pParent)
 {
 	viewport = vp;
+	this->in = in;
+	this->out = out;
 }
 
 CDlgViewPort::~CDlgViewPort()
@@ -58,9 +60,7 @@ void CDlgViewPort::OnPaint()
 	}
 }
 
-void CDlgViewPort::SetData(CPtrArray* in, CPtrArray* out) {
-	this->in = in;
-	this->out = out;
-
+void CDlgViewPort::Refresh() {
+	//out->
 	Invalidate();
 }
