@@ -15,6 +15,10 @@ public:
 
 	void Refresh();
 protected:
+	int type;
+	float x1,y1,x2,y2;
+	CRect rect;
+
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()

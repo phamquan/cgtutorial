@@ -94,7 +94,6 @@ void CDlgModelMatrix::Refresh(COpenGLNode* obj)
 
 		CalMatrixPoint();
 	}
-
 	Invalidate();
 }
 
