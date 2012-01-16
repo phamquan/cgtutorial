@@ -4,10 +4,12 @@
 
 IMPLEMENT_DYNAMIC(CDlgProjectionMatrix, CDlgMatrix)
 
-CDlgProjectionMatrix::CDlgProjectionMatrix(CProjection *proj, CWnd* pParent /*=NULL*/)
+CDlgProjectionMatrix::CDlgProjectionMatrix(CProjection *proj, CPtrArray* in, CPtrArray* out, CWnd* pParent /*=NULL*/)
 	: CDlgMatrix(pParent)
 {
 	projection = proj;
+	this->in = in;
+	this->out = out;
 }
 
 CDlgProjectionMatrix::~CDlgProjectionMatrix(void)
@@ -78,18 +80,7 @@ void CDlgProjectionMatrix::OnPaint()
 	}
 }
 
-void CDlgProjectionMatrix::SetData(CPtrArray* in, CPtrArray* out)
-{
-	this->in = in;
-	this->out = out;
-
-	CalProjection();
-	CalMatrixPoint();
-
-	Invalidate();
-}
-
-void CDlgProjectionMatrix::CalProjection()
+void CDlgProjectionMatrix::Refresh()
 {
 	matrix.RemoveAll();
 
@@ -152,4 +143,7 @@ void CDlgProjectionMatrix::CalProjection()
 
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
+
+	CalMatrixPoint();
+	Invalidate();
 }

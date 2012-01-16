@@ -8,12 +8,12 @@ class CDlgViewPort : public CDlgMatrix
 	DECLARE_DYNAMIC(CDlgViewPort)
 
 public:
-	CDlgViewPort(CViewPort* vp, CWnd* pParent = NULL);   // standard constructor
+	CDlgViewPort(CViewPort* vp, CPtrArray* in, CPtrArray* out, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CDlgViewPort();
 
 	CViewPort* viewport;
 
-	void SetData(CPtrArray* in, CPtrArray* out);
+	void Refresh();
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 

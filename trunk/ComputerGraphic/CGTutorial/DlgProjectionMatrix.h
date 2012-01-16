@@ -7,17 +7,17 @@ class CDlgProjectionMatrix :
 {
 	DECLARE_DYNAMIC(CDlgProjectionMatrix)
 public:
-	CDlgProjectionMatrix(CProjection *proj, CWnd* pParent = NULL);   // standard constructor
+	CDlgProjectionMatrix(CProjection *proj, CPtrArray* in, CPtrArray* out, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CDlgProjectionMatrix();
 
-	CProjection* projection;
-	int type;
-	void SetData(CPtrArray* in, CPtrArray* out);
+	void Refresh();
 
 protected:
-	void CalProjection();
+	CProjection* projection;
+	int type;
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+
 public:
 	virtual BOOL OnInitDialog();
 	DECLARE_MESSAGE_MAP()

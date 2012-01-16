@@ -9,17 +9,16 @@ class CDlgModelMatrix : public CDlgMatrix
 	DECLARE_DYNAMIC(CDlgModelMatrix)
 
 public:
-	CDlgModelMatrix(CWnd* pParent = NULL);   // standard constructor
+	CDlgModelMatrix(CPtrArray* out, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CDlgModelMatrix();
 
-	void SetData(COpenGLNode* in, CPtrArray* out);
+	void Refresh(COpenGLNode* in);
 
+protected:
 	COpenGLNode* object;
-
 	CString total;
 	int count[3];
 
-protected:
 	void CalNode(COpenGLNode* node);
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

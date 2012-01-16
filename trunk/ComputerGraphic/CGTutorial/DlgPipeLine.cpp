@@ -22,11 +22,11 @@ CDlgPipeLine::CDlgPipeLine(CEnvironment *env, CWnd* pParent /*=NULL*/)
 	divide = new CPtrArray();
 	window = new CPtrArray();
 
-	modelDlg = new CDlgModelMatrix();
-	viewDlg = new CDlgViewMatrix(env->GetCamera());
-	projectionDlg = new CDlgProjectionMatrix(env->GetProjection());
-	divideWDlg = new CDlgDivideW();
-	viewPortDlg = new CDlgViewPort(env->GetViewPort());
+	modelDlg = new CDlgModelMatrix(camera);
+	viewDlg = new CDlgViewMatrix(env->GetCamera(),camera,world);
+	projectionDlg = new CDlgProjectionMatrix(env->GetProjection(),world,clipping);
+	divideWDlg = new CDlgDivideW(clipping,divide);
+	viewPortDlg = new CDlgViewPort(env->GetViewPort(),divide,window);
 }
 
 CDlgPipeLine::~CDlgPipeLine()
@@ -61,11 +61,11 @@ END_MESSAGE_MAP()
 void CDlgPipeLine::SetData(COpenGLNode* in) {
 	object = in;
 
-	modelDlg->SetData(object,camera);
-	viewDlg->SetData(camera,world);
-	projectionDlg->SetData(world,clipping);
-	divideWDlg->SetData(clipping,divide);
-	viewPortDlg->SetData(divide,window);
+	modelDlg->Refresh(object);
+	viewDlg->Refresh();
+	projectionDlg->Refresh();
+	divideWDlg->Refresh();
+	viewPortDlg->Refresh();
 }
 
 BOOL CDlgPipeLine::OnInitDialog()

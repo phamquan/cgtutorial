@@ -4,9 +4,11 @@
 
 IMPLEMENT_DYNAMIC(CDlgDivideW, CDlgMatrix)
 
-CDlgDivideW::CDlgDivideW(CWnd* pParent /*=NULL*/)
+CDlgDivideW::CDlgDivideW(CPtrArray* in, CPtrArray* out, CWnd* pParent /*=NULL*/)
 	: CDlgMatrix(pParent)
 {
+	this->in = in;
+	this->out = out;
 }
 
 CDlgDivideW::~CDlgDivideW()
@@ -60,17 +62,7 @@ void CDlgDivideW::OnPaint()
 	}
 }
 
-void CDlgDivideW::SetData(CPtrArray* in, CPtrArray* out)
-{
-	this->in = in;
-	this->out = out;
-
-	CalW();
-
-	Invalidate();
-}
-
-void CDlgDivideW::CalW() {
+void CDlgDivideW::Refresh() {
 	out->RemoveAll();
 	for(int i=0; i<in->GetSize(); i++) {
 		CPoint3D* p = (CPoint3D*)in->GetAt(i);
@@ -80,4 +72,5 @@ void CDlgDivideW::CalW() {
 			out->Add(new CPoint3D(p->getX()/p->getW(),p->getY()/p->getW(),p->getZ()/p->getW()));
 		}
 	}
+	Invalidate();
 }
