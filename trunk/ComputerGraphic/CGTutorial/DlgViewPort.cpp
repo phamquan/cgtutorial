@@ -57,3 +57,10 @@ void CDlgViewPort::OnPaint()
 		}
 	}
 }
+
+void CDlgViewPort::SetData(CPtrArray* in, CPtrArray* out) {
+	this->in = in;
+	this->out = out;
+
+	Invalidate();
+}

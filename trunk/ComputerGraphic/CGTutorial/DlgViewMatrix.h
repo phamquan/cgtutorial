@@ -15,6 +15,9 @@ public:
 
 	void SetData(CPtrArray* in, CPtrArray* out);
 
+	CPoint3D eye, center;
+	CVector3D up, n, u, v;
+
 protected:
 	void CalCamera();
 

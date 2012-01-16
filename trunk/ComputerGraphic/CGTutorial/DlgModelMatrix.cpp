@@ -13,10 +13,12 @@ CDlgModelMatrix::CDlgModelMatrix(CWnd* pParent /*=NULL*/)
 	: CDlgMatrix(pParent)
 {
 	object = NULL;
+	in = new CPtrArray();
 }
 
 CDlgModelMatrix::~CDlgModelMatrix()
 {
+	delete in;
 }
 
 void CDlgModelMatrix::DoDataExchange(CDataExchange* pDX)
@@ -61,15 +63,14 @@ void CDlgModelMatrix::OnPaint()
 		{
 			char buff[128];
 			sprintf_s(buff,"P%d' = M*P%d",i+1,i+1);
-			ShowPoint(&dc,CString(buff),*((CPoint3D*)out->GetAt(i)),top,left);
-			top += 100;
+			ShowMatrixPoint(&dc,CString(buff),sum,(CPoint3D*)in->GetAt(i),(CPoint3D*)out->GetAt(i),top,left);
 		}
 	}
 }
 
-void CDlgModelMatrix::SetData(COpenGLNode* in, CPtrArray* out)
+void CDlgModelMatrix::SetData(COpenGLNode* obj, CPtrArray* out)
 {
-	object = in;
+	object = obj;
 	this->out = out;
 
 	if(object != NULL) {
@@ -80,10 +81,18 @@ void CDlgModelMatrix::SetData(COpenGLNode* in, CPtrArray* out)
 		sum[0] = sum[5] = sum[10] = sum[15] = 1;
 		matrix.RemoveAll();
 		CalNode(object->GetParent());
-		if(total == "")
-			matrix.Add(new Element(CString("M"),CString(),sum));
-		else
-			matrix.Add(new Element(CString("M = ") + total,CString(),sum));
+
+		in->RemoveAll();
+		float x1,y1,z1,x2,y2,z2;
+		if(object->GetID() == NODE_POINT) {
+			((CPoint4D*)object)->GetData(x1,y1,z1);
+			in->Add(new CPoint3D(CPoint3D(x1,y1,z1)));
+		} else if(object->GetID() == NODE_LINE) {
+			((CLine*)object)->GetData(x1,y1,z1,x2,y2,z2);
+			in->Add(new CPoint3D(CPoint3D(x1,y1,z1)));
+			in->Add(new CPoint3D(CPoint3D(x2,y2,z2)));
+		}
+
 		CalMatrixPoint();
 	}
 
@@ -100,7 +109,10 @@ void CDlgModelMatrix::CalNode(COpenGLNode* node) {
 	glLoadIdentity();
 	if(id == NODE_OBJECT) {
 		total = total.Right(total.GetLength()-1);
-		glGetFloatv(GL_MODELVIEW_MATRIX,m);
+		if(total == "")
+			matrix.Add(new Element(CString("M"),CString(),sum));
+		else
+			matrix.Add(new Element(CString("M = ") + total,CString(),sum));
 	} else {
 		if(id != NODE_COLOR) {			
 			if(id == NODE_TRANSLATE) {
@@ -123,18 +135,4 @@ void CDlgModelMatrix::CalNode(COpenGLNode* node) {
 	}
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
-}
-
-void CDlgModelMatrix::CalMatrixPoint()
-{
-	out->RemoveAll();
-	float x1,y1,z1,x2,y2,z2;
-	if(object->GetID() == NODE_POINT) {
-		((CPoint4D*)object)->GetData(x1,y1,z1);
-		out->Add(new CPoint3D(MultMatrixPoint(sum,CPoint3D(x1,y1,z1))));
-	} else if(object->GetID() == NODE_LINE) {
-		((CLine*)object)->GetData(x1,y1,z1,x2,y2,z2);
-		out->Add(new CPoint3D(MultMatrixPoint(sum,CPoint3D(x1,y1,z1))));
-		out->Add(new CPoint3D(MultMatrixPoint(sum,CPoint3D(x2,y2,z2))));
-	}
 }

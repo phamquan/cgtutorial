@@ -21,7 +21,6 @@ public:
 
 protected:
 	void CalNode(COpenGLNode* node);
-	void CalMatrixPoint();
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 

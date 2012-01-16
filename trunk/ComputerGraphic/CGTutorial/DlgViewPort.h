@@ -12,6 +12,8 @@ public:
 	virtual ~CDlgViewPort();
 
 	CViewPort* viewport;
+
+	void SetData(CPtrArray* in, CPtrArray* out);
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 

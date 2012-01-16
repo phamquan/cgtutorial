@@ -363,11 +363,12 @@ BOOL CCGTutorialView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 	return CView::OnMouseWheel(nFlags, zDelta, pt);
 }
 
-void CCGTutorialView::ShowPipeLine()
+void CCGTutorialView::ShowPipeLine(COpenGLNode* node)
 {
 	if(pipeLine == NULL) {
 		pipeLine = new CDlgPipeLine(GetDocument()->environment);
 		pipeLine->Create(CDlgPipeLine::IDD,this);
 	}
+	pipeLine->SetData(node);
 	pipeLine->ShowWindow(SW_SHOW);
 }

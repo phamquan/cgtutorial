@@ -11,9 +11,11 @@ public:
 	virtual ~CDlgProjectionMatrix();
 
 	CProjection* projection;
+	int type;
+	void SetData(CPtrArray* in, CPtrArray* out);
 
 protected:
-	void ShowProjection(CDC* cdc, int &top, int left);
+	void CalProjection();
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 public:
