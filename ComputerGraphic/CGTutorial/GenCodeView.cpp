@@ -21,8 +21,8 @@ BEGIN_MESSAGE_MAP(CGenCodeView, CView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
 	ON_WM_ERASEBKGND()
-	ON_WM_PAINT()
 	ON_WM_SIZE()
+	ON_WM_CREATE()
 END_MESSAGE_MAP()
 
 // CGenCodeView construction/destruction
@@ -34,6 +34,8 @@ CGenCodeView::CGenCodeView()
 
 CGenCodeView::~CGenCodeView()
 {
+	m_MemDC.DeleteDC();
+	m_MemBitmap.DeleteObject();
 }
 
 BOOL CGenCodeView::PreCreateWindow(CREATESTRUCT& cs)
@@ -46,12 +48,19 @@ BOOL CGenCodeView::PreCreateWindow(CREATESTRUCT& cs)
 
 // CGenCodeView drawing
 
-void CGenCodeView::OnDraw(CDC* /*pDC*/)
+void CGenCodeView::OnDraw(CDC* pDC)
 {
 	CCGTutorialDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
-	if (!pDoc)
-		return;
+	
+	CRect rect;
+	GetClientRect(&rect);
+
+	m_MemDC.FillSolidRect(rect, RGB(255,255,255));
+
+	m_MemDC.DrawTextW(GetDocument()->GenCode(),-1,&rect,DT_LEFT|DT_EXPANDTABS);
+
+	pDC->BitBlt(0,0,rect.Width(),rect.Height(),&m_MemDC,0,0,SRCCOPY);
 
 	// TODO: add draw code for native data here
 }
@@ -125,18 +134,33 @@ BOOL CGenCodeView::OnEraseBkgnd(CDC* pDC)
 	return true;
 }
 
-void CGenCodeView::OnPaint()
-{
-	CPaintDC dc(this); // device context for painting
-	// TODO: Add your message handler code here
-	// Do not call CView::OnPaint() for painting messages
-	dc.TextOutW(0,0,CString("dkm"));
-}
-
 void CGenCodeView::OnSize(UINT nType, int cx, int cy)
 {
 	CScrollView::OnSize(nType, cx, cy);
 
 	// TODO: Add your message handler code here
 	Invalidate();
+}
+
+
+int CGenCodeView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CScrollView::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO:  Add your specialized creation code here
+
+	CClientDC dc(this);
+
+	int MaxX = ::GetSystemMetrics(SM_CXSCREEN);
+	int MaxY = ::GetSystemMetrics(SM_CYSCREEN);
+
+	m_MemDC.CreateCompatibleDC(&dc);
+	m_MemBitmap.CreateCompatibleBitmap(&dc,MaxX,MaxY);
+
+	m_OldBitmap = m_MemDC.SelectObject(&m_MemBitmap);
+
+	SetScrollSizes(MM_TEXT,CSize(2000,10));
+
+	return 0;
 }
