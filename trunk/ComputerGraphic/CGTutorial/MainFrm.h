@@ -19,6 +19,10 @@
 #include "UsefulSplitterWnd.h"
 #include "CameraView.h"
 
+#define PIPELINE	1
+#define GENCODE		2
+#define VIRTUAL		3
+
 class CMainFrame : public CFrameWndEx
 {
 	
@@ -28,6 +32,7 @@ protected: // create from serialization only
 
 // Attributes
 protected:
+	int mode;
 	
 public:
 	CUsefulSplitterWnd m_wndSplitter;

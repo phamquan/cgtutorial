@@ -50,6 +50,7 @@ CMainFrame::CMainFrame()
 	// TODO: add member initialization code here
 	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_VS_2008);
 	isShowCamera = TRUE;
+	mode = VIRTUAL;
 }
 
 CMainFrame::~CMainFrame()
@@ -351,6 +352,14 @@ void CMainFrame::RefreshPipeLine()
 
 void CMainFrame::OnVirtualView()
 {
+	if(mode == VIRTUAL)
+		return;
+
+	mode = VIRTUAL;
+
+	//if(isShowCamera)
+		//m_wndSplitter.ShowColumn();
+
 	m_wndSplitter.ReplaceView(0,0,RUNTIME_CLASS(CCGTutorialView));
 }
 
@@ -358,6 +367,9 @@ void CMainFrame::OnVirtualView()
 void CMainFrame::OnShowCamera()
 {
 	// TODO: Add your command handler code here
+	if(mode != VIRTUAL)
+		return;
+
 	isShowCamera = !isShowCamera;
 	if(isShowCamera)
 		m_wndSplitter.ShowColumn();
@@ -379,8 +391,13 @@ void CMainFrame::OnUpdateShowCamera(CCmdUI *pCmdUI)
 void CMainFrame::OnGenerateCode()
 {
 	// TODO: Add your command handler code here
-	if(isShowCamera) {
-		m_wndSplitter.HideColumn(1);
-	}
+	if(mode == GENCODE)
+		return;
+
+	mode = GENCODE;
+
+	//if(isShowCamera)
+		//m_wndSplitter.HideColumn(1);
+
 	m_wndSplitter.ReplaceView(0,0,RUNTIME_CLASS(CGenCodeView));
 }
