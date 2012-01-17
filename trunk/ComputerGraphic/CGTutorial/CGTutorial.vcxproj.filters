@@ -231,7 +231,7 @@
     <ClInclude Include="DlgDivideW.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DlgViewPort.h">
+    <ClInclude Include="DlgViewPortMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -350,7 +350,7 @@
     <ClCompile Include="DlgDivideW.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DlgViewPort.cpp">
+    <ClCompile Include="DlgViewPortMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

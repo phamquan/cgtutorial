@@ -69,6 +69,8 @@ CCGTutorialView::CCGTutorialView()
 
 CCGTutorialView::~CCGTutorialView()
 {
+	if(pipeLine != NULL)
+		delete pipeLine;
 }
 
 BOOL CCGTutorialView::PreCreateWindow(CREATESTRUCT& cs)
