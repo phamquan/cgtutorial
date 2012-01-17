@@ -64,7 +64,7 @@ BOOL CUsefulSplitterWnd::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 	return CSplitterWnd::OnSetCursor(pWnd, nHitTest, message);
 }
 
-BOOL CUsefulSplitterWnd::ReplaceView(int row, int col,CRuntimeClass * pViewClass,SIZE size)
+BOOL CUsefulSplitterWnd::ReplaceView(int row, int col,CRuntimeClass * pViewClass)
 {
   CCreateContext context;
   BOOL bSetActive;
@@ -86,6 +86,12 @@ BOOL CUsefulSplitterWnd::ReplaceView(int row, int col,CRuntimeClass * pViewClass
     // set flag so that document will not be deleted when view is destroyed
 	pDoc->m_bAutoDelete=FALSE;    
     // Delete existing view 
+	SIZE size;
+	int x,y;
+	GetColumnInfo(col,x,y);
+	size.cx = x - 10;
+	GetRowInfo(row,x,y);
+	size.cy = x;
    ((CView *) GetPane(row,col))->DestroyWindow();
     // set flag back to default 
     pDoc->m_bAutoDelete=TRUE;

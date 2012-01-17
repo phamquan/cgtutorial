@@ -16,6 +16,7 @@
 #include "CGTutorial.h"
 #include "CameraView.h"
 #include "MainFrm.h"
+#include "GenCodeView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -39,6 +40,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_VIRTUAL_VIEW, &CMainFrame::OnVirtualView)
 	ON_COMMAND(ID_SHOW_CAMERA, &CMainFrame::OnShowCamera)
 	ON_UPDATE_COMMAND_UI(ID_SHOW_CAMERA, &CMainFrame::OnUpdateShowCamera)
+	ON_COMMAND(ID_GENERATE_CODE, &CMainFrame::OnGenerateCode)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -349,7 +351,7 @@ void CMainFrame::RefreshPipeLine()
 
 void CMainFrame::OnVirtualView()
 {
-
+	m_wndSplitter.ReplaceView(0,0,RUNTIME_CLASS(CCGTutorialView));
 }
 
 
@@ -371,4 +373,14 @@ void CMainFrame::OnUpdateShowCamera(CCmdUI *pCmdUI)
 {
 	// TODO: Add your command update UI handler code here
 	pCmdUI->SetCheck(isShowCamera);
+}
+
+
+void CMainFrame::OnGenerateCode()
+{
+	// TODO: Add your command handler code here
+	if(isShowCamera) {
+		m_wndSplitter.HideColumn(1);
+	}
+	m_wndSplitter.ReplaceView(0,0,RUNTIME_CLASS(CGenCodeView));
 }
