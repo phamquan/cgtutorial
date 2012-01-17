@@ -26,7 +26,7 @@ CDlgPipeLine::CDlgPipeLine(CEnvironment *env, CWnd* pParent /*=NULL*/)
 	viewDlg = new CDlgViewMatrix(env->GetCamera(),camera,world);
 	projectionDlg = new CDlgProjectionMatrix(env->GetProjection(),world,clipping);
 	divideWDlg = new CDlgDivideW(clipping,divide);
-	viewPortDlg = new CDlgViewPort(env->GetViewPort(),divide,window);
+	viewPortDlg = new CDlgViewPortMatrix(env->GetViewPort(),divide,window);
 }
 
 CDlgPipeLine::~CDlgPipeLine()
