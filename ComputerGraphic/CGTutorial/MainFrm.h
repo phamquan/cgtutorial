@@ -78,6 +78,7 @@ public:
 	afx_msg void OnVirtualView();
 	afx_msg void OnShowCamera();
 	afx_msg void OnUpdateShowCamera(CCmdUI *pCmdUI);
+	afx_msg void OnGenerateCode();
 };
 
 
