@@ -172,6 +172,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Transformation.h" />
     <ClInclude Include="Translate.h" />
+    <ClInclude Include="UsefulSplitterWnd.h" />
     <ClInclude Include="ViewPort.h" />
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
@@ -216,6 +217,7 @@
     </ClCompile>
     <ClCompile Include="Transformation.cpp" />
     <ClCompile Include="Translate.cpp" />
+    <ClCompile Include="UsefulSplitterWnd.cpp" />
     <ClCompile Include="ViewPort.cpp" />
     <ClCompile Include="ViewTree.cpp" />
   </ItemGroup>

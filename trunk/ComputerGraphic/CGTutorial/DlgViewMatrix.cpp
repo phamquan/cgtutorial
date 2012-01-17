@@ -10,10 +10,10 @@
 
 IMPLEMENT_DYNAMIC(CDlgViewMatrix, CDlgMatrix)
 
-CDlgViewMatrix::CDlgViewMatrix(CCamera *camera, CPtrArray* in, CPtrArray* out, CWnd* pParent /*=NULL*/)
+CDlgViewMatrix::CDlgViewMatrix(CEnvironment *env, CPtrArray* in, CPtrArray* out, CWnd* pParent /*=NULL*/)
 	: CDlgMatrix(pParent)
 {
-	this->camera = camera;
+	this->environment = env;
 	this->in = in;
 	this->out = out;
 }
@@ -52,9 +52,6 @@ void CDlgViewMatrix::OnPaint()
 	// TODO: Add your message handler code here
 	// Do not call CDlgMatrix::OnPaint() for painting messages
 	int top = 0, left = 10;
-	float x1,y1,z1,x2,y2,z2,x3,y3,z3;
-	camera->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
-
 	ShowPoint(&dc,CString("eye"),eye,top,left);
 	ShowPoint(&dc,CString("center"),center,top,left+200);
 	ShowPoint(&dc,CString("up"),up,top,left+400);
@@ -91,7 +88,7 @@ void CDlgViewMatrix::Refresh()
 	matrix.RemoveAll();
 
 	float x1,y1,z1,x2,y2,z2,x3,y3,z3;
-	camera->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
+	environment->GetCamera()->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
 
 	eye.setCoords(x1,y1,z1);
 	center.setCoords(x2,y2,z2);

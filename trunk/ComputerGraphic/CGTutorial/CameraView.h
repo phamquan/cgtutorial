@@ -3,6 +3,7 @@
 
 #pragma once
 #include "../Library/GL/glut.h"
+#include "CGTutorialDoc.h"
 
 class CCameraView : public CView
 {

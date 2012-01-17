@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Resource.h"
+#include "Point4D.h"
+#include "Line.h"
 
 // CDlgMatrix dialog
 class Element

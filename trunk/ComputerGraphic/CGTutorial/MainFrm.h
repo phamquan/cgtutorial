@@ -16,6 +16,8 @@
 #include "FileView.h"
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
+#include "UsefulSplitterWnd.h"
+#include "CameraView.h"
 
 class CMainFrame : public CFrameWndEx
 {
@@ -28,8 +30,9 @@ protected: // create from serialization only
 protected:
 	
 public:
-	CSplitterWnd m_wndSplitter;
+	CUsefulSplitterWnd m_wndSplitter;
 	CFileView m_wndFileView;
+	CCameraView *cameraView;
 // Operations
 public:
 
@@ -55,6 +58,7 @@ protected:  // control bar embedded members
 	//CClassView        m_wndClassView;
 	COutputWnd        m_wndOutput;
 	CPropertiesWnd    m_wndProperties;
+	BOOLEAN isShowCamera;
 // Generated message map functions
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -71,6 +75,9 @@ protected:
 public:
 	afx_msg void OnViewLayout();
 	afx_msg void OnPipeline();
+	afx_msg void OnVirtualView();
+	afx_msg void OnShowCamera();
+	afx_msg void OnUpdateShowCamera(CCmdUI *pCmdUI);
 };
 
 

@@ -5,11 +5,12 @@ COpenGLNode::COpenGLNode(char *label, int ID)
 {
 	this->ID = ID;
 	this->label = label;
-	ClearChild();
+	parent = NULL;
 }
 
 COpenGLNode::~COpenGLNode()
 {
+	parent = NULL;
 	ClearChild();
 }
 
@@ -48,7 +49,6 @@ void COpenGLNode::RemoveChild(COpenGLNode* child)
 
 void COpenGLNode::ClearChild()
 {
-	parent = NULL;
 	for(int i=0; i<m_listChild.GetSize(); i++) {
 		delete m_listChild.GetAt(i);
 	}

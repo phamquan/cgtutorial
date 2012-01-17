@@ -23,10 +23,10 @@ CDlgPipeLine::CDlgPipeLine(CEnvironment *env, CWnd* pParent /*=NULL*/)
 	window = new CPtrArray();
 
 	modelDlg = new CDlgModelMatrix(camera);
-	viewDlg = new CDlgViewMatrix(env->GetCamera(),camera,world);
-	projectionDlg = new CDlgProjectionMatrix(env->GetProjection(),world,clipping);
+	viewDlg = new CDlgViewMatrix(env,camera,world);
+	projectionDlg = new CDlgProjectionMatrix(env,world,clipping);
 	divideWDlg = new CDlgDivideW(clipping,divide);
-	viewPortDlg = new CDlgViewPortMatrix(env->GetViewPort(),divide,window);
+	viewPortDlg = new CDlgViewPortMatrix(env,divide,window);
 }
 
 CDlgPipeLine::~CDlgPipeLine()

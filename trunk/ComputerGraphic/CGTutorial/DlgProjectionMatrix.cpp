@@ -4,10 +4,10 @@
 
 IMPLEMENT_DYNAMIC(CDlgProjectionMatrix, CDlgMatrix)
 
-CDlgProjectionMatrix::CDlgProjectionMatrix(CProjection *proj, CPtrArray* in, CPtrArray* out, CWnd* pParent /*=NULL*/)
+CDlgProjectionMatrix::CDlgProjectionMatrix(CEnvironment *env, CPtrArray* in, CPtrArray* out, CWnd* pParent /*=NULL*/)
 	: CDlgMatrix(pParent)
 {
-	projection = proj;
+	environment = env;
 	this->in = in;
 	this->out = out;
 }
@@ -85,7 +85,7 @@ void CDlgProjectionMatrix::Refresh()
 	matrix.RemoveAll();
 
 	float mleft,mright,mbottom,mtop,mnear,mfar;
-	projection->GetData(mleft,mright,mbottom,mtop,mnear,mfar,type);
+	environment->GetProjection()->GetData(mleft,mright,mbottom,mtop,mnear,mfar,type);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();

@@ -8,13 +8,12 @@ class CDlgViewMatrix : public CDlgMatrix
 	DECLARE_DYNAMIC(CDlgViewMatrix)
 
 public:
-	CDlgViewMatrix(CCamera *cam, CPtrArray* in, CPtrArray* out, CWnd* pParent = NULL);   // standard constructor
+	CDlgViewMatrix(CEnvironment *env, CPtrArray* in, CPtrArray* out, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CDlgViewMatrix();
-
-	CCamera* camera;
 
 	void Refresh();
 protected:
+	CEnvironment *environment;
 	CPoint3D eye, center;
 	CVector3D up, n, u, v;
 
