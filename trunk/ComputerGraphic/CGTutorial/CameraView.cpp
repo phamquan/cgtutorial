@@ -10,6 +10,7 @@
 
 #include "CGTutorialDoc.h"
 #include "CGTutorialView.h"
+#include "CameraView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -253,4 +254,10 @@ void CCameraView::DrawCoordinate() {
 		glVertex3f(0.0f,0.0f,0.0f);
 		glVertex3f(0.0f,0.0f,1000.0f);
 	glEnd();
+}
+
+void CCameraView::OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/)
+{
+	// TODO: Add your specialized code here and/or call the base class
+	Invalidate();
 }

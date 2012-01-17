@@ -44,7 +44,7 @@ CCGTutorialDoc::CCGTutorialDoc()
 	// TODO: add one-time construction code here
 	object = new COpenGLNode("object",NODE_OBJECT);
 	environment = new CEnvironment();
-	Init();
+	DeleteContents();
 }
 
 CCGTutorialDoc::~CCGTutorialDoc()
@@ -60,9 +60,6 @@ BOOL CCGTutorialDoc::OnNewDocument()
 
 	// TODO: add reinitialization code here
 	// (SDI documents will reuse this document)
-	object->ClearChild();
-	environment->ClearChild();
-	Init();	
 
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 	pMainFrame->m_wndFileView.FillView(object,environment);
@@ -70,11 +67,6 @@ BOOL CCGTutorialDoc::OnNewDocument()
 	return TRUE;
 }
 
-void CCGTutorialDoc::Init() {
-	environment->AddChild(new CProjection(-1,1,-1,1,1,-1,ORTHO));
-	environment->AddChild(new CCamera(0,0,0,0,0,-1,0,1,0));
-	environment->AddChild(new CViewPort(0,0,0,0,VIEWPORT_DEFAULT));
-}
 // CCGTutorialDoc serialization
 
 void CCGTutorialDoc::Serialize(CArchive& ar)
@@ -181,7 +173,7 @@ BOOL CCGTutorialDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 	pMainFrame->m_wndFileView.FillView(data.object,data.environment,object,environment);
-	pMainFrame->GetActiveDocument()->UpdateAllViews(NULL);
+	UpdateAllViews(NULL);
 	return TRUE;
 }
 
@@ -204,4 +196,14 @@ void CCGTutorialDoc::OnCloseDocument()
 CString CCGTutorialDoc::GenCode()
 {
 	return CString("\tdaasdasdasdasdasdasdasdsddaasdasdasdasdasdasdasdsddaasdasdasdasdasdasdasdsddaasdasdasdasdasdasdasdsddaasdasdasdasdasdasdasdsddaasdasdasdasdasdasdasdsddaasdasdasdasdasdasdasdsddaasdasdasdasdasdasdasdsd\n\t\tadasdasdfaf\n");
+}
+
+void CCGTutorialDoc::DeleteContents()
+{
+	// TODO: Add your specialized code here and/or call the base class
+	object->ClearChild();
+	environment->ClearChild();
+	environment->AddChild(new CProjection(-1,1,-1,1,1,-1,ORTHO));
+	environment->AddChild(new CCamera(0,0,0,0,0,-1,0,1,0));
+	environment->AddChild(new CViewPort(0,0,0,0,VIEWPORT_DEFAULT));
 }

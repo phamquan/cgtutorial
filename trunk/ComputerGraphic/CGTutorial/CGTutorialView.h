@@ -14,7 +14,6 @@
 
 #pragma once
 #include "../Library/GL/glut.h"
-#include "DlgPipeLine.h"
 
 class CCGTutorialView : public CView
 {
@@ -40,14 +39,12 @@ public:
 
 	BOOLEAN isShowCamera;
 
-	CDlgPipeLine* pipeLine;
 // Operations
 public:
 	void SetupOpenGL();
 	void DetroyOpenGL();
 	void EvalViewMatrix();
 	void DrawCoordinate();
-	void ShowPipeLine(COpenGLNode* node);
 // Overrides
 public:
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
@@ -85,6 +82,7 @@ public:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
+	virtual void OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/);
 };
 
 #ifndef _DEBUG  // debug version in CGTutorialView.cpp

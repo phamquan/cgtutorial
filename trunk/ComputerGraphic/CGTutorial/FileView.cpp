@@ -373,8 +373,7 @@ void CFileView::AddNode(COpenGLNode *newNode)
 	HTREEITEM node = m_wndFileView.InsertItem(newNode->ToString(), 0, 0, hTreeItem);
 	m_wndFileView.myMap.SetAt(node,newNode);
 
-	((CMainFrame*)AfxGetMainWnd())->m_wndSplitter.GetPane(0,0)->Invalidate();
-	((CMainFrame*)AfxGetMainWnd())->m_wndSplitter.GetPane(0,1)->Invalidate();
+	((CMainFrame*)AfxGetMainWnd())->GetActiveDocument()->UpdateAllViews(NULL);
 }
 
 void CFileView::OnObjectAddcolor()
@@ -395,8 +394,7 @@ void CFileView::OnObjectDelete()
 	if(ValidateDelete()) {
 		node->GetParent()->RemoveChild(node);
 		m_wndFileView.DeleteItem(hTreeItem);
-		((CMainFrame*)AfxGetMainWnd())->m_wndSplitter.GetPane(0,0)->Invalidate();
-		((CMainFrame*)AfxGetMainWnd())->m_wndSplitter.GetPane(0,1)->Invalidate();
+		((CMainFrame*)AfxGetMainWnd())->GetActiveDocument()->UpdateAllViews(NULL);
 	}
 }
 
@@ -473,8 +471,7 @@ void CFileView::OnObjectEdit()
 
 	if(edit) {
 		m_wndFileView.SetItemText(hTreeItem,node->ToString());
-		((CMainFrame*)AfxGetMainWnd())->m_wndSplitter.GetPane(0,0)->Invalidate();
-		((CMainFrame*)AfxGetMainWnd())->m_wndSplitter.GetPane(0,1)->Invalidate();
+		((CMainFrame*)AfxGetMainWnd())->GetActiveDocument()->UpdateAllViews(NULL);
 		((CMainFrame*)AfxGetMainWnd())->RefreshPipeLine();
 	}
 }
