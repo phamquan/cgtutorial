@@ -27,6 +27,8 @@
 #define new DEBUG_NEW
 #endif
 
+#include "MainFrm.h"
+
 // CCGTutorialDoc
 
 IMPLEMENT_DYNCREATE(CCGTutorialDoc, CDocument)
@@ -47,9 +49,7 @@ CCGTutorialDoc::CCGTutorialDoc()
 
 CCGTutorialDoc::~CCGTutorialDoc()
 {
-	object->ClearChild();
 	delete object;
-	environment->ClearChild();
 	delete environment;
 }
 
@@ -182,8 +182,6 @@ BOOL CCGTutorialDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 	pMainFrame->m_wndFileView.FillView(data.object,data.environment,object,environment);
 	pMainFrame->GetActiveDocument()->UpdateAllViews(NULL);
-//	pMainFrame->m_wndSplitter.GetPane(0,0)->Invalidate();
-//	pMainFrame->m_wndSplitter.GetPane(0,1)->Invalidate();
 	return TRUE;
 }
 

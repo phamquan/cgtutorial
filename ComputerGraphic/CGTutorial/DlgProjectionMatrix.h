@@ -7,13 +7,13 @@ class CDlgProjectionMatrix :
 {
 	DECLARE_DYNAMIC(CDlgProjectionMatrix)
 public:
-	CDlgProjectionMatrix(CProjection *proj, CPtrArray* in, CPtrArray* out, CWnd* pParent = NULL);   // standard constructor
+	CDlgProjectionMatrix(CEnvironment *env, CPtrArray* in, CPtrArray* out, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CDlgProjectionMatrix();
 
 	void Refresh();
 
 protected:
-	CProjection* projection;
+	CEnvironment *environment;
 	int type;
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support

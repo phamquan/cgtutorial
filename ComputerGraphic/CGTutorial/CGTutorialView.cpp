@@ -43,8 +43,8 @@ BEGIN_MESSAGE_MAP(CCGTutorialView, CView)
 	ON_WM_ERASEBKGND()
 	ON_WM_SIZE()
 	ON_WM_PAINT()
-	ON_COMMAND(ID_SHOW_CAMERA, &CCGTutorialView::OnShowCamera)
-	ON_UPDATE_COMMAND_UI(ID_SHOW_CAMERA, &CCGTutorialView::OnUpdateShowCamera)
+	//ON_COMMAND(ID_SHOW_CAMERA, &CCGTutorialView::OnShowCamera)
+	//ON_UPDATE_COMMAND_UI(ID_SHOW_CAMERA, &CCGTutorialView::OnUpdateShowCamera)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
@@ -289,19 +289,19 @@ void CCGTutorialView::OnPaint()
 	SwapBuffers(dc.m_ps.hdc);
 }
 
-void CCGTutorialView::OnShowCamera()
-{
-	// TODO: Add your command handler code here
-	isShowCamera = !isShowCamera;
-	Invalidate();
-}
-
-
-void CCGTutorialView::OnUpdateShowCamera(CCmdUI *pCmdUI)
-{
-	// TODO: Add your command update UI handler code here
-	pCmdUI->SetCheck(isShowCamera);
-}
+//void CCGTutorialView::OnShowCamera()
+//{
+//	// TODO: Add your command handler code here
+//	isShowCamera = !isShowCamera;
+//	Invalidate();
+//}
+//
+//
+//void CCGTutorialView::OnUpdateShowCamera(CCmdUI *pCmdUI)
+//{
+//	// TODO: Add your command update UI handler code here
+//	pCmdUI->SetCheck(isShowCamera);
+//}
 
 void CCGTutorialView::DrawCoordinate() {
 	glBegin(GL_LINES);

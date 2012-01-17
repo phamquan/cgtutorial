@@ -1,6 +1,9 @@
 #pragma once
 
 #include "resource.h"
+#include "DlgModelMatrix.h"
+#include "DlgViewMatrix.h"
+#include "DlgProjectionMatrix.h"
 #include "DlgDivideW.h"
 #include "DlgViewPortMatrix.h"
 

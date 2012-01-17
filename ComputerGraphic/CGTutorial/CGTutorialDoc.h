@@ -14,7 +14,6 @@
 
 
 #pragma once
-#include "MainFrm.h"
 #include "../qtml/qtmlManager.h"
 #include "Environment.h"
 

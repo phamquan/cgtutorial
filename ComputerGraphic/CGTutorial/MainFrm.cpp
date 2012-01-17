@@ -36,6 +36,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_WM_SETTINGCHANGE()
 	ON_COMMAND(ID_VIEW_LAYOUT, &CMainFrame::OnViewLayout)
 	ON_COMMAND(ID_PIPELINE, &CMainFrame::OnPipeline)
+	ON_COMMAND(ID_VIRTUAL_VIEW, &CMainFrame::OnVirtualView)
+	ON_COMMAND(ID_SHOW_CAMERA, &CMainFrame::OnShowCamera)
+	ON_UPDATE_COMMAND_UI(ID_SHOW_CAMERA, &CMainFrame::OnUpdateShowCamera)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -44,6 +47,7 @@ CMainFrame::CMainFrame()
 {
 	// TODO: add member initialization code here
 	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_VS_2008);
+	isShowCamera = TRUE;
 }
 
 CMainFrame::~CMainFrame()
@@ -115,6 +119,7 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/,
 	{
 		m_wndSplitter.CreateView(0,0,RUNTIME_CLASS(CCGTutorialView),CSize(500,0),pContext);
 		m_wndSplitter.CreateView(0,1,RUNTIME_CLASS(CCameraView),CSize(500,0),pContext);
+		cameraView = (CCameraView*)m_wndSplitter.GetPane(0,1);
 	}
 
 	return result;
@@ -340,4 +345,30 @@ void CMainFrame::RefreshPipeLine()
 	if(pView->pipeLine != NULL) {
 		pView->pipeLine->SetData(m_wndFileView.GetSelected());
 	}
+}
+
+void CMainFrame::OnVirtualView()
+{
+
+}
+
+
+void CMainFrame::OnShowCamera()
+{
+	// TODO: Add your command handler code here
+	isShowCamera = !isShowCamera;
+	if(isShowCamera)
+		m_wndSplitter.ShowColumn();
+	else
+		m_wndSplitter.HideColumn(1);
+
+	((CCGTutorialView*)m_wndSplitter.GetPane(0,0))->isShowCamera = isShowCamera;
+	m_wndSplitter.GetPane(0,0)->Invalidate();
+}
+
+
+void CMainFrame::OnUpdateShowCamera(CCmdUI *pCmdUI)
+{
+	// TODO: Add your command update UI handler code here
+	pCmdUI->SetCheck(isShowCamera);
 }
