@@ -8,6 +8,9 @@ protected: // create from serialization only
 	CGenCodeView();
 	DECLARE_DYNCREATE(CGenCodeView)
 
+	CDC m_MemDC;
+	CBitmap m_MemBitmap, *m_OldBitmap;
+
 // Attributes
 public:
 	CCGTutorialDoc* GetDocument() const;
@@ -40,8 +43,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	afx_msg void OnPaint();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 };
 
 #ifndef _DEBUG  // debug version in CGTutorialView.cpp

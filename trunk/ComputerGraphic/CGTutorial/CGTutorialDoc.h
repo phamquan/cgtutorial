@@ -28,6 +28,7 @@ protected: // create from serialization only
 public:
 	CEnvironment* environment;
 	void Init();
+	CString GenCode();
 // Operations
 public:
 
