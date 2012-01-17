@@ -51,10 +51,13 @@ CMainFrame::CMainFrame()
 	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_VS_2008);
 	isShowCamera = TRUE;
 	mode = VIRTUAL;
+	pipeLine = NULL;
 }
 
 CMainFrame::~CMainFrame()
 {
+	if(pipeLine != NULL)
+		delete pipeLine;
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -338,15 +341,18 @@ void CMainFrame::OnViewLayout()
 void CMainFrame::OnPipeline()
 {
 	// TODO: Add your command handler code here
-	CCGTutorialView* pView = (CCGTutorialView*)GetActiveView();
-	pView->ShowPipeLine(m_wndFileView.GetSelected());
+	if(pipeLine == NULL) {
+		pipeLine = new CDlgPipeLine(((CCGTutorialDoc*)GetActiveDocument())->environment);
+		pipeLine->Create(CDlgPipeLine::IDD,this);
+	}
+	pipeLine->SetData(m_wndFileView.GetSelected());
+	pipeLine->ShowWindow(SW_SHOW);
 }
 
 void CMainFrame::RefreshPipeLine()
 {
-	CCGTutorialView* pView = (CCGTutorialView*)GetActiveView();
-	if(pView->pipeLine != NULL) {
-		pView->pipeLine->SetData(m_wndFileView.GetSelected());
+	if(pipeLine != NULL) {
+		pipeLine->SetData(m_wndFileView.GetSelected());
 	}
 }
 

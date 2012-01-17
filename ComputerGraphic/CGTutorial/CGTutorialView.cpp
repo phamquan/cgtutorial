@@ -63,14 +63,10 @@ CCGTutorialView::CCGTutorialView()
 	isShowCamera = true;
 	m_isMouseDown = false;
 	angle.setCoords(-45,45,0);
-
-	pipeLine = NULL;
 }
 
 CCGTutorialView::~CCGTutorialView()
 {
-	if(pipeLine != NULL)
-		delete pipeLine;
 }
 
 BOOL CCGTutorialView::PreCreateWindow(CREATESTRUCT& cs)
@@ -289,20 +285,6 @@ void CCGTutorialView::OnPaint()
 	SwapBuffers(dc.m_ps.hdc);
 }
 
-//void CCGTutorialView::OnShowCamera()
-//{
-//	// TODO: Add your command handler code here
-//	isShowCamera = !isShowCamera;
-//	Invalidate();
-//}
-//
-//
-//void CCGTutorialView::OnUpdateShowCamera(CCmdUI *pCmdUI)
-//{
-//	// TODO: Add your command update UI handler code here
-//	pCmdUI->SetCheck(isShowCamera);
-//}
-
 void CCGTutorialView::DrawCoordinate() {
 	glBegin(GL_LINES);
 		glColor3f(1.0f,0.0f,0.0f);
@@ -365,12 +347,8 @@ BOOL CCGTutorialView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 	return CView::OnMouseWheel(nFlags, zDelta, pt);
 }
 
-void CCGTutorialView::ShowPipeLine(COpenGLNode* node)
+void CCGTutorialView::OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/)
 {
-	if(pipeLine == NULL) {
-		pipeLine = new CDlgPipeLine(GetDocument()->environment);
-		pipeLine->Create(CDlgPipeLine::IDD,this);
-	}
-	pipeLine->SetData(node);
-	pipeLine->ShowWindow(SW_SHOW);
+	// TODO: Add your specialized code here and/or call the base class
+	Invalidate();
 }

@@ -27,7 +27,6 @@ protected: // create from serialization only
 // Attributes
 public:
 	CEnvironment* environment;
-	void Init();
 	CString GenCode();
 // Operations
 public:
@@ -63,4 +62,5 @@ public:
 	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
 	virtual BOOL OnSaveDocument(LPCTSTR lpszPathName);
 	virtual void OnCloseDocument();
+	virtual void DeleteContents();
 };

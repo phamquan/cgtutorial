@@ -18,6 +18,7 @@
 #include "PropertiesWnd.h"
 #include "UsefulSplitterWnd.h"
 #include "CameraView.h"
+#include "DlgPipeLine.h"
 
 #define PIPELINE	1
 #define GENCODE		2
@@ -33,7 +34,8 @@ protected: // create from serialization only
 // Attributes
 protected:
 	int mode;
-	
+	CDlgPipeLine* pipeLine;
+
 public:
 	CUsefulSplitterWnd m_wndSplitter;
 	CFileView m_wndFileView;
