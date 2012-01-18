@@ -82,12 +82,16 @@ BEGIN_MESSAGE_MAP(CRasterizationIllustrationDlg, CDialogEx)
 	ON_UPDATE_COMMAND_UI(ID_ALGORITHMFORRASTERIZATION_DIGITALDIFFERENTIALANALYZER, &CRasterizationIllustrationDlg::OnUpdateAlgorithmforrasterizationDigitaldifferentialanalyzer)
 	ON_COMMAND(ID_ALGORITHMFORRASTERIZATION_BRESENHAMLINEALGORITHM, &CRasterizationIllustrationDlg::OnAlgorithmforrasterizationBresenhamlinealgorithm)
 	ON_UPDATE_COMMAND_UI(ID_ALGORITHMFORRASTERIZATION_BRESENHAMLINEALGORITHM, &CRasterizationIllustrationDlg::OnUpdateAlgorithmforrasterizationBresenhamlinealgorithm)
-	ON_MESSAGE(WM_KICKIDLE, &CRasterizationIllustrationDlg::OnKickidle)
-	ON_MESSAGE(WM_IDLEUPDATECMDUI, &CRasterizationIllustrationDlg::OnIdleupdatecmdui)
+	ON_MESSAGE_VOID(WM_KICKIDLE, OnKickIdle)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
 	ON_WM_MBUTTONUP()
+	ON_COMMAND(ID_CONTEXTRI_DDA, &CRasterizationIllustrationDlg::OnContextriDda)
+	ON_UPDATE_COMMAND_UI(ID_CONTEXTRI_DDA, &CRasterizationIllustrationDlg::OnUpdateContextriDda)
+	ON_COMMAND(ID_CONTEXTRI_BRESENHAM, &CRasterizationIllustrationDlg::OnContextriBresenham)
+	ON_UPDATE_COMMAND_UI(ID_CONTEXTRI_BRESENHAM, &CRasterizationIllustrationDlg::OnUpdateContextriBresenham)
+	ON_COMMAND(ID_CONTEXTRI_MOREINFO, &CRasterizationIllustrationDlg::OnContextriMoreinfo)
 END_MESSAGE_MAP()
 
 
@@ -125,6 +129,8 @@ BOOL CRasterizationIllustrationDlg::OnInitDialog()
 	ShowWindow(SW_MAXIMIZE);
 
 	// TODO: Add extra initialization here
+	m_infoDlg->Create(IDD_RASTERIZATIONINFODLG, this);
+	m_infoDlg->ShowWindow(SW_SHOW);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -331,6 +337,7 @@ void CRasterizationIllustrationDlg::initParameter() {
 	hRunStep = NULL;
 	dwRunStepId = 0;
 	m_isLeftMouseDown = m_isMidMouseDown = false;
+	m_infoDlg = new CRasterizationInfoDlg();
 	m_config = new CRasterizationConfig(800, 600, 0.008, BRESENHAM, BLUE);
 	int width = m_config->getWidth(),
 		height = m_config->getHeight();
@@ -454,6 +461,12 @@ void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEAL
 					m_pixelState[x*width + y] = PCHOSEN;
 					m_pixelColor[x*width + y] = iter;
 					iter += delta;
+					m_infoDlg->m_cx = y;
+					m_infoDlg->m_cy = x;
+					m_infoDlg->m_cr = iter.red;
+					m_infoDlg->m_cg = iter.green;
+					m_infoDlg->m_cb = iter.blue;
+					m_infoDlg->Refresh();
 					Sleep(nTime);
 					this->Invalidate();
 				}
@@ -461,6 +474,9 @@ void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEAL
 					m_pixelState[y*width + x] = PCHOSEN;
 					m_pixelColor[y*width + x] = iter;
 					iter += delta;
+					m_infoDlg->m_cx = x;
+					m_infoDlg->m_cy = y;
+					m_infoDlg->Refresh();
 					Sleep(nTime);
 					this->Invalidate();
 				}
@@ -545,11 +561,27 @@ void CRasterizationIllustrationDlg::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
 	CMenu menu;
 	if (menu.LoadMenu(IDR_CONTEXT_RI))
 	{
+		CCmdUI cmdUI;
+		for (UINT n = 0; n < menu.GetMenuItemCount(); ++n)
+		{
+			CMenu* pSubMenu = menu.GetSubMenu(n);
+			cmdUI.m_nIndexMax = pSubMenu->GetMenuItemCount();
+			for (UINT i = 0; i < cmdUI.m_nIndexMax;++i)
+			{
+				cmdUI.m_nIndex = i;
+				cmdUI.m_nID = pSubMenu->GetMenuItemID(i);
+				cmdUI.m_pMenu = pSubMenu;
+				cmdUI.DoUpdate(this, FALSE);
+			}
+		}
+
 		CMenu* pPopup = menu.GetSubMenu(0);
 		ASSERT(pPopup != NULL);
 		pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON,
 		point.x, point.y,
 		AfxGetMainWnd()); // use main window for cmds
+
+
 	}
 }
 
@@ -626,20 +658,12 @@ void CRasterizationIllustrationDlg::OnUpdateAlgorithmforrasterizationBresenhamli
 }
 
 
-afx_msg LRESULT CRasterizationIllustrationDlg::OnKickidle(WPARAM wParam, LPARAM lParam)
+afx_msg void CRasterizationIllustrationDlg::OnKickIdle()
 {
 	//UpdateDialogControls(this, FALSE);
 	//OnUpdateCmdUI(GetDlgItem(ID_ALGORITHMFORRASTERIZATION_DIGITALDIFFERENTIALANALYZER), wParam);
-	return 0;
+	return;
 }
-
-
-afx_msg LRESULT CRasterizationIllustrationDlg::OnIdleupdatecmdui(WPARAM wParam, LPARAM lParam)
-{
-	GetDlgItem(ID_ALGORITHMFORRASTERIZATION_DIGITALDIFFERENTIALANALYZER)->SendMessage(WM_IDLEUPDATECMDUI);
-	return 0;
-}
-
 
 void CRasterizationIllustrationDlg::OnLButtonDown(UINT nFlags, CPoint point)
 {
@@ -699,4 +723,38 @@ void CRasterizationIllustrationDlg::OnMButtonUp(UINT nFlags, CPoint point)
 	m_isMidMouseDown = false;
 
 	CDialogEx::OnMButtonUp(nFlags, point);
+}
+
+
+void CRasterizationIllustrationDlg::OnContextriDda()
+{
+	// TODO: Add your command handler code here
+	m_config->setAlgorithmRasterization(DDA);
+}
+
+
+void CRasterizationIllustrationDlg::OnUpdateContextriDda(CCmdUI *pCmdUI)
+{
+	// TODO: Add your command update UI handler code here
+	pCmdUI->SetRadio(m_config->getAlgorithmRasterization() == DDA);
+}
+
+
+void CRasterizationIllustrationDlg::OnContextriBresenham()
+{
+	// TODO: Add your command handler code here
+	m_config->setAlgorithmRasterization(BRESENHAM);
+}
+
+
+void CRasterizationIllustrationDlg::OnUpdateContextriBresenham(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetRadio(m_config->getAlgorithmRasterization() == BRESENHAM);
+}
+
+
+void CRasterizationIllustrationDlg::OnContextriMoreinfo()
+{
+	// TODO: Add your command handler code here
+	m_infoDlg->ShowWindow(SW_SHOW);
 }
