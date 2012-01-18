@@ -45,6 +45,7 @@ CCGTutorialDoc::CCGTutorialDoc()
 	object = new COpenGLNode("object",NODE_OBJECT);
 	environment = new CEnvironment();
 	DeleteContents();
+	tabsize = 5;
 }
 
 CCGTutorialDoc::~CCGTutorialDoc()
@@ -63,7 +64,7 @@ BOOL CCGTutorialDoc::OnNewDocument()
 
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 	pMainFrame->m_wndFileView.FillView(object,environment);
-
+	GenCode();
 	return TRUE;
 }
 
@@ -173,7 +174,7 @@ BOOL CCGTutorialDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 	pMainFrame->m_wndFileView.FillView(data.object,data.environment,object,environment);
-	UpdateAllViews(NULL);
+	GenCode();
 	return TRUE;
 }
 
@@ -193,9 +194,67 @@ void CCGTutorialDoc::OnCloseDocument()
 	CDocument::OnCloseDocument();
 }
 
-CString CCGTutorialDoc::GenCode()
+void CCGTutorialDoc::AddCode(char* data, int tab, int line) {
+	ASSERT(tab >= 0);
+	ASSERT(line >= 0);
+
+	for(int i=0; i<tab*tabsize; i++)
+	{
+		openGLCode += " ";
+	}
+
+	openGLCode += data;
+
+	for(int i=0; i<line; i++)
+	{
+		openGLCode += "\n";
+	}
+}
+
+void CCGTutorialDoc::GenCode()
 {
-	return CString("\tdaasdasdasdasdasdasdasdsddaasdasdasdasdasdasdasdsddaasdasdasdasdasdasdasdsddaasdasdasdasdasdasdasdsddaasdasdasdasdasdasdasdsddaasdasdasdasdasdasdasdsddaasdasdasdasdasdasdasdsddaasdasdasdasdasdasdasdsd\n\t\tadasdasdfaf\n");
+	openGLCode = "";
+
+	//header
+	AddCode("#include <GL/glut.h>",0,1);
+	AddCode("#include <math.h>",0,1);
+	AddCode("#include <stdio.h>",0,1);
+	AddCode("#include <math.h>",0,2);
+	AddCode("#define DEG2RAD (3.14159f/180.0f)",0,2);
+
+	//init openGL
+	AddCode("void initOpenGL() {",0,1);
+	AddCode("glMatrixMode(GL_PROJECTION);",1,1);
+	AddCode("glLoadIdentity();",1,1);
+	AddCode("glMatrixMode(GL_MODELVIEW);",1,1);
+	AddCode("}",0,2);
+
+	//onsize
+
+
+	//onpaint
+	AddCode("void onPaint() {",0,1);
+	AddCode("glMatrixMode(GL_MODELVIEW);",1,1);
+	AddCode("glLoadIdentity();",1,1);
+		//+ evalCamera()
+	AddCode("glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);",1,1);
+	AddCode("glutSwapBuffers();",1,1);
+	AddCode("}",0,2);
+	
+	//main
+	AddCode("int main(int argc, char** argv) {",0,2);
+	AddCode("// init GLUT and create Window",1,1);
+	AddCode("glutInit(&&argc, argv);",1,1);
+	AddCode("glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB);",1,1);
+	AddCode("glutCreateWindow(\"Computer Graphic Tutorial\");",1,1);
+	AddCode("initOpenGL();",1,2);
+	AddCode("// register callbacks",1,1);
+	AddCode("glutDisplayFunc(onPaint);",1,1);
+	AddCode("glutReshapeFunc(onSize);",1,2);
+	AddCode("// enter GLUT event processing cycle",1,1);
+	AddCode("glutMainLoop();",1,2);
+	AddCode("return 1;",1,1);
+	AddCode("}",0,1);
 }
 
 void CCGTutorialDoc::DeleteContents()
@@ -206,4 +265,10 @@ void CCGTutorialDoc::DeleteContents()
 	environment->AddChild(new CProjection(-1,1,-1,1,1,-1,ORTHO));
 	environment->AddChild(new CCamera(0,0,0,0,0,-1,0,1,0));
 	environment->AddChild(new CViewPort(0,0,0,0,VIEWPORT_DEFAULT));
+}
+
+void CCGTutorialDoc::Refresh()
+{
+	GenCode();
+	UpdateAllViews(NULL);
 }

@@ -394,7 +394,7 @@ void CFileView::OnObjectDelete()
 	if(ValidateDelete()) {
 		node->GetParent()->RemoveChild(node);
 		m_wndFileView.DeleteItem(hTreeItem);
-		((CMainFrame*)AfxGetMainWnd())->GetActiveDocument()->UpdateAllViews(NULL);
+		((CCGTutorialDoc*)((CMainFrame*)AfxGetMainWnd())->GetActiveDocument())->Refresh();
 	}
 }
 
@@ -471,7 +471,7 @@ void CFileView::OnObjectEdit()
 
 	if(edit) {
 		m_wndFileView.SetItemText(hTreeItem,node->ToString());
-		((CMainFrame*)AfxGetMainWnd())->GetActiveDocument()->UpdateAllViews(NULL);
+		((CCGTutorialDoc*)((CMainFrame*)AfxGetMainWnd())->GetActiveDocument())->Refresh();
 		((CMainFrame*)AfxGetMainWnd())->RefreshPipeLine();
 	}
 }

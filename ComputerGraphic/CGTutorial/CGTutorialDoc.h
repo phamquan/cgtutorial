@@ -24,10 +24,15 @@ protected: // create from serialization only
 	DECLARE_DYNCREATE(CCGTutorialDoc)
 	qtmlManager data;
 	COpenGLNode* object;
+	int tabsize;
+
+	void GenCode();
+	void AddCode(char* data, int tab, int line);
 // Attributes
 public:
 	CEnvironment* environment;
-	CString GenCode();
+	CString openGLCode;
+	void Refresh();
 // Operations
 public:
 
