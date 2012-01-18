@@ -240,6 +240,9 @@
     <ClInclude Include="GenCodeView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GenCode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CGTutorial.cpp">
@@ -363,6 +366,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GenCodeView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GenCode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

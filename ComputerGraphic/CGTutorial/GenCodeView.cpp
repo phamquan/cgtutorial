@@ -11,12 +11,12 @@
 
 // CGenCodeView
 
-IMPLEMENT_DYNCREATE(CGenCodeView, CView)
+IMPLEMENT_DYNCREATE(CGenCodeView, CScrollView)
 
-BEGIN_MESSAGE_MAP(CGenCodeView, CView)
+BEGIN_MESSAGE_MAP(CGenCodeView, CScrollView)
 	// Standard printing commands
-	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
-	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT, &CScrollView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CScrollView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CGenCodeView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
@@ -43,7 +43,7 @@ BOOL CGenCodeView::PreCreateWindow(CREATESTRUCT& cs)
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
 
-	return CView::PreCreateWindow(cs);
+	return CScrollView::PreCreateWindow(cs);
 }
 
 // CGenCodeView drawing
@@ -117,12 +117,12 @@ void CGenCodeView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 #ifdef _DEBUG
 void CGenCodeView::AssertValid() const
 {
-	CView::AssertValid();
+	CScrollView::AssertValid();
 }
 
 void CGenCodeView::Dump(CDumpContext& dc) const
 {
-	CView::Dump(dc);
+	CScrollView::Dump(dc);
 }
 
 CCGTutorialDoc* CGenCodeView::GetDocument() const // non-debug version is inline
@@ -166,7 +166,7 @@ int CGenCodeView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_OldBitmap = m_MemDC.SelectObject(&m_MemBitmap);
 
-	SetScrollSizes(MM_TEXT,CSize(100,10));
+	SetScrollSizes(MM_TEXT,CSize(500,10));
 
 	return 0;
 }

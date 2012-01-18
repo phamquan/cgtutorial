@@ -16,7 +16,7 @@
 #include "CGTutorial.h"
 #include "CameraView.h"
 #include "MainFrm.h"
-#include "GenCodeView.h"
+#include "GenCode.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -405,5 +405,5 @@ void CMainFrame::OnGenerateCode()
 	//if(isShowCamera)
 		//m_wndSplitter.HideColumn(1);
 
-	m_wndSplitter.ReplaceView(0,0,RUNTIME_CLASS(CGenCodeView));
+	m_wndSplitter.ReplaceView(0,0,RUNTIME_CLASS(CGenCode));
 }

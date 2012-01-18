@@ -207,7 +207,7 @@ void CCGTutorialDoc::AddCode(char* data, int tab, int line) {
 
 	for(int i=0; i<line; i++)
 	{
-		openGLCode += "\n";
+		openGLCode += "\r\n";
 	}
 }
 
