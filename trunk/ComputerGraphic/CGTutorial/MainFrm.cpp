@@ -367,6 +367,7 @@ void CMainFrame::OnVirtualView()
 		//m_wndSplitter.ShowColumn();
 
 	m_wndSplitter.ReplaceView(0,0,RUNTIME_CLASS(CCGTutorialView));
+	m_wndSplitter.GetPane(0,0)->Invalidate();
 }
 
 
