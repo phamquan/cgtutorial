@@ -218,8 +218,7 @@ void CCGTutorialDoc::GenCode()
 	//header
 	AddCode("#include <GL/glut.h>",0,1);
 	AddCode("#include <math.h>",0,1);
-	AddCode("#include <stdio.h>",0,1);
-	AddCode("#include <math.h>",0,2);
+	AddCode("#include <stdio.h>",0,2);
 	AddCode("#define DEG2RAD (3.14159f/180.0f)",0,2);
 
 	//init openGL
