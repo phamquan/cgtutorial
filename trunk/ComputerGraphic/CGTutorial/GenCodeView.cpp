@@ -58,8 +58,14 @@ void CGenCodeView::OnDraw(CDC* pDC)
 
 	m_MemDC.FillSolidRect(rect, RGB(255,255,255));
 
-	m_MemDC.DrawTextW(GetDocument()->GenCode(),-1,&rect,DT_LEFT|DT_EXPANDTABS);
+	/*CStringArray strarr;
+	strarr.Copy(GetDocument()->openGLCode);
+	for(int i=0; i<strarr.GetSize(); i++) {
+		m_MemDC.TextOutW(10,10+20*i,strarr.GetAt(i));
+	}*/
 
+	m_MemDC.DrawTextW(GetDocument()->openGLCode,&rect,DT_LEFT);
+	
 	pDC->BitBlt(0,0,rect.Width(),rect.Height(),&m_MemDC,0,0,SRCCOPY);
 
 	// TODO: add draw code for native data here
@@ -160,7 +166,7 @@ int CGenCodeView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_OldBitmap = m_MemDC.SelectObject(&m_MemBitmap);
 
-	SetScrollSizes(MM_TEXT,CSize(2000,10));
+	SetScrollSizes(MM_TEXT,CSize(100,10));
 
 	return 0;
 }
