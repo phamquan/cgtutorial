@@ -5,6 +5,7 @@
 #pragma once
 
 #include "RasterizationConfig.h"
+#include "RasterizationInfoDlg.h"
 
 // CRasterizationIllustrationDlg dialog
 class CRasterizationIllustrationDlg : public CDialogEx
@@ -33,6 +34,7 @@ protected:
 private:
 	HGLRC m_hRC;
 	HDC m_hDC;
+	CRasterizationInfoDlg* m_infoDlg;
 	CRasterizationConfig *m_config;
 	PIXELTYPE *m_pixelState;
 	COLOR *m_pixelColor;
@@ -71,11 +73,15 @@ public:
 	afx_msg void OnAlgorithmforrasterizationBresenhamlinealgorithm();
 	afx_msg void OnUpdateAlgorithmforrasterizationBresenhamlinealgorithm(CCmdUI *pCmdUI);
 protected:
-	afx_msg LRESULT OnKickidle(WPARAM wParam, LPARAM lParam);
-	afx_msg LRESULT OnIdleupdatecmdui(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnKickIdle();
 public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnMButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnContextriDda();
+	afx_msg void OnUpdateContextriDda(CCmdUI *pCmdUI);
+	afx_msg void OnContextriBresenham();
+	afx_msg void OnUpdateContextriBresenham(CCmdUI *pCmdUI);
+	afx_msg void OnContextriMoreinfo();
 };
