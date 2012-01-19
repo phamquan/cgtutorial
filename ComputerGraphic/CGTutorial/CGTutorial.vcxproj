@@ -156,7 +156,6 @@
     <ClInclude Include="Environment.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="GenCode.h" />
-    <ClInclude Include="GenCodeView.h" />
     <ClInclude Include="Geometric.h" />
     <ClInclude Include="HomoPoint.h" />
     <ClInclude Include="Line.h" />
@@ -201,7 +200,6 @@
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="GenCode.cpp" />
-    <ClCompile Include="GenCodeView.cpp" />
     <ClCompile Include="Geometric.cpp" />
     <ClCompile Include="HomoPoint.cpp" />
     <ClCompile Include="Line.cpp" />

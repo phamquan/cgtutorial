@@ -34,7 +34,7 @@ protected: // create from serialization only
 // Attributes
 protected:
 	int mode;
-	CDlgPipeLine* pipeLine;
+	//CDlgPipeLine* pipeLine;
 
 public:
 	CUsefulSplitterWnd m_wndSplitter;

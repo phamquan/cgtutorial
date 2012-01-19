@@ -22,9 +22,6 @@ IMPLEMENT_DYNCREATE(CCameraView, CView)
 
 BEGIN_MESSAGE_MAP(CCameraView, CView)
 	// Standard printing commands
-	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
-	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
-	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CCameraView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
 	ON_WM_CREATE()
@@ -63,33 +60,6 @@ void CCameraView::OnDraw(CDC* /*pDC*/)
 		return;
 
 	// TODO: add draw code for native data here
-}
-
-
-// CCameraView printing
-
-
-void CCameraView::OnFilePrintPreview()
-{
-#ifndef SHARED_HANDLERS
-	AFXPrintPreview(this);
-#endif
-}
-
-BOOL CCameraView::OnPreparePrinting(CPrintInfo* pInfo)
-{
-	// default preparation
-	return DoPreparePrinting(pInfo);
-}
-
-void CCameraView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
-{
-	// TODO: add extra initialization before printing
-}
-
-void CCameraView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
-{
-	// TODO: add cleanup after printing
 }
 
 void CCameraView::OnRButtonUp(UINT /* nFlags */, CPoint point)
