@@ -237,9 +237,6 @@
     <ClInclude Include="UsefulSplitterWnd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GenCodeView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GenCode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -363,9 +360,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UsefulSplitterWnd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GenCodeView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GenCode.cpp">

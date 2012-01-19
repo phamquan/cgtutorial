@@ -51,13 +51,13 @@ CMainFrame::CMainFrame()
 	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_VS_2008);
 	isShowCamera = TRUE;
 	mode = VIRTUAL;
-	pipeLine = NULL;
+	//pipeLine = NULL;
 }
 
 CMainFrame::~CMainFrame()
 {
-	if(pipeLine != NULL)
-		delete pipeLine;
+	//if(pipeLine != NULL)
+	//	delete pipeLine;
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -340,20 +340,26 @@ void CMainFrame::OnViewLayout()
 
 void CMainFrame::OnPipeline()
 {
+	if(mode == PIPELINE)
+		return;
+
+	mode = PIPELINE;
+	m_wndSplitter.ReplaceView(0,0,RUNTIME_CLASS(CDlgPipeLine));
+	((CDlgPipeLine*)m_wndSplitter.GetPane(0,0))->SetData(m_wndFileView.GetSelected());
 	// TODO: Add your command handler code here
-	if(pipeLine == NULL) {
+	/*if(pipeLine == NULL) {
 		pipeLine = new CDlgPipeLine(((CCGTutorialDoc*)GetActiveDocument())->environment);
 		pipeLine->Create(CDlgPipeLine::IDD,this);
 	}
 	pipeLine->SetData(m_wndFileView.GetSelected());
-	pipeLine->ShowWindow(SW_SHOW);
+	pipeLine->ShowWindow(SW_SHOW);*/
 }
 
 void CMainFrame::RefreshPipeLine()
 {
-	if(pipeLine != NULL) {
+	/*if(pipeLine != NULL) {
 		pipeLine->SetData(m_wndFileView.GetSelected());
-	}
+	}*/
 }
 
 void CMainFrame::OnVirtualView()
