@@ -145,7 +145,7 @@
     <ClInclude Include="DlgLine.h" />
     <ClInclude Include="DlgMatrix.h" />
     <ClInclude Include="DlgModelMatrix.h" />
-    <ClInclude Include="DlgPipeLine.h" />
+    <ClInclude Include="PipeLineView.h" />
     <ClInclude Include="DlgPoint.h" />
     <ClInclude Include="DlgProjection.h" />
     <ClInclude Include="DlgProjectionMatrix.h" />
@@ -189,7 +189,7 @@
     <ClCompile Include="DlgLine.cpp" />
     <ClCompile Include="DlgMatrix.cpp" />
     <ClCompile Include="DlgModelMatrix.cpp" />
-    <ClCompile Include="DlgPipeLine.cpp" />
+    <ClCompile Include="PipeLineView.cpp" />
     <ClCompile Include="DlgPoint.cpp" />
     <ClCompile Include="DlgProjection.cpp" />
     <ClCompile Include="DlgProjectionMatrix.cpp" />

@@ -18,7 +18,7 @@
 #include "PropertiesWnd.h"
 #include "UsefulSplitterWnd.h"
 #include "CameraView.h"
-#include "DlgPipeLine.h"
+#include "PipeLineView.h"
 
 #define PIPELINE	1
 #define GENCODE		2
