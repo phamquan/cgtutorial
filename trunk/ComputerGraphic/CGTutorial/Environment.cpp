@@ -149,26 +149,26 @@ void CEnvironment::DrawCamera()
 
 	glColor3f(0.5,0.7,0.5);
 	glBegin(GL_QUADS);
-		glVertex3f(-1.0,-1.0,-1.0);
-		glVertex3f( 1.0,-1.0,-1.0);
-		glVertex3f( 1.0, 1.0,-1.0);
-		glVertex3f(-1.0, 1.0,-1.0);
-		glVertex3f(-1.0,-1.0, 1.0);
-		glVertex3f( 1.0,-1.0, 1.0);
-		glVertex3f( 1.0, 1.0, 1.0);
-		glVertex3f(-1.0, 1.0, 1.0);
+		glVertex3f(-1.0,-1.0,-1.1);
+		glVertex3f( 1.0,-1.0,-1.1);
+		glVertex3f( 1.0, 1.0,-1.1);
+		glVertex3f(-1.0, 1.0,-1.1);
+		glVertex3f(-1.0,-1.0, 1.1);
+		glVertex3f( 1.0,-1.0, 1.1);
+		glVertex3f( 1.0, 1.0, 1.1);
+		glVertex3f(-1.0, 1.0, 1.1);
 	glEnd();
 
 	glColor3f(0.0,0.0,0.0);
 	glBegin(GL_LINES);
-		glVertex3f(-1.0,-1.0,-1.0);
-		glVertex3f(-1.0,-1.0, 1.0);
-		glVertex3f( 1.0,-1.0,-1.0);
-		glVertex3f( 1.0,-1.0, 1.0);
-		glVertex3f( 1.0, 1.0,-1.0);
-		glVertex3f( 1.0, 1.0, 1.0);
-		glVertex3f(-1.0, 1.0,-1.0);
-		glVertex3f(-1.0, 1.0, 1.0);
+		glVertex3f(-1.0,-1.0,-1.1);
+		glVertex3f(-1.0,-1.0, 1.1);
+		glVertex3f( 1.0,-1.0,-1.1);
+		glVertex3f( 1.0,-1.0, 1.1);
+		glVertex3f( 1.0, 1.0,-1.1);
+		glVertex3f( 1.0, 1.0, 1.1);
+		glVertex3f(-1.0, 1.0,-1.1);
+		glVertex3f(-1.0, 1.0, 1.1);
 	glEnd();
 
 	glMatrixMode(GL_MODELVIEW);
