@@ -15,7 +15,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestCodeGenerator", "TestCo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QTMath", "QTMath\QTMath.vcxproj", "{D15A42F7-9E50-4DA4-89D8-1E9ADA1FC0CB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CGTutorial", "CGTutorial\CGTutorial.vcxproj", "{502690A2-CCFB-4BE8-A262-929B3937A3F6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CGTutorial", "CGTutorial\CGTutorial.vcxproj", "{3A2270A7-4249-4624-9610-2F2343255E39}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{D790EAF7-7620-4693-8A44-80E44A64860C}.Release|Win32.ActiveCfg = Release|Win32
 		{D15A42F7-9E50-4DA4-89D8-1E9ADA1FC0CB}.Debug|Win32.ActiveCfg = Debug|Win32
 		{D15A42F7-9E50-4DA4-89D8-1E9ADA1FC0CB}.Release|Win32.ActiveCfg = Release|Win32
-		{502690A2-CCFB-4BE8-A262-929B3937A3F6}.Debug|Win32.ActiveCfg = Debug|Win32
-		{502690A2-CCFB-4BE8-A262-929B3937A3F6}.Debug|Win32.Build.0 = Debug|Win32
-		{502690A2-CCFB-4BE8-A262-929B3937A3F6}.Release|Win32.ActiveCfg = Release|Win32
-		{502690A2-CCFB-4BE8-A262-929B3937A3F6}.Release|Win32.Build.0 = Release|Win32
+		{3A2270A7-4249-4624-9610-2F2343255E39}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3A2270A7-4249-4624-9610-2F2343255E39}.Debug|Win32.Build.0 = Debug|Win32
+		{3A2270A7-4249-4624-9610-2F2343255E39}.Release|Win32.ActiveCfg = Release|Win32
+		{3A2270A7-4249-4624-9610-2F2343255E39}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
