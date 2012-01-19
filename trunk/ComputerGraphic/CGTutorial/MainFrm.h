@@ -16,9 +16,7 @@
 #include "FileView.h"
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
-#include "UsefulSplitterWnd.h"
-#include "CameraView.h"
-#include "PipeLineView.h"
+#include "DlgCameraFrame.h"
 
 #define PIPELINE	1
 #define GENCODE		2
@@ -37,16 +35,15 @@ protected:
 	//CDlgPipeLine* pipeLine;
 
 public:
-	CUsefulSplitterWnd m_wndSplitter;
 	CFileView m_wndFileView;
-	CCameraView *cameraView;
+	CDlgCameraFrame *cameraFrame;
+	//CCameraView *cameraView;
 // Operations
 public:
 
 // Overrides
 public:
 	void RefreshPipeLine();
-	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 
 // Implementation

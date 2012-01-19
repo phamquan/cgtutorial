@@ -135,17 +135,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="CameraView.h" />
     <ClInclude Include="CGTutorial.h" />
     <ClInclude Include="CGTutorialDoc.h" />
     <ClInclude Include="CGTutorialView.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="DlgCamera.h" />
+    <ClInclude Include="DlgCameraFrame.h" />
     <ClInclude Include="DlgDivideW.h" />
     <ClInclude Include="DlgLine.h" />
     <ClInclude Include="DlgMatrix.h" />
     <ClInclude Include="DlgModelMatrix.h" />
-    <ClInclude Include="PipeLineView.h" />
     <ClInclude Include="DlgPoint.h" />
     <ClInclude Include="DlgProjection.h" />
     <ClInclude Include="DlgProjectionMatrix.h" />
@@ -155,7 +154,6 @@
     <ClInclude Include="DlgViewPortMatrix.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="FileView.h" />
-    <ClInclude Include="GenCode.h" />
     <ClInclude Include="Geometric.h" />
     <ClInclude Include="HomoPoint.h" />
     <ClInclude Include="Line.h" />
@@ -173,23 +171,21 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Transformation.h" />
     <ClInclude Include="Translate.h" />
-    <ClInclude Include="UsefulSplitterWnd.h" />
     <ClInclude Include="ViewPort.h" />
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CameraView.cpp" />
     <ClCompile Include="CGTutorial.cpp" />
     <ClCompile Include="CGTutorialDoc.cpp" />
     <ClCompile Include="CGTutorialView.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="DlgCamera.cpp" />
+    <ClCompile Include="DlgCameraFrame.cpp" />
     <ClCompile Include="DlgDivideW.cpp" />
     <ClCompile Include="DlgLine.cpp" />
     <ClCompile Include="DlgMatrix.cpp" />
     <ClCompile Include="DlgModelMatrix.cpp" />
-    <ClCompile Include="PipeLineView.cpp" />
     <ClCompile Include="DlgPoint.cpp" />
     <ClCompile Include="DlgProjection.cpp" />
     <ClCompile Include="DlgProjectionMatrix.cpp" />
@@ -199,7 +195,6 @@
     <ClCompile Include="DlgViewPortMatrix.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="FileView.cpp" />
-    <ClCompile Include="GenCode.cpp" />
     <ClCompile Include="Geometric.cpp" />
     <ClCompile Include="HomoPoint.cpp" />
     <ClCompile Include="Line.cpp" />
@@ -219,7 +214,6 @@
     </ClCompile>
     <ClCompile Include="Transformation.cpp" />
     <ClCompile Include="Translate.cpp" />
-    <ClCompile Include="UsefulSplitterWnd.cpp" />
     <ClCompile Include="ViewPort.cpp" />
     <ClCompile Include="ViewTree.cpp" />
   </ItemGroup>

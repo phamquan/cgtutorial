@@ -14,9 +14,7 @@
 
 #include "stdafx.h"
 #include "CGTutorial.h"
-#include "CameraView.h"
 #include "MainFrm.h"
-#include "GenCode.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -51,7 +49,7 @@ CMainFrame::CMainFrame()
 	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_VS_2008);
 	isShowCamera = TRUE;
 	mode = VIRTUAL;
-	//pipeLine = NULL;
+	cameraFrame = NULL;
 }
 
 CMainFrame::~CMainFrame()
@@ -114,21 +112,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 
 	return 0;
-}
-
-BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT /*lpcs*/,
-	CCreateContext* pContext)
-{
-	BOOLEAN result = m_wndSplitter.CreateStatic(this, 1, 2);
-
-	if(result)
-	{
-		m_wndSplitter.CreateView(0,0,RUNTIME_CLASS(CCGTutorialView),CSize(500,0),pContext);
-		m_wndSplitter.CreateView(0,1,RUNTIME_CLASS(CCameraView),CSize(500,0),pContext);
-		cameraView = (CCameraView*)m_wndSplitter.GetPane(0,1);
-	}
-
-	return result;
 }
 
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
@@ -344,7 +327,7 @@ void CMainFrame::OnPipeline()
 		return;
 
 	mode = PIPELINE;
-	m_wndSplitter.ReplaceView(0,0,RUNTIME_CLASS(CPipeLineView));
+	//m_wndSplitter.ReplaceView(0,0,RUNTIME_CLASS(CPipeLineView));
 	//((CPipeLineView*)m_wndSplitter.GetPane(0,0))->CreateTab();
 	//((CPipeLineView*)m_wndSplitter.GetPane(0,0))->SetData(m_wndFileView.GetSelected());
 
@@ -355,7 +338,7 @@ void CMainFrame::RefreshPipeLine()
 	if(mode != PIPELINE)
 		return;
 
-	((CPipeLineView*)m_wndSplitter.GetPane(0,0))->SetData(m_wndFileView.GetSelected());
+	//((CPipeLineView*)m_wndSplitter.GetPane(0,0))->SetData(m_wndFileView.GetSelected());
 	/*if(pipeLine != NULL) {
 		pipeLine->SetData(m_wndFileView.GetSelected());
 	}*/
@@ -363,16 +346,12 @@ void CMainFrame::RefreshPipeLine()
 
 void CMainFrame::OnVirtualView()
 {
-	if(mode == VIRTUAL)
-		return;
-
-	mode = VIRTUAL;
-
-	//if(isShowCamera)
-		//m_wndSplitter.ShowColumn();
-
-	m_wndSplitter.ReplaceView(0,0,RUNTIME_CLASS(CCGTutorialView));
-	m_wndSplitter.GetPane(0,0)->Invalidate();
+	if(cameraFrame == NULL) {
+		CCGTutorialDoc* pDoc = (CCGTutorialDoc*)GetActiveDocument();
+		cameraFrame = new CDlgCameraFrame(pDoc->environment,pDoc->object);
+		cameraFrame->Create(IDD_DIALOG_CAMERA_FRAME,this);
+	}
+	cameraFrame->ShowWindow(SW_SHOW);
 }
 
 
@@ -382,14 +361,14 @@ void CMainFrame::OnShowCamera()
 	if(mode != VIRTUAL)
 		return;
 
-	isShowCamera = !isShowCamera;
-	if(isShowCamera)
-		m_wndSplitter.ShowColumn();
-	else
-		m_wndSplitter.HideColumn(1);
+	//isShowCamera = !isShowCamera;
+	//if(isShowCamera)
+	//	m_wndSplitter.ShowColumn();
+	//else
+	//	m_wndSplitter.HideColumn(1);
 
-	((CCGTutorialView*)m_wndSplitter.GetPane(0,0))->isShowCamera = isShowCamera;
-	m_wndSplitter.GetPane(0,0)->Invalidate();
+	//((CCGTutorialView*)m_wndSplitter.GetPane(0,0))->isShowCamera = isShowCamera;
+	//m_wndSplitter.GetPane(0,0)->Invalidate();
 }
 
 
@@ -408,8 +387,5 @@ void CMainFrame::OnGenerateCode()
 
 	mode = GENCODE;
 
-	//if(isShowCamera)
-		//m_wndSplitter.HideColumn(1);
-
-	m_wndSplitter.ReplaceView(0,0,RUNTIME_CLASS(CGenCode));
+	//m_wndSplitter.ReplaceView(0,0,RUNTIME_CLASS(CGenCode));
 }

@@ -183,9 +183,6 @@
     <ClInclude Include="Projection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CameraView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Environment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -231,13 +228,7 @@
     <ClInclude Include="DlgViewPortMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UsefulSplitterWnd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GenCode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PipeLineView.h">
+    <ClInclude Include="DlgCameraFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -308,9 +299,6 @@
     <ClCompile Include="Projection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CameraView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Environment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -356,13 +344,7 @@
     <ClCompile Include="DlgViewPortMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UsefulSplitterWnd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GenCode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PipeLineView.cpp">
+    <ClCompile Include="DlgCameraFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
