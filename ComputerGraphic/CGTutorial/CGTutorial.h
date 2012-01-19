@@ -20,7 +20,6 @@
 #include "resource.h"       // main symbols
 #include "CGTutorialDoc.h"
 #include "CGTutorialView.h"
-#include "CameraView.h"
 
 // CCGTutorialApp:
 // See CGTutorial.cpp for the implementation of this class

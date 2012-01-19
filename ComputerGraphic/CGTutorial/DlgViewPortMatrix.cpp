@@ -74,7 +74,7 @@ void CDlgViewPortMatrix::Refresh() {
 	
 	environment->GetViewPort()->GetData(x1,y1,x2,y2,type);
 	if(type == VIEWPORT_DEFAULT) {
-		((CMainFrame*)AfxGetMainWnd())->cameraView->GetClientRect(&rect);
+		//((CMainFrame*)AfxGetMainWnd())->cameraView->GetClientRect(&rect);
 		rect.right = rect.Width();
 		rect.top = rect.Height();
 		rect.left = 0;
