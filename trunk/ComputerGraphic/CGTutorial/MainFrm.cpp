@@ -344,19 +344,18 @@ void CMainFrame::OnPipeline()
 		return;
 
 	mode = PIPELINE;
-	m_wndSplitter.ReplaceView(0,0,RUNTIME_CLASS(CDlgPipeLine));
-	((CDlgPipeLine*)m_wndSplitter.GetPane(0,0))->SetData(m_wndFileView.GetSelected());
-	// TODO: Add your command handler code here
-	/*if(pipeLine == NULL) {
-		pipeLine = new CDlgPipeLine(((CCGTutorialDoc*)GetActiveDocument())->environment);
-		pipeLine->Create(CDlgPipeLine::IDD,this);
-	}
-	pipeLine->SetData(m_wndFileView.GetSelected());
-	pipeLine->ShowWindow(SW_SHOW);*/
+	m_wndSplitter.ReplaceView(0,0,RUNTIME_CLASS(CPipeLineView));
+	//((CPipeLineView*)m_wndSplitter.GetPane(0,0))->CreateTab();
+	//((CPipeLineView*)m_wndSplitter.GetPane(0,0))->SetData(m_wndFileView.GetSelected());
+
 }
 
 void CMainFrame::RefreshPipeLine()
 {
+	if(mode != PIPELINE)
+		return;
+
+	((CPipeLineView*)m_wndSplitter.GetPane(0,0))->SetData(m_wndFileView.GetSelected());
 	/*if(pipeLine != NULL) {
 		pipeLine->SetData(m_wndFileView.GetSelected());
 	}*/

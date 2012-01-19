@@ -2,6 +2,11 @@
 
 #include "CGTutorialDoc.h"
 #include "Resource.h"
+#include "DlgModelMatrix.h"
+#include "DlgViewMatrix.h"
+#include "DlgProjectionMatrix.h"
+#include "DlgDivideW.h"
+#include "DlgViewPortMatrix.h"
 // CGenCode form view
 
 class CPipeLineView : public CFormView
@@ -12,7 +17,24 @@ protected:
 	CPipeLineView();           // protected constructor used by dynamic creation
 	virtual ~CPipeLineView();
 
+	CEnvironment* environment;
+	COpenGLNode* object;
+	CPtrArray* camera;
+	CPtrArray* world;
+	CPtrArray* clipping;
+	CPtrArray* divide;
+	CPtrArray* window;
+
+	CDlgModelMatrix* modelDlg;
+	CDlgViewMatrix* viewDlg;
+	CDlgProjectionMatrix* projectionDlg;
+	CDlgDivideW* divideWDlg;
+	CDlgViewPortMatrix* viewPortDlg;
+
+	BOOL inited;
 public:
+	void CreateTab();
+	void SetData(COpenGLNode* object);
 	enum { IDD = IDD_DIALOG_PIPELINE1 };
 	CCGTutorialDoc* GetDocument() const;
 #ifdef _DEBUG
@@ -27,10 +49,8 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	CString m_ShowCode;
 	afx_msg void OnSize(UINT nType, int cx, int cy);
-	virtual void OnUpdate(CView* /*pSender*/, LPARAM /*lHint*/, CObject* /*pHint*/);
-	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
+	afx_msg void OnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult);
 };
 
 

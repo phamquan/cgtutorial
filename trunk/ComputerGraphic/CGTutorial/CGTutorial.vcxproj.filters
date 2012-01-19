@@ -222,9 +222,6 @@
     <ClInclude Include="DlgProjectionMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DlgPipeLine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ViewPort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -238,6 +235,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GenCode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PipeLineView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -347,9 +347,6 @@
     <ClCompile Include="DlgProjectionMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DlgPipeLine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ViewPort.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -363,6 +360,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GenCode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PipeLineView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
