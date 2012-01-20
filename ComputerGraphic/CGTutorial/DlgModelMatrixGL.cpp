@@ -4,7 +4,9 @@
 #include "stdafx.h"
 #include "CGTutorial.h"
 #include "DlgModelMatrixGL.h"
-
+#include "Translate.h"
+#include "Scale.h"
+#include "Rotate.h"
 
 // CDlgModelMatrixGL dialog
 
@@ -13,7 +15,6 @@ IMPLEMENT_DYNAMIC(CDlgModelMatrixGL, CDlgMatrix)
 CDlgModelMatrixGL::CDlgModelMatrixGL(CWnd* pParent /*=NULL*/)
 	: CDlgMatrix(pParent)
 {
-
 }
 
 CDlgModelMatrixGL::~CDlgModelMatrixGL()
@@ -36,54 +37,36 @@ END_MESSAGE_MAP()
 void CDlgModelMatrixGL::Refresh(COpenGLNode* obj)
 {
 	object = obj;
-	if(object != NULL) {
-		count[0]  = count[1] = count[2] = 1;
-		total = "";
-		for(int i=0; i<16; i++)
-			sum[i] = 0;
-		sum[0] = sum[5] = sum[10] = sum[15] = 1;
-		matrix.RemoveAll();
-		CalNode(object->parent);
-	}
 	Invalidate();
 }
 
-void CDlgModelMatrixGL::CalNode(COpenGLNode* node) {
-	float m[16];
+void CDlgModelMatrixGL::ShowNode(COpenGLNode* node, int &top, CDC *cdc)
+{
 	int id = node->ID;
 	char buff[128];
-
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
+	float x,y,z,w;
 	if(id == NODE_OBJECT) {
-		total = total.Right(total.GetLength()-1);
-		if(total == "")
-			matrix.Add(new Element(CString("M"),CString(),sum));
-		else
-			matrix.Add(new Element(CString("M = ") + total,CString(),sum));
+		cdc->TextOutW(10,top+=20,CString("glMatrixMode(GL_MODELVIEW);"));
+		cdc->TextOutW(10,top+=20,CString("glLoadIdentity();"));
 	} else {
+		ShowNode(node->parent,top,cdc);
 		if(id != NODE_COLOR) {			
 			if(id == NODE_TRANSLATE) {
-				sprintf_s(buff,"T%d",count[0]++);
-				node->DoOpenGL();
+				((CTranslate*)node)->GetData(x,y,z,w);
+				sprintf_s(buff,"glTranslatef(%5.2f,%5.2f,%5.2f)",x,y,z);
+				glTranslatef(x,y,z);
 			} else if(id == NODE_SCALE) {
-				sprintf_s(buff,"S%d",count[1]++);
-				node->DoOpenGL();
+				((CScale*)node)->GetData(x,y,z,w);
+				sprintf_s(buff,"glScalef(%5.2f,%5.2f,%5.2f)",x,y,z);
+				glScalef(x,y,z);
 			} else if(id == NODE_ROTATE) {
-				sprintf_s(buff,"R%d",count[2]++);
-				node->DoOpenGL();
+				((CRotate*)node)->GetData(x,y,z,w);
+				sprintf_s(buff,"glRotatef(%5.2f,%5.2f,%5.2f,%5.2f)",w,x,y,z);
+				glRotatef(w,x,y,z);
 			}
-			total = CString("*") + buff + total;
-			glGetFloatv(GL_MODELVIEW_MATRIX,m);
-			glMultMatrixf(sum);
-			glGetFloatv(GL_MODELVIEW_MATRIX,sum);
-			matrix.Add(new Element(CString(buff),node->ToString(),m));
+			cdc->TextOutW(10,top+=20,CString(buff));
 		}
-		CalNode(node->parent);
 	}
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
 }
 
 void CDlgModelMatrixGL::OnPaint()
@@ -101,15 +84,21 @@ void CDlgModelMatrixGL::OnPaint()
 
 	dc.DrawText(CString("OPENGL"),-1,rect,DT_CENTER);
 
-	int top = 30, left = 10;
-		
 	if(object == NULL) {
-		dc.TextOutW(left,top,CString("Select geometric object to view data"));
+		dc.TextOutW(10,30,CString("Select geometric object to view data"));
 	} else {
-		for(int i=0; i<matrix.GetSize(); i++)
-		{
-			Element* e = (Element*)matrix.GetAt(i);
-			ShowMatrix(&dc,e->font,e->tail,e->data,top,left);
-		}
+		int top = 20;
+
+		glMatrixMode(GL_MODELVIEW);
+		glPushMatrix();
+		glLoadIdentity();
+
+		ShowNode(object->parent,top,&dc);
+
+		dc.TextOutW(10,top+=20,CString("glGetFloatv(GL_MODELVIEW_MATRIX,M);"));
+		glGetFloatv(GL_MODELVIEW_MATRIX,sum);
+
+		ShowMatrix(&dc,CString("M"),CString(),sum,top+=30,10);
+		glPopMatrix();
 	}
 }

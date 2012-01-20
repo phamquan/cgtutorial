@@ -17,10 +17,7 @@ public:
 
 protected:
 	COpenGLNode* object;
-	CString total;
-	int count[3];
-
-	void CalNode(COpenGLNode* node);
+	void ShowNode(COpenGLNode* node, int &top, CDC *cdc);
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 

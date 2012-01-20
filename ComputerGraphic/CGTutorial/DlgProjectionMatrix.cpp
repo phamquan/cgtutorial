@@ -81,28 +81,15 @@ void CDlgProjectionMatrix::Refresh()
 		float N[16];
 		N[0] = 1;		N[4] = 0;		N[8] = 0;								N[12] = 0;
 		N[1] = 0;		N[5] = 1;		N[9] = 0;								N[13] = 0;
-		N[2] = 0;		N[6] = 0;							N[10] = (mnear+mfar)/(mnear-mfar);		N[14] = 2*mnear*mfar/(mnear-mfar);
-		N[3] = 0;		N[7] = 0;							N[11] = -1;								N[15] = 0;
+		N[2] = 0;		N[6] = 0;		N[10] = (mnear+mfar)/(mnear-mfar);		N[14] = 2*mnear*mfar/(mnear-mfar);
+		N[3] = 0;		N[7] = 0;		N[11] = -1;								N[15] = 0;
 
 		matrix.Add(new Element(CString("N"),CString(),N));
-		
 
-		
+		float tmp[16];
 
-		glLoadIdentity();
-		glGetFloatv(GL_MODELVIEW_MATRIX,m);
-
-		m[10] = ;
-		m[11] = ;
-		m[14] = ;
-		m[15] = 0;
-
-		glLoadMatrixf(m);
-		glMultMatrixf(sum);
-		glGetFloatv(GL_MODELVIEW_MATRIX,sum);
-		
-		matrix.Add(new Element(CString("N"),CString(),m));
-
+		MultMatrixMatrix(N,S,tmp);
+		MultMatrixMatrix(tmp,H,sum);
 		matrix.Add(new Element(CString("P = N*S*H"),CString(),sum));
 	}
 	Invalidate();
