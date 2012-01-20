@@ -36,6 +36,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_UPDATE_COMMAND_UI(ID_FILE_PRINT_PREVIEW, &CMainFrame::OnUpdateFilePrintPreview)
 	ON_COMMAND(ID_GENCODE, &CMainFrame::OnGencode)
 	ON_COMMAND(ID_MATRIX, &CMainFrame::OnMatrix)
+	ON_COMMAND(ID_PIPELINE, &CMainFrame::OnPipeline)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -46,6 +47,7 @@ CMainFrame::CMainFrame()
 	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_WINDOWS_7);
 	dlgGenCode = NULL;
 	dlgMatrixFormula = NULL;
+	dlgPipeLine = NULL;
 }
 
 CMainFrame::~CMainFrame()
@@ -55,6 +57,9 @@ CMainFrame::~CMainFrame()
 
 	if(dlgMatrixFormula != NULL)
 		delete dlgMatrixFormula;
+
+	if(dlgPipeLine != NULL)
+		delete dlgPipeLine;
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -300,4 +305,16 @@ void CMainFrame::OnMatrix()
 	}
 	dlgMatrixFormula->Refresh(m_wndFileView.GetSelected());
 	dlgMatrixFormula->ShowWindow(SW_SHOW);
+}
+
+
+void CMainFrame::OnPipeline()
+{
+	// TODO: Add your command handler code here
+	if(dlgPipeLine == NULL)
+	{
+		dlgPipeLine = new CDlgPipeLine();
+		dlgPipeLine->Create(CDlgPipeLine::IDD,this);
+	}
+	dlgPipeLine->ShowWindow(SW_SHOW);
 }

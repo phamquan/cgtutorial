@@ -16,6 +16,7 @@
 #include "FileView.h"
 #include "DlgGenCode.h"
 #include "DlgMatrixFormula.h"
+#include "DlgPipeLine.h"
 
 class CMainFrame : public CFrameWndEx
 {
@@ -29,6 +30,7 @@ public:
 	CFileView         m_wndFileView;
 	CDlgGenCode *dlgGenCode;
 	CDlgMatrixFormula *dlgMatrixFormula;
+	CDlgPipeLine *dlgPipeLine;
 // Operations
 public:
 	void Refresh();
@@ -65,6 +67,7 @@ protected:
 public:
 	afx_msg void OnGencode();
 	afx_msg void OnMatrix();
+	afx_msg void OnPipeline();
 };
 
 
