@@ -126,7 +126,13 @@ BOOL CDlgMatrixFormula::OnInitDialog()
 void CDlgMatrixFormula::OnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	// TODO: Add your control notification handler code here
-	switch(m_Tab.GetCurSel()) {
+	ChangeTab(m_Tab.GetCurSel());
+	*pResult = 0;
+}
+
+void CDlgMatrixFormula::ChangeTab(int index)
+{
+	switch(index) {
 	case 0:
 		dlgModel->ShowWindow(SW_SHOW);
 		dlgModelGL->ShowWindow(SW_SHOW);
@@ -152,6 +158,5 @@ void CDlgMatrixFormula::OnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 		dlgProjectionGL->ShowWindow(SW_SHOW);
 		break;	
 	}
-
-	*pResult = 0;
+	m_Tab.SetCurSel(index);
 }
