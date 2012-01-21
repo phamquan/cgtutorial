@@ -329,6 +329,17 @@ void CMainFrame::OnPipeline()
 	dlgPipeLine->ShowWindow(SW_SHOW);
 }
 
+void CMainFrame::OnCamera()
+{
+	// TODO: Add your command handler code here
+	if(cameraFrame == NULL){
+		CCGTutorialDoc* doc = (CCGTutorialDoc*)GetActiveDocument();
+		cameraFrame = new CCameraFrame(doc->environment,doc->object);
+		cameraFrame->Create(CCameraFrame::IDD,this);
+	}
+	cameraFrame->ShowWindow(SW_SHOW);
+}
+
 void CMainFrame::ShowModelMatrix()
 {
 	OnMatrix();
@@ -350,15 +361,11 @@ void CMainFrame::ShowProjectionMatrix()
 	dlgMatrixFormula->ChangeTab(2);
 }
 
-void CMainFrame::OnCamera()
+void CMainFrame::ShowViewPort()
 {
-	// TODO: Add your command handler code here
-	if(cameraFrame == NULL){
-		CCGTutorialDoc* doc = (CCGTutorialDoc*)GetActiveDocument();
-		cameraFrame = new CCameraFrame(doc->environment,doc->object);
-		cameraFrame->Create(CCameraFrame::IDD,this);
-	}
-	cameraFrame->ShowWindow(SW_SHOW);
+	OnMatrix();
+	dlgMatrixFormula->SetFocus();
+	dlgMatrixFormula->ChangeTab(3);
 }
 
 CSize CMainFrame::GetViewPort()

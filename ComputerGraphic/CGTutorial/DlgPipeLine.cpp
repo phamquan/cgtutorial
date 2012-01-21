@@ -42,6 +42,7 @@ BEGIN_MESSAGE_MAP(CDlgPipeLine, CDlgMatrix)
 	ON_BN_CLICKED(IDC_MODEL, &CDlgPipeLine::OnClickedModel)
 	ON_BN_CLICKED(IDC_VIEW, &CDlgPipeLine::OnClickedView)
 	ON_BN_CLICKED(IDC_PROJECTION, &CDlgPipeLine::OnClickedProjection)
+	ON_BN_CLICKED(IDC_VIEWPORT, &CDlgPipeLine::OnClickedViewport)
 END_MESSAGE_MAP()
 
 
@@ -252,4 +253,11 @@ void CDlgPipeLine::OnClickedProjection()
 {
 	// TODO: Add your control notification handler code here
 	((CMainFrame*)GetParent())->ShowProjectionMatrix();
+}
+
+
+void CDlgPipeLine::OnClickedViewport()
+{
+	// TODO: Add your control notification handler code here
+	((CMainFrame*)GetParent())->ShowViewPort();
 }
