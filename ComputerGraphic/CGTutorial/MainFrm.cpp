@@ -296,7 +296,6 @@ void CMainFrame::OnGencode()
 	dlgGenCode->ShowWindow(SW_SHOW);
 }
 
-
 void CMainFrame::OnMatrix()
 {
 	// TODO: Add your command handler code here
@@ -310,7 +309,6 @@ void CMainFrame::OnMatrix()
 	dlgMatrixFormula->ShowWindow(SW_SHOW);
 }
 
-
 void CMainFrame::OnPipeline()
 {
 	// TODO: Add your command handler code here
@@ -321,4 +319,25 @@ void CMainFrame::OnPipeline()
 	}
 	dlgPipeLine->Refresh(m_wndFileView.GetGeometric());
 	dlgPipeLine->ShowWindow(SW_SHOW);
+}
+
+void CMainFrame::ShowModelMatrix()
+{
+	OnMatrix();
+	dlgMatrixFormula->SetFocus();
+	dlgMatrixFormula->ChangeTab(0);
+}
+
+void CMainFrame::ShowViewMatrix()
+{
+	OnMatrix();
+	dlgMatrixFormula->SetFocus();
+	dlgMatrixFormula->ChangeTab(1);
+}
+
+void CMainFrame::ShowProjectionMatrix()
+{
+	OnMatrix();
+	dlgMatrixFormula->SetFocus();
+	dlgMatrixFormula->ChangeTab(2);
 }

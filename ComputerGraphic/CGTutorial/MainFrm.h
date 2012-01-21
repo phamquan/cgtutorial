@@ -34,6 +34,9 @@ public:
 // Operations
 public:
 	void Refresh();
+	void ShowModelMatrix();
+	void ShowViewMatrix();
+	void ShowProjectionMatrix();
 // Overrides
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);

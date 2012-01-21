@@ -37,4 +37,7 @@ public:
 	afx_msg void OnPaint();
 	virtual BOOL OnInitDialog();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	afx_msg void OnClickedModel();
+	afx_msg void OnClickedView();
+	afx_msg void OnClickedProjection();
 };

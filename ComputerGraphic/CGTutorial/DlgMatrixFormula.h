@@ -20,6 +20,7 @@ public:
 	virtual ~CDlgMatrixFormula();
 
 	void Refresh(COpenGLNode *object);
+	void ChangeTab(int index);
 // Dialog Data
 	enum { IDD = IDD_MATRIX_FORMULA };
 
