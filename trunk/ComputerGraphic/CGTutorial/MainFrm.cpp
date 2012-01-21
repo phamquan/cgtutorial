@@ -278,7 +278,10 @@ void CMainFrame::Refresh()
 		dlgGenCode->Refresh(((CCGTutorialDoc*)GetActiveDocument())->GenCode());
 
 	if(dlgMatrixFormula != NULL)
-		dlgMatrixFormula->Refresh(m_wndFileView.GetSelected());
+		dlgMatrixFormula->Refresh(m_wndFileView.GetObject());
+
+	if(dlgPipeLine != NULL)
+		dlgPipeLine->Refresh(m_wndFileView.GetGeometric());
 }
 
 void CMainFrame::OnGencode()
@@ -303,7 +306,7 @@ void CMainFrame::OnMatrix()
 		dlgMatrixFormula->Create(CDlgMatrixFormula::IDD,this);
 
 	}
-	dlgMatrixFormula->Refresh(m_wndFileView.GetSelected());
+	dlgMatrixFormula->Refresh(m_wndFileView.GetObject());
 	dlgMatrixFormula->ShowWindow(SW_SHOW);
 }
 
@@ -313,8 +316,9 @@ void CMainFrame::OnPipeline()
 	// TODO: Add your command handler code here
 	if(dlgPipeLine == NULL)
 	{
-		dlgPipeLine = new CDlgPipeLine();
+		dlgPipeLine = new CDlgPipeLine(((CCGTutorialDoc*)GetActiveDocument())->environment);
 		dlgPipeLine->Create(CDlgPipeLine::IDD,this);
 	}
+	dlgPipeLine->Refresh(m_wndFileView.GetGeometric());
 	dlgPipeLine->ShowWindow(SW_SHOW);
 }

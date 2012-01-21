@@ -521,7 +521,7 @@ void CFileView::OnFileviewDelete()
 	}
 }
 
-COpenGLNode* CFileView::GetSelected()
+COpenGLNode* CFileView::GetObject()
 {
 	hTreeItem = m_wndFileView.GetSelectedItem();
 
@@ -531,6 +531,22 @@ COpenGLNode* CFileView::GetSelected()
 		case NODE_TRANSLATE:
 		case NODE_ROTATE:
 		case NODE_SCALE:
+		case NODE_POINT:
+		case NODE_LINE:
+		case NODE_RECTANGLE:
+			return node;
+		}
+	}
+	return NULL;
+}
+
+COpenGLNode* CFileView::GetGeometric()
+{
+	hTreeItem = m_wndFileView.GetSelectedItem();
+
+	if(hTreeItem != NULL) {
+		m_wndFileView.myMap.Lookup(hTreeItem,node);
+		switch(node->ID) {
 		case NODE_POINT:
 		case NODE_LINE:
 		case NODE_RECTANGLE:

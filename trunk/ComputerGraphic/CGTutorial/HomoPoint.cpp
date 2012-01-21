@@ -171,12 +171,12 @@ CPoint3D MultMatrixPoint(float m[16], CPoint3D point) {
 	result.setY(m[1]*point.getX() + m[5]*point.getY() + m[9]*point.getZ() + m[13]*point.getW());
 	result.setZ(m[2]*point.getX() + m[6]*point.getY() + m[10]*point.getZ() + m[14]*point.getW());
 	result.setW(m[3]*point.getX() + m[7]*point.getY() + m[11]*point.getZ() + m[15]*point.getW());
-	if(result.getW() != 0) {
+	/*if(result.getW() != 0) {
 		result.setX(result.getX()/result.getW());
 		result.setY(result.getY()/result.getW());
 		result.setZ(result.getZ()/result.getW());
 		result.setW(1);
-	}
+	}*/
 	return result;
 }
 

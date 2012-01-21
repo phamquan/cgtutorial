@@ -19,6 +19,7 @@ CDlgMatrix::CDlgMatrix(CWnd* pParent /*=NULL*/)
 
 CDlgMatrix::~CDlgMatrix()
 {
+	Clear();
 }
 
 void CDlgMatrix::DoDataExchange(CDataExchange* pDX)
@@ -137,4 +138,13 @@ void CDlgMatrix::ShowPoint(CDC* cdc, CHomoPoint point, const int top, int &left)
 	cdc->LineTo(left,top-5);
 	cdc->LineTo(left,bottom);
 	cdc->LineTo(left-10,bottom);
+}
+
+void CDlgMatrix::Clear()
+{
+	for(int i=0; i<matrix.GetSize(); i++) 
+	{
+		delete matrix.GetAt(i);
+	}
+	matrix.RemoveAll();
 }

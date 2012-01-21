@@ -35,7 +35,7 @@ END_MESSAGE_MAP()
 
 void CDlgProjectionMatrix::Refresh()
 {
-	matrix.RemoveAll();
+	Clear();
 
 	float mleft,mright,mbottom,mtop,mnear,mfar;
 	environment->GetProjection()->GetData(mleft,mright,mbottom,mtop,mnear,mfar,type);

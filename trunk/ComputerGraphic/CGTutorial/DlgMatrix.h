@@ -39,5 +39,6 @@ protected:
 	//void ShowPointPoint(CDC* cdc, CString name, CHomoPoint point1, CHomoPoint point2, int top, int left);
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
+	void Clear();
 	DECLARE_MESSAGE_MAP()
 };
