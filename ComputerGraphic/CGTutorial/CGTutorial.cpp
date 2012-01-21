@@ -184,6 +184,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 //	virtual BOOL OnInitDialog();
+//	afx_msg void OnPaint();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
@@ -196,6 +197,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+//	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 // App command to run the dialog
@@ -231,3 +233,12 @@ void CCGTutorialApp::SaveCustomState()
 }
 
 // CCGTutorialApp message handlers
+
+
+//void CAboutDlg::OnPaint()
+//{
+//	CPaintDC dc(this); // device context for painting
+//	// TODO: Add your message handler code here
+//	// Do not call CDialogEx::OnPaint() for painting messages
+//	dc.TextOutW(0,0,CString("dkm");
+//}

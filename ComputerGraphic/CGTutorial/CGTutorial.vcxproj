@@ -160,6 +160,7 @@
     <ClInclude Include="Line.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="OpenGLNode.h" />
+    <ClInclude Include="PipeLineTip.h" />
     <ClInclude Include="Point4D.h" />
     <ClInclude Include="Projection.h" />
     <ClInclude Include="Rectangle.h" />
@@ -198,6 +199,7 @@
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="HomoPoint.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="PipeLineTip.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

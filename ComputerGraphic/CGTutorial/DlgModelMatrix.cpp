@@ -42,7 +42,7 @@ void CDlgModelMatrix::Refresh(COpenGLNode* obj)
 		for(int i=0; i<16; i++)
 			sum[i] = 0;
 		sum[0] = sum[5] = sum[10] = sum[15] = 1;
-		matrix.RemoveAll();
+		Clear();
 		CalNode(object->parent);
 	}
 	Invalidate();

@@ -34,7 +34,7 @@ END_MESSAGE_MAP()
 // CDlgViewMatrix message handlers
 void CDlgViewMatrix::Refresh()
 {
-	matrix.RemoveAll();
+	Clear();
 
 	float x1,y1,z1,x2,y2,z2,x3,y3,z3;
 	environment->GetCamera()->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
