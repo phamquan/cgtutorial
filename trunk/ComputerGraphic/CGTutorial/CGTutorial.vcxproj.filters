@@ -226,6 +226,9 @@
     <ClInclude Include="PipeLineTip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CameraFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CGTutorial.cpp">
@@ -307,6 +310,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PipeLineTip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

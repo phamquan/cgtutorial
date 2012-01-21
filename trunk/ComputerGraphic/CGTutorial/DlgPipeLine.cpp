@@ -20,6 +20,7 @@ CDlgPipeLine::CDlgPipeLine(CEnvironment *env, CWnd* pParent /*=NULL*/)
 	modelTip = new CPipeLineTip();
 	viewTip = new CPipeLineTip();
 	projectionTip = new CPipeLineTip();
+	viewportTip = new CPipeLineTip();
 }
 
 CDlgPipeLine::~CDlgPipeLine()
@@ -27,6 +28,7 @@ CDlgPipeLine::~CDlgPipeLine()
 	delete modelTip;
 	delete viewTip;
 	delete projectionTip;
+	delete viewportTip;
 }
 
 void CDlgPipeLine::DoDataExchange(CDataExchange* pDX)
@@ -101,9 +103,23 @@ void CDlgPipeLine::Refresh(COpenGLNode *obj)
 		glFrustum(x1,y1,z1,x2,y2,z2);
 	glGetFloatv(GL_PROJECTION_MATRIX,projection);
 	glPopMatrix();
-	
+
+	environment->GetViewPort()->GetData(x,y,w,h,type);
+	if(type == VIEWPORT_DEFAULT) {
+		CSize s = ((CMainFrame*)GetParent())->GetViewPort();
+		x = y = 0;
+		w = s.cx;
+		h = s.cy;
+	}
+	float m[16];
+	m[0] = w/2;		m[4] = 0;		m[8] = 0;		m[12] = x+w/2;
+	m[1] = 0;		m[5] = h/2;		m[9] = 0;		m[13] = y+h/2;
+	m[2] = 0;		m[6] = 0;		m[10] = 0;		m[14] = 0;
+	m[3] = 0;		m[7] = 0;		m[11] = 0;		m[15] = 0;
+
 	viewTip->Refresh(view);
 	projectionTip->Refresh(projection);
+	viewportTip->Refresh(m);
 
 	Invalidate();
 }
@@ -168,16 +184,8 @@ void CDlgPipeLine::OnPaint()
 			CPoint3D p5(p4.getX()/p4.getW(),p4.getY()/p4.getW(),p4.getZ()/p4.getW());
 			ShowPoint(&dc,p5,top,left);
 
-			float x,y,w,h;
-			int type;
-			environment->GetViewPort()->GetData(x,y,w,h,type);
-			
-			if(type == VIEWPORT_CUSTOM) {
-				x = x + (p5.getX()+1)*w/2;
-				y = y + (p5.getY()+1)*h/2;
-			} else {
-				
-			}
+			x = x + (p5.getX()+1)*w/2;
+			y = y + (p5.getY()+1)*h/2;
 
 			left = 1010;
 			char buf[128];
@@ -206,6 +214,9 @@ BOOL CDlgPipeLine::OnInitDialog()
 	projectionTip->Create(this);
 	projectionTip->AddTool(GetDlgItem(IDC_PROJECTION),60,10);
 
+	viewportTip->Create(this);
+	viewportTip->AddTool(GetDlgItem(IDC_VIEWPORT),60,10);
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -217,6 +228,7 @@ BOOL CDlgPipeLine::PreTranslateMessage(MSG* pMsg)
 	modelTip->RelayEvent(pMsg);
 	viewTip->RelayEvent(pMsg);
 	projectionTip->RelayEvent(pMsg);
+	viewportTip->RelayEvent(pMsg);
 
 	return CDlgMatrix::PreTranslateMessage(pMsg);
 }

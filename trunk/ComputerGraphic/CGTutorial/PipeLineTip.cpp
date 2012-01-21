@@ -22,7 +22,7 @@ CPipeLineTip::CPipeLineTip()
 	isShow = FALSE;
 	
 	m_iHeight = 100;
-	m_iWidth = 210;
+	m_iWidth = 300;
 }
 
 
@@ -72,14 +72,16 @@ void CPipeLineTip::OnPaint()
 	CRgn rgnComb;	
 	rgnComb.CreateRectRgn( rectCl.left+10,rectCl.top,rectCl.right,rectCl.bottom );
 	CBrush pBrush1;
-	pBrush1.CreateSolidBrush( RGB(255,255,255) );
+	pBrush1.CreateSolidBrush( RGB(255,255,128) );
 
 	dc.FillRgn( &rgnComb, &pBrush1 );
 
-	ShowMatrix(&dc,matrix,10,10);
+	int left = 10;
+	ShowMatrix(&dc,matrix,10,left);
+	SetWindowPos(NULL,0,0,left+5,m_iHeight,SWP_NOMOVE);
 }
 
-void CPipeLineTip::ShowMatrix(CDC* cdc, float m[16], int top, int left)
+void CPipeLineTip::ShowMatrix(CDC* cdc, float m[16], int top, int &left)
 {
 	char buff[128];
 	CString n[16];
@@ -90,7 +92,7 @@ void CPipeLineTip::ShowMatrix(CDC* cdc, float m[16], int top, int left)
 	ShowMatrix(cdc,n,top,left);
 }
 
-void CPipeLineTip::ShowMatrix(CDC* cdc, CString m[16], int top, int left)
+void CPipeLineTip::ShowMatrix(CDC* cdc, CString m[16], int top, int &left)
 {
 	int height = cdc->GetTextExtent(CString("ABC")).cy;
 	int bottom = top + height*4 + 5*4;

@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraFrame.h" />
     <ClInclude Include="CGTutorial.h" />
     <ClInclude Include="CGTutorialDoc.h" />
     <ClInclude Include="CGTutorialView.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CameraFrame.cpp" />
     <ClCompile Include="CGTutorial.cpp" />
     <ClCompile Include="CGTutorialDoc.cpp" />
     <ClCompile Include="CGTutorialView.cpp" />

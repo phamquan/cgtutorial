@@ -62,7 +62,7 @@ private:
 	void SetShowTimer(int iTimeTillShow);
 	void KillShowTimer(void);
 
-	void ShowMatrix(CDC* cdc, float m[16], int top, int left);
-	void ShowMatrix(CDC* cdc, CString m[16], int top, int left);
+	void ShowMatrix(CDC* cdc, float m[16], int top, int &left);
+	void ShowMatrix(CDC* cdc, CString m[16], int top, int &left);
 };
 
