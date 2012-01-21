@@ -42,10 +42,13 @@ static char THIS_FILE[]=__FILE__;
 
 CFileView::CFileView()
 {
+	contextMenu = NULL;
 }
 
 CFileView::~CFileView()
 {
+	if(contextMenu != NULL)
+		delete contextMenu;
 }
 
 BEGIN_MESSAGE_MAP(CFileView, CDockablePane)
@@ -283,7 +286,12 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 		{
 			m_wndFileView.myMap.Lookup(hTreeItem,node);
 			pWndTree->SelectItem(hTreeItem);
-			theApp.GetContextMenuManager()->ShowPopupMenu(IDR_FILEVIEW, point.x, point.y, this, TRUE);		
+			if(contextMenu != NULL)
+				delete contextMenu;
+			contextMenu = new CMenu();
+			contextMenu->LoadMenuW(IDR_FILEVIEW);
+			contextMenu->GetSubMenu(0)->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this);
+			//theApp.GetContextMenuManager()->ShowPopupMenu(IDR_FILEVIEW, point.x, point.y, this, TRUE);		
 		}
 	}
 

@@ -17,6 +17,7 @@
 #include "DlgGenCode.h"
 #include "DlgMatrixFormula.h"
 #include "DlgPipeLine.h"
+#include "CameraFrame.h"
 
 class CMainFrame : public CFrameWndEx
 {
@@ -31,12 +32,14 @@ public:
 	CDlgGenCode *dlgGenCode;
 	CDlgMatrixFormula *dlgMatrixFormula;
 	CDlgPipeLine *dlgPipeLine;
+	CCameraFrame *cameraFrame;
 // Operations
 public:
 	void Refresh();
 	void ShowModelMatrix();
 	void ShowViewMatrix();
 	void ShowProjectionMatrix();
+	CSize GetViewPort();
 // Overrides
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
@@ -71,6 +74,7 @@ public:
 	afx_msg void OnGencode();
 	afx_msg void OnMatrix();
 	afx_msg void OnPipeline();
+	afx_msg void OnCamera();
 };
 
 

@@ -44,7 +44,7 @@ protected:
 	CViewTree m_wndFileView;
 	CImageList m_FileViewImages;
 	CFileViewToolBar m_wndToolBar;
-
+	CMenu *contextMenu;
 protected:
 	BOOLEAN ValidateAdd();
 	BOOLEAN ValidateDelete();

@@ -27,6 +27,10 @@ protected:
 	CPipeLineTip *modelTip;
 	CPipeLineTip *viewTip;
 	CPipeLineTip *projectionTip;
+	CPipeLineTip *viewportTip;
+
+	float x,y,w,h;
+	int type;
 
 	void CalNode(COpenGLNode* node);
 

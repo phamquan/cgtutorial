@@ -37,6 +37,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_GENCODE, &CMainFrame::OnGencode)
 	ON_COMMAND(ID_MATRIX, &CMainFrame::OnMatrix)
 	ON_COMMAND(ID_PIPELINE, &CMainFrame::OnPipeline)
+	ON_COMMAND(ID_CAMERA, &CMainFrame::OnCamera)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -48,6 +49,7 @@ CMainFrame::CMainFrame()
 	dlgGenCode = NULL;
 	dlgMatrixFormula = NULL;
 	dlgPipeLine = NULL;
+	cameraFrame = NULL;
 }
 
 CMainFrame::~CMainFrame()
@@ -60,6 +62,9 @@ CMainFrame::~CMainFrame()
 
 	if(dlgPipeLine != NULL)
 		delete dlgPipeLine;
+
+	if(cameraFrame != NULL)
+		delete cameraFrame;
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -282,6 +287,9 @@ void CMainFrame::Refresh()
 
 	if(dlgPipeLine != NULL)
 		dlgPipeLine->Refresh(m_wndFileView.GetGeometric());
+
+	if(cameraFrame != NULL)
+		cameraFrame->Invalidate();
 }
 
 void CMainFrame::OnGencode()
@@ -340,4 +348,23 @@ void CMainFrame::ShowProjectionMatrix()
 	OnMatrix();
 	dlgMatrixFormula->SetFocus();
 	dlgMatrixFormula->ChangeTab(2);
+}
+
+void CMainFrame::OnCamera()
+{
+	// TODO: Add your command handler code here
+	if(cameraFrame == NULL){
+		CCGTutorialDoc* doc = (CCGTutorialDoc*)GetActiveDocument();
+		cameraFrame = new CCameraFrame(doc->environment,doc->object);
+		cameraFrame->Create(CCameraFrame::IDD,this);
+	}
+	cameraFrame->ShowWindow(SW_SHOW);
+}
+
+CSize CMainFrame::GetViewPort()
+{
+	OnCamera();
+	CRect rect;
+	cameraFrame->GetClientRect(&rect);
+	return CSize(rect.Width(),rect.Height());
 }
