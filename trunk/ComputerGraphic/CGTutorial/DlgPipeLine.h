@@ -44,4 +44,5 @@ public:
 	afx_msg void OnClickedModel();
 	afx_msg void OnClickedView();
 	afx_msg void OnClickedProjection();
+	afx_msg void OnClickedViewport();
 };

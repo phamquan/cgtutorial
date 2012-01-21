@@ -20,6 +20,7 @@ CDlgMatrixFormula::CDlgMatrixFormula(CEnvironment *environment)
 	dlgViewGL = new CDlgViewMatrixGL(environment);
 	dlgProjection = new CDlgProjectionMatrix(environment);
 	dlgProjectionGL = new CDlgProjectionMatrixGL(environment);
+	dlgViewPort = new CDlgViewPort(environment);
 }
 
 CDlgMatrixFormula::~CDlgMatrixFormula()
@@ -30,6 +31,7 @@ CDlgMatrixFormula::~CDlgMatrixFormula()
 	delete dlgViewGL;
 	delete dlgProjection;
 	delete dlgProjectionGL;
+	delete dlgViewPort;
 }
 
 void CDlgMatrixFormula::DoDataExchange(CDataExchange* pDX)
@@ -69,6 +71,7 @@ void CDlgMatrixFormula::OnSize(UINT nType, int cx, int cy)
 		dlgViewGL->MoveWindow(Right);
 		dlgProjection->MoveWindow(Left);
 		dlgProjectionGL->MoveWindow(Right);
+		dlgViewPort->MoveWindow(TabRect);
 	}
 }
 
@@ -80,6 +83,7 @@ void CDlgMatrixFormula::Refresh(COpenGLNode *object)
 	dlgViewGL->Refresh();
 	dlgProjection->Refresh();
 	dlgProjectionGL->Refresh();
+	dlgViewPort->Refresh();
 }
 
 BOOL CDlgMatrixFormula::OnInitDialog()
@@ -92,6 +96,7 @@ BOOL CDlgMatrixFormula::OnInitDialog()
 	m_Tab.InsertItem(0,CString("Model Matrix"), -1);
 	m_Tab.InsertItem(1,CString("View Matrix"), -1);
 	m_Tab.InsertItem(2,CString("Projection Matrix"), -1);
+	m_Tab.InsertItem(3,CString("View Port"), -1);
 
 	m_Tab.AdjustRect(FALSE, &TabRect);
 
@@ -118,6 +123,9 @@ BOOL CDlgMatrixFormula::OnInitDialog()
 	dlgProjectionGL->Create(CDlgMatrix::IDD,&m_Tab);
 	dlgProjectionGL->MoveWindow(Right);
 
+	dlgViewPort->Create(CDlgMatrix::IDD,&m_Tab);
+	dlgViewPort->MoveWindow(TabRect);
+
 	Refresh(NULL);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
@@ -140,6 +148,7 @@ void CDlgMatrixFormula::ChangeTab(int index)
 		dlgViewGL->ShowWindow(SW_HIDE);
 		dlgProjection->ShowWindow(SW_HIDE);
 		dlgProjectionGL->ShowWindow(SW_HIDE);
+		dlgViewPort->ShowWindow(SW_HIDE);
 		break;
 	case 1:
 		dlgModel->ShowWindow(SW_HIDE);
@@ -148,6 +157,7 @@ void CDlgMatrixFormula::ChangeTab(int index)
 		dlgViewGL->ShowWindow(SW_SHOW);
 		dlgProjection->ShowWindow(SW_HIDE);
 		dlgProjectionGL->ShowWindow(SW_HIDE);
+		dlgViewPort->ShowWindow(SW_HIDE);
 		break;
 	case 2:
 		dlgModel->ShowWindow(SW_HIDE);
@@ -156,7 +166,17 @@ void CDlgMatrixFormula::ChangeTab(int index)
 		dlgViewGL->ShowWindow(SW_HIDE);
 		dlgProjection->ShowWindow(SW_SHOW);
 		dlgProjectionGL->ShowWindow(SW_SHOW);
+		dlgViewPort->ShowWindow(SW_HIDE);
 		break;	
+	case 3:
+		dlgModel->ShowWindow(SW_HIDE);
+		dlgModelGL->ShowWindow(SW_HIDE);
+		dlgView->ShowWindow(SW_HIDE);
+		dlgViewGL->ShowWindow(SW_HIDE);
+		dlgProjection->ShowWindow(SW_HIDE);
+		dlgProjectionGL->ShowWindow(SW_HIDE);
+		dlgViewPort->ShowWindow(SW_SHOW);
+		break;
 	}
 	m_Tab.SetCurSel(index);
 }

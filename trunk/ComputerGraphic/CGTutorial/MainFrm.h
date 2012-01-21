@@ -39,6 +39,8 @@ public:
 	void ShowModelMatrix();
 	void ShowViewMatrix();
 	void ShowProjectionMatrix();
+	void ShowViewPort();
+
 	CSize GetViewPort();
 // Overrides
 public:

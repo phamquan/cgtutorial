@@ -154,6 +154,7 @@
     <ClInclude Include="DlgProjection.h" />
     <ClInclude Include="DlgViewMatrix.h" />
     <ClInclude Include="DlgViewMatrixGL.h" />
+    <ClInclude Include="DlgViewPort.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="Geometric.h" />
@@ -198,6 +199,7 @@
     <ClCompile Include="DlgProjection.cpp" />
     <ClCompile Include="DlgViewMatrix.cpp" />
     <ClCompile Include="DlgViewMatrixGL.cpp" />
+    <ClCompile Include="DlgViewPort.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="HomoPoint.cpp" />
     <ClCompile Include="MainFrm.cpp" />
