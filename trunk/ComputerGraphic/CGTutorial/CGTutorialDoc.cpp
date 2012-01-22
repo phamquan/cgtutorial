@@ -349,8 +349,7 @@ void CCGTutorialDoc::CoordinateGLCode()
 void CCGTutorialDoc::ObjectGLCode(COpenGLNode *node)
 {
 	int id = node->ID;
-	float x1,y1,z1,x2,y2,z2;
-	char buf[128];
+	//float x1,y1,z1,x2,y2,z2;
 	if(id == NODE_TRANSLATE || id == NODE_ROTATE || id == NODE_SCALE)
 	{
 		if(node->parent->m_listChild->GetSize() > 1)
