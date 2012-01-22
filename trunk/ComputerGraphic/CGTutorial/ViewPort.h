@@ -25,10 +25,13 @@ public:
 		data.setCoords(x,y,width,height);
 		this->type = type;
 
-		if(type == VIEWPORT_DEFAULT)
-			string = "viewport(type=default)";
-		else
-			string.Format(CString("viewport(type=custom, x=%5.2f, y=%5.2f, width=%5.2f, height=%5.2f)"),x,y,width,height);
+		if(type == VIEWPORT_DEFAULT) {
+			toString = "viewport(type=default)";
+			GLCode = "glViewport(0,0,width,height);";
+		} else {
+			toString.Format(CString("viewport(type=custom, x=%5.2f, y=%5.2f, width=%5.2f, height=%5.2f)"),x,y,width,height);
+			GLCode.Format(CString("glViewport(%5.2f,%5.2f,%5.2f,%5.2f);"),x,y,width,height);
+		}
 	}
 
 	void GetData(float &x, float &y, float &width, float &height, int &type)

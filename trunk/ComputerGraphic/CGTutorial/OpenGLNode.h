@@ -23,8 +23,8 @@ class COpenGLNode
 public:
 	COpenGLNode* parent;
 	CPtrArray* m_listChild;
-	CString string;
-	CString openGL;
+	CString toString;
+	CString GLCode;
 	int ID;
 
 public:
@@ -34,7 +34,7 @@ public:
 		this->ID = ID;
 		parent = NULL;
 		m_listChild = new CPtrArray();
-		string = "object";
+		toString = "object";
 	}
 
 	virtual ~COpenGLNode()
@@ -86,16 +86,6 @@ public:
 	virtual void DoOpenGL()
 	{
 		glMatrixMode(GL_MODELVIEW);
-	}
-
-	virtual CString ToString()
-	{
-		return string;
-	}
-
-	virtual CString GLCode()
-	{
-		return openGL;
 	}
 
 protected:

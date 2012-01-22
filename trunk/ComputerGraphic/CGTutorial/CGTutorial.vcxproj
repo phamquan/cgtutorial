@@ -138,7 +138,6 @@
     <ClInclude Include="CGTutorial.h" />
     <ClInclude Include="CGTutorialDoc.h" />
     <ClInclude Include="CGTutorialView.h" />
-    <ClInclude Include="Color.h" />
     <ClInclude Include="DlgCamera.h" />
     <ClInclude Include="DlgGenCode.h" />
     <ClInclude Include="DlgLine.h" />

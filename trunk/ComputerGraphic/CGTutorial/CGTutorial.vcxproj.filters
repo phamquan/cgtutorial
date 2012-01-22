@@ -175,9 +175,6 @@
     <ClInclude Include="Translate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Color.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DlgProjection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
