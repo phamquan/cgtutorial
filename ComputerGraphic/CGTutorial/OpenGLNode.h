@@ -4,19 +4,26 @@
 #include "HomoPoint.h"
 #include "../Library/GL/glut.h"
 
-#define NODE_VIEWPORT	-4
-#define NODE_PROJECTION	-3
-#define NODE_CAMERA		-2
-#define NODE_ENVIRONMENT -1
-#define NODE_NONE		0
-#define NODE_OBJECT		1
-#define NODE_TRANSLATE	2
-#define NODE_ROTATE		3
-#define NODE_SCALE		4
-#define NODE_POINT		5
-#define NODE_LINE		6
-#define NODE_RECTANGLE	7
-#define NODE_TRIANGLE	8
+#define NODE_VIEWPORT		-4
+#define NODE_PROJECTION		-3
+#define NODE_CAMERA			-2
+#define NODE_ENVIRONMENT	-1
+#define NODE_NONE			0
+#define NODE_OBJECT			1
+#define NODE_TRANSLATE		2
+#define NODE_ROTATE			3
+#define NODE_SCALE			4
+#define NODE_POINT			5
+#define NODE_LINE			6
+#define NODE_RECTANGLE		7
+#define NODE_TRIANGLE		8
+#define NODE_CIRCLE			9
+#define NODE_ELLIPSE		10
+#define NODE_CUBE			11
+#define NODE_TETRAHEDRON	12
+#define NODE_SPHERE			13
+#define NODE_CYLINDER		14
+#define NODE_RING			15
 
 class COpenGLNode
 {

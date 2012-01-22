@@ -138,6 +138,7 @@ void CCameraFrame::SetupOpenGL(void)
 	
 	glClearColor(0.769f, 0.812f, 0.824f, 0.0f);
 	glEnable(GL_DEPTH_TEST);
+	glPointSize(4.0);
 }
 
 void CCameraFrame::DetroyOpenGL()

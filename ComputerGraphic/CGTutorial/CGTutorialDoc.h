@@ -38,6 +38,14 @@ protected: // create from serialization only
 	void DrawPoint();
 	void DrawLine();
 	void DrawRectangle();
+	void DrawTriangle();
+	void DrawCircle();
+	void DrawEllipse();
+	void DrawCube();
+	void DrawTetrahedron();
+	void DrawSphere();
+	void DrawCylinder();
+	void DrawRing();
 // Attributes
 public:
 	CEnvironment* environment;

@@ -21,6 +21,13 @@
 #include "Point4D.h"
 #include "Rectangle.h"
 #include "Triangle.h"
+#include "Circle.h"
+#include "Ellipse.h"
+#include "Cube.h"
+#include "Tetrahedron.h"
+#include "Sphere.h"
+#include "Cylinder.h"
+#include "Ring.h"
 
 #include "DlgTranslate.h"
 #include "DlgRotate.h"
@@ -31,6 +38,14 @@
 #include "DlgPoint.h"
 #include "DlgLine.h"
 #include "DlgRectangle.h"
+#include "DlgTriangle.h"
+#include "DlgCircle.h"
+#include "DlgEllipse.h"
+#include "DlgCube.h"
+#include "DlgTetrahedron.h"
+#include "DlgSphere.h"
+#include "DlgCylinder.h"
+#include "DlgRing.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -124,8 +139,8 @@ const char* CFileView::GetValue(char* name,TiXmlNode* node)
 		pAttrib = pAttrib->Next();
 	}
 	return NULL;
-
 }
+
 COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 {
 	if(node == NULL)
@@ -167,6 +182,10 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 	{
 		result = new CScale(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)));
 	}
+	else if(CString(node->Value()) == "point")
+	{
+		result = new CPoint4D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)));
+	}
 	else if(CString(node->Value()) == "line")
 	{
 		result = new CLine(atof(GetValue("x1",node)),atof(GetValue("y1",node)),atof(GetValue("z1",node)),
@@ -176,15 +195,39 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 	{
 		result = new CRectangle(atof(GetValue("top",node)),atof(GetValue("left",node)),atof(GetValue("bottom",node)),atof(GetValue("right",node)));
 	}
-	else if(CString(node->Value()) == "point")
-	{
-		result = new CPoint4D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)));
-	}
 	else if(CString(node->Value()) == "triangle")
 	{
-		result = new CTriangle(atof(GetValue("x1",node)),atof(GetValue("y1",node)),atof(GetValue("x2",node),atof(GetValue("y2",node),atof(GetValue("x3",node),atof(GetValue("y3",node)));
+		result = new CTriangle(atof(GetValue("x1",node)),atof(GetValue("y1",node)),atof(GetValue("z1",node)),atof(GetValue("x2",node)),atof(GetValue("y2",node)),atof(GetValue("z2",node)),atof(GetValue("x3",node)),atof(GetValue("y3",node)),atof(GetValue("z3",node)));
 	}
-
+	else if(CString(node->Value()) == "circle")
+	{
+		result = new CCircle(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("R",node)));
+	}
+	else if(CString(node->Value()) == "ellipse")
+	{
+		result = new CEllipse(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("a",node)),atof(GetValue("b",node)));
+	}
+	else if(CString(node->Value()) == "cube")
+	{
+		result = new CCube(atof(GetValue("left",node)),atof(GetValue("bottom",node)),atof(GetValue("near",node)),atof(GetValue("right",node)),atof(GetValue("top",node)),atof(GetValue("far",node)));
+	}
+	else if(CString(node->Value()) == "tetrahedron")
+	{
+		result = new CTetrahedron(atof(GetValue("x1",node)),atof(GetValue("y1",node)),atof(GetValue("z1",node)),atof(GetValue("x2",node)),atof(GetValue("y2",node)),atof(GetValue("z2",node)),
+								atof(GetValue("x3",node)),atof(GetValue("y3",node)),atof(GetValue("z3",node)),atof(GetValue("x4",node)),atof(GetValue("y4",node)),atof(GetValue("z4",node)));
+	}
+	else if(CString(node->Value()) == "sphere")
+	{
+		result = new CSphere(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("R",node)));
+	}
+	else if(CString(node->Value()) == "cylinder")
+	{
+		result = new CCylinder(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("R",node)),atof(GetValue("height",node)));
+	}
+	else if(CString(node->Value()) == "ring")
+	{
+		result = new CRing(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("R",node)),atof(GetValue("r",node)));
+	}
 	return result;
 }
 
@@ -243,6 +286,11 @@ void CFileView::FillView(COpenGLNode *object, COpenGLNode* oenvironment)
 void CFileView::FillFile(TiXmlNode *root, HTREEITEM hparrent, COpenGLNode *oparrent) {
 	TiXmlNode* pChild = NULL;
 	COpenGLNode *openGL = XmltoOpenGL(root);
+	if(openGL==NULL) {
+		AfxMessageBox(CString("invalid node : ") + root->Value());
+		return;
+	}
+		
 	oparrent->AddChild(openGL);
 
 	HTREEITEM node = m_wndFileView.InsertItem(openGL->toString, 0, 0, hparrent);
@@ -283,23 +331,31 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 
 			int id = node->ID;
 			if(id != NODE_ENVIRONMENT) {
-				if(id == NODE_CAMERA || id == NODE_PROJECTION || id == NODE_VIEWPORT)
-				{
-					contextMenu->GetSubMenu(0)->DeleteMenu(3,MF_BYPOSITION);
-					contextMenu->GetSubMenu(0)->DeleteMenu(1,MF_BYPOSITION);
-					contextMenu->GetSubMenu(0)->DeleteMenu(0,MF_BYPOSITION);
-				}
-				else if(id == NODE_OBJECT)
-				{
-					contextMenu->GetSubMenu(0)->DeleteMenu(3,MF_BYPOSITION);
+				switch(id) {
+				case NODE_CAMERA :
+				case NODE_PROJECTION :
+				case NODE_VIEWPORT :
 					contextMenu->GetSubMenu(0)->DeleteMenu(2,MF_BYPOSITION);
-				}
-				else if(id == NODE_POINT || id == NODE_LINE || id == NODE_RECTANGLE || id == NODE_TRIANGLE)
-				{
-					contextMenu->GetSubMenu(0)->DeleteMenu(1,MF_BYPOSITION);
 					contextMenu->GetSubMenu(0)->DeleteMenu(0,MF_BYPOSITION);
+					break;
+				case NODE_OBJECT :
+					contextMenu->GetSubMenu(0)->DeleteMenu(2,MF_BYPOSITION);
+					contextMenu->GetSubMenu(0)->DeleteMenu(1,MF_BYPOSITION);
+					break;
+				case NODE_POINT :
+				case NODE_LINE :
+				case NODE_RECTANGLE :
+				case NODE_TRIANGLE :
+				case NODE_CIRCLE :
+				case NODE_ELLIPSE :
+				case NODE_CUBE :
+				case NODE_TETRAHEDRON :
+				case NODE_SPHERE :
+				case NODE_CYLINDER :
+				case NODE_RING :
+					contextMenu->GetSubMenu(0)->DeleteMenu(0,MF_BYPOSITION);
+					break;
 				}
-						
 				contextMenu->GetSubMenu(0)->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this);
 			}
 			//theApp.GetContextMenuManager()->ShowPopupMenu(IDR_FILEVIEW, point.x, point.y, this, TRUE);		
@@ -443,7 +499,7 @@ void CFileView::OnFileviewEdit()
 {
 	// TODO: Add your command handler code here
 	int id = node->ID;
-	float x1,y1,z1,x2,y2,z2,x3,y3,z3,w;
+	float x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,w;
 	BOOLEAN edit = false;
 	if(id == NODE_PROJECTION) {
 		((CProjection*)node)->GetData(x1,y1,z1,x2,y2,z2,id);
@@ -509,7 +565,61 @@ void CFileView::OnFileviewEdit()
 			((CRectangle*)node)->SetData(dlg.m_Top,dlg.m_Left,dlg.m_Bottom,dlg.m_Right);
 		}
 	} else if(id == NODE_TRIANGLE) {
-		//TODO:
+		((CTriangle*)node)->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
+		CDlgTriangle dlg(x1,y1,z1,x2,y2,z2,x3,y3,z3);
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			((CTriangle*)node)->SetData(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2,dlg.m_X3,dlg.m_Y3,dlg.m_Z3);
+		}
+	} else if(id == NODE_CIRCLE) {
+		((CCircle*)node)->GetData(x1,y1,z1,w);
+		CDlgCircle dlg(x1,y1,z1,w);
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			((CCircle*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R);
+		}
+	} else if(id == NODE_ELLIPSE) {
+		((CEllipse*)node)->GetData(x1,y1,z1,x2,y2);
+		CDlgEllipse dlg(x1,y1,z1,x2,y2);
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			((CEllipse*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_A,dlg.m_B);
+		}
+	} else if(id == NODE_CUBE) {
+		((CCube*)node)->GetData(x1,y1,z1,x2,y2,z2);
+		CDlgCube dlg(x1,y1,z1,x2,y2,z2);
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			((CCube*)node)->SetData(dlg.m_Left,dlg.m_Bottom,dlg.m_Near,dlg.m_Right,dlg.m_Top,dlg.m_Far);
+		}
+	} else if(id == NODE_TETRAHEDRON) {
+		((CTetrahedron*)node)->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4);
+		CDlgTetrahedron dlg(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4);
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			((CTetrahedron*)node)->SetData(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2,dlg.m_X3,dlg.m_Y3,dlg.m_Z3,dlg.m_X4,dlg.m_Y4,dlg.m_Z4);
+		}
+	} else if(id == NODE_SPHERE) {
+		((CSphere*)node)->GetData(x1,y1,z1,w);
+		CDlgSphere dlg(x1,y1,z1,w);
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			((CSphere*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R);
+		}
+	} else if(id == NODE_CYLINDER) {
+		((CCylinder*)node)->GetData(x1,y1,z1,x2,y2);
+		CDlgCylinder dlg(x1,y1,z1,x2,y2);
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			((CCylinder*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_Height);
+		}
+	} else if(id == NODE_RING) {
+		((CRing*)node)->GetData(x1,y1,z1,x2,y2);
+		CDlgRing dlg(x1,y1,z1,x2,y2);
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			((CRing*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_R1);
+		}
 	}
 
 	if(edit) {
@@ -535,13 +645,20 @@ COpenGLNode* CFileView::GetObject()
 	if(hTreeItem != NULL) {
 		m_wndFileView.myMap.Lookup(hTreeItem,node);
 		switch(node->ID) {
-		case NODE_TRANSLATE:
-		case NODE_ROTATE:
-		case NODE_SCALE:
-		case NODE_POINT:
-		case NODE_LINE:
-		case NODE_RECTANGLE:
-		case NODE_TRIANGLE:
+		case NODE_TRANSLATE :
+		case NODE_ROTATE :
+		case NODE_SCALE :
+		case NODE_POINT :
+		case NODE_LINE :
+		case NODE_RECTANGLE :
+		case NODE_TRIANGLE :
+		case NODE_CIRCLE :
+		case NODE_ELLIPSE :
+		case NODE_CUBE :
+		case NODE_TETRAHEDRON :
+		case NODE_SPHERE :
+		case NODE_CYLINDER :
+		case NODE_RING :
 			return node;
 		}
 	}
@@ -555,10 +672,12 @@ COpenGLNode* CFileView::GetGeometric()
 	if(hTreeItem != NULL) {
 		m_wndFileView.myMap.Lookup(hTreeItem,node);
 		switch(node->ID) {
-		case NODE_POINT:
-		case NODE_LINE:
-		case NODE_RECTANGLE:
-		case NODE_TRIANGLE:
+		case NODE_POINT :
+		case NODE_LINE :
+		case NODE_RECTANGLE :
+		case NODE_TRIANGLE :
+		case NODE_CIRCLE :
+		case NODE_ELLIPSE :
 			return node;
 		}
 	}

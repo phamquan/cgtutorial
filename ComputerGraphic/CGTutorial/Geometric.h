@@ -7,6 +7,8 @@ protected:
 	float tmp[16];
 	CPoint3D data1;
 	CPoint3D data2;
+	CPoint3D data3;
+	CPoint3D data4;
 
 public:
 
