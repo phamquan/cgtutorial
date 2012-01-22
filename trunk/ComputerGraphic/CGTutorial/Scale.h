@@ -10,11 +10,18 @@ public:
 		SetData(x,y,z);
 	}
 
-	CScale::~CScale() {}
+	virtual ~CScale() {}
 
-	virtual void CScale::DoOpenGL()
+	virtual void DoOpenGL()
 	{
 		glScalef(data.getX(),data.getY(),data.getZ());
+	}
+
+	virtual CString GLCode()
+	{
+		char buf[128];
+		sprintf_s(buf,"glScalef(%5.2f,%5.2f,%5.2f)",data.getX(),data.getY(),data.getZ());
+		return CString(buf);
 	}
 };
 

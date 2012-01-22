@@ -25,5 +25,12 @@ public:
 	{
 		glRotatef(data.getW(),data.getX(),data.getY(),data.getZ());
 	}
+
+	virtual CString GLCode()
+	{
+		char buf[128];
+		sprintf_s(buf,"glRotatef(%5.2f,%5.2f,%5.2f,%5.2f)",data.getW(),data.getX(),data.getY(),data.getZ());
+		return CString(buf);
+	}
 };
 

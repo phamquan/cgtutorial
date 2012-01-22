@@ -21,6 +21,7 @@
 
 #include "MainFrm.h"
 #include "CGTutorialDoc.h"
+#include "Translate.h"
 #include <propkey.h>
 
 #ifdef _DEBUG
@@ -207,6 +208,11 @@ void CCGTutorialDoc::DeleteContents()
 }
 
 void CCGTutorialDoc::AddCode(char* data, int tab, int line) {
+	AddCode(CString(data),tab,line);
+}
+
+void CCGTutorialDoc::AddCode(CString data, int tab, int line)
+{
 	ASSERT(tab >= 0);
 	ASSERT(line >= 0);
 
@@ -234,23 +240,16 @@ CString CCGTutorialDoc::GenCode()
 	AddCode("#define DEG2RAD (3.14159f/180.0f)",0,2);
 
 	//init openGL
-	AddCode("void initOpenGL() {",0,1);
-	AddCode("glMatrixMode(GL_PROJECTION);",1,1);
-	AddCode("glLoadIdentity();",1,1);
-	AddCode("glMatrixMode(GL_MODELVIEW);",1,1);
-	AddCode("}",0,2);
-
+	InitGLCode();
+	
 	//onsize
+	SizeGLCode();
 
+	//coordinate
+	CoordinateGLCode();
 
 	//onpaint
-	AddCode("void onPaint() {",0,1);
-	AddCode("glMatrixMode(GL_MODELVIEW);",1,1);
-	AddCode("glLoadIdentity();",1,1);
-		//+ evalCamera()
-	AddCode("glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);",1,1);
-	AddCode("glutSwapBuffers();",1,1);
-	AddCode("}",0,2);
+	PaintGLCode();
 	
 	//main
 	AddCode("int main(int argc, char** argv) {",0,2);
@@ -268,4 +267,111 @@ CString CCGTutorialDoc::GenCode()
 	AddCode("}",0,1);
 
 	return openGLCode;
+}
+
+void CCGTutorialDoc::InitGLCode()
+{
+	float x1,y1,z1,x2,y2,z2,x3,y3,z3;
+	int type;
+	char buf[128];
+
+	AddCode("void initOpenGL() {",0,1);
+	environment->GetProjection()->GetData(x1,y1,z1,x2,y2,z2,type);
+	if(type == ORTHO)
+		sprintf_s(buf,"glOrtho(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);",x1,y1,z1,x2,y2,z2);
+	else
+		sprintf_s(buf,"glFrustum(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);",x1,y1,z1,x2,y2,z2);
+	
+	AddCode("glMatrixMode(GL_PROJECTION);",1,1);
+	AddCode("glLoadIdentity();",1,1);
+	AddCode(buf,1,2);
+
+	environment->GetCamera()->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
+	sprintf_s(buf,"gluLookAt(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);",x1,y1,z1,x2,y2,z2,x3,y3,z3);
+	AddCode("glMatrixMode(GL_MODELVIEW);",1,1);
+	AddCode("glLoadIdentity();",1,1);
+	AddCode(buf,1,2);
+
+	AddCode("glClearColor(0.769f, 0.812f, 0.824f, 0.0f);",1,1);
+	AddCode("}",0,2);
+}
+
+void CCGTutorialDoc::SizeGLCode()
+{
+	AddCode("void onSize(int width, int height) {",0,1);
+	
+	float x,y,w,h;
+	int type;
+	char buf[128];
+
+	environment->GetViewPort()->GetData(x,y,w,h,type);
+	if(type == VIEWPORT_DEFAULT)
+		sprintf_s(buf,"glViewport(0,0,width,height);",x,y,w,h);
+	else
+		sprintf_s(buf,"glViewport(%5.2f,%5.2f,%5.2f,%5.2f);",x,y,w,h);
+
+	AddCode(buf,1,1);
+	AddCode("}",0,2);
+}
+
+void CCGTutorialDoc::PaintGLCode()
+{
+	AddCode("void onPaint() {",0,1);
+	AddCode("glMatrixMode(GL_MODELVIEW);",1,1);
+		//+ evalCamera()
+	AddCode("glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);",1,1);
+	AddCode("drawCoordinate();",1,1);
+	AddCode("glColor3f(0.0f, 0.0f, 0.0f);",1,2);
+
+	ObjectGLCode(object);
+
+	AddCode("glutSwapBuffers();",1,1);
+	AddCode("}",0,2);
+}
+
+void CCGTutorialDoc::CoordinateGLCode()
+{
+	AddCode("void drawCoordinate() {",0,1);
+	AddCode("glBegin(GL_LINES);",1,1);
+		AddCode("glColor3f(1.0f,0.0f,0.0f);",2,1);
+		AddCode("glVertex3f(0.0f,0.0f,0.0f);",2,1);
+		AddCode("glVertex3f(1000.0f,0.0f,0.0f);",2,1);
+		AddCode("glColor3f(0.0f,1.0f,0.0f);",2,1);
+		AddCode("glVertex3f(0.0f,0.0f,0.0f);",2,1);
+		AddCode("glVertex3f(0.0f,1000.0f,0.0f);",2,1);
+		AddCode("glColor3f(0.0f,0.0f,1.0f);",2,1);
+		AddCode("glVertex3f(0.0f,0.0f,0.0f);",2,1);
+		AddCode("glVertex3f(0.0f,0.0f,1000.0f);",2,1);
+	AddCode("glEnd();",1,1);
+	AddCode("}",0,2);
+}
+
+void CCGTutorialDoc::ObjectGLCode(COpenGLNode *node)
+{
+	int id = node->ID;
+	float x1,y1,z1,x2,y2,z2;
+	char buf[128];
+	if(id == NODE_TRANSLATE || id == NODE_ROTATE || id == NODE_SCALE)
+	{
+		if(node->parent->m_listChild->GetSize() > 1)
+		{
+			AddCode("glPushMatrix();",1,1);
+		}
+
+		AddCode(((CTransformation*)node)->GLCode(),1,1);
+	} else if(id == NODE_POINT)
+
+	CPtrArray *child = node->m_listChild;
+	for(int i=0; i<child->GetSize(); i++)
+	{
+		ObjectGLCode((COpenGLNode*)child->GetAt(i));
+	}
+
+	if(id == NODE_TRANSLATE || id == NODE_ROTATE || id == NODE_SCALE)
+	{
+		if(node->parent->m_listChild->GetSize() > 1)
+		{
+			AddCode("glPopMatrix();",1,1);
+		}
+	}
 }

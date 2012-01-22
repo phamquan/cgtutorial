@@ -62,8 +62,8 @@ void CDlgMatrixFormula::OnSize(UINT nType, int cx, int cy)
 		m_Tab.GetClientRect(&TabRect);
 		m_Tab.AdjustRect(FALSE, &TabRect);
 		
-		CRect Left(TabRect.left,TabRect.top,TabRect.left+TabRect.Width()/2,TabRect.bottom);
-		CRect Right(TabRect.left+TabRect.Width()/2,TabRect.top,TabRect.right,TabRect.bottom);
+		CRect Left(TabRect.left,TabRect.top,TabRect.left+TabRect.Width()*0.6,TabRect.bottom);
+		CRect Right(TabRect.left+TabRect.Width()*0.6,TabRect.top,TabRect.right,TabRect.bottom);
 
 		dlgModel->MoveWindow(Left);
 		dlgModelGL->MoveWindow(Right);
@@ -100,8 +100,8 @@ BOOL CDlgMatrixFormula::OnInitDialog()
 
 	m_Tab.AdjustRect(FALSE, &TabRect);
 
-	CRect Left(TabRect.left,TabRect.top,TabRect.left+TabRect.Width()/2,TabRect.bottom);
-	CRect Right(TabRect.left+TabRect.Width()/2,TabRect.top,TabRect.right,TabRect.bottom);
+	CRect Left(TabRect.left,TabRect.top,TabRect.left+TabRect.Width()*0.6,TabRect.bottom);
+	CRect Right(TabRect.left+TabRect.Width()*0.6,TabRect.top,TabRect.right,TabRect.bottom);
 
 	dlgModel->Create(CDlgMatrix::IDD,&m_Tab);
 	dlgModel->MoveWindow(Left);
