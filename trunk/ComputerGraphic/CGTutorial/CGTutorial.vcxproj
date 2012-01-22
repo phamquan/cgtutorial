@@ -102,6 +102,7 @@
   <ItemGroup>
     <None Include="CGTutorial.reg" />
     <None Include="ReadMe.txt" />
+    <None Include="res\bitmap2.bmp" />
     <None Include="res\buttons.bmp" />
     <None Include="res\CGTutorial.ico" />
     <None Include="res\CGTutorial.rc2" />
@@ -121,6 +122,8 @@
     <None Include="res\main.bmp" />
     <None Include="res\menuimages.bmp" />
     <None Include="res\menuimages_hc.bmp" />
+    <None Include="res\objectlarge.bmp" />
+    <None Include="res\objectlarge.png" />
     <None Include="res\ribbon.mfcribbon-ms" />
     <None Include="res\sort.bmp" />
     <None Include="res\sort_hc.bmp" />
