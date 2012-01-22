@@ -78,7 +78,7 @@ void CDlgModelMatrix::CalNode(COpenGLNode* node) {
 			glGetFloatv(GL_MODELVIEW_MATRIX,m);
 			glMultMatrixf(sum);
 			glGetFloatv(GL_MODELVIEW_MATRIX,sum);
-			matrix.Add(new Element(CString(buff),node->ToString(),m));
+			matrix.Add(new Element(CString(buff),node->toString,m));
 		}
 		CalNode(node->parent);
 	}

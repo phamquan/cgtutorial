@@ -11,7 +11,7 @@ public:
 
 	CEnvironment() : COpenGLNode(NODE_ENVIRONMENT)
 	{
-		string = "environment";
+		toString = "environment";
 	}
 
 	virtual ~CEnvironment() {}

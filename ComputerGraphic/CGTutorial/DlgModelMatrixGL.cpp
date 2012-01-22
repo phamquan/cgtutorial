@@ -60,7 +60,7 @@ void CDlgModelMatrixGL::ShowNode(COpenGLNode* node, int &top, CDC *cdc)
 				((CRotate*)node)->GetData(x,y,z,w);
 				glRotatef(w,x,y,z);
 			}
-			cdc->TextOutW(10,top+=20,((CTransformation*)node)->GLCode());
+			cdc->TextOutW(10,top+=20,((CTransformation*)node)->GLCode);
 		}
 	}
 }

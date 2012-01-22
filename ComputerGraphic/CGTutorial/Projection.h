@@ -27,10 +27,13 @@ public:
 		data2.setCoords(top,mnear,mfar);
 		this->type = type;
 
-		if(type == ORTHO)
-			string.Format(CString("projection(type=ortho, left=%5.2f, right=%5.2f, bottom=%5.2f, top=%5.2f, near=%5.2f, far=%5.2f)"),left,right,bottom,top,mnear,mfar);
-		else
-			string.Format(CString("projection(type=frustum, left=%5.2f, right=%5.2f, bottom=%5.2f, top=%5.2f, near=%5.2f, far=%5.2f)"),left,right,bottom,top,mnear,mfar);
+		if(type == ORTHO) {
+			toString.Format(CString("projection(type=ortho, left=%5.2f, right=%5.2f, bottom=%5.2f, top=%5.2f, near=%5.2f, far=%5.2f)"),left,right,bottom,top,mnear,mfar);
+			GLCode.Format(CString("glOrtho(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);"),left,right,bottom,top,mnear,mfar);
+		} else {
+			toString.Format(CString("projection(type=frustum, left=%5.2f, right=%5.2f, bottom=%5.2f, top=%5.2f, near=%5.2f, far=%5.2f)"),left,right,bottom,top,mnear,mfar);
+			GLCode.Format(CString("glFrustum(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);"),left,right,bottom,top,mnear,mfar);
+		}
 	}
 
 	void GetData(float &left, float &right, float &bottom, float &top, float &mnear, float &mfar, int &type)

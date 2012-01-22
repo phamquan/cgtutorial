@@ -191,7 +191,7 @@ void CFileView::FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNod
 	m_wndFileView.DeleteAllItems();
 	m_wndFileView.myMap.RemoveAll();
 
-	HTREEITEM node = m_wndFileView.InsertItem(oobject->ToString(), 0, 0);
+	HTREEITEM node = m_wndFileView.InsertItem(oobject->toString, 0, 0);
 	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
 	m_wndFileView.myMap.SetAt(node,oobject);
 
@@ -200,7 +200,7 @@ void CFileView::FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNod
 		FillFile(pChild,node,oobject);
 	}
 
-	environment = m_wndFileView.InsertItem(oenvironment->ToString(), 0, 0);
+	environment = m_wndFileView.InsertItem(oenvironment->toString, 0, 0);
 	m_wndFileView.SetItemState(environment,TVIS_BOLD,TVIS_BOLD);
 	m_wndFileView.myMap.SetAt(environment,oenvironment);
 
@@ -217,12 +217,12 @@ void CFileView::FillView(COpenGLNode *object, COpenGLNode* oenvironment)
 	m_wndFileView.DeleteAllItems();
 	m_wndFileView.myMap.RemoveAll();
 
-	HTREEITEM node = m_wndFileView.InsertItem(object->ToString(), 0, 0);
+	HTREEITEM node = m_wndFileView.InsertItem(object->toString, 0, 0);
 	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
 	
 	m_wndFileView.myMap.SetAt(node,object);
 
-	environment = m_wndFileView.InsertItem(oenvironment->ToString(), 0, 0);
+	environment = m_wndFileView.InsertItem(oenvironment->toString, 0, 0);
 	m_wndFileView.SetItemState(environment,TVIS_BOLD,TVIS_BOLD);
 	
 	m_wndFileView.myMap.SetAt(environment,oenvironment);
@@ -230,7 +230,7 @@ void CFileView::FillView(COpenGLNode *object, COpenGLNode* oenvironment)
 	for(int i=0; i<oenvironment->m_listChild->GetSize(); i++)
 	{
 		COpenGLNode* childnode = (COpenGLNode*)oenvironment->m_listChild->GetAt(i);
-		HTREEITEM child = m_wndFileView.InsertItem(childnode->ToString(), 0, 0, environment);
+		HTREEITEM child = m_wndFileView.InsertItem(childnode->toString, 0, 0, environment);
 		m_wndFileView.myMap.SetAt(child,childnode);
 	}
 
@@ -242,19 +242,7 @@ void CFileView::FillFile(TiXmlNode *root, HTREEITEM hparrent, COpenGLNode *oparr
 	COpenGLNode *openGL = XmltoOpenGL(root);
 	oparrent->AddChild(openGL);
 
-	CString data = CString(root->Value()) + "(";
-	TiXmlAttribute* pAttrib=root->ToElement()->FirstAttribute();
-	while(pAttrib) {
-		data+= pAttrib->Name();
-		data+="=";
-		data+=pAttrib->Value();
-		pAttrib = pAttrib->Next();
-		if(pAttrib!=NULL)
-			data+=", ";
-	}
-	data+=")";
-
-	HTREEITEM node = m_wndFileView.InsertItem(data, 0, 0, hparrent);
+	HTREEITEM node = m_wndFileView.InsertItem(openGL->toString, 0, 0, hparrent);
 	m_wndFileView.myMap.SetAt(node,openGL);
 
 	while (pChild = root->IterateChildren(pChild)) {
@@ -413,7 +401,7 @@ BOOLEAN CFileView::ValidateDelete()
 void CFileView::AddNode(COpenGLNode *newNode)
 {
 	node->AddChild(newNode);
-	HTREEITEM hnode = m_wndFileView.InsertItem(newNode->ToString(), 0, 0, hTreeItem);
+	HTREEITEM hnode = m_wndFileView.InsertItem(newNode->toString, 0, 0, hTreeItem);
 	m_wndFileView.myMap.SetAt(hnode,newNode);
 
 	((CMainFrame*)AfxGetMainWnd())->Refresh();
@@ -541,7 +529,7 @@ void CFileView::OnFileviewEdit()
 	}
 
 	if(edit) {
-		m_wndFileView.SetItemText(hTreeItem,node->ToString());
+		m_wndFileView.SetItemText(hTreeItem,node->toString);
 		((CMainFrame*)AfxGetMainWnd())->Refresh();
 	}
 }

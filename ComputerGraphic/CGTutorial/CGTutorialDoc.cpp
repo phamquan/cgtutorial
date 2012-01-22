@@ -272,26 +272,15 @@ CString CCGTutorialDoc::GenCode()
 
 void CCGTutorialDoc::InitGLCode()
 {
-	float x1,y1,z1,x2,y2,z2,x3,y3,z3;
-	int type;
-	char buf[128];
-
 	AddCode("void initOpenGL() {",0,1);
-	environment->GetProjection()->GetData(x1,y1,z1,x2,y2,z2,type);
-	if(type == ORTHO)
-		sprintf_s(buf,"glOrtho(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);",x1,y1,z1,x2,y2,z2);
-	else
-		sprintf_s(buf,"glFrustum(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);",x1,y1,z1,x2,y2,z2);
 	
 	AddCode("glMatrixMode(GL_PROJECTION);",1,1);
 	AddCode("glLoadIdentity();",1,1);
-	AddCode(buf,1,2);
+	AddCode(environment->GetProjection()->GLCode,1,2);
 
-	environment->GetCamera()->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
-	sprintf_s(buf,"gluLookAt(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);",x1,y1,z1,x2,y2,z2,x3,y3,z3);
 	AddCode("glMatrixMode(GL_MODELVIEW);",1,1);
 	AddCode("glLoadIdentity();",1,1);
-	AddCode(buf,1,2);
+	AddCode(environment->GetCamera()->GLCode,1,2);
 
 	AddCode("glClearColor(0.769f, 0.812f, 0.824f, 0.0f);",1,1);
 	AddCode("}",0,2);
@@ -300,18 +289,7 @@ void CCGTutorialDoc::InitGLCode()
 void CCGTutorialDoc::SizeGLCode()
 {
 	AddCode("void onSize(int width, int height) {",0,1);
-	
-	float x,y,w,h;
-	int type;
-	char buf[128];
-
-	environment->GetViewPort()->GetData(x,y,w,h,type);
-	if(type == VIEWPORT_DEFAULT)
-		sprintf_s(buf,"glViewport(0,0,width,height);",x,y,w,h);
-	else
-		sprintf_s(buf,"glViewport(%5.2f,%5.2f,%5.2f,%5.2f);",x,y,w,h);
-
-	AddCode(buf,1,1);
+	AddCode(environment->GetViewPort()->GLCode,1,1);
 	AddCode("}",0,2);
 }
 
@@ -357,16 +335,17 @@ void CCGTutorialDoc::ObjectGLCode(COpenGLNode *node)
 		{
 			AddCode("glPushMatrix();",1,1);
 		}
-		AddCode(((CTransformation*)node)->GLCode(),1,1);
 	}
-	else if(id == NODE_POINT || id == NODE_LINE || id == NODE_RECTANGLE)
-	{
-		AddCode(((CGeometric*)node)->GLCode(),1,1);
-	}
+
+	if(id != NODE_OBJECT && id != NODE_COLOR)
+		AddCode(node->GLCode,1,1);
 
 	CPtrArray *child = node->m_listChild;
 	for(int i=0; i<child->GetSize(); i++)
 	{
+		if(id == NODE_COLOR)
+			AddCode(node->GLCode,1,1);
+
 		ObjectGLCode((COpenGLNode*)child->GetAt(i));
 	}
 
@@ -374,7 +353,7 @@ void CCGTutorialDoc::ObjectGLCode(COpenGLNode *node)
 	{
 		if(node->parent->m_listChild->GetSize() > 1)
 		{
-			AddCode("glPopMatrix();",1,1);
+			AddCode("glPopMatrix();",1,2);
 		}
 	}
 }
