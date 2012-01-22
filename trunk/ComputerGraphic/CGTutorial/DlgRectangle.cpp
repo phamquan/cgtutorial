@@ -22,6 +22,7 @@ CDlgRectangle::CDlgRectangle(CWnd* pParent /*=NULL*/)
 }
 
 CDlgRectangle::CDlgRectangle(float top, float left, float bottom, float right, CWnd* pParent)
+	: CDialog(CDlgRectangle::IDD, pParent)
 {
 	m_Bottom = bottom;
 	m_Left = left;
@@ -45,6 +46,4 @@ void CDlgRectangle::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDlgRectangle, CDialog)
 END_MESSAGE_MAP()
-
-
 // CDlgRectangle message handlers
