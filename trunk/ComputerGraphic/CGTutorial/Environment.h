@@ -64,7 +64,7 @@ public:
 		InvertMatrix(m,n);
 		glMultMatrixf(n);
 	
-		glBegin(GL_LINES);
+		/*glBegin(GL_LINES);
 			glColor3f(1.0f,0.0f,0.0f);
 			glVertex3f(0.0f,0.0f,0.0f);
 			glVertex3f(1.0f,0.0f,0.0f);
@@ -92,7 +92,7 @@ public:
 			glVertex3f(0.0f,-0.05f,1.1f);
 			glVertex3f(0.0f,0.05f,1.1f);
 			glVertex3f(0.0f,-0.05f,1.2f);
-		glEnd();
+		glEnd();*/
 
 		int size = 7;
 		double radius = 0.3;

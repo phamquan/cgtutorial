@@ -35,7 +35,7 @@ protected:
 
 	virtual void BeginOpenGL()
 	{
-		glBegin(GL_POINT);
+		glBegin(GL_POINTS);
 	}
 };
 

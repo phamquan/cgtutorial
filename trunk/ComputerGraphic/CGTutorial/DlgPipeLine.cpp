@@ -71,6 +71,16 @@ void CDlgPipeLine::Refresh(COpenGLNode *obj)
 		{
 			
 		}
+		else if(id == NODE_TRIANGLE)
+		{
+		}
+		//#define NODE_CIRCLE			9
+		//#define NODE_ELLIPSE		10
+		//#define NODE_CUBE			11
+		//#define NODE_TETRAHEDRON	12
+		//#define NODE_SPHERE			13
+		//#define NODE_CYLINDER		14
+		//#define NODE_RING			15
 
 		glMatrixMode(GL_MODELVIEW);
 		glPushMatrix();

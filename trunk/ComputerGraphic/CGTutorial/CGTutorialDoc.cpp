@@ -238,7 +238,10 @@ CString CCGTutorialDoc::GenCode()
 	AddCode("#include <GL/glut.h>",0,1);
 	AddCode("#include <math.h>",0,1);
 	AddCode("#include <stdio.h>",0,2);
-	AddCode("#define DEG2RAD (3.14159f/180.0f)",0,2);
+
+	AddCode("#define PI 3.14159265358979323846",0,1);
+	AddCode("#define RAD_2_DEG (180.0/PI)",0,1);
+	AddCode("#define DEG_2_RAD (PI/180.0)",0,2);
 
 	//init openGL
 	InitGLCode();
@@ -253,6 +256,14 @@ CString CCGTutorialDoc::GenCode()
 	DrawPoint();
 	DrawLine();
 	DrawRectangle();
+	DrawTriangle();
+	DrawCircle();
+	DrawEllipse();
+	DrawCube();
+	DrawTetrahedron();
+	DrawSphere();
+	DrawCylinder();
+	DrawRing();
 
 	//onpaint
 	PaintGLCode();
@@ -261,7 +272,7 @@ CString CCGTutorialDoc::GenCode()
 	AddCode("int main(int argc, char** argv) {",0,2);
 	AddCode("// init GLUT and create Window",1,1);
 	AddCode("glutInit(&&argc, argv);",1,1);
-	AddCode("glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB);",1,1);
+	AddCode("glutInitDisplayMode(GLUT_DEPTH | GLUT_SINGLE | GLUT_RGB);",1,1);
 	AddCode("glutCreateWindow(\"Computer Graphic Tutorial\");",1,1);
 	AddCode("initOpenGL();",1,2);
 	AddCode("// register callbacks",1,1);
@@ -309,7 +320,7 @@ void CCGTutorialDoc::PaintGLCode()
 
 	ObjectGLCode(object);
 
-	AddCode("glutSwapBuffers();",1,1);
+	AddCode("glFlush();",1,1);
 	AddCode("}",0,2);
 }
 
@@ -363,30 +374,206 @@ void CCGTutorialDoc::ObjectGLCode(COpenGLNode *node)
 void CCGTutorialDoc::DrawPoint()
 {
 	AddCode("void drawPoint(float x, float y, float z) {",0,1);
-	AddCode("glBegin(GL_POINTS);",1,1);
-		AddCode("glVertex3f(x,y,z);",2,1);	
-	AddCode("glEnd();",1,1);
+		AddCode("glBegin(GL_POINTS);",1,1);
+			AddCode("glVertex3f(x,y,z);",2,1);	
+		AddCode("glEnd();",1,1);
 	AddCode("}",0,2);
 }
 
 void CCGTutorialDoc::DrawLine()
 {
 	AddCode("void drawLine(float x1, float y1, float z1, float x2, float y2, float z2) {",0,1);
-	AddCode("glBegin(GL_LINES);",1,1);
-		AddCode("glVertex3f(x1,y1,z1);",2,1);	
-		AddCode("glVertex3f(x2,y2,z2);",2,1);
-	AddCode("glEnd();",1,1);
+		AddCode("glBegin(GL_LINES);",1,1);
+			AddCode("glVertex3f(x1,y1,z1);",2,1);	
+			AddCode("glVertex3f(x2,y2,z2);",2,1);
+		AddCode("glEnd();",1,1);
 	AddCode("}",0,2);
 }
 
 void CCGTutorialDoc::DrawRectangle()
 {
 	AddCode("void drawRectangle(float  top, float left, float bottom, float right) {",0,1);
-	AddCode("glBegin(GL_QUADS);",1,1);
-		AddCode("glVertex3f(left,top,0);",2,1);	
-		AddCode("glVertex3f(right,top,0);",2,1);
-		AddCode("glVertex3f(right,bottom,0);",2,1);
-		AddCode("glVertex3f(left,bottom,0);",2,1);
-	AddCode("glEnd();",1,1);
+		AddCode("glBegin(GL_QUADS);",1,1);
+			AddCode("glVertex3f(left,top,0);",2,1);	
+			AddCode("glVertex3f(right,top,0);",2,1);
+			AddCode("glVertex3f(right,bottom,0);",2,1);
+			AddCode("glVertex3f(left,bottom,0);",2,1);
+		AddCode("glEnd();",1,1);
+	AddCode("}",0,2);
+}
+
+void CCGTutorialDoc::DrawTriangle()
+{
+	AddCode("void drawTriangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3) {",0,1);
+		AddCode("glBegin(GL_TRIANGLES);",1,1);
+			AddCode("glVertex3f(x1,y1,z1);",2,1);	
+			AddCode("glVertex3f(x2,y2,z2);",2,1);
+			AddCode("glVertex3f(x3,y3,z3);",2,1);
+		AddCode("glEnd();",1,1);
+	AddCode("}",0,2);
+}
+
+void CCGTutorialDoc::DrawCircle()
+{
+	AddCode("void drawCircle(float x, float y, float z, float R) {",0,1);
+		AddCode("glPushMatrix();",1,1);
+		AddCode("glTranslatef(x,y,z);",1,1);
+		AddCode("glScalef(R,R,1);",1,1);
+		AddCode("glBegin(GL_POLYGON);",1,1);
+		AddCode("for(int i=0; i<=360; i+=10) {",1,1);	
+			AddCode("glVertex3f(cos(i*DEG_2_RAD),sin(i*DEG_2_RAD),0.0f);",2,1);		
+		AddCode("}",1,1);	
+		AddCode("glEnd();",1,1);
+		AddCode("glPopMatrix();",1,1);
+	AddCode("}",0,2);
+}
+
+void CCGTutorialDoc::DrawEllipse()
+{
+	AddCode("void drawEllipse(float x, float y, float z, float a, float b) {",0,1);
+		AddCode("glPushMatrix();",1,1);
+		AddCode("glTranslatef(x,y,z);",1,1);
+		AddCode("glScalef(a,b,1);",1,1);
+		AddCode("glBegin(GL_POLYGON);",1,1);
+		AddCode("for(int i=0; i<=360; i+=10) {",1,1);	
+			AddCode("glVertex3f(cos(i*DEG_2_RAD),sin(i*DEG_2_RAD),0.0f);",2,1);		
+		AddCode("}",1,1);	
+		AddCode("glEnd();",1,1);
+		AddCode("glPopMatrix();",1,1);
+	AddCode("}",0,2);
+}
+
+void CCGTutorialDoc::DrawCube()
+{
+	AddCode("void drawCube(float left, float bottom, float near, float right, float top, float far) {",0,1);
+		AddCode("glBegin(GL_QUADS);",1,1);
+			AddCode("//font",2,1);
+			AddCode("glVertex3f(left,top,near);",2,1);
+			AddCode("glVertex3f(right,top,near);",2,1);
+			AddCode("glVertex3f(right,bottom,near);",2,1);
+			AddCode("glVertex3f(left,bottom,near);",2,1);
+			AddCode("//back",2,1);
+			AddCode("glVertex3f(left,top,far);",2,1);
+			AddCode("glVertex3f(right,top,far);",2,1);
+			AddCode("glVertex3f(right,bottom,far);",2,1);
+			AddCode("glVertex3f(left,bottom,far);",2,1);
+			AddCode("//left",2,1);
+			AddCode("glVertex3f(left,top,near);",2,1);
+			AddCode("glVertex3f(left,bottom,near);",2,1);
+			AddCode("glVertex3f(left,bottom,far);",2,1);
+			AddCode("glVertex3f(left,top,far);",2,1);
+			AddCode("//right",2,1);
+			AddCode("glVertex3f(right,top,near);",2,1);
+			AddCode("glVertex3f(right,bottom,near);",2,1);
+			AddCode("glVertex3f(right,bottom,far);",2,1);
+			AddCode("glVertex3f(right,top,far);",2,1);
+			AddCode("//up",2,1);
+			AddCode("glVertex3f(left,top,near);",2,1);
+			AddCode("glVertex3f(right,top,near);",2,1);
+			AddCode("glVertex3f(right,top,far);",2,1);
+			AddCode("glVertex3f(left,top,far);",2,1);
+			AddCode("//down",2,1);
+			AddCode("glVertex3f(left,bottom,near);",2,1);
+			AddCode("glVertex3f(right,bottom,near);",2,1);
+			AddCode("glVertex3f(right,bottom,far);",2,1);
+			AddCode("glVertex3f(left,bottom,far);",2,1);
+		AddCode("glEnd();",1,1);
+	AddCode("}",0,2);
+}
+
+void CCGTutorialDoc::DrawTetrahedron()
+{
+	AddCode("void drawTetrahedron(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4) {",0,1);
+		AddCode("glBegin(GL_TRIANGLES);",1,1);
+			AddCode("glVertex3f(x1,y1,z1);",2,1);
+			AddCode("glVertex3f(x2,y2,z2);",2,1);
+			AddCode("glVertex3f(x3,y3,z3);",2,2);
+
+			AddCode("glVertex3f(x1,y1,z1);",2,1);
+			AddCode("glVertex3f(x2,y2,z2);",2,1);
+			AddCode("glVertex3f(x4,y4,z4);",2,2);
+
+			AddCode("glVertex3f(x1,y1,z1);",2,1);
+			AddCode("glVertex3f(x3,y3,z3);",2,1);
+			AddCode("glVertex3f(x4,y4,z4);",2,2);
+
+			AddCode("glVertex3f(x2,y2,z2);",2,1);
+			AddCode("glVertex3f(x3,y3,z3);",2,1);
+			AddCode("glVertex3f(x4,y4,z4);",2,1);
+		AddCode("glEnd();",1,1);
+	AddCode("}",0,2);
+}
+
+void CCGTutorialDoc::DrawSphere()
+{
+	AddCode("void drawSphere(float x, float y, float z, float R) {",0,1);
+		AddCode("glPushMatrix();",1,1);
+		AddCode("glTranslatef(x,y,z);",1,1);
+		AddCode("glScalef(R,R,R);",1,1);
+		AddCode("glBegin(GL_QUAD_STRIP);",1,1);
+		AddCode("for(int i=-90; i<=90; i+=10) {",1,1);
+			AddCode("for(int j=0; j<=360; j+=10) {",2,1);
+				AddCode("double x1 = cos((i-10)*DEG_2_RAD)*cos(j*DEG_2_RAD);",3,1);
+				AddCode("double y1 = sin((i-10)*DEG_2_RAD);",3,1);
+				AddCode("double z1 = cos((i-10)*DEG_2_RAD)*sin(j*DEG_2_RAD);",3,1);
+				AddCode("glVertex3f(x1,y1,z1);",3,1);
+				AddCode("double x2 = cos(i*DEG_2_RAD)*cos(j*DEG_2_RAD);",3,1);
+				AddCode("double y2 = sin(i*DEG_2_RAD);",3,1);
+				AddCode("double z2 = cos(i*DEG_2_RAD)*sin(j*DEG_2_RAD);",3,1);
+				AddCode("glVertex3f(x2,y2,z2);",3,1);
+			AddCode("}",2,1);
+		AddCode("}",1,1);	
+		AddCode("glEnd();",1,1);
+		AddCode("glPopMatrix();",1,1);
+	AddCode("}",0,2);
+}
+
+void CCGTutorialDoc::DrawCylinder()
+{
+	AddCode("void drawCylinder(float x, float y, float z, float R, float r) {",0,1);
+		AddCode("glPushMatrix();",1,1);
+		AddCode("glTranslatef(x,y,z);",1,1);
+		AddCode("glBegin(GL_QUAD_STRIP);",1,1);
+		AddCode("for(int j=0; j<=360; j+=10) {",1,1);
+			AddCode("glVertex3f(R*cos(j*DEG_2_RAD), height/2,R*sin(j*DEG_2_RAD));",2,1);
+			AddCode("glVertex3f(R*cos(j*DEG_2_RAD),-height/2,R*sin(j*DEG_2_RAD));",2,1);
+		AddCode("}",1,1);
+		AddCode("glEnd();",1,2);
+
+		AddCode("glBegin(GL_POLYGON);",1,1);
+		AddCode("for(int j=0; j<=360; j+=10) {",1,1);
+			AddCode("glVertex3f(R*cos(j*DEG_2_RAD), height/2,R*sin(j*DEG_2_RAD));",2,1);
+		AddCode("}",1,1);
+		AddCode("glEnd();",1,2);
+		
+		AddCode("glBegin(GL_POLYGON);",1,1);
+		AddCode("for(int j=0; j<=360; j+=10) {",1,1);
+			AddCode("glVertex3f(R*cos(j*DEG_2_RAD),-height/2,R*sin(j*DEG_2_RAD));,",2,1);
+		AddCode("}",1,1);
+		AddCode("glEnd();",1,1);
+		AddCode("glPopMatrix();",1,1);
+	AddCode("}",0,2);
+}
+
+void CCGTutorialDoc::DrawRing()
+{
+	AddCode("void drawRing(float x, float y, float z, float R, float r) {",0,1);
+		AddCode("glPushMatrix();",1,1);
+		AddCode("glTranslatef(x,y,z);",1,1);
+		AddCode("for(int i = 10; i<=360; i+=10) {",1,1);
+			AddCode("glBegin(GL_QUAD_STRIP);",2,1);
+			AddCode("for(int j=0; j<=360; j+=10) {",2,1);
+				AddCode("double x1 = (R + r*cos(i*DEG_2_RAD))*cos(j*DEG_2_RAD);",3,1);
+				AddCode("double y1 = (R + r*cos(i*DEG_2_RAD))*sin(j*DEG_2_RAD);",3,1);
+				AddCode("double z1 = r*sin(i*DEG_2_RAD);",3,1);
+				AddCode("glVertex3f(x1,y1,z1);",3,1);
+				AddCode("double x2 = (R + r*cos((i-10)*DEG_2_RAD))*cos(j*DEG_2_RAD);",3,1);
+				AddCode("double y2 = (R + r*cos((i-10)*DEG_2_RAD))*sin(j*DEG_2_RAD);",3,1);
+				AddCode("double z2 = r*sin(i*DEG_2_RAD);",3,1);
+				AddCode("glVertex3f(x2,y2,z2);",3,1);
+			AddCode("}",2,1);
+			AddCode("glEnd();",2,1);
+		AddCode("}",1,1);
+		AddCode("glPopMatrix();",1,1);
 	AddCode("}",0,2);
 }
