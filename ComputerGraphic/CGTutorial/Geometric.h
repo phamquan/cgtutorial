@@ -10,7 +10,7 @@ protected:
 
 public:
 
-	CGeometric(char* label, int ID) : COpenGLNode(label,ID) {}
+	CGeometric(int ID) : COpenGLNode(ID) {}
 
 	virtual ~CGeometric() {}
 

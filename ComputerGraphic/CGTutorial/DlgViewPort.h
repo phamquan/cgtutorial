@@ -1,25 +1,30 @@
 #pragma once
 
-#include "DlgMatrix.h"
-#include "Environment.h"
+
 // CDlgViewPort dialog
 
-class CDlgViewPort : public CDlgMatrix
+class CDlgViewPort : public CDialog
 {
 	DECLARE_DYNAMIC(CDlgViewPort)
 
 public:
-	CDlgViewPort(CEnvironment *env, CWnd* pParent = NULL);   // standard constructor
+	CDlgViewPort(float left, float bottom, float width, float height, int type, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CDlgViewPort();
 
-	void Refresh();
-protected:
-	CEnvironment *environment;
-	float x,y,w,h;
+// Dialog Data
+	enum { IDD = IDD_VIEWPORT };
 
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnPaint();
+	float m_Bottom;
+	float m_Height;
+	float m_Left;
+	float m_Width;
+	int type;
+	afx_msg void OnDefault();
+	afx_msg void OnCustom();
+	virtual BOOL OnInitDialog();
 };

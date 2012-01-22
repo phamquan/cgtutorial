@@ -13,6 +13,7 @@ public:
 	CCameraFrame(CEnvironment *environment, COpenGLNode *object, CWnd* pParent = NULL);
 	virtual ~CCameraFrame();
 
+	void ReSize();
 // Dialog Data
 	enum { IDD = IDD_CAMERA_FRAME };
 
@@ -22,6 +23,8 @@ protected:
 
 	HDC  m_hDC;
 	HGLRC m_hRC;
+
+	int width, height;
 
 	void SetupOpenGL();
 	void DetroyOpenGL();

@@ -9,7 +9,10 @@ class CEnvironment :
 {
 public:
 
-	CEnvironment() : COpenGLNode("environment",NODE_ENVIRONMENT) {}
+	CEnvironment() : COpenGLNode(NODE_ENVIRONMENT)
+	{
+		string = "environment";
+	}
 
 	virtual ~CEnvironment() {}
 

@@ -23,17 +23,18 @@ class COpenGLNode
 public:
 	COpenGLNode* parent;
 	CPtrArray* m_listChild;
-	CString label;
+	CString string;
+	CString openGL;
 	int ID;
 
 public:
 
-	COpenGLNode(char* label, int ID)
+	COpenGLNode(int ID)
 	{
 		this->ID = ID;
-		this->label = label;
 		parent = NULL;
 		m_listChild = new CPtrArray();
+		string = "object";
 	}
 
 	virtual ~COpenGLNode()
@@ -89,7 +90,12 @@ public:
 
 	virtual CString ToString()
 	{
-		return label;
+		return string;
+	}
+
+	virtual CString GLCode()
+	{
+		return openGL;
 	}
 
 protected:

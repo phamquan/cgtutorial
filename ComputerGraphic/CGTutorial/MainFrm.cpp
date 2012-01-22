@@ -289,7 +289,10 @@ void CMainFrame::Refresh()
 		dlgPipeLine->Refresh(m_wndFileView.GetGeometric());
 
 	if(cameraFrame != NULL)
-		cameraFrame->Invalidate();
+	{
+		cameraFrame->ReSize();
+		//cameraFrame->Invalidate();
+	}
 }
 
 void CMainFrame::OnGencode()

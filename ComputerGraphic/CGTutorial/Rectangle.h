@@ -5,7 +5,7 @@ class CRectangle :
 {
 public:
 
-	CRectangle(float top, float left, float bottom, float right) : CGeometric("rectangle",NODE_RECTANGLE)
+	CRectangle(float top, float left, float bottom, float right) : CGeometric(NODE_RECTANGLE)
 	{
 		SetData(top,left,bottom,right);
 	}
@@ -16,6 +16,8 @@ public:
 	{
 		data1.setCoords(top,left,0);
 		data2.setCoords(bottom,right,0);
+		string.Format(CString("rectangle(top=%5.2f, left=%5.2f, bottom=%5.2f, right=%5.2f)"),top,left,bottom,right);
+		openGL.Format(CString("drawRectangle(%5.2f,%5.2f,%5.2f,%5.2f)"),top,left,bottom,right);
 	}
 
 	void GetData(float &top, float &left, float &bottom, float &right)
@@ -24,15 +26,6 @@ public:
 		left = data1.getY();
 		bottom = data2.getX();
 		right = data2.getY();
-	}
-
-	virtual CString ToString()
-	{
-		char buff[128];
-
-		sprintf_s(buff,"(top=%5.2f, left=%5.2f, bottom=%5.2f, right=%5.2f)",data1.getX(),data1.getY(),data2.getX(),data2.getY());
-
-		return label + CString(buff);
 	}
 
 	virtual void DoOpenGL()

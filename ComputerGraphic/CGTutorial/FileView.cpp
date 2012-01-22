@@ -27,6 +27,7 @@
 #include "DlgScale.h"
 #include "DlgProjection.h"
 #include "DlgCamera.h"
+#include "DlgViewPort.h"
 #include "DlgPoint.h"
 #include "DlgLine.h"
 #include "DlgRectangle.h"
@@ -190,9 +191,8 @@ void CFileView::FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNod
 	m_wndFileView.DeleteAllItems();
 	m_wndFileView.myMap.RemoveAll();
 
-	HTREEITEM node = m_wndFileView.InsertItem(CString("object"), 0, 0);
+	HTREEITEM node = m_wndFileView.InsertItem(oobject->ToString(), 0, 0);
 	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
-	
 	m_wndFileView.myMap.SetAt(node,oobject);
 
 	TiXmlNode* pChild = NULL;
@@ -200,9 +200,8 @@ void CFileView::FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNod
 		FillFile(pChild,node,oobject);
 	}
 
-	environment = m_wndFileView.InsertItem(CString("environment"), 0, 0);
+	environment = m_wndFileView.InsertItem(oenvironment->ToString(), 0, 0);
 	m_wndFileView.SetItemState(environment,TVIS_BOLD,TVIS_BOLD);
-
 	m_wndFileView.myMap.SetAt(environment,oenvironment);
 
 	pChild = NULL;
@@ -218,12 +217,12 @@ void CFileView::FillView(COpenGLNode *object, COpenGLNode* oenvironment)
 	m_wndFileView.DeleteAllItems();
 	m_wndFileView.myMap.RemoveAll();
 
-	HTREEITEM node = m_wndFileView.InsertItem(CString("object"), 0, 0);
+	HTREEITEM node = m_wndFileView.InsertItem(object->ToString(), 0, 0);
 	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
 	
 	m_wndFileView.myMap.SetAt(node,object);
 
-	environment = m_wndFileView.InsertItem(CString("environment"), 0, 0);
+	environment = m_wndFileView.InsertItem(oenvironment->ToString(), 0, 0);
 	m_wndFileView.SetItemState(environment,TVIS_BOLD,TVIS_BOLD);
 	
 	m_wndFileView.myMap.SetAt(environment,oenvironment);
@@ -243,7 +242,7 @@ void CFileView::FillFile(TiXmlNode *root, HTREEITEM hparrent, COpenGLNode *oparr
 	COpenGLNode *openGL = XmltoOpenGL(root);
 	oparrent->AddChild(openGL);
 
-	CString data = CString(root->Value()) + " (";
+	CString data = CString(root->Value()) + "(";
 	TiXmlAttribute* pAttrib=root->ToElement()->FirstAttribute();
 	while(pAttrib) {
 		data+= pAttrib->Name();
@@ -483,15 +482,22 @@ void CFileView::OnFileviewEdit()
 			edit = true;
 			((CCamera*)node)->SetData(dlg.m_EX,dlg.m_EY,dlg.m_EZ,dlg.m_RX,dlg.m_RY,dlg.m_RZ,dlg.m_UX,dlg.m_UY,dlg.m_UZ);
 		}
+	} else if(id == NODE_VIEWPORT) {
+		((CViewPort*)node)->GetData(x1,y1,x2,y2,id);
+		CDlgViewPort dlg(x1,y1,x2,y2,id);
+		if(dlg.DoModal() == IDOK) {
+			edit = true;
+			((CViewPort*)node)->SetData(dlg.m_Left,dlg.m_Bottom,dlg.m_Width,dlg.m_Height,dlg.type);
+		}
 	} else if(id == NODE_TRANSLATE) {
-		((CTranslate*)node)->GetData(x1,y1,z1,w);
+		((CTranslate*)node)->GetData(x1,y1,z1);
 		CDlgTranslate dlg(x1,y1,z1);
 		if(dlg.DoModal() == IDOK) {
 			edit = true;
 			((CTranslate*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z);
 		}
 	} else if(id == NODE_SCALE) {
-		((CScale*)node)->GetData(x1,y1,z1,w);
+		((CScale*)node)->GetData(x1,y1,z1);
 		CDlgScale dlg(x1,y1,z1);
 		if(dlg.DoModal() == IDOK) {
 			edit = true;

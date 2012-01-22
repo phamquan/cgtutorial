@@ -73,6 +73,17 @@ int CCameraFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 void CCameraFrame::OnSize(UINT nType, int cx, int cy)
 {
 	CDialog::OnSize(nType, cx, cy);
+	
+	width = cx;
+	height = cy;
+	ReSize();
+
+	((CMainFrame*)GetParent())->Refresh();
+	// TODO: Add your message handler code here
+}
+
+void CCameraFrame::ReSize()
+{
 	wglMakeCurrent( m_hDC, m_hRC ); 
 	float x1,y1,z1,x2;
 	int w;
@@ -80,14 +91,10 @@ void CCameraFrame::OnSize(UINT nType, int cx, int cy)
 	if(w == VIEWPORT_CUSTOM)
 		glViewport(x1,y1,z1,x2);
 	else
-		glViewport(0,0,cx,cy);
-
-	((CMainFrame*)GetParent())->Refresh();
+		glViewport(0,0,width,height);
 
 	Invalidate();
-	// TODO: Add your message handler code here
 }
-
 
 BOOL CCameraFrame::OnEraseBkgnd(CDC* pDC)
 {
