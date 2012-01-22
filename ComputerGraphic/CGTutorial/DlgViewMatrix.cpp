@@ -75,6 +75,7 @@ void CDlgViewMatrix::OnPaint()
 	CPaintDC dc(this); // device context for painting
 	// TODO: Add your message handler code here
 	// Do not call CDlgMatrix::OnPaint() for painting messages
+	dc.SetBkMode( TRANSPARENT );
 	CRect rect;
 	GetClientRect(&rect);
 

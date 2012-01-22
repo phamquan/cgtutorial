@@ -75,6 +75,7 @@ void CPipeLineTip::OnPaint()
 	pBrush1.CreateSolidBrush( RGB(255,255,128) );
 
 	dc.FillRgn( &rgnComb, &pBrush1 );
+	dc.SetBkMode( TRANSPARENT );
 
 	int left = 10;
 	ShowMatrix(&dc,matrix,10,left);

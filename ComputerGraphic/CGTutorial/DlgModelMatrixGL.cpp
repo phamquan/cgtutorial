@@ -43,7 +43,6 @@ void CDlgModelMatrixGL::Refresh(COpenGLNode* obj)
 void CDlgModelMatrixGL::ShowNode(COpenGLNode* node, int &top, CDC *cdc)
 {
 	int id = node->ID;
-	char buff[128];
 	float x,y,z,w;
 	if(id == NODE_OBJECT) {
 		cdc->TextOutW(10,top+=20,CString("glMatrixMode(GL_MODELVIEW);"));
@@ -53,18 +52,15 @@ void CDlgModelMatrixGL::ShowNode(COpenGLNode* node, int &top, CDC *cdc)
 		if(id != NODE_COLOR) {			
 			if(id == NODE_TRANSLATE) {
 				((CTranslate*)node)->GetData(x,y,z,w);
-				sprintf_s(buff,"glTranslatef(%5.2f,%5.2f,%5.2f)",x,y,z);
 				glTranslatef(x,y,z);
 			} else if(id == NODE_SCALE) {
 				((CScale*)node)->GetData(x,y,z,w);
-				sprintf_s(buff,"glScalef(%5.2f,%5.2f,%5.2f)",x,y,z);
 				glScalef(x,y,z);
 			} else if(id == NODE_ROTATE) {
 				((CRotate*)node)->GetData(x,y,z,w);
-				sprintf_s(buff,"glRotatef(%5.2f,%5.2f,%5.2f,%5.2f)",w,x,y,z);
 				glRotatef(w,x,y,z);
 			}
-			cdc->TextOutW(10,top+=20,CString(buff));
+			cdc->TextOutW(10,top+=20,((CTransformation*)node)->GLCode());
 		}
 	}
 }
@@ -74,6 +70,7 @@ void CDlgModelMatrixGL::OnPaint()
 	CPaintDC dc(this); // device context for painting
 	// TODO: Add your message handler code here
 	// Do not call CDlgMatrix::OnPaint() for painting messages
+	dc.SetBkMode( TRANSPARENT );
 	CRect rect;
 	GetClientRect(&rect);
 

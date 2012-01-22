@@ -34,6 +34,7 @@ public:
 		return label + CString(buff);
 	}
 	
+	virtual CString GLCode() = 0;
 protected:
 
 	virtual void BeginOpenGL()

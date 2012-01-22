@@ -29,7 +29,12 @@ protected: // create from serialization only
 
 	CString GenCode();
 	void AddCode(char* data, int tab, int line);
-
+	void AddCode(CString data, int tab, int line);
+	void InitGLCode();
+	void SizeGLCode();
+	void PaintGLCode();
+	void CoordinateGLCode();
+	void ObjectGLCode(COpenGLNode *node);
 // Attributes
 public:
 	CEnvironment* environment;

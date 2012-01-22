@@ -94,8 +94,8 @@ public:
 
 protected:
 
-	virtual void BeginOpenGL() {};
+	virtual void BeginOpenGL() {} ;
 
-	virtual void EndOpenGL() {};
+	virtual void EndOpenGL() {} ;
 };
 
