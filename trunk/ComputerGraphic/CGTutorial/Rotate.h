@@ -5,32 +5,31 @@ class CRotate :
 {
 public:
 
-	CRotate(float x, float y, float z, float angle) : CTransformation("rotate",NODE_ROTATE)
+	CRotate(float x, float y, float z, float angle) : CTransformation(NODE_ROTATE)
 	{
 		SetData(x,y,z,angle);
 	}
 
 	virtual ~CRotate() {}
 
-	virtual CString ToString()
+	void SetData(float x, float y, float z, float angle)
 	{
-		char buff[128];
+		data.setCoords(x,y,z,angle);
+		string.Format(CString("rotate(x=%5.2f, y=%5.2f, z=%5.2f, angle=%5.2f)"),x,y,z,angle);
+		openGL.Format(CString("glRotatef(%5.2f,%5.2f,%5.2f,%5.2f)"),angle,x,y,z);
+	}
 
-		sprintf_s(buff,"(x=%5.2f, y=%5.2f, z=%5.2f, angle=%5.2f)",data.getX(),data.getY(),data.getZ(),data.getW());
-
-		return label + CString(buff);
+	void GetData(float &x, float &y, float &z, float &angle)
+	{
+		x = data.getX();
+		y = data.getY();
+		z = data.getZ();
+		angle = data.getW();
 	}
 
 	virtual void DoOpenGL()
 	{
 		glRotatef(data.getW(),data.getX(),data.getY(),data.getZ());
-	}
-
-	virtual CString GLCode()
-	{
-		char buf[128];
-		sprintf_s(buf,"glRotatef(%5.2f,%5.2f,%5.2f,%5.2f)",data.getW(),data.getX(),data.getY(),data.getZ());
-		return CString(buf);
 	}
 };
 

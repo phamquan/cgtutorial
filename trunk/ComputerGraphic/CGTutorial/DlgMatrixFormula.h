@@ -8,7 +8,7 @@
 #include "DlgViewMatrixGL.h"
 #include "DlgProjectionMatrix.h"
 #include "DlgProjectionMatrixGL.h"
-#include "DlgViewPort.h"
+#include "DlgViewPortMatrix.h"
 
 // CDlgMatrixFormula dialog
 
@@ -32,7 +32,7 @@ protected:
 	CDlgViewMatrixGL *dlgViewGL;
 	CDlgProjectionMatrix *dlgProjection;
 	CDlgProjectionMatrixGL *dlgProjectionGL;
-	CDlgViewPort *dlgViewPort;
+	CDlgViewPortMatrix *dlgViewPort;
 	
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 

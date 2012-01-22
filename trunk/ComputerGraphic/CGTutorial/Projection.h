@@ -14,7 +14,7 @@ protected:
 
 public:
 
-	CProjection(float left, float right, float bottom, float top, float mnear, float mfar, int type) : COpenGLNode("projection",NODE_PROJECTION)
+	CProjection(float left, float right, float bottom, float top, float mnear, float mfar, int type) : COpenGLNode(NODE_PROJECTION)
 	{
 		SetData(left, right, bottom, top, mnear, mfar, type);
 	}
@@ -26,6 +26,11 @@ public:
 		data1.setCoords(left,right,bottom);
 		data2.setCoords(top,mnear,mfar);
 		this->type = type;
+
+		if(type == ORTHO)
+			string.Format(CString("projection(type=ortho, left=%5.2f, right=%5.2f, bottom=%5.2f, top=%5.2f, near=%5.2f, far=%5.2f)"),left,right,bottom,top,mnear,mfar);
+		else
+			string.Format(CString("projection(type=frustum, left=%5.2f, right=%5.2f, bottom=%5.2f, top=%5.2f, near=%5.2f, far=%5.2f)"),left,right,bottom,top,mnear,mfar);
 	}
 
 	void GetData(float &left, float &right, float &bottom, float &top, float &mnear, float &mfar, int &type)
@@ -37,19 +42,6 @@ public:
 		mnear = data2.getY();
 		mfar = data2.getZ();
 		type = this->type;
-	}
-	
-	virtual CString ToString()
-	{
-		char buff[1024];
-
-		sprintf_s(buff,"left=%5.2f, right=%5.2f, bottom=%5.2f, top=%5.2f, near=%5.2f, far=%5.2f)",
-				data1.getX(),data1.getY(),data1.getZ(),data2.getX(),data2.getY(),data2.getZ());
-
-		if(type == ORTHO)
-			return label + "(type=ortho, " + CString(buff);	
-		else
-			return label + "(type=frustum, " + CString(buff);
 	}
 
 protected:

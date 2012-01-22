@@ -21,7 +21,8 @@
 
 #include "MainFrm.h"
 #include "CGTutorialDoc.h"
-#include "Translate.h"
+#include "Transformation.h"
+#include "Geometric.h"
 #include <propkey.h>
 
 #ifdef _DEBUG
@@ -41,7 +42,7 @@ END_MESSAGE_MAP()
 CCGTutorialDoc::CCGTutorialDoc()
 {
 	// TODO: add one-time construction code here
-	object = new COpenGLNode("object",NODE_OBJECT);
+	object = new COpenGLNode(NODE_OBJECT);
 	environment = new CEnvironment();
 	DeleteContents();
 	tabsize = 5;
@@ -358,9 +359,9 @@ void CCGTutorialDoc::ObjectGLCode(COpenGLNode *node)
 		}
 		AddCode(((CTransformation*)node)->GLCode(),1,1);
 	}
-	else if(id == NODE_POINT)
+	else if(id == NODE_POINT || id == NODE_LINE || id == NODE_RECTANGLE)
 	{
-		
+		AddCode(((CGeometric*)node)->GLCode(),1,1);
 	}
 
 	CPtrArray *child = node->m_listChild;

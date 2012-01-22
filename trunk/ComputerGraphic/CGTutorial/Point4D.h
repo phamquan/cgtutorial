@@ -5,7 +5,7 @@ class CPoint4D :
 {
 public:
 
-	CPoint4D(float x, float y, float z) : CGeometric("point",NODE_POINT)
+	CPoint4D(float x, float y, float z) : CGeometric(NODE_POINT)
 	{
 		SetData(x, y, z);
 	}
@@ -14,7 +14,9 @@ public:
 
 	void SetData(float x, float y, float z)
 	{
-		data1.setCoords(x, y, z);
+		data1.setCoords(x,y,z);
+		string.Format(CString("point(x=%5.2f, y=%5.2f, z=%5.2f)"),x,y,z);
+		openGL.Format(CString("drawPoint(%5.2f,%5.2f,%5.2f);"),x,y,z);
 	}
 
 	void GetData(float &x, float &y, float &z)
@@ -22,15 +24,6 @@ public:
 		x = data1.getX();
 		y = data1.getY();
 		z = data1.getZ();
-	}
-
-	virtual CString ToString()
-	{
-		char buff[1024];
-
-		sprintf_s(buff,"(x=%5.2f, y=%5.2f, z=%5.2f)",data1.getX(),data1.getY(),data1.getZ());
-
-		return label + CString(buff);
 	}
 
 	virtual void DoOpenGL()

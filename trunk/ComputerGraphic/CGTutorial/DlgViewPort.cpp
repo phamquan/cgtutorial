@@ -3,18 +3,23 @@
 
 #include "stdafx.h"
 #include "CGTutorial.h"
-#include "MainFrm.h"
 #include "DlgViewPort.h"
+#include "ViewPort.h"
+#include "afxdialogex.h"
 
 
 // CDlgViewPort dialog
 
-IMPLEMENT_DYNAMIC(CDlgViewPort, CDlgMatrix)
+IMPLEMENT_DYNAMIC(CDlgViewPort, CDialog)
 
-CDlgViewPort::CDlgViewPort(CEnvironment *environment, CWnd* pParent /*=NULL*/)
-	: CDlgMatrix(pParent)
+CDlgViewPort::CDlgViewPort(float left, float bottom, float width, float height, int type, CWnd* pParent /*=NULL*/)
+	: CDialog(CDlgViewPort::IDD, pParent)
 {
-	this->environment = environment;
+	m_Bottom = bottom;
+	m_Height = height;
+	m_Left = left;
+	m_Width = width;
+	this->type = type;
 }
 
 CDlgViewPort::~CDlgViewPort()
@@ -23,52 +28,44 @@ CDlgViewPort::~CDlgViewPort()
 
 void CDlgViewPort::DoDataExchange(CDataExchange* pDX)
 {
-	CDlgMatrix::DoDataExchange(pDX);
+	CDialog::DoDataExchange(pDX);
+	DDX_Text(pDX, IDC_BOTTOM, m_Bottom);
+	DDX_Text(pDX, IDC_HEIGHT, m_Height);
+	DDX_Text(pDX, IDC_LEFT, m_Left);
+	DDX_Text(pDX, IDC_WIDTH, m_Width);
 }
 
 
-BEGIN_MESSAGE_MAP(CDlgViewPort, CDlgMatrix)
-	ON_WM_PAINT()
+BEGIN_MESSAGE_MAP(CDlgViewPort, CDialog)
+	ON_COMMAND(IDC_DEFAULT, &CDlgViewPort::OnDefault)
+	ON_COMMAND(IDC_CUSTOM, &CDlgViewPort::OnCustom)
 END_MESSAGE_MAP()
 
 
 // CDlgViewPort message handlers
-void CDlgViewPort::Refresh()
+
+
+void CDlgViewPort::OnDefault()
 {
-	int type;
-
-	environment->GetViewPort()->GetData(x,y,w,h,type);
-	if(type == VIEWPORT_DEFAULT)
-	{
-		CSize s = ((CMainFrame*)AfxGetMainWnd())->GetViewPort();
-		x = y = 0;
-		w = s.cx;
-		h = s.cy;
-	}
-
-	sum[0] = w/2;	sum[4] = 0;		sum[8] = 0;		sum[12] = x+w/2;
-	sum[1] = 0;		sum[5] = h/2;	sum[9] = 0;		sum[13] = y+h/2;
-	sum[2] = 0;		sum[6] = 0;		sum[10] = 0;	sum[14] = 0;
-	sum[3] = 0;		sum[7] = 0;		sum[11] = 0;	sum[15] = 0;
-
-	Invalidate();
+	// TODO: Add your command handler code here
+	type = VIEWPORT_DEFAULT;
 }
 
-void CDlgViewPort::OnPaint()
+
+void CDlgViewPort::OnCustom()
 {
-	CPaintDC dc(this); // device context for painting
-	// TODO: Add your message handler code here
-	// Do not call CDlgMatrix::OnPaint() for painting messages
-	dc.SetBkMode( TRANSPARENT );
-	char buf[128];
-	sprintf_s(buf,"left = %5.2f, bottom = %5.2f, width = %5.2f, height = %5.2f",x,y,w,h);
-	dc.TextOutW(10,10,CString(buf));
+	// TODO: Add your command handler code here
+	type = VIEWPORT_CUSTOM;
+}
 
-	int top=30, left = 10;
-	CString data[16] = {CString("width/2"), CString("0.000"), CString("0.000"), CString("0.000"),
-						CString("0.000"), CString("height/2"), CString("0.000"), CString("0.000"),
-						CString("0.000"), CString("0.000"), CString ("0.000"), CString("0.000"),
-						CString("left + width/2"), CString("bottom + height/2"), CString("0.000"), CString("0.000")};
 
-	ShowMatrixMatrix(&dc,CString("VP"),data,sum,top,left);
+BOOL CDlgViewPort::OnInitDialog()
+{
+	CDialog::OnInitDialog();
+
+	// TODO:  Add extra initialization here
+	((CButton*)GetDlgItem(IDC_DEFAULT))->SetCheck(type == VIEWPORT_DEFAULT);
+	((CButton*)GetDlgItem(IDC_CUSTOM))->SetCheck(type == VIEWPORT_CUSTOM);
+	return TRUE;  // return TRUE unless you set the focus to a control
+	// EXCEPTION: OCX Property Pages should return FALSE
 }

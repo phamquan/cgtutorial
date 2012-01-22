@@ -20,7 +20,7 @@ CDlgMatrixFormula::CDlgMatrixFormula(CEnvironment *environment)
 	dlgViewGL = new CDlgViewMatrixGL(environment);
 	dlgProjection = new CDlgProjectionMatrix(environment);
 	dlgProjectionGL = new CDlgProjectionMatrixGL(environment);
-	dlgViewPort = new CDlgViewPort(environment);
+	dlgViewPort = new CDlgViewPortMatrix(environment);
 }
 
 CDlgMatrixFormula::~CDlgMatrixFormula()
