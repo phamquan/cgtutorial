@@ -14,12 +14,12 @@
 	<translate x=1 y=1 z=1>
 		<scale x=2 y=2 z=2>
 			<rotate x=0 y=0 z=1 angle=-90>
-				<line x1=0 y1=0 z1=0 x2=1 y2=1 z2=0 />
+				<line x1=0 y1=0 z1=0 x2=1 y2=1 z2=0 red=1 green=0 blue=0/>
 			</rotate>
 		</scale>
 	</translate>
 	<rotate x=0 y=0 z=1 angle=45>
-		<rectangle top=1 bottom=0 left=0 right=1 />
+		<rectangle top=1 bottom=0 left=0 right=1 red=0 green=1 blue=0/>
 	</rotate>
 </object>
 

@@ -130,9 +130,7 @@ void CDlgPipeLine::CalNode(COpenGLNode* node) {
 
 	if(id != NODE_OBJECT) {
 		CalNode(node->parent);
-		if(id != NODE_COLOR) {			
-			node->DoOpenGL();
-		}
+		node->DoOpenGL();
 	}
 }
 

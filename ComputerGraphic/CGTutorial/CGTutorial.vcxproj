@@ -176,6 +176,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Transformation.h" />
     <ClInclude Include="Translate.h" />
+    <ClInclude Include="Triangle.h" />
     <ClInclude Include="ViewPort.h" />
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
