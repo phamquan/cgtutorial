@@ -13,10 +13,10 @@
 #define NODE_TRANSLATE	2
 #define NODE_ROTATE		3
 #define NODE_SCALE		4
-#define NODE_COLOR		5
-#define NODE_POINT		6
-#define NODE_LINE		7
-#define NODE_RECTANGLE	8
+#define NODE_POINT		5
+#define NODE_LINE		6
+#define NODE_RECTANGLE	7
+#define NODE_TRIANGLE	8
 
 class COpenGLNode
 {

@@ -63,23 +63,21 @@ void CDlgModelMatrix::CalNode(COpenGLNode* node) {
 		else
 			matrix.Add(new Element(CString("M = ") + total,CString(),sum));
 	} else {
-		if(id != NODE_COLOR) {			
-			if(id == NODE_TRANSLATE) {
-				sprintf_s(buff,"T%d",count[0]++);
-				node->DoOpenGL();
-			} else if(id == NODE_SCALE) {
-				sprintf_s(buff,"S%d",count[1]++);
-				node->DoOpenGL();
-			} else if(id == NODE_ROTATE) {
-				sprintf_s(buff,"R%d",count[2]++);
-				node->DoOpenGL();
-			}
-			total = CString("*") + buff + total;
-			glGetFloatv(GL_MODELVIEW_MATRIX,m);
-			glMultMatrixf(sum);
-			glGetFloatv(GL_MODELVIEW_MATRIX,sum);
-			matrix.Add(new Element(CString(buff),node->toString,m));
+		if(id == NODE_TRANSLATE) {
+			sprintf_s(buff,"T%d",count[0]++);
+			node->DoOpenGL();
+		} else if(id == NODE_SCALE) {
+			sprintf_s(buff,"S%d",count[1]++);
+			node->DoOpenGL();
+		} else if(id == NODE_ROTATE) {
+			sprintf_s(buff,"R%d",count[2]++);
+			node->DoOpenGL();
 		}
+		total = CString("*") + buff + total;
+		glGetFloatv(GL_MODELVIEW_MATRIX,m);
+		glMultMatrixf(sum);
+		glGetFloatv(GL_MODELVIEW_MATRIX,sum);
+		matrix.Add(new Element(CString(buff),node->toString,m));
 		CalNode(node->parent);
 	}
 	glMatrixMode(GL_MODELVIEW);

@@ -249,6 +249,11 @@ CString CCGTutorialDoc::GenCode()
 	//coordinate
 	CoordinateGLCode();
 
+	//draw object
+	DrawPoint();
+	DrawLine();
+	DrawRectangle();
+
 	//onpaint
 	PaintGLCode();
 	
@@ -337,15 +342,12 @@ void CCGTutorialDoc::ObjectGLCode(COpenGLNode *node)
 		}
 	}
 
-	if(id != NODE_OBJECT && id != NODE_COLOR)
+	if(id != NODE_OBJECT)
 		AddCode(node->GLCode,1,1);
 
 	CPtrArray *child = node->m_listChild;
 	for(int i=0; i<child->GetSize(); i++)
 	{
-		if(id == NODE_COLOR)
-			AddCode(node->GLCode,1,1);
-
 		ObjectGLCode((COpenGLNode*)child->GetAt(i));
 	}
 
@@ -356,4 +358,35 @@ void CCGTutorialDoc::ObjectGLCode(COpenGLNode *node)
 			AddCode("glPopMatrix();",1,2);
 		}
 	}
+}
+
+void CCGTutorialDoc::DrawPoint()
+{
+	AddCode("void drawPoint(float x, float y, float z) {",0,1);
+	AddCode("glBegin(GL_POINTS);",1,1);
+		AddCode("glVertex3f(x,y,z);",2,1);	
+	AddCode("glEnd();",1,1);
+	AddCode("}",0,2);
+}
+
+void CCGTutorialDoc::DrawLine()
+{
+	AddCode("void drawLine(float x1, float y1, float z1, float x2, float y2, float z2) {",0,1);
+	AddCode("glBegin(GL_LINES);",1,1);
+		AddCode("glVertex3f(x1,y1,z1);",2,1);	
+		AddCode("glVertex3f(x2,y2,z2);",2,1);
+	AddCode("glEnd();",1,1);
+	AddCode("}",0,2);
+}
+
+void CCGTutorialDoc::DrawRectangle()
+{
+	AddCode("void drawRectangle(float  top, float left, float bottom, float right) {",0,1);
+	AddCode("glBegin(GL_QUADS);",1,1);
+		AddCode("glVertex3f(left,top,0);",2,1);	
+		AddCode("glVertex3f(right,top,0);",2,1);
+		AddCode("glVertex3f(right,bottom,0);",2,1);
+		AddCode("glVertex3f(left,bottom,0);",2,1);
+	AddCode("glEnd();",1,1);
+	AddCode("}",0,2);
 }

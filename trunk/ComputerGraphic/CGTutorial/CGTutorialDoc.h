@@ -35,6 +35,9 @@ protected: // create from serialization only
 	void PaintGLCode();
 	void CoordinateGLCode();
 	void ObjectGLCode(COpenGLNode *node);
+	void DrawPoint();
+	void DrawLine();
+	void DrawRectangle();
 // Attributes
 public:
 	CEnvironment* environment;

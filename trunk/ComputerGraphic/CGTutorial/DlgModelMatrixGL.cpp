@@ -49,19 +49,17 @@ void CDlgModelMatrixGL::ShowNode(COpenGLNode* node, int &top, CDC *cdc)
 		cdc->TextOutW(10,top+=20,CString("glLoadIdentity();"));
 	} else {
 		ShowNode(node->parent,top,cdc);
-		if(id != NODE_COLOR) {			
-			if(id == NODE_TRANSLATE) {
-				((CTranslate*)node)->GetData(x,y,z);
-				glTranslatef(x,y,z);
-			} else if(id == NODE_SCALE) {
-				((CScale*)node)->GetData(x,y,z);
-				glScalef(x,y,z);
-			} else if(id == NODE_ROTATE) {
-				((CRotate*)node)->GetData(x,y,z,w);
-				glRotatef(w,x,y,z);
-			}
-			cdc->TextOutW(10,top+=20,((CTransformation*)node)->GLCode);
+		if(id == NODE_TRANSLATE) {
+			((CTranslate*)node)->GetData(x,y,z);
+			glTranslatef(x,y,z);
+		} else if(id == NODE_SCALE) {
+			((CScale*)node)->GetData(x,y,z);
+			glScalef(x,y,z);
+		} else if(id == NODE_ROTATE) {
+			((CRotate*)node)->GetData(x,y,z,w);
+			glRotatef(w,x,y,z);
 		}
+		cdc->TextOutW(10,top+=20,((CTransformation*)node)->GLCode);
 	}
 }
 

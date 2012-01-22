@@ -75,7 +75,6 @@ public:
 	afx_msg void OnTransformationTranslate();
 	afx_msg void OnTransformationRotate();
 	afx_msg void OnTransformationScale();
-	afx_msg void OnFileviewColor();
 	afx_msg void OnFileviewEdit();
 	afx_msg void OnFileviewDelete();
 };

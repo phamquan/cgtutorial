@@ -17,10 +17,10 @@
 #include "Rotate.h"
 #include "Scale.h"
 #include "Translate.h"
-#include "Color.h"
 #include "Line.h"
 #include "Point4D.h"
 #include "Rectangle.h"
+#include "Triangle.h"
 
 #include "DlgTranslate.h"
 #include "DlgRotate.h"
@@ -61,7 +61,6 @@ BEGIN_MESSAGE_MAP(CFileView, CDockablePane)
 	ON_COMMAND(ID_TRANSFORMATION_TRANSLATE, &CFileView::OnTransformationTranslate)
 	ON_COMMAND(ID_TRANSFORMATION_ROTATE, &CFileView::OnTransformationRotate)
 	ON_COMMAND(ID_TRANSFORMATION_SCALE, &CFileView::OnTransformationScale)
-	ON_COMMAND(ID_FILEVIEW_COLOR, &CFileView::OnFileviewColor)
 	ON_COMMAND(ID_FILEVIEW_EDIT, &CFileView::OnFileviewEdit)
 	ON_COMMAND(ID_FILEVIEW_DELETE, &CFileView::OnFileviewDelete)
 END_MESSAGE_MAP()
@@ -181,6 +180,10 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 	{
 		result = new CPoint4D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)));
 	}
+	else if(CString(node->Value()) == "triangle")
+	{
+		result = new CTriangle(atof(GetValue("x1",node)),atof(GetValue("y1",node)),atof(GetValue("x2",node),atof(GetValue("y2",node),atof(GetValue("x3",node),atof(GetValue("y3",node)));
+	}
 
 	return result;
 }
@@ -291,7 +294,7 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 					contextMenu->GetSubMenu(0)->DeleteMenu(3,MF_BYPOSITION);
 					contextMenu->GetSubMenu(0)->DeleteMenu(2,MF_BYPOSITION);
 				}
-				else if(id == NODE_POINT || id == NODE_LINE || id == NODE_RECTANGLE)
+				else if(id == NODE_POINT || id == NODE_LINE || id == NODE_RECTANGLE || id == NODE_TRIANGLE)
 				{
 					contextMenu->GetSubMenu(0)->DeleteMenu(1,MF_BYPOSITION);
 					contextMenu->GetSubMenu(0)->DeleteMenu(0,MF_BYPOSITION);
@@ -379,7 +382,6 @@ BOOLEAN CFileView::ValidateAdd()
 	case NODE_TRANSLATE:
 	case NODE_ROTATE:
 	case NODE_SCALE:
-	case NODE_COLOR:
 		return true;
 	}
 	return false;
@@ -437,19 +439,6 @@ void CFileView::OnTransformationScale()
 	}
 }
 
-
-void CFileView::OnFileviewColor()
-{
-	// TODO: Add your command handler code here
-	if(ValidateAdd()) {
-		CColorDialog dlg;
-		if(dlg.DoModal() == IDOK) {
-			COLORREF color = dlg.GetColor();
-			AddNode(new CColor(GetRValue(color)/255.0,GetGValue(color)/255.0,GetBValue(color)/255.0));
-		}
-	}
-}
-
 void CFileView::OnFileviewEdit()
 {
 	// TODO: Add your command handler code here
@@ -498,13 +487,6 @@ void CFileView::OnFileviewEdit()
 			edit = true;
 			((CRotate*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_A);
 		}
-	} else if(id == NODE_COLOR) {
-		CColorDialog dlg;
-		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			COLORREF color = dlg.GetColor();
-			((CColor*)node)->SetData(GetRValue(color)/255.0,GetGValue(color)/255.0,GetBValue(color)/255.0);
-		}
 	} else if(id == NODE_POINT) {
 		((CPoint4D*)node)->GetData(x1,y1,z1);
 		CDlgPoint dlg(x1,y1,z1);
@@ -526,6 +508,8 @@ void CFileView::OnFileviewEdit()
 			edit = true;
 			((CRectangle*)node)->SetData(dlg.m_Top,dlg.m_Left,dlg.m_Bottom,dlg.m_Right);
 		}
+	} else if(id == NODE_TRIANGLE) {
+		//TODO:
 	}
 
 	if(edit) {
@@ -533,7 +517,6 @@ void CFileView::OnFileviewEdit()
 		((CMainFrame*)AfxGetMainWnd())->Refresh();
 	}
 }
-
 
 void CFileView::OnFileviewDelete()
 {
@@ -558,6 +541,7 @@ COpenGLNode* CFileView::GetObject()
 		case NODE_POINT:
 		case NODE_LINE:
 		case NODE_RECTANGLE:
+		case NODE_TRIANGLE:
 			return node;
 		}
 	}
@@ -574,6 +558,7 @@ COpenGLNode* CFileView::GetGeometric()
 		case NODE_POINT:
 		case NODE_LINE:
 		case NODE_RECTANGLE:
+		case NODE_TRIANGLE:
 			return node;
 		}
 	}
