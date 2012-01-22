@@ -357,9 +357,12 @@ void CCGTutorialDoc::ObjectGLCode(COpenGLNode *node)
 		{
 			AddCode("glPushMatrix();",1,1);
 		}
-
 		AddCode(((CTransformation*)node)->GLCode(),1,1);
-	} else if(id == NODE_POINT)
+	}
+	else if(id == NODE_POINT)
+	{
+		
+	}
 
 	CPtrArray *child = node->m_listChild;
 	for(int i=0; i<child->GetSize(); i++)

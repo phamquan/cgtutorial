@@ -8,7 +8,7 @@ class CDlgRectangle : public CDialog
 	DECLARE_DYNAMIC(CDlgRectangle)
 
 public:
-	CDlgRectangle(CWnd* pParent = NULL);   // standard constructor
+	CDlgRectangle(CWnd* pParent = NULL);
 	CDlgRectangle(float top, float left, float bottom, float right, CWnd* pParent = NULL);
 	virtual ~CDlgRectangle();
 

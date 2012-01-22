@@ -290,7 +290,28 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 				delete contextMenu;
 			contextMenu = new CMenu();
 			contextMenu->LoadMenuW(IDR_FILEVIEW);
-			contextMenu->GetSubMenu(0)->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this);
+
+			int id = node->ID;
+			if(id != NODE_ENVIRONMENT) {
+				if(id == NODE_CAMERA || id == NODE_PROJECTION || id == NODE_VIEWPORT)
+				{
+					contextMenu->GetSubMenu(0)->DeleteMenu(3,MF_BYPOSITION);
+					contextMenu->GetSubMenu(0)->DeleteMenu(1,MF_BYPOSITION);
+					contextMenu->GetSubMenu(0)->DeleteMenu(0,MF_BYPOSITION);
+				}
+				else if(id == NODE_OBJECT)
+				{
+					contextMenu->GetSubMenu(0)->DeleteMenu(3,MF_BYPOSITION);
+					contextMenu->GetSubMenu(0)->DeleteMenu(2,MF_BYPOSITION);
+				}
+				else if(id == NODE_POINT || id == NODE_LINE || id == NODE_RECTANGLE)
+				{
+					contextMenu->GetSubMenu(0)->DeleteMenu(1,MF_BYPOSITION);
+					contextMenu->GetSubMenu(0)->DeleteMenu(0,MF_BYPOSITION);
+				}
+						
+				contextMenu->GetSubMenu(0)->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this);
+			}
 			//theApp.GetContextMenuManager()->ShowPopupMenu(IDR_FILEVIEW, point.x, point.y, this, TRUE);		
 		}
 	}
@@ -384,6 +405,7 @@ BOOLEAN CFileView::ValidateDelete()
 	case NODE_ENVIRONMENT:
 	case NODE_CAMERA:
 	case NODE_PROJECTION:
+	case NODE_VIEWPORT:
 		return false;
 	}
 	return true;
