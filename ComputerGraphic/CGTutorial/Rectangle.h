@@ -18,6 +18,7 @@ public:
 		data2.setCoords(bottom,right,0);
 		toString.Format(CString("rectangle(top=%5.2f, left=%5.2f, bottom=%5.2f, right=%5.2f)"),top,left,bottom,right);
 		GLCode.Format(CString("drawRectangle(%5.2f,%5.2f,%5.2f,%5.2f)"),top,left,bottom,right);
+		serialize.Format(CString("<rectangle top=%5.2f left=%5.2f bottom=%5.2f right=%5.2f />"),top,left,bottom,right);
 	}
 
 	void GetData(float &top, float &left, float &bottom, float &right)

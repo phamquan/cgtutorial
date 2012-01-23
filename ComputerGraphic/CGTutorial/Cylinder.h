@@ -18,6 +18,7 @@ public:
 		data2.setCoords(R,height,0);
 		toString.Format(CString("cylinder(x=%5.2f, y=%5.2f, z=%5.2f, R=%5.2f, height=%5.2f)"),x,y,z,R,height);
 		GLCode.Format(CString("drawCylinder(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f)"),x,y,z,R,height);
+		serialize.Format(CString("<cylinder x=%5.2f y=%5.2f z=%5.2f R=%5.2f height=%5.2f />"),x,y,z,R,height);
 	}
 
 	void GetData(float &x, float &y, float &z, float &R, float &height)

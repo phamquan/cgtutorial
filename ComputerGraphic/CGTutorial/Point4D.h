@@ -17,6 +17,7 @@ public:
 		data1.setCoords(x,y,z);
 		toString.Format(CString("point(x=%5.2f, y=%5.2f, z=%5.2f)"),x,y,z);
 		GLCode.Format(CString("drawPoint(%5.2f,%5.2f,%5.2f);"),x,y,z);
+		serialize.Format(CString("<point x=%5.2f y=%5.2f z=%5.2f />"),x,y,z);
 	}
 
 	void GetData(float &x, float &y, float &z)

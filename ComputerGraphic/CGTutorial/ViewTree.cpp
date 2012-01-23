@@ -24,14 +24,21 @@ static char THIS_FILE[] = __FILE__;
 
 CViewTree::CViewTree()
 {
+	m_boDragging   = false;
+	m_pDragImgList = NULL;
 }
 
 CViewTree::~CViewTree()
 {
+	delete m_pDragImgList;
 }
 
 BEGIN_MESSAGE_MAP(CViewTree, CTreeCtrl)
+	ON_WM_MOUSEMOVE()
+	ON_WM_LBUTTONUP()
+	ON_NOTIFY_REFLECT(TVN_BEGINDRAG, &CViewTree::OnTvnBegindrag)
 	ON_WM_LBUTTONDOWN()
+	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -52,10 +59,204 @@ BOOL CViewTree::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 	return bRes;
 }
 
+void CViewTree::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	if(m_boDragging)
+	{
+		/*TVHITTESTINFO tvHit;
+		tvHit.pt = point;*/
+		HTREEITEM hTarget = HitTest(point);
+
+		if(hTarget)
+		{
+			if(hTarget != m_hDragTarget)
+			{                                                     // this test avoids flickering
+				m_pDragImgList->DragShowNolock(false);
+				SelectDropTarget(hTarget);
+				m_pDragImgList->DragShowNolock(true);
+				m_hDragTarget = hTarget;
+			}
+		}
+
+		// move image being dragged
+		m_pDragImgList->DragMove(point);
+	}
+	CTreeCtrl::OnMouseMove(nFlags, point);
+}
+
+
+void CViewTree::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	if(m_boDragging)
+	{
+		KillTimer(1);
+
+		ReleaseCapture();
+		ShowCursor(true);
+		m_boDragging = false;
+
+		m_pDragImgList->DragLeave(this);
+		m_pDragImgList->EndDrag();
+		delete m_pDragImgList;
+		m_pDragImgList = NULL;
+
+		SelectDropTarget(NULL);
+		SelectItem(m_hDragItem);
+
+		if(m_hDragTarget && (m_hDragTarget != m_hDragItem))
+		{
+			SuccessfulDrag(m_hDragTarget,m_hDragItem);
+		}
+	}   
+	CTreeCtrl::OnLButtonUp(nFlags, point);
+}
+
+
+void CViewTree::OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	m_hDragItem = ((NM_TREEVIEW*)pNMHDR)->itemNew.hItem;
+	m_hDragTarget = NULL;
+
+	if(m_hDragItem == NULL)
+		return;
+
+	SelectItem(m_hDragItem);
+	m_pDragImgList = CreateDragImage(m_hDragItem);
+	
+	if(m_pDragImgList == NULL)
+		return;
+  
+	m_pDragImgList->BeginDrag(0,CPoint(0,0));
+	m_pDragImgList->DragEnter(this,((NM_TREEVIEW*)pNMHDR)->ptDrag);
+	m_boDragging = true;
+
+	ShowCursor(false);
+	SetCapture();
+
+	SetTimer(1,25,NULL);
+	*pResult = 0;
+}
+
+void CViewTree::SuccessfulDrag(HTREEITEM hDest,HTREEITEM hSrc)
+{
+	// test : no op if hSrc is already a child of hDest
+	if(GetParentItem(hSrc) == hDest)
+		return;
+
+	// test : if hDest is a child of hSrc, we're going to have a stack overflow ! (infinite loop)
+	HTREEITEM hParent = hDest;
+	while(hParent)
+	{
+		if(hParent == hSrc)
+		{
+			return;
+		}
+		hParent = GetParentItem(hParent);
+	}
+
+	COpenGLNode *source, *dest;
+	myMap.Lookup(hSrc,source);
+	myMap.Lookup(hDest,dest);
+	int id = source->ID;
+	if(id == NODE_OBJECT || id == NODE_ENVIRONMENT || id == NODE_CAMERA || id == NODE_PROJECTION || id == NODE_VIEWPORT)
+		return;
+
+	id = dest->ID;
+	if(id != NODE_OBJECT && id != NODE_TRANSLATE && id != NODE_SCALE && id != NODE_ROTATE)
+		return;
+
+	COpenGLNode *parent = source->parent;
+	parent->RemoveChild(source);
+	dest->AddChild(source);
+
+	// create a copy of the source subtree
+	HTREEITEM hNew = InsertItemAndSubtree(hDest,hSrc);
+	if(hNew == NULL)
+		return;
+
+	SelectItem   (hNew);
+	EnsureVisible(hNew);
+	DeleteItem   (hSrc);
+}
+
+
+void CViewTree::CopyItem(HTREEITEM hDest,HTREEITEM hSrc)
+{
+  TV_ITEM tvSrc;
+  tvSrc.mask  = TVIF_HANDLE | TVIF_PARAM | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
+  tvSrc.hItem = hSrc;
+  if(!GetItem(&tvSrc)) return;
+
+  tvSrc.hItem = hDest;
+  SetItem(&tvSrc);
+  SetItemText(hDest,GetItemText(hSrc));
+  SetCheck   (hDest,GetCheck   (hSrc));
+
+  if(tvSrc.state & TVIS_EXPANDED) Expand(hDest,TVE_EXPAND);
+}
+
+void CViewTree::CopySubtree(HTREEITEM hDest,HTREEITEM hSrc)
+{
+	if(!hDest || !hSrc) return;
+
+	HTREEITEM hChildSrc = GetChildItem(hSrc);
+	while(hChildSrc)
+	{
+		COpenGLNode *source;
+		myMap.Lookup(hChildSrc,source);
+
+		HTREEITEM   hChildDest = InsertItem(CString("dest child"),hDest);
+
+		myMap.RemoveKey(hSrc);
+		myMap.SetAt(hChildDest,source);
+		
+		CopySubtree(hChildDest,hChildSrc);
+		CopyItem   (hChildDest,hChildSrc);
+
+		hChildSrc = GetNextSiblingItem(hChildSrc);
+	}
+}
+
+HTREEITEM CViewTree::InsertItemAndSubtree(HTREEITEM hDest,HTREEITEM hSrc)
+{
+	if(hDest == NULL || hSrc == NULL)
+		return NULL;
+
+	COpenGLNode *source;
+	myMap.Lookup(hSrc,source);
+
+	HTREEITEM hNew = InsertItem(CString("new"),hDest); //insert new node into dest
+	if(hNew == NULL)
+		return NULL;
+
+	myMap.RemoveKey(hSrc);
+	myMap.SetAt(hNew,source);
+
+	CopySubtree(hNew,hSrc);                                   // start with subtree so that item is correctly expanded
+	CopyItem   (hNew,hSrc);
+	return hNew;
+}
+
 void CViewTree::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
-
 	CTreeCtrl::OnLButtonDown(nFlags, point);
 	((CMainFrame*)AfxGetMainWnd())->Refresh();
+}
+
+
+BOOL CViewTree::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+	// TODO: Add your message handler code here and/or call default
+	if(m_pDragImgList)
+		m_pDragImgList->DragShowNolock(false);
+	
+	BOOL Res = CTreeCtrl::OnMouseWheel(nFlags, zDelta, pt);
+	
+	if(m_pDragImgList)
+		m_pDragImgList->DragShowNolock(true);
+	
+	return Res;
 }

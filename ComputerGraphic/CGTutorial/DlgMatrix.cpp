@@ -37,12 +37,12 @@ void CDlgMatrix::ShowMatrix(CDC* cdc, CString name, CString rear, float m[16], i
 {
 	top += 10;
 	name += " =";
-	cdc->TextOutW(left, top+30, name);
+	cdc->TextOut(left, top+30, name);
 	left += (int)cdc->GetTextExtent(name).cx;
 
 	int bottom = ShowMatrix(cdc,m,top,left);
 
-	cdc->TextOutW(left+50,top+30,rear);
+	cdc->TextOut(left+50,top+30,rear);
 
 	top = bottom;
 }
@@ -72,7 +72,7 @@ int CDlgMatrix::ShowMatrix(CDC* cdc, CString m[16], const int top, int &left)
 		int max = 0;
 		for(int j=0; j<4; j++) {//row
 			int width = cdc->GetTextExtent(m[i*4+j]).cx;
-			cdc->TextOutW(left,top+(height+5)*j,m[i*4+j]);
+			cdc->TextOut(left,top+(height+5)*j,m[i*4+j]);
 			if(max < width)
 				max = width;
 		}
@@ -91,11 +91,11 @@ void CDlgMatrix::ShowMatrixMatrix(CDC* cdc, CString name, CString n[16], float m
 {
 	top += 10;
 	name += " =";
-	cdc->TextOutW(left, top+30, name);
+	cdc->TextOut(left, top+30, name);
 	left += (int)cdc->GetTextExtent(name).cx;
 
 	int bottom = ShowMatrix(cdc,n,top,left);
-	cdc->TextOutW(left+5,top+30,CString("="));
+	cdc->TextOut(left+5,top+30,CString("="));
 	left += cdc->GetTextExtent(CString(" =")).cx;
 	ShowMatrix(cdc,m,top,left);
 	top = bottom;
@@ -105,7 +105,7 @@ void CDlgMatrix::ShowPoint(CDC* cdc, CString name, CHomoPoint point, int top, in
 {
 	top += 10;
 	name += " =";
-	cdc->TextOutW(left, top+30, name);
+	cdc->TextOut(left, top+30, name);
 	left += (int)cdc->GetTextExtent(name).cx;
 
 	ShowPoint(cdc,point,top,left);
@@ -129,7 +129,7 @@ void CDlgMatrix::ShowPoint(CDC* cdc, CHomoPoint point, const int top, int &left)
 	for(int i=0; i<4; i++) {//row
 		sprintf_s(buff,"%5.3f",x[i]);
 		int width = cdc->GetTextExtent(CString(buff)).cx;
-		cdc->TextOutW(left,top+(height+5)*i,CString(buff));
+		cdc->TextOut(left,top+(height+5)*i,CString(buff));
 		if(max < width)
 			max = width;
 	}

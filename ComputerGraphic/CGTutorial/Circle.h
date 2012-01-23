@@ -17,6 +17,7 @@ public:
 		data1.setCoords(x,y,z,R);
 		toString.Format(CString("circle(x=%5.2f, y=%5.2f, z=%5.2f, R=%5.2f)"),x,y,z,R);
 		GLCode.Format(CString("drawCircle(%5.2f,%5.2f,%5.2f,%5.2f)"),x,y,z,R);
+		serialize.Format(CString("<circle x=%5.2f y=%5.2f z=%5.2f R=%5.2f />"),x,y,z,R);
 	}
 
 	void GetData(float &x, float &y, float &z, float &R)

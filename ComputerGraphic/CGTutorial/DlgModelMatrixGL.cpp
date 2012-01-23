@@ -45,8 +45,8 @@ void CDlgModelMatrixGL::ShowNode(COpenGLNode* node, int &top, CDC *cdc)
 	int id = node->ID;
 	float x,y,z,w;
 	if(id == NODE_OBJECT) {
-		cdc->TextOutW(10,top+=20,CString("glMatrixMode(GL_MODELVIEW);"));
-		cdc->TextOutW(10,top+=20,CString("glLoadIdentity();"));
+		cdc->TextOut(10,top+=20,CString("glMatrixMode(GL_MODELVIEW);"));
+		cdc->TextOut(10,top+=20,CString("glLoadIdentity();"));
 	} else {
 		ShowNode(node->parent,top,cdc);
 		if(id == NODE_TRANSLATE) {
@@ -59,7 +59,7 @@ void CDlgModelMatrixGL::ShowNode(COpenGLNode* node, int &top, CDC *cdc)
 			((CRotate*)node)->GetData(x,y,z,w);
 			glRotatef(w,x,y,z);
 		}
-		cdc->TextOutW(10,top+=20,((CTransformation*)node)->GLCode);
+		cdc->TextOut(10,top+=20,((CTransformation*)node)->GLCode);
 	}
 }
 
@@ -80,7 +80,7 @@ void CDlgModelMatrixGL::OnPaint()
 	dc.DrawText(CString("OPENGL"),-1,rect,DT_CENTER);
 
 	if(object == NULL) {
-		dc.TextOutW(10,30,CString("Select geometric object to view data"));
+		dc.TextOut(10,30,CString("Select geometric object to view data"));
 	} else {
 		int top = 20;
 
@@ -90,7 +90,7 @@ void CDlgModelMatrixGL::OnPaint()
 
 		ShowNode(object->parent,top,&dc);
 
-		dc.TextOutW(10,top+=20,CString("glGetFloatv(GL_MODELVIEW_MATRIX,M);"));
+		dc.TextOut(10,top+=20,CString("glGetFloatv(GL_MODELVIEW_MATRIX,M);"));
 		glGetFloatv(GL_MODELVIEW_MATRIX,sum);
 
 		ShowMatrix(&dc,CString("M"),CString(),sum,top+=30,10);

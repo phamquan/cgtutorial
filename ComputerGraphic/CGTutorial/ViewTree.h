@@ -23,6 +23,15 @@ public:
 
 // Overrides
 protected:
+	bool              m_boDragging;
+	HTREEITEM         m_hDragItem;
+	HTREEITEM         m_hDragTarget;
+	CImageList*       m_pDragImgList;
+
+	void SuccessfulDrag(HTREEITEM hDest,HTREEITEM hSrc);
+	void CopyItem (HTREEITEM hDest,HTREEITEM hSrc);
+	void CopySubtree (HTREEITEM hDest,HTREEITEM hSrc);
+	HTREEITEM InsertItemAndSubtree(HTREEITEM hDest,HTREEITEM hSrc);
 	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
 
 // Implementation
@@ -32,5 +41,9 @@ public:
 protected:
 	DECLARE_MESSAGE_MAP()
 public:
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
 };

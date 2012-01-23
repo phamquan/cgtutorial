@@ -58,19 +58,19 @@ void CDlgViewMatrixGL::OnPaint()
 	float x1,y1,z1,x2,y2,z2,x3,y3,z3;
 	environment->GetCamera()->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
 	
-	dc.TextOutW(left,top+=20,CString("glMatrixMode(GL_MODELVIEW);"));
+	dc.TextOut(left,top+=20,CString("glMatrixMode(GL_MODELVIEW);"));
 	glMatrixMode(GL_MODELVIEW);
 
 	glPushMatrix();
 
-	dc.TextOutW(left,top+=20,CString("glLoadIdentity();"));
+	dc.TextOut(left,top+=20,CString("glLoadIdentity();"));
 	glLoadIdentity();
 
 	sprintf_s(buff,"gluLookAt(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f)",x1,y1,z1,x2,y2,z2,x3,y3,z3);
-	dc.TextOutW(left,top+=20,CString(buff));
+	dc.TextOut(left,top+=20,CString(buff));
 	gluLookAt(x1,y1,z1,x2,y2,z2,x3,y3,z3);
 
-	dc.TextOutW(left,top+=20,CString("glGetFloatv(GL_MODELVIEW_MATRIX,V);"));
+	dc.TextOut(left,top+=20,CString("glGetFloatv(GL_MODELVIEW_MATRIX,V);"));
 	glGetFloatv(GL_MODELVIEW_MATRIX,sum);
 
 	ShowMatrix(&dc,CString("V"),CString(),sum,top+=30,left);

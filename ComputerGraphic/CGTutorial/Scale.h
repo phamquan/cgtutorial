@@ -17,6 +17,7 @@ public:
 		data.setCoords(x,y,z);
 		toString.Format(CString("scale(x=%5.2f, y=%5.2f, z=%5.2f)"),x,y,z);
 		GLCode.Format(CString("glScalef(%5.2f,%5.2f,%5.2f);"),x,y,z);
+		serialize.Format(CString("scale x=%5.2f y=%5.2f z=%5.2f"),x,y,z);
 	}
 
 	void GetData(float &x, float &y, float &z)

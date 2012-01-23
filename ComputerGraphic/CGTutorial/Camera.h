@@ -25,6 +25,7 @@ public:
 		up.setCoords(xup, yup, zup);
 		toString.Format(CString("camera(xpos=%5.2f, ypos=%5.2f, zpos=%5.2f, xlook=%5.2f, ylook=%5.2f, zlook=%5.2f, xup=%5.2f, yup=%5.2f, zup=%5.2f)"),xpos,ypos,zpos,xlook,ylook,zlook,xup,yup,zup);
 		GLCode.Format(CString("gluLookAt(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);"),xpos,ypos,zpos,xlook,ylook,zlook,xup,yup,zup);
+		serialize.Format(CString("<camera xpos=%5.2f ypos=%5.2f zpos=%5.2f xlook=%5.2f ylook=%5.2f zlook=%5.2f xup=%5.2f yup=%5.2f zup=%5.2f />"),xpos,ypos,zpos,xlook,ylook,zlook,xup,yup,zup);
 	}
 	
 	void GetData(float &xpos, float &ypos, float &zpos, float &xlook, float &ylook, float &zlook, float &xup, float &yup, float &zup)
@@ -43,6 +44,14 @@ public:
 	virtual void DoOpenGL()
 	{
 		gluLookAt(pos.getX(),pos.getY(),pos.getZ(),look.getX(),look.getY(),look.getZ(),up.getX(),up.getY(),up.getZ());
+	}
+
+	virtual void Serialize(CArchive& ar, int tab=0)
+	{
+		CString t;
+		for(int i=0; i<tab; i++)
+			t += '\t';
+		ar.WriteString(t + serialize + "\r\n");
 	}
 
 protected:

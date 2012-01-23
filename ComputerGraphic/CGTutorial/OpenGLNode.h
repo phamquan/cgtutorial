@@ -32,6 +32,7 @@ public:
 	CPtrArray* m_listChild;
 	CString toString;
 	CString GLCode;
+	CString serialize;
 	int ID;
 
 public:
@@ -41,7 +42,7 @@ public:
 		this->ID = ID;
 		parent = NULL;
 		m_listChild = new CPtrArray();
-		toString = "object";
+		toString = serialize = "object";
 	}
 
 	virtual ~COpenGLNode()
@@ -93,6 +94,24 @@ public:
 	virtual void DoOpenGL()
 	{
 		glMatrixMode(GL_MODELVIEW);
+	}
+
+	virtual void Serialize(CArchive& ar, int tab=0)
+	{
+		CString t;
+		for(int i=0; i<tab; i++)
+			t += '\t';
+
+		ar.WriteString(t + "<" + serialize + ">\r\n");
+
+		for(int i=0; i<m_listChild->GetSize(); i++)
+		{
+			((COpenGLNode*)m_listChild->GetAt(i))->Serialize(ar,tab+1);
+		}
+
+		int i = 0;
+		CString x = serialize.Tokenize(CString(" "),i);
+		ar.WriteString(t + "</" + x + ">\r\n");
 	}
 
 protected:

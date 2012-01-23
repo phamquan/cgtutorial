@@ -200,9 +200,9 @@ void CDlgPipeLine::OnPaint()
 			left = 1010;
 			char buf[128];
 			sprintf_s(buf,"x = %5.2f",x);
-			dc.TextOutW(left,top+20,CString(buf));
+			dc.TextOut(left,top+20,CString(buf));
 			sprintf_s(buf,"y = %5.2f",y);
-			dc.TextOutW(left,top+40,CString(buf));
+			dc.TextOut(left,top+40,CString(buf));
 
 			top += 100;
 		}

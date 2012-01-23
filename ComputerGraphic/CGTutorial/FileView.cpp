@@ -255,6 +255,9 @@ void CFileView::FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNod
 		FillFile(pChild,environment,oenvironment);
 	}
 
+	m_wndFileView.Expand(object,TVE_EXPAND);
+	m_wndFileView.Expand(environment,TVE_EXPAND);
+
 	AdjustLayout();
 }
 
@@ -278,6 +281,8 @@ void CFileView::FillView(COpenGLNode *oobject, COpenGLNode* oenvironment)
 		m_wndFileView.myMap.SetAt(child,childnode);
 	}
 
+	m_wndFileView.Expand(environment,TVE_EXPAND);
+
 	AdjustLayout();
 }
 
@@ -297,6 +302,8 @@ void CFileView::FillFile(TiXmlNode *root, HTREEITEM hparrent, COpenGLNode *oparr
 	while (pChild = root->IterateChildren(pChild)) {
 		FillFile(pChild,node,openGL);
 	}
+
+	m_wndFileView.Expand(node,TVE_EXPAND);
 }
 
 void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
@@ -325,7 +332,7 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 			if(contextMenu != NULL)
 				delete contextMenu;
 			contextMenu = new CMenu();
-			contextMenu->LoadMenuW(IDR_FILEVIEW);
+			contextMenu->LoadMenu(IDR_FILEVIEW);
 
 			int id = node->ID;
 			if(id != NODE_ENVIRONMENT) {

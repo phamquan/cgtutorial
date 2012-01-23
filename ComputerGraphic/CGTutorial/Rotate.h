@@ -17,6 +17,7 @@ public:
 		data.setCoords(x,y,z,angle);
 		toString.Format(CString("rotate(x=%5.2f, y=%5.2f, z=%5.2f, angle=%5.2f)"),x,y,z,angle);
 		GLCode.Format(CString("glRotatef(%5.2f,%5.2f,%5.2f,%5.2f);"),angle,x,y,z);
+		serialize.Format(CString("rotate x=%5.2f y=%5.2f z=%5.2f angle=%5.2f"),x,y,z,angle);
 	}
 
 	void GetData(float &x, float &y, float &z, float &angle)
