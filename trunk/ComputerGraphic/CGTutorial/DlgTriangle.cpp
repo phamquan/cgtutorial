@@ -16,13 +16,13 @@ CDlgTriangle::CDlgTriangle(CWnd* pParent /*=NULL*/)
 {
 
 	m_X1 = 0.0f;
-	m_X2 = 0.0f;
-	m_X3 = 0.0f;
 	m_Y1 = 0.0f;
-	m_Y2 = 0.0f;
-	m_Y3 = 0.0f;
 	m_Z1 = 0.0f;
+	m_X2 = 1.0f;
+	m_Y2 = 0.0f;
 	m_Z2 = 0.0f;
+	m_X3 = 0.0f;
+	m_Y3 = 1.0f;
 	m_Z3 = 0.0f;
 }
 

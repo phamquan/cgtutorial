@@ -18,6 +18,30 @@
 #include "MainFrm.h"
 #include "CGTutorialDoc.h"
 
+#include "Line.h"
+#include "Point4D.h"
+#include "Rectangle.h"
+#include "Triangle.h"
+#include "Circle.h"
+#include "Ellipse.h"
+#include "Cube.h"
+#include "Tetrahedron.h"
+#include "Sphere.h"
+#include "Cylinder.h"
+#include "Ring.h"
+
+#include "DlgPoint.h"
+#include "DlgLine.h"
+#include "DlgRectangle.h"
+#include "DlgTriangle.h"
+#include "DlgCircle.h"
+#include "DlgEllipse.h"
+#include "DlgCube.h"
+#include "DlgTetrahedron.h"
+#include "DlgSphere.h"
+#include "DlgCylinder.h"
+#include "DlgRing.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -38,6 +62,17 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_MATRIX, &CMainFrame::OnMatrix)
 	ON_COMMAND(ID_PIPELINE, &CMainFrame::OnPipeline)
 	ON_COMMAND(ID_CAMERA, &CMainFrame::OnCamera)
+	ON_COMMAND(ID_POINT, &CMainFrame::OnPoint)
+	ON_COMMAND(ID_LINE, &CMainFrame::OnLine)
+	ON_COMMAND(ID_TRIANGLE, &CMainFrame::OnTriangle)
+	ON_COMMAND(ID_RECTANGLE, &CMainFrame::OnRectangle)
+	ON_COMMAND(ID_CIRCLE, &CMainFrame::OnCircle)
+	ON_COMMAND(ID_ELLIPSE, &CMainFrame::OnEllipse)
+	ON_COMMAND(ID_CUBE, &CMainFrame::OnCube)
+	ON_COMMAND(ID_TETRAHEDRON, &CMainFrame::OnTetrahedron)
+	ON_COMMAND(ID_SPHERE, &CMainFrame::OnSphere)
+	ON_COMMAND(ID_CYLINDER, &CMainFrame::OnCylinder)
+	ON_COMMAND(ID_RING, &CMainFrame::OnRing)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -377,4 +412,100 @@ CSize CMainFrame::GetViewPort()
 	CRect rect;
 	cameraFrame->GetClientRect(&rect);
 	return CSize(rect.Width(),rect.Height());
+}
+
+void CMainFrame::OnPoint()
+{
+	// TODO: Add your command handler code here
+	CDlgPoint dlg;
+	if(dlg.DoModal() == IDOK)
+		m_wndFileView.AddNode(new CPoint4D(dlg.m_X,dlg.m_Y,dlg.m_Z),TRUE);
+}
+
+void CMainFrame::OnLine()
+{
+	// TODO: Add your command handler code here
+	CDlgLine dlg;
+	if(dlg.DoModal() == IDOK)
+		m_wndFileView.AddNode(new CLine(dlg.m_BX,dlg.m_BY,dlg.m_BZ,dlg.m_EX,dlg.m_EY,dlg.m_EZ),TRUE);
+}
+
+void CMainFrame::OnTriangle()
+{
+	// TODO: Add your command handler code here
+	CDlgTriangle dlg;
+	if(dlg.DoModal() == IDOK)
+		m_wndFileView.AddNode(new CTriangle(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2,dlg.m_X3,dlg.m_Y3,dlg.m_Z3),TRUE);
+}
+
+
+void CMainFrame::OnRectangle()
+{
+	// TODO: Add your command handler code here
+	CDlgRectangle dlg;
+	if(dlg.DoModal() == IDOK)
+		m_wndFileView.AddNode(new CRectangle(dlg.m_Top,dlg.m_Left,dlg.m_Bottom,dlg.m_Right),TRUE);
+}
+
+
+void CMainFrame::OnCircle()
+{
+	// TODO: Add your command handler code here
+	CDlgCircle dlg;
+	if(dlg.DoModal() == IDOK)
+		m_wndFileView.AddNode(new CCircle(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R),TRUE);
+}
+
+
+void CMainFrame::OnEllipse()
+{
+	// TODO: Add your command handler code here
+	CDlgEllipse dlg;
+	if(dlg.DoModal() == IDOK)
+		m_wndFileView.AddNode(new CEllipse(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_A,dlg.m_B),TRUE);
+}
+
+
+void CMainFrame::OnCube()
+{
+	// TODO: Add your command handler code here
+	CDlgCube dlg;
+	if(dlg.DoModal() == IDOK)
+		m_wndFileView.AddNode(new CCube(dlg.m_Left,dlg.m_Bottom,dlg.m_Near,dlg.m_Right,dlg.m_Top,dlg.m_Far),TRUE);
+}
+
+
+void CMainFrame::OnTetrahedron()
+{
+	// TODO: Add your command handler code here
+	CDlgTetrahedron dlg;
+	if(dlg.DoModal() == IDOK)
+		m_wndFileView.AddNode(new CTetrahedron(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2,dlg.m_X3,dlg.m_Y3,dlg.m_Z3,dlg.m_X4,dlg.m_Y4,dlg.m_Z4),TRUE);
+}
+
+
+void CMainFrame::OnSphere()
+{
+	// TODO: Add your command handler code here
+	CDlgSphere dlg;
+	if(dlg.DoModal() == IDOK)
+		m_wndFileView.AddNode(new CSphere(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R),TRUE);
+}
+
+
+void CMainFrame::OnCylinder()
+{
+	// TODO: Add your command handler code here
+	CDlgCylinder dlg;
+	if(dlg.DoModal() == IDOK)
+		m_wndFileView.AddNode(new CCylinder(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_Height),TRUE);
+}
+
+
+void CMainFrame::OnRing()
+{
+	// TODO: Add your command handler code here
+	CDlgRing dlg;
+	if(dlg.DoModal() == IDOK)
+		m_wndFileView.AddNode(new CRing(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_R1),TRUE);
 }

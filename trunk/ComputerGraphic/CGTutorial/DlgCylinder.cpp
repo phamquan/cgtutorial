@@ -15,8 +15,8 @@ CDlgCylinder::CDlgCylinder(CWnd* pParent /*=NULL*/)
 	: CDialog(CDlgCylinder::IDD, pParent)
 {
 
-	m_Height = 0.0f;
-	m_R = 0.0f;
+	m_Height = 1.0f;
+	m_R = 1.0f;
 	m_X = 0.0f;
 	m_Y = 0.0f;
 	m_Z = 0.0f;

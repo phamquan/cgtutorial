@@ -77,6 +77,17 @@ public:
 	afx_msg void OnMatrix();
 	afx_msg void OnPipeline();
 	afx_msg void OnCamera();
+	afx_msg void OnPoint();
+	afx_msg void OnLine();
+	afx_msg void OnTriangle();
+	afx_msg void OnRectangle();
+	afx_msg void OnCircle();
+	afx_msg void OnEllipse();
+	afx_msg void OnCube();
+	afx_msg void OnTetrahedron();
+	afx_msg void OnSphere();
+	afx_msg void OnCylinder();
+	afx_msg void OnRing();
 };
 
 

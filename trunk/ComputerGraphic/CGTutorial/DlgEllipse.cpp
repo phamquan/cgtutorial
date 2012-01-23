@@ -15,8 +15,8 @@ CDlgEllipse::CDlgEllipse(CWnd* pParent /*=NULL*/)
 	: CDialog(CDlgEllipse::IDD, pParent)
 {
 
-	m_A = 0.0f;
-	m_B = 0.0f;
+	m_A = 2.0f;
+	m_B = 1.0f;
 	m_X = 0.0f;
 	m_Y = 0.0f;
 	m_Z = 0.0f;
