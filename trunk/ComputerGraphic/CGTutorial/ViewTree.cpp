@@ -59,6 +59,29 @@ BOOL CViewTree::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 	return bRes;
 }
 
+
+void CViewTree::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	CTreeCtrl::OnLButtonDown(nFlags, point);
+	((CMainFrame*)AfxGetMainWnd())->Refresh();
+}
+
+
+BOOL CViewTree::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+	// TODO: Add your message handler code here and/or call default
+	if(m_pDragImgList)
+		m_pDragImgList->DragShowNolock(false);
+	
+	BOOL Res = CTreeCtrl::OnMouseWheel(nFlags, zDelta, pt);
+	
+	if(m_pDragImgList)
+		m_pDragImgList->DragShowNolock(true);
+	
+	return Res;
+}
+
 void CViewTree::OnMouseMove(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
@@ -168,50 +191,48 @@ void CViewTree::SuccessfulDrag(HTREEITEM hDest,HTREEITEM hSrc)
 		return;
 
 	COpenGLNode *parent = source->parent;
-	parent->RemoveChild(source);
+	parent->RemoveChild(source,FALSE);
 	dest->AddChild(source);
 
 	// create a copy of the source subtree
 	HTREEITEM hNew = InsertItemAndSubtree(hDest,hSrc);
-	if(hNew == NULL)
-		return;
-
 	SelectItem   (hNew);
 	EnsureVisible(hNew);
 	DeleteItem   (hSrc);
+
+	((CMainFrame*)AfxGetMainWnd())->Refresh();
 }
 
 
 void CViewTree::CopyItem(HTREEITEM hDest,HTREEITEM hSrc)
 {
-  TV_ITEM tvSrc;
-  tvSrc.mask  = TVIF_HANDLE | TVIF_PARAM | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
-  tvSrc.hItem = hSrc;
-  if(!GetItem(&tvSrc)) return;
+	TV_ITEM tvSrc;
+	tvSrc.mask  = TVIF_HANDLE | TVIF_PARAM | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
+	tvSrc.hItem = hSrc;
+	if(!GetItem(&tvSrc))
+		return;
 
-  tvSrc.hItem = hDest;
-  SetItem(&tvSrc);
-  SetItemText(hDest,GetItemText(hSrc));
-  SetCheck   (hDest,GetCheck   (hSrc));
+	tvSrc.hItem = hDest;
+	SetItem(&tvSrc);
+	SetItemText(hDest,GetItemText(hSrc));
+	SetCheck   (hDest,GetCheck   (hSrc));
 
-  if(tvSrc.state & TVIS_EXPANDED) Expand(hDest,TVE_EXPAND);
+	if(tvSrc.state & TVIS_EXPANDED)
+		Expand(hDest,TVE_EXPAND);
 }
 
 void CViewTree::CopySubtree(HTREEITEM hDest,HTREEITEM hSrc)
 {
-	if(!hDest || !hSrc) return;
-
 	HTREEITEM hChildSrc = GetChildItem(hSrc);
 	while(hChildSrc)
 	{
-		COpenGLNode *source;
-		myMap.Lookup(hChildSrc,source);
-
 		HTREEITEM   hChildDest = InsertItem(CString("dest child"),hDest);
 
-		myMap.RemoveKey(hSrc);
-		myMap.SetAt(hChildDest,source);
-		
+		COpenGLNode* node;
+		myMap.Lookup(hChildSrc,node);
+		myMap.RemoveKey(hChildSrc);
+		myMap.SetAt(hChildDest,node);
+
 		CopySubtree(hChildDest,hChildSrc);
 		CopyItem   (hChildDest,hChildSrc);
 
@@ -221,42 +242,14 @@ void CViewTree::CopySubtree(HTREEITEM hDest,HTREEITEM hSrc)
 
 HTREEITEM CViewTree::InsertItemAndSubtree(HTREEITEM hDest,HTREEITEM hSrc)
 {
-	if(hDest == NULL || hSrc == NULL)
-		return NULL;
+	HTREEITEM hNew = InsertItem(CString("new"),hDest);			//insert new node into dest
 
-	COpenGLNode *source;
-	myMap.Lookup(hSrc,source);
-
-	HTREEITEM hNew = InsertItem(CString("new"),hDest); //insert new node into dest
-	if(hNew == NULL)
-		return NULL;
-
+	COpenGLNode* node;
+	myMap.Lookup(hSrc,node);
 	myMap.RemoveKey(hSrc);
-	myMap.SetAt(hNew,source);
+	myMap.SetAt(hNew,node);
 
 	CopySubtree(hNew,hSrc);                                   // start with subtree so that item is correctly expanded
 	CopyItem   (hNew,hSrc);
 	return hNew;
-}
-
-void CViewTree::OnLButtonDown(UINT nFlags, CPoint point)
-{
-	// TODO: Add your message handler code here and/or call default
-	CTreeCtrl::OnLButtonDown(nFlags, point);
-	((CMainFrame*)AfxGetMainWnd())->Refresh();
-}
-
-
-BOOL CViewTree::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
-{
-	// TODO: Add your message handler code here and/or call default
-	if(m_pDragImgList)
-		m_pDragImgList->DragShowNolock(false);
-	
-	BOOL Res = CTreeCtrl::OnMouseWheel(nFlags, zDelta, pt);
-	
-	if(m_pDragImgList)
-		m_pDragImgList->DragShowNolock(true);
-	
-	return Res;
 }
