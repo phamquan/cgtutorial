@@ -470,6 +470,7 @@ void CFileView::AddNode(COpenGLNode *newNode, BOOL isGeometric)
 
 	node->AddChild(newNode);
 	HTREEITEM hnode = m_wndFileView.InsertItem(newNode->toString, 0, 0, hTreeItem);
+	m_wndFileView.EnsureVisible(hnode);
 	m_wndFileView.myMap.SetAt(hnode,newNode);
 
 	((CMainFrame*)AfxGetMainWnd())->Refresh();

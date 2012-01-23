@@ -57,13 +57,14 @@ public:
 		m_listChild->Add(child);
 	}
 
-	void RemoveChild(COpenGLNode* child)
+	void RemoveChild(COpenGLNode* child, BOOL isDelete=TRUE)
 	{
 		for(int i=0; i<m_listChild->GetSize(); i++)
 		{
 			if(child == m_listChild->ElementAt(i))
 			{
-				delete m_listChild->GetAt(i);
+				if(isDelete)
+					delete m_listChild->GetAt(i);
 				m_listChild->RemoveAt(i);
 				break;
 			}
