@@ -14,9 +14,9 @@ IMPLEMENT_DYNAMIC(CDlgTranslate, CDialog)
 CDlgTranslate::CDlgTranslate(CWnd* pParent /*=NULL*/)
 	: CDialog(CDlgTranslate::IDD, pParent)
 {
-	m_X = 0.0f;
-	m_Y = 0.0f;
-	m_Z = 0.0f;
+	m_X = 1.0f;
+	m_Y = 1.0f;
+	m_Z = 1.0f;
 }
 
 CDlgTranslate::CDlgTranslate(float x, float y, float z, CWnd* pParent)

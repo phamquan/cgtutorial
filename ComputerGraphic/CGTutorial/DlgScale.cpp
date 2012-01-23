@@ -14,9 +14,9 @@ IMPLEMENT_DYNAMIC(CDlgScale, CDialog)
 CDlgScale::CDlgScale(CWnd* pParent /*=NULL*/)
 	: CDialog(CDlgScale::IDD, pParent)
 {
-	m_X = 0.0f;
-	m_Y = 0.0f;
-	m_Z = 0.0f;
+	m_X = 2.0f;
+	m_Y = 2.0f;
+	m_Z = 2.0f;
 }
 
 CDlgScale::CDlgScale(float x, float y, float z, CWnd* pParent) 

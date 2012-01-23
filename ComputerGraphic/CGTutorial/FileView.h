@@ -35,8 +35,7 @@ public:
 	void OnChangeVisualStyle();
 	void FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNode* oobject, CEnvironment* oenvironment);
 	void FillView(COpenGLNode* object, COpenGLNode* environment);
-	void AddNode(COpenGLNode *newNode, BOOL isGeometric);
-
+	void AddNode(COpenGLNode *newNode, BOOL isGeometric, BOOL toParent=FALSE);
 	COpenGLNode* GetObject();
 	//COpenGLNode* GetGeometric();
 // Attributes
@@ -46,9 +45,7 @@ protected:
 	CFileViewToolBar m_wndToolBar;
 	CMenu *contextMenu;
 
-	BOOLEAN ValidateAdd();
-	BOOLEAN ValidateDelete();
-
+	BOOL ToParent();
 	const char* GetValue(char* name,TiXmlNode* node);
 	void FillFile(TiXmlNode *root, HTREEITEM hparrent, COpenGLNode *oparrent);
 	COpenGLNode *XmltoOpenGL(TiXmlNode *node);
