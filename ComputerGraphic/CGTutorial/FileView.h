@@ -35,29 +35,29 @@ public:
 	void OnChangeVisualStyle();
 	void FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNode* oobject, CEnvironment* oenvironment);
 	void FillView(COpenGLNode* object, COpenGLNode* environment);
+	void AddNode(COpenGLNode *newNode, BOOL isGeometric);
 
 	COpenGLNode* GetObject();
 	COpenGLNode* GetGeometric();
 // Attributes
 protected:
-
 	CViewTree m_wndFileView;
 	CImageList m_FileViewImages;
 	CFileViewToolBar m_wndToolBar;
 	CMenu *contextMenu;
-protected:
+
 	BOOLEAN ValidateAdd();
 	BOOLEAN ValidateDelete();
 
 	const char* GetValue(char* name,TiXmlNode* node);
 	void FillFile(TiXmlNode *root, HTREEITEM hparrent, COpenGLNode *oparrent);
 	COpenGLNode *XmltoOpenGL(TiXmlNode *node);
-	void AddNode(COpenGLNode *newNode);
 
 	HTREEITEM hTreeItem;
 	COpenGLNode *node;
 
 	HTREEITEM environment;
+	HTREEITEM object;
 
 // Implementation
 public:

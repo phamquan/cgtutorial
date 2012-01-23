@@ -18,8 +18,8 @@ CDlgLine::CDlgLine(CWnd* pParent /*=NULL*/)
 	m_BX = 0.0f;
 	m_BY = 0.0f;
 	m_BZ = 0.0f;
-	m_EX = 0.0f;
-	m_EY = 0.0f;
+	m_EX = 1.0f;
+	m_EY = 1.0f;
 	m_EZ = 0.0f;
 }
 

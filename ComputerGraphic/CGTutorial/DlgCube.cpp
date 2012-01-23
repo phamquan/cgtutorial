@@ -15,12 +15,12 @@ CDlgCube::CDlgCube(CWnd* pParent /*=NULL*/)
 	: CDialog(CDlgCube::IDD, pParent)
 {
 
-	m_Bottom = 0.0f;
-	m_Far = 0.0f;
-	m_Left = 0.0f;
-	m_Near = 0.0f;
-	m_Right = 0.0f;
-	m_Top = 0.0f;
+	m_Bottom = -1.0f;
+	m_Far = -1.0f;
+	m_Left = -1.0f;
+	m_Near = 1.0f;
+	m_Right = 1.0f;
+	m_Top = 1.0f;
 }
 
 CDlgCube::CDlgCube(float left, float bottom, float mnear, float right, float top, float mfar, CWnd* pParent /*=NULL*/)

@@ -15,8 +15,8 @@ CDlgRing::CDlgRing(CWnd* pParent /*=NULL*/)
 	: CDialog(CDlgRing::IDD, pParent)
 {
 
-	m_R = 0.0f;
-	m_R1 = 0.0f;
+	m_R = 0.75f;
+	m_R1 = 0.25f;
 	m_X = 0.0f;
 	m_Y = 0.0f;
 	m_Z = 0.0f;

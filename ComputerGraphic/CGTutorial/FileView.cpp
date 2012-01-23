@@ -237,13 +237,13 @@ void CFileView::FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNod
 	m_wndFileView.DeleteAllItems();
 	m_wndFileView.myMap.RemoveAll();
 
-	HTREEITEM node = m_wndFileView.InsertItem(oobject->toString, 0, 0);
-	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
-	m_wndFileView.myMap.SetAt(node,oobject);
+	object = m_wndFileView.InsertItem(oobject->toString, 0, 0);
+	m_wndFileView.SetItemState(object,TVIS_BOLD,TVIS_BOLD);
+	m_wndFileView.myMap.SetAt(object,oobject);
 
 	TiXmlNode* pChild = NULL;
 	while (pChild = tobject->IterateChildren(pChild)) {
-		FillFile(pChild,node,oobject);
+		FillFile(pChild,object,oobject);
 	}
 
 	environment = m_wndFileView.InsertItem(oenvironment->toString, 0, 0);
@@ -258,19 +258,17 @@ void CFileView::FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNod
 	AdjustLayout();
 }
 
-void CFileView::FillView(COpenGLNode *object, COpenGLNode* oenvironment)
+void CFileView::FillView(COpenGLNode *oobject, COpenGLNode* oenvironment)
 {
 	m_wndFileView.DeleteAllItems();
 	m_wndFileView.myMap.RemoveAll();
 
-	HTREEITEM node = m_wndFileView.InsertItem(object->toString, 0, 0);
-	m_wndFileView.SetItemState(node,TVIS_BOLD,TVIS_BOLD);
-	
-	m_wndFileView.myMap.SetAt(node,object);
+	object = m_wndFileView.InsertItem(oobject->toString, 0, 0);
+	m_wndFileView.SetItemState(object,TVIS_BOLD,TVIS_BOLD);
+	m_wndFileView.myMap.SetAt(object,oobject);
 
 	environment = m_wndFileView.InsertItem(oenvironment->toString, 0, 0);
 	m_wndFileView.SetItemState(environment,TVIS_BOLD,TVIS_BOLD);
-	
 	m_wndFileView.myMap.SetAt(environment,oenvironment);
 
 	for(int i=0; i<oenvironment->m_listChild->GetSize(); i++)
@@ -456,8 +454,13 @@ BOOLEAN CFileView::ValidateDelete()
 	return true;
 }
 
-void CFileView::AddNode(COpenGLNode *newNode)
+void CFileView::AddNode(COpenGLNode *newNode, BOOL isGeometric)
 {
+	if(isGeometric) {
+		hTreeItem = object;
+		m_wndFileView.myMap.Lookup(object,node);
+	}
+
 	node->AddChild(newNode);
 	HTREEITEM hnode = m_wndFileView.InsertItem(newNode->toString, 0, 0, hTreeItem);
 	m_wndFileView.myMap.SetAt(hnode,newNode);
@@ -471,7 +474,7 @@ void CFileView::OnTransformationTranslate()
 	if(ValidateAdd()) {
 		CDlgTranslate dlg;
 		if(dlg.DoModal() == IDOK)
-			AddNode(new CTranslate(dlg.m_X,dlg.m_Y,dlg.m_Z));
+			AddNode(new CTranslate(dlg.m_X,dlg.m_Y,dlg.m_Z),FALSE);
 	}
 }
 
@@ -481,7 +484,7 @@ void CFileView::OnTransformationRotate()
 	if(ValidateAdd()) {
 		CDlgRotate dlg;
 		if(dlg.DoModal() == IDOK)
-			AddNode(new CRotate(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_A));
+			AddNode(new CRotate(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_A),FALSE);
 	}
 }
 
@@ -491,7 +494,7 @@ void CFileView::OnTransformationScale()
 	if(ValidateAdd()) {
 		CDlgScale dlg;
 		if(dlg.DoModal() == IDOK)
-			AddNode(new CScale(dlg.m_X,dlg.m_Y,dlg.m_Z));
+			AddNode(new CScale(dlg.m_X,dlg.m_Y,dlg.m_Z),FALSE);
 	}
 }
 

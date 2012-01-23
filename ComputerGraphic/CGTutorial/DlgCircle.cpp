@@ -15,7 +15,7 @@ CDlgCircle::CDlgCircle(CWnd* pParent /*=NULL*/)
 	: CDialog(CDlgCircle::IDD, pParent)
 {
 
-	m_R = 0.0f;
+	m_R = 1.0f;
 	m_X = 0.0f;
 	m_Y = 0.0f;
 	m_Z = 0.0f;

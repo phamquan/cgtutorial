@@ -289,38 +289,35 @@ CString CCGTutorialDoc::GenCode()
 void CCGTutorialDoc::InitGLCode()
 {
 	AddCode("void initOpenGL() {",0,1);
-	
-	AddCode("glMatrixMode(GL_PROJECTION);",1,1);
-	AddCode("glLoadIdentity();",1,1);
-	AddCode(environment->GetProjection()->GLCode,1,2);
+		AddCode("glMatrixMode(GL_PROJECTION);",1,1);
+		AddCode("glLoadIdentity();",1,1);
+		AddCode(environment->GetProjection()->GLCode,1,2);
 
-	AddCode("glMatrixMode(GL_MODELVIEW);",1,1);
-	AddCode("glLoadIdentity();",1,1);
-	AddCode(environment->GetCamera()->GLCode,1,2);
+		AddCode("glMatrixMode(GL_MODELVIEW);",1,1);
+		AddCode("glLoadIdentity();",1,1);
+		AddCode(environment->GetCamera()->GLCode,1,2);
 
-	AddCode("glClearColor(0.769f, 0.812f, 0.824f, 0.0f);",1,1);
+		AddCode("glClearColor(0.769f, 0.812f, 0.824f, 0.0f);",1,1);
+		AddCode("glPointSize(4.0);",1,1);
 	AddCode("}",0,2);
 }
 
 void CCGTutorialDoc::SizeGLCode()
 {
 	AddCode("void onSize(int width, int height) {",0,1);
-	AddCode(environment->GetViewPort()->GLCode,1,1);
+		AddCode(environment->GetViewPort()->GLCode,1,1);
 	AddCode("}",0,2);
 }
 
 void CCGTutorialDoc::PaintGLCode()
 {
 	AddCode("void onPaint() {",0,1);
-	AddCode("glMatrixMode(GL_MODELVIEW);",1,1);
-		//+ evalCamera()
-	AddCode("glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);",1,1);
-	AddCode("drawCoordinate();",1,1);
-	AddCode("glColor3f(0.0f, 0.0f, 0.0f);",1,2);
-
-	ObjectGLCode(object);
-
-	AddCode("glFlush();",1,1);
+		AddCode("glMatrixMode(GL_MODELVIEW);",1,1);
+		AddCode("glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);",1,1);
+		AddCode("drawCoordinate();",1,1);
+		AddCode("glColor3f(0.0f, 0.0f, 0.0f);",1,2);
+		ObjectGLCode(object);
+		AddCode("glFlush();",1,1);
 	AddCode("}",0,2);
 }
 
