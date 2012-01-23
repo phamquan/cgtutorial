@@ -676,21 +676,26 @@ COpenGLNode* CFileView::GetObject()
 	return NULL;
 }
 
-COpenGLNode* CFileView::GetGeometric()
-{
-	hTreeItem = m_wndFileView.GetSelectedItem();
-
-	if(hTreeItem != NULL) {
-		m_wndFileView.myMap.Lookup(hTreeItem,node);
-		switch(node->ID) {
-		case NODE_POINT :
-		case NODE_LINE :
-		case NODE_RECTANGLE :
-		case NODE_TRIANGLE :
-		case NODE_CIRCLE :
-		case NODE_ELLIPSE :
-			return node;
-		}
-	}
-	return NULL;
-}
+//COpenGLNode* CFileView::GetGeometric()
+//{
+//	hTreeItem = m_wndFileView.GetSelectedItem();
+//
+//	if(hTreeItem != NULL) {
+//		m_wndFileView.myMap.Lookup(hTreeItem,node);
+//		switch(node->ID) {
+//		case NODE_POINT :
+//		case NODE_LINE :
+//		case NODE_RECTANGLE :
+//		case NODE_TRIANGLE :
+//		case NODE_CIRCLE :
+//		case NODE_ELLIPSE :
+//		case NODE_CUBE :
+//		case NODE_TETRAHEDRON :
+//		case NODE_SPHERE :
+//		case NODE_CYLINDER :
+//		case NODE_RING :
+//			return node;
+//		}
+//	}
+//	return NULL;
+//}

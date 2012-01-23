@@ -38,7 +38,7 @@ public:
 	void AddNode(COpenGLNode *newNode, BOOL isGeometric);
 
 	COpenGLNode* GetObject();
-	COpenGLNode* GetGeometric();
+	//COpenGLNode* GetGeometric();
 // Attributes
 protected:
 	CViewTree m_wndFileView;
