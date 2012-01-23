@@ -18,6 +18,7 @@ public:
 		data2.setCoords(a,b,0);
 		toString.Format(CString("ellipse(x=%5.2f, y=%5.2f, z=%5.2f, a=%5.2f, b=%5.2f)"),x,y,z,a,b);
 		GLCode.Format(CString("drawEllipse(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f)"),x,y,z,a,b);
+		serialize.Format(CString("<ellipse x=%5.2f y=%5.2f z=%5.2f a=%5.2f b=%5.2f />"),x,y,z,a,b);
 	}
 
 	void GetData(float &x, float &y, float &z, float &a, float &b)

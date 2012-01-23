@@ -76,10 +76,19 @@ void CCGTutorialDoc::Serialize(CArchive& ar)
 	if (ar.IsStoring())
 	{
 		// TODO: add storing code here
+		ar.WriteString("<?xml version=\"1.0\" ?>\r\n");
+		ar.WriteString("<watermelon program='Computer Graphic Tutorial'>\r\n");
+		ar.WriteString("\r\n");
+		environment->Serialize(ar);
+		ar.WriteString("\r\n");
+		object->Serialize(ar);
+		ar.WriteString("\r\n");
+		ar.WriteString("</watermelon>\r\n");
 	}
 	else
 	{
 		// TODO: add loading code here
+		
 	}
 }
 
@@ -161,12 +170,12 @@ BOOL CCGTutorialDoc::OnOpenDocument(LPCTSTR lpszPathName)
 		return FALSE;
 
 	// TODO:  Add your specialized creation code here
-	size_t i;
-	char buf[1024];
-	wcstombs_s(&i,buf,lpszPathName,1024);
+	//char buf[1024];
+	char *buf = const_cast<char*>(lpszPathName);
+	//wcstombs(buf,CString(lpszPathName).GetBuffer(),1024);
 
 	if(!data.Load(buf)) {
-		AfxMessageBox(CString("Wrong format file"));
+		AfxMessageBox("Wrong format file");
 		return FALSE;
 	}
 
@@ -184,7 +193,6 @@ BOOL CCGTutorialDoc::OnOpenDocument(LPCTSTR lpszPathName)
 BOOL CCGTutorialDoc::OnSaveDocument(LPCTSTR lpszPathName)
 {
 	// TODO: Add your specialized code here and/or call the base class
-
 	return CDocument::OnSaveDocument(lpszPathName);
 }
 
@@ -202,8 +210,8 @@ void CCGTutorialDoc::DeleteContents()
 	// TODO: Add your specialized code here and/or call the base class
 	object->ClearChild();
 	environment->ClearChild();
-	environment->AddChild(new CProjection(-1,1,-1,1,1,-1,ORTHO));
 	environment->AddChild(new CCamera(0,0,0,0,0,-1,0,1,0));
+	environment->AddChild(new CProjection(-1,1,-1,1,1,-1,ORTHO));
 	environment->AddChild(new CViewPort(0,0,0,0,VIEWPORT_DEFAULT));
 	CDocument::DeleteContents();
 }

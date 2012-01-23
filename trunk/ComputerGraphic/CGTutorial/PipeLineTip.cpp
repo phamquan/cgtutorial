@@ -107,7 +107,7 @@ void CPipeLineTip::ShowMatrix(CDC* cdc, CString m[16], int top, int &left)
 		int max = 0;
 		for(int j=0; j<4; j++) {//row
 			int width = cdc->GetTextExtent(m[i*4+j]).cx;
-			cdc->TextOutW(left,top+(height+5)*j,m[i*4+j]);
+			cdc->TextOut(left,top+(height+5)*j,m[i*4+j]);
 			if(max < width)
 				max = width;
 		}

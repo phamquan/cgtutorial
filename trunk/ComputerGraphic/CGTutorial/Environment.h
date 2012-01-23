@@ -40,6 +40,17 @@ public:
 		return NULL;
 	}
 
+	virtual void Serialize(CArchive& ar, int tab=0)
+	{
+		ar.WriteString(CString("<environment>\r\n"));
+		
+		GetCamera()->Serialize(ar,tab+1);
+		GetProjection()->Serialize(ar,tab+1);
+		GetViewPort()->Serialize(ar,tab+1);
+
+		ar.WriteString(CString("</environment>\r\n"));
+	}
+
 	void DrawCamera()
 	{
 		if(m_listChild->GetSize() < 3)

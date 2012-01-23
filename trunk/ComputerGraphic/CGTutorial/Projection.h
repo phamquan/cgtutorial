@@ -30,9 +30,11 @@ public:
 		if(type == ORTHO) {
 			toString.Format(CString("projection(type=ortho, left=%5.2f, right=%5.2f, bottom=%5.2f, top=%5.2f, near=%5.2f, far=%5.2f)"),left,right,bottom,top,mnear,mfar);
 			GLCode.Format(CString("glOrtho(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);"),left,right,bottom,top,mnear,mfar);
+			serialize.Format(CString("<projection type='ortho' left=%5.2f right=%5.2f bottom=%5.2f top=%5.2f near=%5.2f far=%5.2f />"),left,right,bottom,top,mnear,mfar);
 		} else {
 			toString.Format(CString("projection(type=frustum, left=%5.2f, right=%5.2f, bottom=%5.2f, top=%5.2f, near=%5.2f, far=%5.2f)"),left,right,bottom,top,mnear,mfar);
 			GLCode.Format(CString("glFrustum(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);"),left,right,bottom,top,mnear,mfar);
+			serialize.Format(CString("<projection type='frustum' left=%5.2f right=%5.2f bottom=%5.2f top=%5.2f near=%5.2f far=%5.2f />"),left,right,bottom,top,mnear,mfar);
 		}
 	}
 
@@ -45,6 +47,14 @@ public:
 		mnear = data2.getY();
 		mfar = data2.getZ();
 		type = this->type;
+	}
+
+	virtual void Serialize(CArchive& ar, int tab=0)
+	{
+		CString t;
+		for(int i=0; i<tab; i++)
+			t += '\t';
+		ar.WriteString(t + serialize + "\r\n");
 	}
 
 protected:

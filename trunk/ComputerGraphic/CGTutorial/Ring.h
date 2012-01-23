@@ -18,6 +18,7 @@ public:
 		data2.setCoords(R,r,0);
 		toString.Format(CString("ring(x=%5.2f, y=%5.2f, z=%5.2f, R=%5.2f, r=%5.2f)"),x,y,z,R,r);
 		GLCode.Format(CString("drawRing(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f)"),x,y,z,R,r);
+		serialize.Format(CString("<ring x=%5.2f y=%5.2f z=%5.2f R=%5.2f r=%5.2f />"),x,y,z,R,r);
 	}
 
 	void GetData(float &x, float &y, float &z, float &R, float &r)

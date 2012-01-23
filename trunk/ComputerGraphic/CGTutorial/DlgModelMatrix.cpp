@@ -100,7 +100,7 @@ void CDlgModelMatrix::OnPaint()
 	int top = 30, left = 10;
 		
 	if(object == NULL) {
-		dc.TextOutW(left,top,CString("Select geometric object to view data"));
+		dc.TextOut(left,top,CString("Select geometric object to view data"));
 	} else {
 		for(int i=0; i<matrix.GetSize(); i++)
 		{

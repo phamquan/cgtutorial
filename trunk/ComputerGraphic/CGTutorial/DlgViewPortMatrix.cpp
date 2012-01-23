@@ -62,7 +62,7 @@ void CDlgViewPortMatrix::OnPaint()
 	dc.SetBkMode( TRANSPARENT );
 	char buf[128];
 	sprintf_s(buf,"left = %5.2f, bottom = %5.2f, width = %5.2f, height = %5.2f",x,y,w,h);
-	dc.TextOutW(10,10,CString(buf));
+	dc.TextOut(10,10,CString(buf));
 
 	int top=30, left = 10;
 	CString data[16] = {CString("width/2"), CString("0.000"), CString("0.000"), CString("0.000"),

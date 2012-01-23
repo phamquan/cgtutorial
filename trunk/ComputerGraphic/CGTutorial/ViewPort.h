@@ -28,9 +28,11 @@ public:
 		if(type == VIEWPORT_DEFAULT) {
 			toString = "viewport(type=default)";
 			GLCode = "glViewport(0,0,width,height);";
+			serialize = "<viewport type='default' />";
 		} else {
 			toString.Format(CString("viewport(type=custom, x=%5.2f, y=%5.2f, width=%5.2f, height=%5.2f)"),x,y,width,height);
 			GLCode.Format(CString("glViewport(%5.2f,%5.2f,%5.2f,%5.2f);"),x,y,width,height);
+			serialize.Format(CString("<viewport type='custom' x=%5.2f y=%5.2f width=%5.2f height=%5.2f />"),x,y,width,height);
 		}
 	}
 
@@ -41,6 +43,14 @@ public:
 		width = data.getZ();
 		height = data.getW();
 		type = this->type;
+	}
+
+	virtual void Serialize(CArchive& ar, int tab=0)
+	{
+		CString t;
+		for(int i=0; i<tab; i++)
+			t += '\t';
+		ar.WriteString(t + serialize + "\r\n");
 	}
 };
 

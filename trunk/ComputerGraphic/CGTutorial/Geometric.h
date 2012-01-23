@@ -16,6 +16,14 @@ public:
 
 	virtual ~CGeometric() {}
 
+	virtual void Serialize(CArchive& ar, int tab=0)
+	{
+		CString t;
+		for(int i=0; i<tab; i++)
+			t += '\t';
+		ar.WriteString(t + serialize + "\r\n");
+	}
+
 protected:
 
 	virtual void EndOpenGL()

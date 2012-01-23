@@ -18,6 +18,7 @@ public:
 		data2.setCoords(right,top,mfar);
 		toString.Format(CString("cube(left=%5.2f, bottom=%5.2f, near=%5.2f, right=%5.2f, top=%5.2f, far=%5.2f)"),left,bottom,mnear,right,top,mfar);
 		GLCode.Format(CString("drawCube(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f)"),left,bottom,mnear,right,top,mfar);
+		serialize.Format(CString("<cube left=%5.2f bottom=%5.2f near=%5.2f right=%5.2f top=%5.2f far=%5.2f />"),left,bottom,mnear,right,top,mfar);
 	}
 
 	void GetData(float &left, float &bottom, float &mnear, float &right, float &top, float &mfar)

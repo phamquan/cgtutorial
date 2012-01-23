@@ -59,24 +59,24 @@ void CDlgProjectionMatrixGL::OnPaint()
 	float mleft,mright,mbottom,mtop,mnear,mfar;
 	environment->GetProjection()->GetData(mleft,mright,mbottom,mtop,mnear,mfar,type);
 
-	dc.TextOutW(left,top+=20,CString("glMatrixMode(GL_PROJECTION);"));
+	dc.TextOut(left,top+=20,CString("glMatrixMode(GL_PROJECTION);"));
 	glMatrixMode(GL_PROJECTION);
 
 	glPushMatrix();
 
-	dc.TextOutW(left,top+=20,CString("glLoadIdentity();"));
+	dc.TextOut(left,top+=20,CString("glLoadIdentity();"));
 	glLoadIdentity();
 
 	if(type == ORTHO) {
 		sprintf_s(buff,"glOrtho(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f)",mleft,mright,mbottom,mtop,mnear,mfar);
-		dc.TextOutW(left,top+=20,CString(buff));
+		dc.TextOut(left,top+=20,CString(buff));
 		glOrtho(mleft,mright,mbottom,mtop,mnear,mfar);
 	} else {
 		sprintf_s(buff,"glFrustum(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f)",mleft,mright,mbottom,mtop,mnear,mfar);
-		dc.TextOutW(left,top+=20,CString(buff));
+		dc.TextOut(left,top+=20,CString(buff));
 		glFrustum(mleft,mright,mbottom,mtop,mnear,mfar);
 	}
-	dc.TextOutW(left,top+=20,CString("glGetFloatv(GL_PROJECTION_MATRIX,P);"));
+	dc.TextOut(left,top+=20,CString("glGetFloatv(GL_PROJECTION_MATRIX,P);"));
 	glGetFloatv(GL_PROJECTION_MATRIX,sum);
 
 	ShowMatrix(&dc,CString("P"),CString(),sum,top+=30,left);
