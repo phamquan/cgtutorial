@@ -20,6 +20,7 @@ class CViewTree : public CTreeCtrl
 public:
 	CViewTree();
 	CMap<HTREEITEM,HTREEITEM,COpenGLNode*,COpenGLNode*> myMap;
+	void SuccessfulDrag(HTREEITEM hDest,HTREEITEM hSrc);
 
 // Overrides
 protected:
@@ -28,7 +29,6 @@ protected:
 	HTREEITEM         m_hDragTarget;
 	CImageList*       m_pDragImgList;
 
-	void SuccessfulDrag(HTREEITEM hDest,HTREEITEM hSrc);
 	void CopyItem (HTREEITEM hDest,HTREEITEM hSrc);
 	void CopySubtree (HTREEITEM hDest,HTREEITEM hSrc);
 	HTREEITEM InsertItemAndSubtree(HTREEITEM hDest,HTREEITEM hSrc);
@@ -46,4 +46,5 @@ public:
 	afx_msg void OnTvnBegindrag(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 };

@@ -358,7 +358,7 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 				case NODE_SPHERE :
 				case NODE_CYLINDER :
 				case NODE_RING :
-					contextMenu->GetSubMenu(0)->DeleteMenu(0,MF_BYPOSITION);
+					//contextMenu->GetSubMenu(0)->DeleteMenu(0,MF_BYPOSITION);
 					break;
 				}
 				contextMenu->GetSubMenu(0)->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this);
@@ -436,36 +436,31 @@ void CFileView::OnChangeVisualStyle()
 	m_wndFileView.SetImageList(&m_FileViewImages, TVSIL_NORMAL);
 }
 
-BOOLEAN CFileView::ValidateAdd()
+BOOL CFileView::ToParent()
 {
 	switch(node->ID) {
 	case NODE_OBJECT:
 	case NODE_TRANSLATE:
 	case NODE_ROTATE:
 	case NODE_SCALE:
-		return true;
-	}
-	return false;
-}
-
-BOOLEAN CFileView::ValidateDelete()
-{
-	switch(node->ID) {
-	case NODE_OBJECT:
-	case NODE_ENVIRONMENT:
-	case NODE_CAMERA:
-	case NODE_PROJECTION:
-	case NODE_VIEWPORT:
 		return false;
 	}
 	return true;
 }
 
-void CFileView::AddNode(COpenGLNode *newNode, BOOL isGeometric)
+void CFileView::AddNode(COpenGLNode *newNode, BOOL isGeometric, BOOL toParent)
 {
+	ASSERT(!(isGeometric && toParent));
+
+	HTREEITEM cur = hTreeItem;
 	if(isGeometric) {
 		hTreeItem = object;
 		m_wndFileView.myMap.Lookup(object,node);
+	}
+
+	if(toParent) {
+		hTreeItem = m_wndFileView.GetParentItem(hTreeItem);
+		node = node->parent;
 	}
 
 	node->AddChild(newNode);
@@ -473,37 +468,34 @@ void CFileView::AddNode(COpenGLNode *newNode, BOOL isGeometric)
 	m_wndFileView.EnsureVisible(hnode);
 	m_wndFileView.myMap.SetAt(hnode,newNode);
 
+	if(toParent)
+		m_wndFileView.SuccessfulDrag(hnode,cur);
+
 	((CMainFrame*)AfxGetMainWnd())->Refresh();
 }
 
 void CFileView::OnTransformationTranslate()
 {
 	// TODO: Add your command handler code here
-	if(ValidateAdd()) {
-		CDlgTranslate dlg;
-		if(dlg.DoModal() == IDOK)
-			AddNode(new CTranslate(dlg.m_X,dlg.m_Y,dlg.m_Z),FALSE);
-	}
+	CDlgTranslate dlg;
+	if(dlg.DoModal() == IDOK)
+		AddNode(new CTranslate(dlg.m_X,dlg.m_Y,dlg.m_Z),FALSE,ToParent());
 }
 
 void CFileView::OnTransformationRotate()
 {
 	// TODO: Add your command handler code here
-	if(ValidateAdd()) {
-		CDlgRotate dlg;
-		if(dlg.DoModal() == IDOK)
-			AddNode(new CRotate(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_A),FALSE);
-	}
+	CDlgRotate dlg;
+	if(dlg.DoModal() == IDOK)
+		AddNode(new CRotate(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_A),FALSE,ToParent());
 }
 
 void CFileView::OnTransformationScale()
 {
 	// TODO: Add your command handler code here
-	if(ValidateAdd()) {
-		CDlgScale dlg;
-		if(dlg.DoModal() == IDOK)
-			AddNode(new CScale(dlg.m_X,dlg.m_Y,dlg.m_Z),FALSE);
-	}
+	CDlgScale dlg;
+	if(dlg.DoModal() == IDOK)
+		AddNode(new CScale(dlg.m_X,dlg.m_Y,dlg.m_Z),FALSE,ToParent());
 }
 
 void CFileView::OnFileviewEdit()
@@ -642,11 +634,9 @@ void CFileView::OnFileviewEdit()
 void CFileView::OnFileviewDelete()
 {
 	// TODO: Add your command handler code here
-	if(ValidateDelete()) {
-		node->parent->RemoveChild(node);
-		m_wndFileView.DeleteItem(hTreeItem);
-		((CMainFrame*)AfxGetMainWnd())->Refresh();
-	}
+	node->parent->RemoveChild(node);
+	m_wndFileView.DeleteItem(hTreeItem);
+	((CMainFrame*)AfxGetMainWnd())->Refresh();
 }
 
 COpenGLNode* CFileView::GetObject()

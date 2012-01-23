@@ -15,9 +15,9 @@ CDlgRotate::CDlgRotate(CWnd* pParent /*=NULL*/)
 	: CDialog(CDlgRotate::IDD, pParent)
 {
 
-	m_A = 0.0f;
+	m_A = 90.0f;
 	m_X = 0.0f;
-	m_Y = 0.0f;
+	m_Y = 1.0f;
 	m_Z = 0.0f;
 }
 

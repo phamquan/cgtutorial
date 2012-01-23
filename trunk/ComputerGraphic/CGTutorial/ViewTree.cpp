@@ -39,6 +39,7 @@ BEGIN_MESSAGE_MAP(CViewTree, CTreeCtrl)
 	ON_NOTIFY_REFLECT(TVN_BEGINDRAG, &CViewTree::OnTvnBegindrag)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_MOUSEWHEEL()
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -252,4 +253,86 @@ HTREEITEM CViewTree::InsertItemAndSubtree(HTREEITEM hDest,HTREEITEM hSrc)
 	CopySubtree(hNew,hSrc);                                   // start with subtree so that item is correctly expanded
 	CopyItem   (hNew,hSrc);
 	return hNew;
+}
+
+
+void CViewTree::OnTimer(UINT_PTR nIDEvent)
+{
+	// TODO: Add your message handler code here and/or call default
+	if(m_boDragging)
+	{
+		POINT point;
+		GetCursorPos(&point);
+		ScreenToClient(&point);
+
+		// highlight target
+		TVHITTESTINFO tvHit;
+		tvHit.pt = point;
+		HTREEITEM hTarget = HitTest(&tvHit);
+
+		if(hTarget)
+		{
+			if(hTarget != m_hDragTarget)
+			{                                                     // this test avoids flickering
+				m_pDragImgList->DragShowNolock(false);
+				EnsureVisible(hTarget);
+				SelectDropTarget(hTarget);
+				m_pDragImgList->DragShowNolock(true);
+				m_hDragTarget = hTarget;
+			}
+		}
+		else // scroll tree
+		{
+			RECT rect;
+			GetClientRect(&rect);
+
+			int iMaxV = GetScrollLimit(SB_VERT);
+			int iPosV = GetScrollPos  (SB_VERT);
+
+			// up
+			if((point.y < rect.top -10) && iPosV)
+			{
+				HTREEITEM hPrev = GetPrevVisibleItem(GetFirstVisibleItem());
+				m_pDragImgList->DragShowNolock(false);
+				EnsureVisible(hPrev);
+				m_pDragImgList->DragShowNolock(true);
+			}
+
+			// down
+			if((point.y > rect.bottom +10) && (iPosV != iMaxV))
+			{
+				UINT Nb = GetVisibleCount();
+				if(Nb != -1)
+				{
+					HTREEITEM hNext = GetFirstVisibleItem();
+					for(UINT i = 0; i < Nb; i++) hNext = GetNextVisibleItem(hNext);
+					m_pDragImgList->DragShowNolock(false);
+					EnsureVisible(hNext);
+					m_pDragImgList->DragShowNolock(true);
+				}
+			}
+
+			int iPosH = GetScrollPos  (SB_HORZ);
+			int iMaxH = GetScrollLimit(SB_HORZ);
+
+			// left
+			if((point.x < rect.left) && iPosH)
+			{
+				m_pDragImgList->DragShowNolock(false);
+				SendMessage(WM_HSCROLL,SB_LINELEFT);
+				m_pDragImgList->DragShowNolock(true);
+			}
+
+			// right
+			if((point.x > rect.right) && (iPosH != iMaxH))
+			{
+				m_pDragImgList->DragShowNolock(false);
+				SendMessage(WM_HSCROLL,SB_LINERIGHT);
+				m_pDragImgList->DragShowNolock(true);
+			}
+		}
+
+		m_pDragImgList->DragMove(point);
+	}
+	CTreeCtrl::OnTimer(nIDEvent);
 }
