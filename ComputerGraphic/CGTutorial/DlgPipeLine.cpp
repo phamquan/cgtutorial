@@ -8,6 +8,14 @@
 #include "Point4D.h"
 #include "Line.h"
 #include "Rectangle.h"
+#include "Triangle.h"
+#include "Circle.h"
+#include "Ellipse.h"
+#include "Cube.h"
+#include "Tetrahedron.h"
+#include "Sphere.h"
+#include "Cylinder.h"
+#include "Ring.h" 
 
 // CDlgPipeLine dialog
 
@@ -50,7 +58,7 @@ END_MESSAGE_MAP()
 void CDlgPipeLine::Refresh(COpenGLNode *obj)
 {
 	object = obj;
-	float x1,y1,z1,x2,y2,z2,x3,y3,z3;
+	float x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4;
 	int id;
 	if(object != NULL)
 	{
@@ -69,18 +77,58 @@ void CDlgPipeLine::Refresh(COpenGLNode *obj)
 		}
 		else if(id == NODE_RECTANGLE)
 		{
-			
+			((CRectangle*)object)->GetData(x1,y1,x2,y2);
+			matrix.Add(new CPoint3D(x1,y1,0));
+			matrix.Add(new CPoint3D(x2,y1,0));
+			matrix.Add(new CPoint3D(x2,y2,0));
+			matrix.Add(new CPoint3D(x1,y2,0));
 		}
 		else if(id == NODE_TRIANGLE)
 		{
+			((CTriangle*)object)->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
+			matrix.Add(new CPoint3D(x1,y1,z1));
+			matrix.Add(new CPoint3D(x2,y2,z2));
+			matrix.Add(new CPoint3D(x3,y3,z3));
 		}
-		//#define NODE_CIRCLE			9
-		//#define NODE_ELLIPSE		10
-		//#define NODE_CUBE			11
-		//#define NODE_TETRAHEDRON	12
-		//#define NODE_SPHERE			13
-		//#define NODE_CYLINDER		14
-		//#define NODE_RING			15
+		else if(id == NODE_CIRCLE)
+		{
+			((CCircle*)object)->GetData(x1,y1,z1,x2);
+			matrix.Add(new CPoint3D(x1,y1,z1));
+		}
+		else if(id == NODE_ELLIPSE)
+		{
+			((CEllipse*)object)->GetData(x1,y1,z1,x2,y2);
+			matrix.Add(new CPoint3D(x1,y1,z1));
+		}
+		else if(id == NODE_CUBE)
+		{
+			((CCube*)object)->GetData(x1,y1,z1,x2,y2,z2);
+			matrix.Add(new CPoint3D(x1,y1,z1));
+			matrix.Add(new CPoint3D(x2,y2,z2));
+		}
+		else if(id == NODE_TETRAHEDRON)
+		{
+			((CTetrahedron*)object)->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4);
+			matrix.Add(new CPoint3D(x1,y1,z1));
+			matrix.Add(new CPoint3D(x2,y2,z2));
+			matrix.Add(new CPoint3D(x3,y3,z3));
+			matrix.Add(new CPoint3D(x4,y4,z4));
+		}
+		else if(id == NODE_SPHERE)
+		{
+			((CSphere*)object)->GetData(x1,y1,z1,x2);
+			matrix.Add(new CPoint3D(x1,y1,z1));
+		}
+		else if(id == NODE_CYLINDER)
+		{
+			((CCylinder*)object)->GetData(x1,y1,z1,x2,y2);
+			matrix.Add(new CPoint3D(x1,y1,z1));
+		}
+		else if(id == NODE_RING)
+		{
+			((CRing*)object)->GetData(x1,y1,z1,x2,y2);
+			matrix.Add(new CPoint3D(x1,y1,z1));
+		}
 
 		glMatrixMode(GL_MODELVIEW);
 		glPushMatrix();

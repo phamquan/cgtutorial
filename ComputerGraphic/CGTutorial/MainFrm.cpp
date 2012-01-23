@@ -321,13 +321,10 @@ void CMainFrame::Refresh()
 		dlgMatrixFormula->Refresh(m_wndFileView.GetObject());
 
 	if(dlgPipeLine != NULL)
-		dlgPipeLine->Refresh(m_wndFileView.GetGeometric());
+		dlgPipeLine->Refresh(m_wndFileView.GetObject());
 
 	if(cameraFrame != NULL)
-	{
 		cameraFrame->ReSize();
-		//cameraFrame->Invalidate();
-	}
 }
 
 void CMainFrame::OnGencode()
@@ -363,7 +360,7 @@ void CMainFrame::OnPipeline()
 		dlgPipeLine = new CDlgPipeLine(((CCGTutorialDoc*)GetActiveDocument())->environment);
 		dlgPipeLine->Create(CDlgPipeLine::IDD,this);
 	}
-	dlgPipeLine->Refresh(m_wndFileView.GetGeometric());
+	dlgPipeLine->Refresh(m_wndFileView.GetObject());
 	dlgPipeLine->ShowWindow(SW_SHOW);
 }
 
