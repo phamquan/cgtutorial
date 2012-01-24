@@ -26,7 +26,7 @@ public:
 		data4.setCoords(x4,y4,z4);
 		toString.Format(CString("tetrahedron(x1=%5.2f, y1=%5.2f, z1=%5.2f, x2=%5.2f, y2=%5.2f, z2=%5.2f, x3=%5.2f, y3=%5.2f, z3=%5.2f, x4=%5.2f, y4=%5.2f, z4=%5.2f)"),
 			x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4);
-		GLCode.Format(CString("drawTetrahedron(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f)"),x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4);
+		GLCode.Format(CString("drawTetrahedron(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);"),x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4);
 		serialize.Format(CString("<tetrahedron x1=%5.2f y1=%5.2f z1=%5.2f x2=%5.2f y2=%5.2f z2=%5.2f x3=%5.2f y3=%5.2f z3=%5.2f x4=%5.2f y4=%5.2f z4=%5.2f />"),x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4);
 	}
 

@@ -254,7 +254,8 @@ CString CCGTutorialDoc::GenCode()
 	openGLCode = "";
 
 	//header
-	AddCode("#pragma comment(lib, \"opengl32.lib\")",0,2);
+	AddCode("#pragma comment(lib, \"opengl32.lib\")",0,1);
+	AddCode("#pragma comment( linker, \"/subsystem:\\\"windows\\\" /entry:\\\"mainCRTStartup\\\"\" )",0,2);
 
 	AddCode("#include <GL/glut.h>",0,1);
 	AddCode("#include <math.h>",0,1);
@@ -303,7 +304,7 @@ CString CCGTutorialDoc::GenCode()
 	//main
 	AddCode("int main(int argc, char** argv) {",0,2);
 	AddCode("// init GLUT and create Window",1,1);
-	AddCode("glutInit(&&argc, argv);",1,1);
+	AddCode("glutInit(&argc, argv);",1,1);
 	AddCode("glutInitDisplayMode(GLUT_DEPTH | GLUT_SINGLE | GLUT_RGB);",1,1);
 	AddCode("glutCreateWindow(\"Computer Graphic Tutorial\");",1,1);
 	AddCode("initOpenGL();",1,2);
@@ -493,40 +494,40 @@ void CCGTutorialDoc::DrawEllipse()
 void CCGTutorialDoc::DrawCube()
 {
 	char buf[128];
-	sprintf_s(buf,"void drawCube(float left, float bottom, float near, float right, float top, float far) { //%d",CCube::count);
-	//AddCode("void drawCube(float left, float bottom, float near, float right, float top, float far) {",0,1);
+	sprintf_s(buf,"void drawCube(float left, float bottom, float mnear, float right, float top, float mfar) { //%d",CCube::count);
+	//AddCode("void drawCube(float left, float bottom, float mnear, float right, float top, float mfar) {",0,1);
 	AddCode(buf,0,1);
 		AddCode("glBegin(GL_QUADS);",1,1);
 			AddCode("//font",2,1);
-			AddCode("glVertex3f(left,top,near);",2,1);
-			AddCode("glVertex3f(right,top,near);",2,1);
-			AddCode("glVertex3f(right,bottom,near);",2,1);
-			AddCode("glVertex3f(left,bottom,near);",2,1);
+			AddCode("glVertex3f(left,top,mnear);",2,1);
+			AddCode("glVertex3f(right,top,mnear);",2,1);
+			AddCode("glVertex3f(right,bottom,mnear);",2,1);
+			AddCode("glVertex3f(left,bottom,mnear);",2,1);
 			AddCode("//back",2,1);
-			AddCode("glVertex3f(left,top,far);",2,1);
-			AddCode("glVertex3f(right,top,far);",2,1);
-			AddCode("glVertex3f(right,bottom,far);",2,1);
-			AddCode("glVertex3f(left,bottom,far);",2,1);
+			AddCode("glVertex3f(left,top,mfar);",2,1);
+			AddCode("glVertex3f(right,top,mfar);",2,1);
+			AddCode("glVertex3f(right,bottom,mfar);",2,1);
+			AddCode("glVertex3f(left,bottom,mfar);",2,1);
 			AddCode("//left",2,1);
-			AddCode("glVertex3f(left,top,near);",2,1);
-			AddCode("glVertex3f(left,bottom,near);",2,1);
-			AddCode("glVertex3f(left,bottom,far);",2,1);
-			AddCode("glVertex3f(left,top,far);",2,1);
+			AddCode("glVertex3f(left,top,mnear);",2,1);
+			AddCode("glVertex3f(left,bottom,mnear);",2,1);
+			AddCode("glVertex3f(left,bottom,mfar);",2,1);
+			AddCode("glVertex3f(left,top,mfar);",2,1);
 			AddCode("//right",2,1);
-			AddCode("glVertex3f(right,top,near);",2,1);
-			AddCode("glVertex3f(right,bottom,near);",2,1);
-			AddCode("glVertex3f(right,bottom,far);",2,1);
-			AddCode("glVertex3f(right,top,far);",2,1);
+			AddCode("glVertex3f(right,top,mnear);",2,1);
+			AddCode("glVertex3f(right,bottom,mnear);",2,1);
+			AddCode("glVertex3f(right,bottom,mfar);",2,1);
+			AddCode("glVertex3f(right,top,mfar);",2,1);
 			AddCode("//up",2,1);
-			AddCode("glVertex3f(left,top,near);",2,1);
-			AddCode("glVertex3f(right,top,near);",2,1);
-			AddCode("glVertex3f(right,top,far);",2,1);
-			AddCode("glVertex3f(left,top,far);",2,1);
+			AddCode("glVertex3f(left,top,mnear);",2,1);
+			AddCode("glVertex3f(right,top,mnear);",2,1);
+			AddCode("glVertex3f(right,top,mfar);",2,1);
+			AddCode("glVertex3f(left,top,mfar);",2,1);
 			AddCode("//down",2,1);
-			AddCode("glVertex3f(left,bottom,near);",2,1);
-			AddCode("glVertex3f(right,bottom,near);",2,1);
-			AddCode("glVertex3f(right,bottom,far);",2,1);
-			AddCode("glVertex3f(left,bottom,far);",2,1);
+			AddCode("glVertex3f(left,bottom,mnear);",2,1);
+			AddCode("glVertex3f(right,bottom,mnear);",2,1);
+			AddCode("glVertex3f(right,bottom,mfar);",2,1);
+			AddCode("glVertex3f(left,bottom,mfar);",2,1);
 		AddCode("glEnd();",1,1);
 	AddCode("}",0,2);
 }
@@ -590,24 +591,25 @@ void CCGTutorialDoc::DrawCylinder()
 	sprintf_s(buf,"void drawCylinder(float x, float y, float z, float R, float height) { //%d",CCylinder::count);
 	//AddCode("void drawCylinder(float x, float y, float z, float R, float r) {",0,1);
 	AddCode(buf,0,1);
+		AddCode("int j;",1,1);
 		AddCode("glPushMatrix();",1,1);
 		AddCode("glTranslatef(x,y,z);",1,1);
 		AddCode("glBegin(GL_QUAD_STRIP);",1,1);
-		AddCode("for(int j=0; j<=360; j+=10) {",1,1);
+		AddCode("for(j=0; j<=360; j+=10) {",1,1);
 			AddCode("glVertex3f(R*cos(j*DEG_2_RAD), height/2,R*sin(j*DEG_2_RAD));",2,1);
 			AddCode("glVertex3f(R*cos(j*DEG_2_RAD),-height/2,R*sin(j*DEG_2_RAD));",2,1);
 		AddCode("}",1,1);
 		AddCode("glEnd();",1,2);
 
 		AddCode("glBegin(GL_POLYGON);",1,1);
-		AddCode("for(int j=0; j<=360; j+=10) {",1,1);
+		AddCode("for(j=0; j<=360; j+=10) {",1,1);
 			AddCode("glVertex3f(R*cos(j*DEG_2_RAD), height/2,R*sin(j*DEG_2_RAD));",2,1);
 		AddCode("}",1,1);
 		AddCode("glEnd();",1,2);
 		
 		AddCode("glBegin(GL_POLYGON);",1,1);
-		AddCode("for(int j=0; j<=360; j+=10) {",1,1);
-			AddCode("glVertex3f(R*cos(j*DEG_2_RAD),-height/2,R*sin(j*DEG_2_RAD));,",2,1);
+		AddCode("for(j=0; j<=360; j+=10) {",1,1);
+			AddCode("glVertex3f(R*cos(j*DEG_2_RAD),-height/2,R*sin(j*DEG_2_RAD));",2,1);
 		AddCode("}",1,1);
 		AddCode("glEnd();",1,1);
 		AddCode("glPopMatrix();",1,1);
