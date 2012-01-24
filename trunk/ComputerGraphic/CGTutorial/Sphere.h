@@ -20,7 +20,7 @@ public:
 	{
 		data1.setCoords(x,y,z,R);
 		toString.Format(CString("sphere(x=%5.2f, y=%5.2f, z=%5.2f, R=%5.2f)"),x,y,z,R);
-		GLCode.Format(CString("drawSphere(%5.2f,%5.2f,%5.2f,%5.2f)"),x,y,z,R);
+		GLCode.Format(CString("drawSphere(%5.2f,%5.2f,%5.2f,%5.2f);"),x,y,z,R);
 		serialize.Format(CString("<sphere x=%5.2f y=%5.2f z=%5.2f R=%5.2f />"),x,y,z,R);
 	}
 
