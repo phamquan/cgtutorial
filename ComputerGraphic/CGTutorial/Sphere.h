@@ -4,13 +4,17 @@ class CSphere :
 	public CGeometric
 {
 public:
-
+	static int count;
 	CSphere(float x, float y, float z, float R) : CGeometric(NODE_SPHERE)
 	{
 		SetData(x,y,z,R);
+		count++;
 	}
 
-	virtual ~CSphere() {}
+	virtual ~CSphere()
+	{
+		count--;
+	}
 
 	void SetData(float x, float y, float z, float R)
 	{

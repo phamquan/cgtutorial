@@ -4,13 +4,17 @@ class CTriangle :
 	public CGeometric
 {
 public:
-
+	static int count;
 	CTriangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3) : CGeometric(NODE_TRIANGLE)
 	{
 		SetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
+		count++;
 	}
 
-	virtual ~CTriangle() {}
+	virtual ~CTriangle() 
+	{
+		count--;
+	}
 
 	void SetData(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3)
 	{

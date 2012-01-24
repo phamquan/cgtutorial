@@ -4,13 +4,17 @@ class CRing :
 	public CGeometric
 {
 public:
-
+	static int count;
 	CRing(float x, float y, float z, float R, float r) : CGeometric(NODE_RING)
 	{
 		SetData(x,y,z,R,r);
+		count++;
 	}
 
-	virtual ~CRing() {}
+	virtual ~CRing() 
+	{
+		count--;
+	}
 
 	void SetData(float x, float y, float z, float R, float r)
 	{

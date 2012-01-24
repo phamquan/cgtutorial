@@ -4,13 +4,18 @@ class CPoint4D :
 	public CGeometric
 {
 public:
+	static int count;
 
 	CPoint4D(float x, float y, float z) : CGeometric(NODE_POINT)
 	{
 		SetData(x, y, z);
+		count++;
 	}
 
-	virtual ~CPoint4D() {}
+	virtual ~CPoint4D()
+	{
+		count--;
+	}
 
 	void SetData(float x, float y, float z)
 	{
@@ -39,4 +44,3 @@ protected:
 		glBegin(GL_POINTS);
 	}
 };
-

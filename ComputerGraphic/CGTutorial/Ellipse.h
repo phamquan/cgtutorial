@@ -4,13 +4,17 @@ class CEllipse :
 	public CGeometric
 {
 public:
-
+	static int count;
 	CEllipse(float x, float y, float z, float a, float b) : CGeometric(NODE_ELLIPSE)
 	{
 		SetData(x,y,z,a,b);
+		count++;
 	}
 
-	virtual ~CEllipse() {}
+	virtual ~CEllipse() 
+	{
+		count--;
+	}
 
 	void SetData(float x, float y, float z, float a, float b)
 	{
