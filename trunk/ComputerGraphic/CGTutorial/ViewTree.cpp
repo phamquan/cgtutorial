@@ -192,7 +192,7 @@ void CViewTree::SuccessfulDrag(HTREEITEM hDest,HTREEITEM hSrc)
 		return;
 
 	COpenGLNode *parent = source->parent;
-	parent->RemoveChild(source,FALSE);
+	parent->RemoveChild(source);
 	dest->AddChild(source);
 
 	// create a copy of the source subtree

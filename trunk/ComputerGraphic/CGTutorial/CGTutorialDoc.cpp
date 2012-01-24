@@ -30,6 +30,17 @@
 #endif
 
 // CCGTutorialDoc
+#include "Line.h"
+#include "Point4D.h"
+#include "Rectangle.h"
+#include "Triangle.h"
+#include "Circle.h"
+#include "Ellipse.h"
+#include "Cube.h"
+#include "Tetrahedron.h"
+#include "Sphere.h"
+#include "Cylinder.h"
+#include "Ring.h"
 
 IMPLEMENT_DYNCREATE(CCGTutorialDoc, CDocument)
 
@@ -261,17 +272,28 @@ CString CCGTutorialDoc::GenCode()
 	CoordinateGLCode();
 
 	//draw object
-	DrawPoint();
-	DrawLine();
-	DrawRectangle();
-	DrawTriangle();
-	DrawCircle();
-	DrawEllipse();
-	DrawCube();
-	DrawTetrahedron();
-	DrawSphere();
-	DrawCylinder();
-	DrawRing();
+	if(CPoint4D::count>0)
+		DrawPoint();
+	if(CLine::count>0)
+		DrawLine();
+	if(CRectangle::count>0)
+		DrawRectangle();
+	if(CTriangle::count>0)
+		DrawTriangle();
+	if(CCircle::count>0)
+		DrawCircle();
+	if(CEllipse::count>0)
+		DrawEllipse();
+	if(CCube::count>0)
+		DrawCube();
+	if(CTetrahedron::count>0)
+		DrawTetrahedron();
+	if(CSphere::count>0)
+		DrawSphere();
+	if(CCylinder::count>0)
+		DrawCylinder();
+	if(CRing::count>0)
+		DrawRing();
 
 	//onpaint
 	PaintGLCode();
@@ -378,7 +400,10 @@ void CCGTutorialDoc::ObjectGLCode(COpenGLNode *node)
 
 void CCGTutorialDoc::DrawPoint()
 {
-	AddCode("void drawPoint(float x, float y, float z) {",0,1);
+	char buf[128];
+	sprintf_s(buf,"void drawPoint(float x, float y, float z) { //%d",CPoint4D::count);
+	//AddCode("void drawPoint(float x, float y, float z) {",0,1);
+	AddCode(buf,0,1);
 		AddCode("glBegin(GL_POINTS);",1,1);
 			AddCode("glVertex3f(x,y,z);",2,1);	
 		AddCode("glEnd();",1,1);
@@ -387,7 +412,10 @@ void CCGTutorialDoc::DrawPoint()
 
 void CCGTutorialDoc::DrawLine()
 {
-	AddCode("void drawLine(float x1, float y1, float z1, float x2, float y2, float z2) {",0,1);
+	char buf[128];
+	sprintf_s(buf,"void drawLine(float x1, float y1, float z1, float x2, float y2, float z2) { //%d",CLine::count);
+	//AddCode("void drawLine(float x1, float y1, float z1, float x2, float y2, float z2) {",0,1);
+	AddCode(buf,0,1);
 		AddCode("glBegin(GL_LINES);",1,1);
 			AddCode("glVertex3f(x1,y1,z1);",2,1);	
 			AddCode("glVertex3f(x2,y2,z2);",2,1);
@@ -397,7 +425,10 @@ void CCGTutorialDoc::DrawLine()
 
 void CCGTutorialDoc::DrawRectangle()
 {
-	AddCode("void drawRectangle(float  top, float left, float bottom, float right) {",0,1);
+	char buf[128];
+	sprintf_s(buf,"void drawRectangle(float  top, float left, float bottom, float right) { //%d",CRectangle::count);
+	//AddCode("void drawRectangle(float  top, float left, float bottom, float right) {",0,1);
+	AddCode(buf,0,1);
 		AddCode("glBegin(GL_QUADS);",1,1);
 			AddCode("glVertex3f(left,top,0);",2,1);	
 			AddCode("glVertex3f(right,top,0);",2,1);
@@ -409,7 +440,10 @@ void CCGTutorialDoc::DrawRectangle()
 
 void CCGTutorialDoc::DrawTriangle()
 {
-	AddCode("void drawTriangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3) {",0,1);
+	char buf[128];
+	sprintf_s(buf,"void drawTriangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3) { //%d",CTriangle::count);
+	//AddCode("void drawTriangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3) {",0,1);
+	AddCode(buf,0,1);
 		AddCode("glBegin(GL_TRIANGLES);",1,1);
 			AddCode("glVertex3f(x1,y1,z1);",2,1);	
 			AddCode("glVertex3f(x2,y2,z2);",2,1);
@@ -420,7 +454,10 @@ void CCGTutorialDoc::DrawTriangle()
 
 void CCGTutorialDoc::DrawCircle()
 {
-	AddCode("void drawCircle(float x, float y, float z, float R) {",0,1);
+	char buf[128];
+	sprintf_s(buf,"void drawCircle(float x, float y, float z, float R) { //%d",CCircle::count);
+	//AddCode("void drawCircle(float x, float y, float z, float R) {",0,1);
+	AddCode(buf,0,1);
 		AddCode("glPushMatrix();",1,1);
 		AddCode("glTranslatef(x,y,z);",1,1);
 		AddCode("glScalef(R,R,1);",1,1);
@@ -435,7 +472,10 @@ void CCGTutorialDoc::DrawCircle()
 
 void CCGTutorialDoc::DrawEllipse()
 {
-	AddCode("void drawEllipse(float x, float y, float z, float a, float b) {",0,1);
+	char buf[128];
+	sprintf_s(buf,"void drawEllipse(float x, float y, float z, float a, float b) { //%d",CEllipse::count);
+	//AddCode("void drawEllipse(float x, float y, float z, float a, float b) {",0,1);
+	AddCode(buf,0,1);
 		AddCode("glPushMatrix();",1,1);
 		AddCode("glTranslatef(x,y,z);",1,1);
 		AddCode("glScalef(a,b,1);",1,1);
@@ -450,7 +490,10 @@ void CCGTutorialDoc::DrawEllipse()
 
 void CCGTutorialDoc::DrawCube()
 {
-	AddCode("void drawCube(float left, float bottom, float near, float right, float top, float far) {",0,1);
+	char buf[128];
+	sprintf_s(buf,"void drawCube(float left, float bottom, float near, float right, float top, float far) { //%d",CCube::count);
+	//AddCode("void drawCube(float left, float bottom, float near, float right, float top, float far) {",0,1);
+	AddCode(buf,0,1);
 		AddCode("glBegin(GL_QUADS);",1,1);
 			AddCode("//font",2,1);
 			AddCode("glVertex3f(left,top,near);",2,1);
@@ -488,7 +531,10 @@ void CCGTutorialDoc::DrawCube()
 
 void CCGTutorialDoc::DrawTetrahedron()
 {
-	AddCode("void drawTetrahedron(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4) {",0,1);
+	char buf[256];
+	sprintf_s(buf,"void drawTetrahedron(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4) { //%d",CTetrahedron::count);
+	//AddCode("void drawTetrahedron(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4) {",0,1);
+	AddCode(buf,0,1);
 		AddCode("glBegin(GL_TRIANGLES);",1,1);
 			AddCode("glVertex3f(x1,y1,z1);",2,1);
 			AddCode("glVertex3f(x2,y2,z2);",2,1);
@@ -511,7 +557,10 @@ void CCGTutorialDoc::DrawTetrahedron()
 
 void CCGTutorialDoc::DrawSphere()
 {
-	AddCode("void drawSphere(float x, float y, float z, float R) {",0,1);
+	char buf[128];
+	sprintf_s(buf,"void drawSphere(float x, float y, float z, float R) { //%d",CSphere::count);
+	//AddCode("void drawSphere(float x, float y, float z, float R) {",0,1);
+	AddCode(buf,0,1);
 		AddCode("glPushMatrix();",1,1);
 		AddCode("glTranslatef(x,y,z);",1,1);
 		AddCode("glScalef(R,R,R);",1,1);
@@ -535,7 +584,10 @@ void CCGTutorialDoc::DrawSphere()
 
 void CCGTutorialDoc::DrawCylinder()
 {
-	AddCode("void drawCylinder(float x, float y, float z, float R, float r) {",0,1);
+	char buf[128];
+	sprintf_s(buf,"void drawCylinder(float x, float y, float z, float R, float height) { //%d",CCylinder::count);
+	//AddCode("void drawCylinder(float x, float y, float z, float R, float r) {",0,1);
+	AddCode(buf,0,1);
 		AddCode("glPushMatrix();",1,1);
 		AddCode("glTranslatef(x,y,z);",1,1);
 		AddCode("glBegin(GL_QUAD_STRIP);",1,1);
@@ -562,7 +614,10 @@ void CCGTutorialDoc::DrawCylinder()
 
 void CCGTutorialDoc::DrawRing()
 {
-	AddCode("void drawRing(float x, float y, float z, float R, float r) {",0,1);
+	char buf[128];
+	sprintf_s(buf,"void drawRing(float x, float y, float z, float R, float r) { //%d",CRing::count);
+	//AddCode("void drawRing(float x, float y, float z, float R, float r) {",0,1);
+	AddCode(buf,0,1);
 		AddCode("glPushMatrix();",1,1);
 		AddCode("glTranslatef(x,y,z);",1,1);
 		AddCode("for(int i = 10; i<=360; i+=10) {",1,1);

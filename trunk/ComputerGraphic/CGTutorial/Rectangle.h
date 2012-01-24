@@ -4,13 +4,17 @@ class CRectangle :
 	public CGeometric
 {
 public:
-
+	static int count;
 	CRectangle(float top, float left, float bottom, float right) : CGeometric(NODE_RECTANGLE)
 	{
 		SetData(top,left,bottom,right);
+		count++;
 	}
 
-	virtual ~CRectangle() {}
+	virtual ~CRectangle()
+	{
+		count--;
+	}
 
 	void SetData(float top, float left, float bottom, float right)
 	{

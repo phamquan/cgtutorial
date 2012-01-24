@@ -4,13 +4,17 @@ class CCube :
 	public CGeometric
 {
 public:
-
+	static int count;
 	CCube(float left, float bottom, float mnear, float right, float top, float mfar) : CGeometric(NODE_CUBE)
 	{
 		SetData(left,bottom,mnear,right,top,mfar);
+		count++;
 	}
 
-	virtual ~CCube() {}
+	virtual ~CCube() 
+	{
+		count--;
+	}
 
 	void SetData(float left, float bottom, float mnear, float right, float top, float mfar)
 	{

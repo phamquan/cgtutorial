@@ -46,8 +46,19 @@
 #define new DEBUG_NEW
 #endif
 
-// CMainFrame
+int CPoint4D::count;
+int CLine::count;
+int CRectangle::count;
+int CTriangle::count;
+int CCircle::count;
+int CEllipse::count;
+int CCube::count;
+int CTetrahedron::count;
+int CSphere::count;
+int CCylinder::count;
+int CRing::count;
 
+// CMainFrame
 IMPLEMENT_DYNCREATE(CMainFrame, CFrameWndEx)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)

@@ -55,7 +55,6 @@ static char THIS_FILE[]=__FILE__;
 
 /////////////////////////////////////////////////////////////////////////////
 // CFileView
-
 CFileView::CFileView()
 {
 	contextMenu = NULL;
@@ -631,7 +630,7 @@ void CFileView::OnFileviewEdit()
 void CFileView::OnFileviewDelete()
 {
 	// TODO: Add your command handler code here
-	node->parent->RemoveChild(node);
+	node->parent->DeleteChild(node);
 	m_wndFileView.DeleteItem(hTreeItem);
 	((CMainFrame*)AfxGetMainWnd())->Refresh();
 }

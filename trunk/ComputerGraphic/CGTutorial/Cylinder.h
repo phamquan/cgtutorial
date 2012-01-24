@@ -4,13 +4,17 @@ class CCylinder :
 	public CGeometric
 {
 public:
-
+	static int count;
 	CCylinder(float x, float y, float z, float R, float height) : CGeometric(NODE_CYLINDER)
 	{
 		SetData(x,y,z,R,height);
+		count++;
 	}
 
-	virtual ~CCylinder() {}
+	virtual ~CCylinder()
+	{
+		count--;
+	}
 
 	void SetData(float x, float y, float z, float R, float height)
 	{

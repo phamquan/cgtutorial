@@ -4,13 +4,17 @@ class CCircle :
 	public CGeometric
 {
 public:
-
+	static int count;
 	CCircle(float x, float y, float z, float R) : CGeometric(NODE_CIRCLE)
 	{
 		SetData(x,y,z,R);
+		count++;
 	}
 
-	virtual ~CCircle() {}
+	virtual ~CCircle() 
+	{
+		count--;
+	}
 
 	void SetData(float x, float y, float z, float R)
 	{

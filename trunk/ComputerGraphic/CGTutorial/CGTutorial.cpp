@@ -25,7 +25,6 @@
 #define new DEBUG_NEW
 #endif
 
-
 // CCGTutorialApp
 
 BEGIN_MESSAGE_MAP(CCGTutorialApp, CWinAppEx)
