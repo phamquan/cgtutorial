@@ -254,6 +254,8 @@ CString CCGTutorialDoc::GenCode()
 	openGLCode = "";
 
 	//header
+	AddCode("#pragma comment(lib, \"opengl32.lib\")",0,2);
+
 	AddCode("#include <GL/glut.h>",0,1);
 	AddCode("#include <math.h>",0,1);
 	AddCode("#include <stdio.h>",0,2);
