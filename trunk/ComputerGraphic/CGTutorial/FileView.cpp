@@ -440,9 +440,6 @@ BOOL CFileView::ToParent()
 {
 	switch(node->ID) {
 	case NODE_OBJECT:
-	case NODE_TRANSLATE:
-	case NODE_ROTATE:
-	case NODE_SCALE:
 		return false;
 	}
 	return true;
