@@ -186,7 +186,8 @@ BOOL CCGTutorialDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	//wcstombs(buf,CString(lpszPathName).GetBuffer(),1024);
 
 	if(!data.Load(buf)) {
-		AfxMessageBox("Wrong format file");
+		CString error = data.error;
+		AfxMessageBox("Wrong format file : " + error);
 		return FALSE;
 	}
 
