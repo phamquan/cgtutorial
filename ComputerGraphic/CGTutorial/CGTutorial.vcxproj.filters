@@ -289,6 +289,9 @@
     <ClInclude Include="DlgRing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CGTXParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CGTutorial.cpp">
