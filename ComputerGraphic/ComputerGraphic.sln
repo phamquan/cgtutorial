@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qtml", "qtml\qtml.vcxproj", "{2C4C4A23-B490-4391-BE36-9905ACAA6B54}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RasterizationIllustration", "RasterizationIllustration\RasterizationIllustration.vcxproj", "{3825FA11-C5BB-4B01-A8E4-19E163F52440}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CGTutorial", "CGTutorial\CGTutorial.vcxproj", "{3A2270A7-4249-4624-9610-2F2343255E39}"
@@ -13,10 +11,6 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2C4C4A23-B490-4391-BE36-9905ACAA6B54}.Debug|Win32.ActiveCfg = Debug|Win32
-		{2C4C4A23-B490-4391-BE36-9905ACAA6B54}.Debug|Win32.Build.0 = Debug|Win32
-		{2C4C4A23-B490-4391-BE36-9905ACAA6B54}.Release|Win32.ActiveCfg = Release|Win32
-		{2C4C4A23-B490-4391-BE36-9905ACAA6B54}.Release|Win32.Build.0 = Release|Win32
 		{3825FA11-C5BB-4B01-A8E4-19E163F52440}.Debug|Win32.ActiveCfg = Debug|Win32
 		{3825FA11-C5BB-4B01-A8E4-19E163F52440}.Release|Win32.ActiveCfg = Release|Win32
 		{3A2270A7-4249-4624-9610-2F2343255E39}.Debug|Win32.ActiveCfg = Debug|Win32

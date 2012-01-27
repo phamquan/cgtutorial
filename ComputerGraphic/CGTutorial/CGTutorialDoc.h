@@ -15,7 +15,7 @@
 
 #pragma once
 
-#include "../qtml/qtmlManager.h"
+#include "CGTXParser.h"
 #include "Environment.h"
 
 class CCGTutorialDoc : public CDocument
@@ -23,7 +23,7 @@ class CCGTutorialDoc : public CDocument
 protected: // create from serialization only
 	CCGTutorialDoc();
 	DECLARE_DYNCREATE(CCGTutorialDoc)
-	qtmlManager data;
+	CCGTXParser data;
 	COpenGLNode* object;
 	int tabsize;
 
