@@ -71,15 +71,8 @@ public:
 
 	void DeleteChild(COpenGLNode* child)
 	{
-		for(int i=0; i<m_listChild->GetSize(); i++)
-		{
-			if(child == m_listChild->ElementAt(i))
-			{
-				delete child;
-				m_listChild->RemoveAt(i);
-				break;
-			}
-		}
+		RemoveChild(child);
+		delete child;
 	}
 
 	void ClearChild()
