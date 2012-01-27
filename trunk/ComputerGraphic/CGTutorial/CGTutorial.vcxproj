@@ -138,6 +138,7 @@
     <ClInclude Include="CGTutorial.h" />
     <ClInclude Include="CGTutorialDoc.h" />
     <ClInclude Include="CGTutorialView.h" />
+    <ClInclude Include="CGTXParser.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Cylinder.h" />
