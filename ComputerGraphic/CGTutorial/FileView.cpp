@@ -234,11 +234,13 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 void CFileView::FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNode* oobject, CEnvironment* oenvironment)
 {
 	m_wndFileView.DeleteAllItems();
-	m_wndFileView.myMap.RemoveAll();
+	m_wndFileView.myMap1.RemoveAll();
+	m_wndFileView.myMap2.RemoveAll();
 
 	object = m_wndFileView.InsertItem(oobject->toString, 0, 0);
 	m_wndFileView.SetItemState(object,TVIS_BOLD,TVIS_BOLD);
-	m_wndFileView.myMap.SetAt(object,oobject);
+	m_wndFileView.myMap1.SetAt(object,oobject);
+	m_wndFileView.myMap2.SetAt(oobject,object);
 
 	TiXmlNode* pChild = NULL;
 	while (pChild = tobject->IterateChildren(pChild)) {
@@ -247,7 +249,8 @@ void CFileView::FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNod
 
 	environment = m_wndFileView.InsertItem(oenvironment->toString, 0, 0);
 	m_wndFileView.SetItemState(environment,TVIS_BOLD,TVIS_BOLD);
-	m_wndFileView.myMap.SetAt(environment,oenvironment);
+	m_wndFileView.myMap1.SetAt(environment,oenvironment);
+	m_wndFileView.myMap2.SetAt(oenvironment,environment);
 
 	pChild = NULL;
 	while (pChild = tenvironment->IterateChildren(pChild)) {
@@ -263,21 +266,25 @@ void CFileView::FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNod
 void CFileView::FillView(COpenGLNode *oobject, COpenGLNode* oenvironment)
 {
 	m_wndFileView.DeleteAllItems();
-	m_wndFileView.myMap.RemoveAll();
+	m_wndFileView.myMap1.RemoveAll();
+	m_wndFileView.myMap2.RemoveAll();
 
 	object = m_wndFileView.InsertItem(oobject->toString, 0, 0);
 	m_wndFileView.SetItemState(object,TVIS_BOLD,TVIS_BOLD);
-	m_wndFileView.myMap.SetAt(object,oobject);
+	m_wndFileView.myMap1.SetAt(object,oobject);
+	m_wndFileView.myMap2.SetAt(oobject,object);
 
 	environment = m_wndFileView.InsertItem(oenvironment->toString, 0, 0);
 	m_wndFileView.SetItemState(environment,TVIS_BOLD,TVIS_BOLD);
-	m_wndFileView.myMap.SetAt(environment,oenvironment);
+	m_wndFileView.myMap1.SetAt(environment,oenvironment);
+	m_wndFileView.myMap2.SetAt(oenvironment,environment);
 
 	for(int i=0; i<oenvironment->m_listChild->GetSize(); i++)
 	{
 		COpenGLNode* childnode = (COpenGLNode*)oenvironment->m_listChild->GetAt(i);
 		HTREEITEM child = m_wndFileView.InsertItem(childnode->toString, 0, 0, environment);
-		m_wndFileView.myMap.SetAt(child,childnode);
+		m_wndFileView.myMap1.SetAt(child,childnode);
+		m_wndFileView.myMap2.SetAt(childnode,child);
 	}
 
 	m_wndFileView.Expand(environment,TVE_EXPAND);
@@ -296,7 +303,8 @@ void CFileView::FillFile(TiXmlNode *root, HTREEITEM hparrent, COpenGLNode *oparr
 	oparrent->AddChild(openGL);
 
 	HTREEITEM node = m_wndFileView.InsertItem(openGL->toString, 0, 0, hparrent);
-	m_wndFileView.myMap.SetAt(node,openGL);
+	m_wndFileView.myMap1.SetAt(node,openGL);
+	m_wndFileView.myMap2.SetAt(openGL,node);
 
 	while (pChild = root->IterateChildren(pChild)) {
 		FillFile(pChild,node,openGL);
@@ -326,7 +334,7 @@ void CFileView::OnContextMenu(CWnd* pWnd, CPoint point)
 		hTreeItem = pWndTree->HitTest(ptTree, &flags);
 		if (hTreeItem != NULL)
 		{
-			m_wndFileView.myMap.Lookup(hTreeItem,node);
+			m_wndFileView.myMap1.Lookup(hTreeItem,node);
 			pWndTree->SelectItem(hTreeItem);
 			if(contextMenu != NULL)
 				delete contextMenu;
@@ -447,11 +455,12 @@ BOOL CFileView::ToParent()
 void CFileView::AddNode(COpenGLNode *newNode, BOOL isGeometric, BOOL toParent)
 {
 	ASSERT(!(isGeometric && toParent));
+	CMainFrame *mainFrame = (CMainFrame*)AfxGetMainWnd();
 
 	HTREEITEM cur = hTreeItem;
 	if(isGeometric) {
 		hTreeItem = object;
-		m_wndFileView.myMap.Lookup(object,node);
+		m_wndFileView.myMap1.Lookup(object,node);
 	}
 
 	if(toParent) {
@@ -460,14 +469,17 @@ void CFileView::AddNode(COpenGLNode *newNode, BOOL isGeometric, BOOL toParent)
 	}
 
 	node->AddChild(newNode);
+	mainFrame->undo.Push(new CAction(ACTION_ADD,newNode,node));
 	HTREEITEM hnode = m_wndFileView.InsertItem(newNode->toString, 0, 0, hTreeItem);
 	m_wndFileView.EnsureVisible(hnode);
-	m_wndFileView.myMap.SetAt(hnode,newNode);
+	m_wndFileView.myMap1.SetAt(hnode,newNode);
+	m_wndFileView.myMap2.SetAt(newNode,hnode);
 
 	if(toParent)
 		m_wndFileView.SuccessfulDrag(hnode,cur);
 
-	((CMainFrame*)AfxGetMainWnd())->Refresh();
+	
+	mainFrame->Refresh();
 }
 
 void CFileView::OnTransformationTranslate()
@@ -612,7 +624,7 @@ void CFileView::OnFileviewEdit()
 			m_wndFileView.SetItemText(hTreeItem,edit->toString);
 
 			CMainFrame *mainFrame = (CMainFrame*)AfxGetMainWnd();
-			mainFrame->undo.Push(new CAction(EDIT,node,edit));
+			mainFrame->undo.Push(new CAction(ACTION_EDIT,node,edit));
 			mainFrame->Refresh();
 		} else {
 			delete edit;
@@ -623,9 +635,11 @@ void CFileView::OnFileviewEdit()
 void CFileView::OnFileviewDelete()
 {
 	// TODO: Add your command handler code here
-	node->parent->DeleteChild(node);
+	node->parent->RemoveChild(node);
 	m_wndFileView.DeleteItem(hTreeItem);
-	((CMainFrame*)AfxGetMainWnd())->Refresh();
+	CMainFrame *mainFrame = (CMainFrame*)AfxGetMainWnd();
+	mainFrame->undo.Push(new CAction(ACTION_DELETE,node,node->parent));
+	mainFrame->Refresh();
 }
 
 COpenGLNode* CFileView::GetObject()
@@ -633,7 +647,7 @@ COpenGLNode* CFileView::GetObject()
 	hTreeItem = m_wndFileView.GetSelectedItem();
 
 	if(hTreeItem != NULL) {
-		m_wndFileView.myMap.Lookup(hTreeItem,node);
+		m_wndFileView.myMap1.Lookup(hTreeItem,node);
 		switch(node->ID) {
 		case NODE_TRANSLATE :
 		case NODE_ROTATE :

@@ -181,8 +181,13 @@ void CViewTree::SuccessfulDrag(HTREEITEM hDest,HTREEITEM hSrc)
 	}
 
 	COpenGLNode *source, *dest;
-	myMap.Lookup(hSrc,source);
-	myMap.Lookup(hDest,dest);
+	CMainFrame *mainFrame = (CMainFrame*)AfxGetMainWnd();
+	myMap1.Lookup(hSrc,source);
+	myMap1.Lookup(hDest,dest);
+	mainFrame->undo.Push(new CAction(ACTION_DELETE,source,source->parent));
+	mainFrame->undo.Push(new CAction(ACTION_ADD,source,dest));
+
+
 	int id = source->ID;
 	if(id == NODE_OBJECT || id == NODE_ENVIRONMENT || id == NODE_CAMERA || id == NODE_PROJECTION || id == NODE_VIEWPORT)
 		return;
@@ -201,7 +206,7 @@ void CViewTree::SuccessfulDrag(HTREEITEM hDest,HTREEITEM hSrc)
 	EnsureVisible(hNew);
 	DeleteItem   (hSrc);
 
-	((CMainFrame*)AfxGetMainWnd())->Refresh();
+	mainFrame->Refresh();
 }
 
 
@@ -230,9 +235,9 @@ void CViewTree::CopySubtree(HTREEITEM hDest,HTREEITEM hSrc)
 		HTREEITEM   hChildDest = InsertItem(CString("dest child"),hDest);
 
 		COpenGLNode* node;
-		myMap.Lookup(hChildSrc,node);
-		myMap.RemoveKey(hChildSrc);
-		myMap.SetAt(hChildDest,node);
+		myMap1.Lookup(hChildSrc,node);
+		myMap1.RemoveKey(hChildSrc);
+		myMap1.SetAt(hChildDest,node);
 
 		CopySubtree(hChildDest,hChildSrc);
 		CopyItem   (hChildDest,hChildSrc);
@@ -246,9 +251,9 @@ HTREEITEM CViewTree::InsertItemAndSubtree(HTREEITEM hDest,HTREEITEM hSrc)
 	HTREEITEM hNew = InsertItem(CString("new"),hDest);			//insert new node into dest
 
 	COpenGLNode* node;
-	myMap.Lookup(hSrc,node);
-	myMap.RemoveKey(hSrc);
-	myMap.SetAt(hNew,node);
+	myMap1.Lookup(hSrc,node);
+	myMap1.RemoveKey(hSrc);
+	myMap1.SetAt(hNew,node);
 
 	CopySubtree(hNew,hSrc);                                   // start with subtree so that item is correctly expanded
 	CopyItem   (hNew,hSrc);
