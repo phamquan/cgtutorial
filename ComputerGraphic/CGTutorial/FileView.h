@@ -36,6 +36,7 @@ public:
 	void FillView(TiXmlNode* tobject, TiXmlNode* tenvironment, COpenGLNode* oobject, CEnvironment* oenvironment);
 	void FillView(COpenGLNode* object, COpenGLNode* environment);
 	void AddNode(COpenGLNode *newNode, BOOL isGeometric, BOOL toParent=FALSE);
+	void AddNode(HTREEITEM hitem, COpenGLNode *node);
 	COpenGLNode* GetObject();
 	//COpenGLNode* GetGeometric();
 

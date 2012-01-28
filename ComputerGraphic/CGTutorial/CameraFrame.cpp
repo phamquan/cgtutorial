@@ -9,6 +9,10 @@
 
 
 // CCameraFrame dialog
+static UINT BASED_CODE indicators[] =
+{
+    ID_INDICATOR_LOCATION,
+};
 
 IMPLEMENT_DYNAMIC(CCameraFrame, CDialog)
 
@@ -35,6 +39,7 @@ BEGIN_MESSAGE_MAP(CCameraFrame, CDialog)
 	ON_WM_SIZE()
 	ON_WM_ERASEBKGND()
 	ON_WM_DESTROY()
+	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 
@@ -73,9 +78,22 @@ int CCameraFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 void CCameraFrame::OnSize(UINT nType, int cx, int cy)
 {
 	CDialog::OnSize(nType, cx, cy);
-	
+	CRect rect;
+
+	if(m_bar.GetSafeHwnd() == NULL) {
+		m_bar.Create(this);
+		m_bar.SetIndicators(indicators,1);
+
+		m_bar.SetPaneInfo(0,ID_INDICATOR_LOCATION, SBPS_NORMAL,cy);
+	}
+
+	RepositionBars(AFX_IDW_CONTROLBAR_FIRST,AFX_IDW_CONTROLBAR_LAST,ID_INDICATOR_LOCATION);
+
+	m_bar.GetClientRect(&rect);
+	subheight = rect.Height();
+
 	width = cx;
-	height = cy;
+	height = cy-subheight;
 	ReSize();
 
 	((CMainFrame*)GetParent())->Refresh();
@@ -89,9 +107,9 @@ void CCameraFrame::ReSize()
 	int w;
 	environment->GetViewPort()->GetData(x1,y1,z1,x2,w);
 	if(w == VIEWPORT_CUSTOM)
-		glViewport(x1,y1,z1,x2);
+		glViewport(x1,y1+subheight,z1,x2);
 	else
-		glViewport(0,0,width,height);
+		glViewport(0,subheight,width,height);
 
 	Invalidate();
 }
@@ -153,6 +171,7 @@ void CCameraFrame::DetroyOpenGL()
 	}
 
 }
+
 void CCameraFrame::DrawCoordinate() {
 	glBegin(GL_LINES);
 		glColor3f(1.0f,0.0f,0.0f);
@@ -165,4 +184,14 @@ void CCameraFrame::DrawCoordinate() {
 		glVertex3f(0.0f,0.0f,0.0f);
 		glVertex3f(0.0f,0.0f,1000.0f);
 	glEnd();
+}
+
+void CCameraFrame::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	CString s;
+    s.Format("X=%d Y=%d",point.x,height - point.y);
+    m_bar.SetPaneText(0,s);
+
+	CDialog::OnMouseMove(nFlags, point);
 }

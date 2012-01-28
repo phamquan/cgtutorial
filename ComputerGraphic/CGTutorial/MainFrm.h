@@ -27,7 +27,11 @@ class CMainFrame : public CFrameWndEx
 protected: // create from serialization only
 	CMainFrame();
 	DECLARE_DYNCREATE(CMainFrame)
+	
+	CAction *DoAction(CAction *action);
+	void Clear(CAction *action);
 
+	CStack<CAction*> undo, redo;
 // Attributes
 public:
 	CFileView         m_wndFileView;
@@ -35,8 +39,7 @@ public:
 	CDlgMatrixFormula *dlgMatrixFormula;
 	CDlgPipeLine *dlgPipeLine;
 	CCameraFrame *cameraFrame;
-
-	CStack<CAction*> undo, redo;
+	
 // Operations
 public:
 	void Refresh();
@@ -44,7 +47,8 @@ public:
 	void ShowViewMatrix();
 	void ShowProjectionMatrix();
 	void ShowViewPort();
-
+	void ClearUndo();
+	void ClearRedo();
 	CSize GetViewPort();
 // Overrides
 public:
