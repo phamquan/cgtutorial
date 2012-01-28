@@ -12,7 +12,7 @@
 #pragma once
 
 #include "ViewTree.h"
-#include "../qtml/tinyxml.h"
+#include "tinyxml.h"
 #include "Environment.h"
 
 class CFileViewToolBar : public CMFCToolBar
