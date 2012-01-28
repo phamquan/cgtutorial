@@ -18,6 +18,8 @@
 #include "DlgMatrixFormula.h"
 #include "DlgPipeLine.h"
 #include "CameraFrame.h"
+#include "Stack.h"
+#include "Action.h"
 
 class CMainFrame : public CFrameWndEx
 {
@@ -33,6 +35,8 @@ public:
 	CDlgMatrixFormula *dlgMatrixFormula;
 	CDlgPipeLine *dlgPipeLine;
 	CCameraFrame *cameraFrame;
+
+	CStack<CAction*> undo, redo;
 // Operations
 public:
 	void Refresh();

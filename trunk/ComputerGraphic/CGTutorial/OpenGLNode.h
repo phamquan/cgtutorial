@@ -84,6 +84,24 @@ public:
 		m_listChild->RemoveAll();
 	}
 
+	void Replace(COpenGLNode *node)
+	{
+		for(int i=0; i<parent->m_listChild->GetSize(); i++) {
+			if(parent->m_listChild->GetAt(i) == this) {
+				parent->m_listChild->SetAt(i,node);
+				node->parent = parent;
+				break;
+			}
+		}
+
+		for(int i=0; i<m_listChild->GetSize(); i++) {
+			COpenGLNode *child = (COpenGLNode*)m_listChild->GetAt(i);
+			node->AddChild(child);
+		}
+
+		m_listChild->RemoveAll();
+	}
+
 	void PaintOpenGL()
 	{
 		BeginOpenGL();

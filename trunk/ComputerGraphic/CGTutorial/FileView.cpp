@@ -499,131 +499,124 @@ void CFileView::OnFileviewEdit()
 	// TODO: Add your command handler code here
 	int id = node->ID;
 	float x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,w;
-	BOOLEAN edit = false;
+	
+	COpenGLNode *edit = NULL;
+
 	if(id == NODE_PROJECTION) {
 		((CProjection*)node)->GetData(x1,y1,z1,x2,y2,z2,id);
 		CDlgProjection dlg(x1,y1,z1,x2,y2,z2,id);
 		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			((CProjection*)node)->SetData(dlg.m_Left,dlg.m_Right,dlg.m_Bottom,dlg.m_Top,dlg.m_Near,dlg.m_Far,dlg.type);
+			edit = new CProjection(dlg.m_Left,dlg.m_Right,dlg.m_Bottom,dlg.m_Top,dlg.m_Near,dlg.m_Far,dlg.type);
 		}
 	} else if(id == NODE_CAMERA) {
 		((CCamera*)node)->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
 		CDlgCamera dlg(x1,y1,z1,x2,y2,z2,x3,y3,z3);
 		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			((CCamera*)node)->SetData(dlg.m_EX,dlg.m_EY,dlg.m_EZ,dlg.m_RX,dlg.m_RY,dlg.m_RZ,dlg.m_UX,dlg.m_UY,dlg.m_UZ);
+			edit = new CCamera(dlg.m_EX,dlg.m_EY,dlg.m_EZ,dlg.m_RX,dlg.m_RY,dlg.m_RZ,dlg.m_UX,dlg.m_UY,dlg.m_UZ);
 		}
 	} else if(id == NODE_VIEWPORT) {
 		((CViewPort*)node)->GetData(x1,y1,x2,y2,id);
 		CDlgViewPort dlg(x1,y1,x2,y2,id);
 		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			((CViewPort*)node)->SetData(dlg.m_Left,dlg.m_Bottom,dlg.m_Width,dlg.m_Height,dlg.type);
+			edit = new CViewPort(dlg.m_Left,dlg.m_Bottom,dlg.m_Width,dlg.m_Height,dlg.type);
 		}
 	} else if(id == NODE_TRANSLATE) {
 		((CTranslate*)node)->GetData(x1,y1,z1);
 		CDlgTranslate dlg(x1,y1,z1);
 		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			((CTranslate*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z);
+			edit = new CTranslate(dlg.m_X,dlg.m_Y,dlg.m_Z);
 		}
 	} else if(id == NODE_SCALE) {
 		((CScale*)node)->GetData(x1,y1,z1);
 		CDlgScale dlg(x1,y1,z1);
 		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			((CScale*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z);
+			edit = new CScale(dlg.m_X,dlg.m_Y,dlg.m_Z);
 		}
 	} else if(id == NODE_ROTATE) {
 		((CRotate*)node)->GetData(x1,y1,z1,w);
 		CDlgRotate dlg(x1,y1,z1,w);
 		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			((CRotate*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_A);
+			edit = new CRotate(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_A);
 		}
 	} else if(id == NODE_POINT) {
 		((CPoint4D*)node)->GetData(x1,y1,z1);
 		CDlgPoint dlg(x1,y1,z1);
 		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			((CPoint4D*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z);
+			edit = new CPoint4D(dlg.m_X,dlg.m_Y,dlg.m_Z);
 		}
 	} else if(id == NODE_LINE) {
 		((CLine*)node)->GetData(x1,y1,z1,x2,y2,z2);
 		CDlgLine dlg(x1,y1,z1,x2,y2,z2);
 		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			((CLine*)node)->SetData(dlg.m_BX,dlg.m_BY,dlg.m_BZ,dlg.m_EX,dlg.m_EY,dlg.m_EZ);
+			edit = new CLine(dlg.m_BX,dlg.m_BY,dlg.m_BZ,dlg.m_EX,dlg.m_EY,dlg.m_EZ);
 		}
 	} else if(id == NODE_RECTANGLE) {
 		((CRectangle*)node)->GetData(x1,y1,x2,y2);
 		CDlgRectangle dlg(x1,y1,x2,y2);
 		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			((CRectangle*)node)->SetData(dlg.m_Top,dlg.m_Left,dlg.m_Bottom,dlg.m_Right);
+			edit = new CRectangle(dlg.m_Top,dlg.m_Left,dlg.m_Bottom,dlg.m_Right);
 		}
 	} else if(id == NODE_TRIANGLE) {
 		((CTriangle*)node)->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
 		CDlgTriangle dlg(x1,y1,z1,x2,y2,z2,x3,y3,z3);
 		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			((CTriangle*)node)->SetData(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2,dlg.m_X3,dlg.m_Y3,dlg.m_Z3);
+			edit = new CTriangle(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2,dlg.m_X3,dlg.m_Y3,dlg.m_Z3);
 		}
 	} else if(id == NODE_CIRCLE) {
 		((CCircle*)node)->GetData(x1,y1,z1,w);
 		CDlgCircle dlg(x1,y1,z1,w);
 		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			((CCircle*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R);
+			edit = new CCircle(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R);
 		}
 	} else if(id == NODE_ELLIPSE) {
 		((CEllipse*)node)->GetData(x1,y1,z1,x2,y2);
 		CDlgEllipse dlg(x1,y1,z1,x2,y2);
 		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			((CEllipse*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_A,dlg.m_B);
+			edit = new CEllipse(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_A,dlg.m_B);
 		}
 	} else if(id == NODE_CUBE) {
 		((CCube*)node)->GetData(x1,y1,z1,x2,y2,z2);
 		CDlgCube dlg(x1,y1,z1,x2,y2,z2);
 		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			((CCube*)node)->SetData(dlg.m_Left,dlg.m_Bottom,dlg.m_Near,dlg.m_Right,dlg.m_Top,dlg.m_Far);
+			edit = new CCube(dlg.m_Left,dlg.m_Bottom,dlg.m_Near,dlg.m_Right,dlg.m_Top,dlg.m_Far);
 		}
 	} else if(id == NODE_TETRAHEDRON) {
 		((CTetrahedron*)node)->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4);
 		CDlgTetrahedron dlg(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4);
 		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			((CTetrahedron*)node)->SetData(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2,dlg.m_X3,dlg.m_Y3,dlg.m_Z3,dlg.m_X4,dlg.m_Y4,dlg.m_Z4);
+			edit = new CTetrahedron(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2,dlg.m_X3,dlg.m_Y3,dlg.m_Z3,dlg.m_X4,dlg.m_Y4,dlg.m_Z4);
 		}
 	} else if(id == NODE_SPHERE) {
 		((CSphere*)node)->GetData(x1,y1,z1,w);
 		CDlgSphere dlg(x1,y1,z1,w);
 		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			((CSphere*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R);
+			edit = new CSphere(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R);
 		}
 	} else if(id == NODE_CYLINDER) {
 		((CCylinder*)node)->GetData(x1,y1,z1,x2,y2);
 		CDlgCylinder dlg(x1,y1,z1,x2,y2);
 		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			((CCylinder*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_Height);
+			edit = new CCylinder(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_Height);
 		}
 	} else if(id == NODE_RING) {
 		((CRing*)node)->GetData(x1,y1,z1,x2,y2);
 		CDlgRing dlg(x1,y1,z1,x2,y2);
 		if(dlg.DoModal() == IDOK) {
-			edit = true;
-			((CRing*)node)->SetData(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_R1);
+			edit = new CRing(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_R1);
 		}
 	}
 
-	if(edit) {
-		m_wndFileView.SetItemText(hTreeItem,node->toString);
-		((CMainFrame*)AfxGetMainWnd())->Refresh();
+	if(edit != NULL) {
+		if(edit->toString != node->toString) {
+			node->Replace(edit);
+			m_wndFileView.SetItemText(hTreeItem,edit->toString);
+
+			CMainFrame *mainFrame = (CMainFrame*)AfxGetMainWnd();
+			mainFrame->undo.Push(new CAction(EDIT,node,edit));
+			mainFrame->Refresh();
+		} else {
+			delete edit;
+		}
 	}
 }
 
