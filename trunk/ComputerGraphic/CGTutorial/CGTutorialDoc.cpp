@@ -72,8 +72,6 @@ BOOL CCGTutorialDoc::OnNewDocument()
 
 	// TODO: add reinitialization code here
 	// (SDI documents will reuse this document)
-	title = this->GetTitle();
-
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 	pMainFrame->m_wndFileView.FillView(object,environment);
 	pMainFrame->Refresh();

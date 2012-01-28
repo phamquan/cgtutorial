@@ -84,6 +84,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_SPHERE, &CMainFrame::OnSphere)
 	ON_COMMAND(ID_CYLINDER, &CMainFrame::OnCylinder)
 	ON_COMMAND(ID_RING, &CMainFrame::OnRing)
+	ON_COMMAND(ID_EDIT_UNDO, &CMainFrame::OnEditUndo)
+//	ON_COMMAND(ID_EDIT_REDO, &CMainFrame::OnEditRedo)
+ON_COMMAND(ID_REDO, &CMainFrame::OnRedo)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -519,4 +522,37 @@ void CMainFrame::OnRing()
 	CDlgRing dlg;
 	if(dlg.DoModal() == IDOK)
 		m_wndFileView.AddNode(new CRing(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_R1),TRUE);
+}
+
+
+void CMainFrame::OnEditUndo()
+{
+	// TODO: Add your command handler code here
+	if(!undo.IsEmpty()) {
+		CAction *action = undo.Pop();
+		int id = action->ID;
+		HTREEITEM hitem;
+		if(id == ACTION_ADD) {
+			m_wndFileView.m_wndFileView.myMap2.Lookup(action->first,hitem);
+			m_wndFileView.m_wndFileView.DeleteItem(hitem);
+			action->second->RemoveChild(action->first);
+			redo.Push(new CAction(ACTION_DELETE,action->first,action->second));
+			delete action;
+		}
+
+		Refresh();
+	}
+}
+
+//void CMainFrame::OnEditRedo()
+//{
+//	// TODO: Add your command handler code here
+//}
+
+
+void CMainFrame::OnRedo()
+{
+	// TODO: Add your command handler code here
+	if(!redo.IsEmpty()) {
+	}
 }
