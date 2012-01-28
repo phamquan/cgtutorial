@@ -85,8 +85,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_CYLINDER, &CMainFrame::OnCylinder)
 	ON_COMMAND(ID_RING, &CMainFrame::OnRing)
 	ON_COMMAND(ID_EDIT_UNDO, &CMainFrame::OnEditUndo)
-//	ON_COMMAND(ID_EDIT_REDO, &CMainFrame::OnEditRedo)
-ON_COMMAND(ID_REDO, &CMainFrame::OnRedo)
+	ON_COMMAND(ID_EDIT_REDO, &CMainFrame::OnEditRedo)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -544,15 +543,11 @@ void CMainFrame::OnEditUndo()
 	}
 }
 
-//void CMainFrame::OnEditRedo()
-//{
-//	// TODO: Add your command handler code here
-//}
 
-
-void CMainFrame::OnRedo()
+void CMainFrame::OnEditRedo()
 {
 	// TODO: Add your command handler code here
 	if(!redo.IsEmpty()) {
+
 	}
 }
