@@ -74,6 +74,8 @@ BOOL CCGTutorialDoc::OnNewDocument()
 	// (SDI documents will reuse this document)
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 	pMainFrame->m_wndFileView.FillView(object,environment);
+	pMainFrame->ClearUndo();
+	pMainFrame->ClearRedo();
 	pMainFrame->Refresh();
 
 	return TRUE;
@@ -195,6 +197,8 @@ BOOL CCGTutorialDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 	pMainFrame->m_wndFileView.FillView(data.object,data.environment,object,environment);
+	pMainFrame->ClearUndo();
+	pMainFrame->ClearRedo();
 	pMainFrame->Refresh();
 
 	return TRUE;

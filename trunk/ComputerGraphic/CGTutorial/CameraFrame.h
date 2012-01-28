@@ -16,15 +16,14 @@ public:
 	void ReSize();
 // Dialog Data
 	enum { IDD = IDD_CAMERA_FRAME };
-
+	int width, height, subheight;
 protected:
 	CEnvironment *environment;
 	COpenGLNode *object;
+	CStatusBar m_bar;
 
 	HDC  m_hDC;
 	HGLRC m_hRC;
-
-	int width, height;
 
 	void SetupOpenGL();
 	void DetroyOpenGL();
@@ -39,4 +38,5 @@ public:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg void OnDestroy();
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 };

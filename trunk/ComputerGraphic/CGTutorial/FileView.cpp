@@ -470,6 +470,7 @@ void CFileView::AddNode(COpenGLNode *newNode, BOOL isGeometric, BOOL toParent)
 
 	node->AddChild(newNode);
 	mainFrame->undo.Push(new CAction(ACTION_ADD,newNode,node));
+	mainFrame->ClearRedo();
 	HTREEITEM hnode = m_wndFileView.InsertItem(newNode->toString, 0, 0, hTreeItem);
 	m_wndFileView.EnsureVisible(hnode);
 	m_wndFileView.myMap1.SetAt(hnode,newNode);
@@ -480,6 +481,16 @@ void CFileView::AddNode(COpenGLNode *newNode, BOOL isGeometric, BOOL toParent)
 
 	
 	mainFrame->Refresh();
+}
+
+void CFileView::AddNode(HTREEITEM hitem, COpenGLNode *node) 
+{
+	HTREEITEM hnode = m_wndFileView.InsertItem(node->toString,hitem);
+	m_wndFileView.myMap1.SetAt(hnode,node);
+	m_wndFileView.myMap2.SetAt(node,hnode);
+	for(int i=0; i<node->m_listChild->GetSize(); i++) {
+		AddNode(hnode,(COpenGLNode*)node->m_listChild->GetAt(i));
+	}
 }
 
 void CFileView::OnTransformationTranslate()
@@ -622,9 +633,12 @@ void CFileView::OnFileviewEdit()
 		if(edit->toString != node->toString) {
 			node->Replace(edit);
 			m_wndFileView.SetItemText(hTreeItem,edit->toString);
+			m_wndFileView.myMap1.SetAt(hTreeItem,edit);
+			m_wndFileView.myMap2.SetAt(edit,hTreeItem);
 
 			CMainFrame *mainFrame = (CMainFrame*)AfxGetMainWnd();
 			mainFrame->undo.Push(new CAction(ACTION_EDIT,node,edit));
+			mainFrame->ClearRedo();
 			mainFrame->Refresh();
 		} else {
 			delete edit;
@@ -639,6 +653,7 @@ void CFileView::OnFileviewDelete()
 	m_wndFileView.DeleteItem(hTreeItem);
 	CMainFrame *mainFrame = (CMainFrame*)AfxGetMainWnd();
 	mainFrame->undo.Push(new CAction(ACTION_DELETE,node,node->parent));
+	mainFrame->ClearRedo();
 	mainFrame->Refresh();
 }
 
