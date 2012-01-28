@@ -50,6 +50,7 @@ protected: // create from serialization only
 public:
 	CEnvironment* environment;
 	CString openGLCode;
+	CString title;
 // Operations
 public:
 

@@ -69,11 +69,11 @@ public:
 		}
 	}
 
-	void DeleteChild(COpenGLNode* child)
+	/*void DeleteChild(COpenGLNode* child)
 	{
 		RemoveChild(child);
 		delete child;
-	}
+	}*/
 
 	void ClearChild()
 	{

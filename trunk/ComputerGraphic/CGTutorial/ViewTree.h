@@ -19,7 +19,8 @@ class CViewTree : public CTreeCtrl
 // Construction
 public:
 	CViewTree();
-	CMap<HTREEITEM,HTREEITEM,COpenGLNode*,COpenGLNode*> myMap;
+	CMap<HTREEITEM,HTREEITEM,COpenGLNode*,COpenGLNode*> myMap1;
+	CMap<COpenGLNode*,COpenGLNode*,HTREEITEM,HTREEITEM> myMap2;
 	void SuccessfulDrag(HTREEITEM hDest,HTREEITEM hSrc);
 
 // Overrides

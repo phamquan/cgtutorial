@@ -2,9 +2,9 @@
 
 #include "OpenGLNode.h"
 
-#define ADD		1
-#define EDIT	2
-#define DELETE	3
+#define ACTION_ADD		1
+#define ACTION_EDIT		2
+#define ACTION_DELETE	3
 
 class CAction
 {

@@ -322,6 +322,9 @@ void CMainFrame::OnUpdateFilePrintPreview(CCmdUI* pCmdUI)
 
 void CMainFrame::Refresh()
 {
+	if(undo.IsEmpty()) {
+	}
+
 	if(GetActiveView() != NULL)
 		GetActiveView()->Invalidate();
 
