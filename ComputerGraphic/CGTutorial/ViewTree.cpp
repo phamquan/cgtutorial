@@ -184,8 +184,8 @@ void CViewTree::SuccessfulDrag(HTREEITEM hDest,HTREEITEM hSrc)
 	CMainFrame *mainFrame = (CMainFrame*)AfxGetMainWnd();
 	myMap1.Lookup(hSrc,source);
 	myMap1.Lookup(hDest,dest);
-	mainFrame->undo.Push(new CAction(ACTION_DELETE,source,source->parent));
-	mainFrame->undo.Push(new CAction(ACTION_ADD,source,dest));
+	mainFrame->undo.Push(new CAction(ACTION_ADD,source,dest,false));
+	mainFrame->undo.Push(new CAction(ACTION_DELETE,source,source->parent,true));
 
 
 	int id = source->ID;

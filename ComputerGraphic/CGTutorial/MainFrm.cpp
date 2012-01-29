@@ -529,19 +529,19 @@ CAction *CMainFrame::DoAction(CAction *action)
 		m_wndFileView.m_wndFileView.myMap2.Lookup(action->first,hitem);
 		m_wndFileView.m_wndFileView.DeleteItem(hitem);
 		action->second->RemoveChild(action->first);
-		return new CAction(ACTION_DELETE,action->first,action->second);
+		return new CAction(ACTION_DELETE,action->first,action->second,action->con);
 	} else if(id == ACTION_DELETE) {
 		m_wndFileView.m_wndFileView.myMap2.Lookup(action->second,hitem);
 		m_wndFileView.AddNode(hitem,action->first);
-		return new CAction(ACTION_ADD,action->first,action->second);
+		action->second->AddChild(action->first);
+		return new CAction(ACTION_ADD,action->first,action->second,action->con);
 	} else if(id == ACTION_EDIT) {
 		m_wndFileView.m_wndFileView.myMap2.Lookup(action->second,hitem);
 		action->second->Replace(action->first);
-
 		m_wndFileView.m_wndFileView.SetItemText(hitem,action->first->toString);
 		m_wndFileView.m_wndFileView.myMap1.SetAt(hitem,action->first);
 		m_wndFileView.m_wndFileView.myMap2.SetAt(action->first,hitem);
-		return new CAction(ACTION_EDIT,action->second,action->first);
+		return new CAction(ACTION_EDIT,action->second,action->first,action->con);
 	}
 	return NULL;
 }
@@ -551,18 +551,21 @@ void CMainFrame::OnEditUndo()
 	// TODO: Add your command handler code here
 	if(!undo.IsEmpty()) {
 		CAction *action = undo.Pop();
+		if(action->con)
+			OnEditUndo();
 		redo.Push(DoAction(action));
 		delete action;
 		Refresh();
 	}
 }
 
-
 void CMainFrame::OnEditRedo()
 {
 	// TODO: Add your command handler code here
 	if(!redo.IsEmpty()) {
 		CAction *action = redo.Pop();
+		if(action->con)
+			OnEditRedo();
 		undo.Push(DoAction(action));
 		delete action;
 		Refresh();
@@ -573,7 +576,6 @@ void CMainFrame::ClearUndo()
 {
 	while(!undo.IsEmpty()) {
 		CAction *action = undo.Pop();
-		Clear(action);
 		delete action;
 	}
 }
@@ -582,16 +584,10 @@ void CMainFrame::ClearRedo()
 {
 	while(!redo.IsEmpty()) {
 		CAction *action = redo.Pop();
-		Clear(action);
+		if(action->ID != ACTION_ADD) {
+			m_wndFileView.m_wndFileView.myMap2.RemoveKey(action->first);
+			delete action->first;
+		}
 		delete action;
-	}
-}
-
-void CMainFrame::Clear(CAction *action)
-{
-	int id = action->ID;
-	if(id != ACTION_ADD) {
-		m_wndFileView.m_wndFileView.myMap2.RemoveKey(action->first);
-		delete action->first;
 	}
 }

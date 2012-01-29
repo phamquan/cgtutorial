@@ -469,8 +469,6 @@ void CFileView::AddNode(COpenGLNode *newNode, BOOL isGeometric, BOOL toParent)
 	}
 
 	node->AddChild(newNode);
-	mainFrame->undo.Push(new CAction(ACTION_ADD,newNode,node));
-	mainFrame->ClearRedo();
 	HTREEITEM hnode = m_wndFileView.InsertItem(newNode->toString, 0, 0, hTreeItem);
 	m_wndFileView.EnsureVisible(hnode);
 	m_wndFileView.myMap1.SetAt(hnode,newNode);
@@ -479,7 +477,8 @@ void CFileView::AddNode(COpenGLNode *newNode, BOOL isGeometric, BOOL toParent)
 	if(toParent)
 		m_wndFileView.SuccessfulDrag(hnode,cur);
 
-	
+	mainFrame->undo.Push(new CAction(ACTION_ADD,newNode,node,toParent));
+	mainFrame->ClearRedo();
 	mainFrame->Refresh();
 }
 
@@ -637,7 +636,7 @@ void CFileView::OnFileviewEdit()
 			m_wndFileView.myMap2.SetAt(edit,hTreeItem);
 
 			CMainFrame *mainFrame = (CMainFrame*)AfxGetMainWnd();
-			mainFrame->undo.Push(new CAction(ACTION_EDIT,node,edit));
+			mainFrame->undo.Push(new CAction(ACTION_EDIT,node,edit,false));
 			mainFrame->ClearRedo();
 			mainFrame->Refresh();
 		} else {
@@ -652,7 +651,7 @@ void CFileView::OnFileviewDelete()
 	node->parent->RemoveChild(node);
 	m_wndFileView.DeleteItem(hTreeItem);
 	CMainFrame *mainFrame = (CMainFrame*)AfxGetMainWnd();
-	mainFrame->undo.Push(new CAction(ACTION_DELETE,node,node->parent));
+	mainFrame->undo.Push(new CAction(ACTION_DELETE,node,node->parent,false));
 	mainFrame->ClearRedo();
 	mainFrame->Refresh();
 }

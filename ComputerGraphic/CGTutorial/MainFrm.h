@@ -29,7 +29,6 @@ protected: // create from serialization only
 	DECLARE_DYNCREATE(CMainFrame)
 	
 	CAction *DoAction(CAction *action);
-	void Clear(CAction *action);
 
 	CStack<CAction*> undo, redo;
 // Attributes
