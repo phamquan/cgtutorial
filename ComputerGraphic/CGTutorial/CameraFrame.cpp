@@ -83,10 +83,8 @@ void CCameraFrame::OnSize(UINT nType, int cx, int cy)
 	if(m_bar.GetSafeHwnd() == NULL) {
 		m_bar.Create(this);
 		m_bar.SetIndicators(indicators,1);
-
-		m_bar.SetPaneInfo(0,ID_INDICATOR_LOCATION, SBPS_NORMAL,cy);
 	}
-
+	m_bar.SetPaneInfo(0,ID_INDICATOR_LOCATION, SBPS_NORMAL,cx);
 	RepositionBars(AFX_IDW_CONTROLBAR_FIRST,AFX_IDW_CONTROLBAR_LAST,ID_INDICATOR_LOCATION);
 
 	m_bar.GetClientRect(&rect);
