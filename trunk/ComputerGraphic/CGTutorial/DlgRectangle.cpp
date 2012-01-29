@@ -11,23 +11,14 @@
 
 IMPLEMENT_DYNAMIC(CDlgRectangle, CDialog)
 
-CDlgRectangle::CDlgRectangle(CWnd* pParent /*=NULL*/)
-	: CDialog(CDlgRectangle::IDD, pParent)
-{
-
-	m_Bottom = 0.0f;
-	m_Left = 0.0f;
-	m_Right = 1.0f;
-	m_Top = 1.0f;
-}
-
-CDlgRectangle::CDlgRectangle(float top, float left, float bottom, float right, CWnd* pParent)
+CDlgRectangle::CDlgRectangle(float top, float left, float bottom, float right, COLORREF color, CWnd* pParent)
 	: CDialog(CDlgRectangle::IDD, pParent)
 {
 	m_Bottom = bottom;
 	m_Left = left;
 	m_Right = right;
 	m_Top = top;
+	m_Color.SetColor(color);
 }
 
 CDlgRectangle::~CDlgRectangle()
@@ -41,6 +32,7 @@ void CDlgRectangle::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_LEFT, m_Left);
 	DDX_Text(pDX, IDC_RIGHT, m_Right);
 	DDX_Text(pDX, IDC_TOP, m_Top);
+	DDX_Control(pDX, IDC_MFCCOLORBUTTON1, m_Color);
 }
 
 

@@ -5,9 +5,9 @@ class CCylinder :
 {
 public:
 	static int count;
-	CCylinder(float x, float y, float z, float R, float height) : CGeometric(NODE_CYLINDER)
+	CCylinder(float x, float y, float z, float R, float height, COLORREF color) : CGeometric(NODE_CYLINDER)
 	{
-		SetData(x,y,z,R,height);
+		SetData(x,y,z,R,height,color);
 		count++;
 	}
 
@@ -16,13 +16,14 @@ public:
 		count--;
 	}
 
-	void SetData(float x, float y, float z, float R, float height)
+	void SetData(float x, float y, float z, float R, float height, COLORREF color)
 	{
 		data1.setCoords(x,y,z);
 		data2.setCoords(R,height,0);
+		this->color = color;
 		toString.Format(CString("cylinder(x=%5.2f, y=%5.2f, z=%5.2f, R=%5.2f, height=%5.2f)"),x,y,z,R,height);
 		GLCode.Format(CString("drawCylinder(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);"),x,y,z,R,height);
-		serialize.Format(CString("<cylinder x=%5.2f y=%5.2f z=%5.2f R=%5.2f height=%5.2f />"),x,y,z,R,height);
+		serialize.Format(CString("<cylinder x=%5.2f y=%5.2f z=%5.2f R=%5.2f height=%5.2f red=%d green=%d blue=%d />"),x,y,z,R,height,GetRValue(color),GetGValue(color),GetBValue(color));
 	}
 
 	void GetData(float &x, float &y, float &z, float &R, float &height)

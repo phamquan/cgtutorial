@@ -34,6 +34,7 @@ public:
 	CString GLCode;
 	CString serialize;
 	int ID;
+	COLORREF color;
 
 public:
 
@@ -69,12 +70,6 @@ public:
 		}
 	}
 
-	/*void DeleteChild(COpenGLNode* child)
-	{
-		RemoveChild(child);
-		delete child;
-	}*/
-
 	void ClearChild()
 	{
 		for(int i=0; i<m_listChild->GetSize(); i++) {
@@ -104,6 +99,7 @@ public:
 
 	void PaintOpenGL()
 	{
+		glColor3ub(GetRValue(color),GetGValue(color),GetBValue(color));
 		BeginOpenGL();
 		DoOpenGL();
 

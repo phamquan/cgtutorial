@@ -8,8 +8,7 @@ class CDlgRing : public CDialog
 	DECLARE_DYNAMIC(CDlgRing)
 
 public:
-	CDlgRing(CWnd* pParent = NULL);   // standard constructor
-	CDlgRing(float x, float y, float z, float R, float r, CWnd* pParent = NULL); 
+	CDlgRing(float x, float y, float z, float R, float r, COLORREF color, CWnd* pParent = NULL); 
 	virtual ~CDlgRing();
 
 // Dialog Data
@@ -25,4 +24,5 @@ public:
 	float m_X;
 	float m_Y;
 	float m_Z;
+	CMFCColorButton m_Color;
 };

@@ -5,9 +5,9 @@ class CSphere :
 {
 public:
 	static int count;
-	CSphere(float x, float y, float z, float R) : CGeometric(NODE_SPHERE)
+	CSphere(float x, float y, float z, float R, COLORREF color) : CGeometric(NODE_SPHERE)
 	{
-		SetData(x,y,z,R);
+		SetData(x,y,z,R,color);
 		count++;
 	}
 
@@ -16,12 +16,13 @@ public:
 		count--;
 	}
 
-	void SetData(float x, float y, float z, float R)
+	void SetData(float x, float y, float z, float R, COLORREF color)
 	{
 		data1.setCoords(x,y,z,R);
+		this->color = color;
 		toString.Format(CString("sphere(x=%5.2f, y=%5.2f, z=%5.2f, R=%5.2f)"),x,y,z,R);
 		GLCode.Format(CString("drawSphere(%5.2f,%5.2f,%5.2f,%5.2f);"),x,y,z,R);
-		serialize.Format(CString("<sphere x=%5.2f y=%5.2f z=%5.2f R=%5.2f />"),x,y,z,R);
+		serialize.Format(CString("<sphere x=%5.2f y=%5.2f z=%5.2f R=%5.2f red=%d green=%d blue=%d />"),x,y,z,R,GetRValue(color),GetGValue(color),GetBValue(color));
 	}
 
 	void GetData(float &x, float &y, float &z, float &R)

@@ -5,9 +5,9 @@ class CRing :
 {
 public:
 	static int count;
-	CRing(float x, float y, float z, float R, float r) : CGeometric(NODE_RING)
+	CRing(float x, float y, float z, float R, float r, COLORREF color) : CGeometric(NODE_RING)
 	{
-		SetData(x,y,z,R,r);
+		SetData(x,y,z,R,r,color);
 		count++;
 	}
 
@@ -16,13 +16,14 @@ public:
 		count--;
 	}
 
-	void SetData(float x, float y, float z, float R, float r)
+	void SetData(float x, float y, float z, float R, float r, COLORREF color)
 	{
 		data1.setCoords(x,y,z);
 		data2.setCoords(R,r,0);
+		this->color = color;
 		toString.Format(CString("ring(x=%5.2f, y=%5.2f, z=%5.2f, R=%5.2f, r=%5.2f)"),x,y,z,R,r);
 		GLCode.Format(CString("drawRing(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);"),x,y,z,R,r);
-		serialize.Format(CString("<ring x=%5.2f y=%5.2f z=%5.2f R=%5.2f r=%5.2f />"),x,y,z,R,r);
+		serialize.Format(CString("<ring x=%5.2f y=%5.2f z=%5.2f R=%5.2f r=%5.2f red=%d green=%d blue=%d />"),x,y,z,R,r,GetRValue(color),GetGValue(color),GetBValue(color));
 	}
 
 	void GetData(float &x, float &y, float &z, float &R, float &r)

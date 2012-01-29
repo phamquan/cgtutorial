@@ -11,29 +11,8 @@
 
 IMPLEMENT_DYNAMIC(CDlgTetrahedron, CDialog)
 
-CDlgTetrahedron::CDlgTetrahedron(CWnd* pParent /*=NULL*/)
-	: CDialog(CDlgTetrahedron::IDD, pParent)
-{
-
-	m_X1 = 0.0f;
-	m_Y1 = 0.0f;
-	m_Z1 = 0.0f;
-
-	m_X2 = 1.0f;
-	m_Y2 = 0.0f;
-	m_Z2 = 0.0f;
-
-	m_X3 = 0.0f;
-	m_Y3 = 1.0f;
-	m_Z3 = 0.0f;
-
-	m_X4 = 0.0f;
-	m_Y4 = 0.0f;
-	m_Z4 = 1.0f;
-}
-
 CDlgTetrahedron::CDlgTetrahedron(float x1, float y1, float z1, float x2, float y2, float z2,
-				float x3, float y3, float z3, float x4, float y4, float z4, CWnd* pParent /*=NULL*/)
+				float x3, float y3, float z3, float x4, float y4, float z4, COLORREF color, CWnd* pParent /*=NULL*/)
 	: CDialog(CDlgTetrahedron::IDD, pParent)
 {
 
@@ -49,6 +28,7 @@ CDlgTetrahedron::CDlgTetrahedron(float x1, float y1, float z1, float x2, float y
 	m_Z2 = z2;
 	m_Z3 = z3;
 	m_Z4 = z4;
+	m_Color.SetColor(color);
 }
 
 CDlgTetrahedron::~CDlgTetrahedron()
@@ -70,6 +50,7 @@ void CDlgTetrahedron::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_Z2, m_Z2);
 	DDX_Text(pDX, IDC_Z3, m_Z3);
 	DDX_Text(pDX, IDC_Z4, m_Z4);
+	DDX_Control(pDX, IDC_MFCCOLORBUTTON1, m_Color);
 }
 
 

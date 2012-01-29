@@ -8,9 +8,8 @@ class CDlgTetrahedron : public CDialog
 	DECLARE_DYNAMIC(CDlgTetrahedron)
 
 public:
-	CDlgTetrahedron(CWnd* pParent = NULL);   // standard constructor
 	CDlgTetrahedron(float x1, float y1, float z1, float x2, float y2, float z2,
-				float x3, float y3, float z3, float x4, float y4, float z4, CWnd* pParent = NULL);
+				float x3, float y3, float z3, float x4, float y4, float z4, COLORREF color, CWnd* pParent = NULL);
 	virtual ~CDlgTetrahedron();
 
 // Dialog Data
@@ -33,4 +32,5 @@ public:
 	float m_Z2;
 	float m_Z3;
 	float m_Z4;
+	CMFCColorButton m_Color;
 };

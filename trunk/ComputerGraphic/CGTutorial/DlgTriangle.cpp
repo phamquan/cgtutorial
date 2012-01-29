@@ -11,22 +11,7 @@
 
 IMPLEMENT_DYNAMIC(CDlgTriangle, CDialog)
 
-CDlgTriangle::CDlgTriangle(CWnd* pParent /*=NULL*/)
-	: CDialog(CDlgTriangle::IDD, pParent)
-{
-
-	m_X1 = 0.0f;
-	m_Y1 = 0.0f;
-	m_Z1 = 0.0f;
-	m_X2 = 1.0f;
-	m_Y2 = 0.0f;
-	m_Z2 = 0.0f;
-	m_X3 = 0.0f;
-	m_Y3 = 1.0f;
-	m_Z3 = 0.0f;
-}
-
-CDlgTriangle::CDlgTriangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, CWnd* pParent /*=NULL*/)
+CDlgTriangle::CDlgTriangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, COLORREF color, CWnd* pParent /*=NULL*/)
 	: CDialog(CDlgTriangle::IDD, pParent)
 {
 	m_X1 = x1;
@@ -38,6 +23,7 @@ CDlgTriangle::CDlgTriangle(float x1, float y1, float z1, float x2, float y2, flo
 	m_Z1 = z1;
 	m_Z2 = z2;
 	m_Z3 = z3;
+	m_Color.SetColor(color);
 }
 
 CDlgTriangle::~CDlgTriangle()
@@ -56,6 +42,7 @@ void CDlgTriangle::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_Z1, m_Z1);
 	DDX_Text(pDX, IDC_Z2, m_Z2);
 	DDX_Text(pDX, IDC_Z3, m_Z3);
+	DDX_Control(pDX, IDC_MFCCOLORBUTTON1, m_Color);
 }
 
 

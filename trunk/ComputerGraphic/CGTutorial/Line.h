@@ -5,9 +5,9 @@ class CLine :
 {
 public:
 	static int count;
-	CLine(float x1, float y1, float z1, float x2, float y2, float z2) : CGeometric(NODE_LINE)
+	CLine(float x1, float y1, float z1, float x2, float y2, float z2, COLORREF color) : CGeometric(NODE_LINE)
 	{
-		SetData(x1, y1, z1, x2, y2, z2);
+		SetData(x1,y1,z1,x2,y2,z2,color);
 		count++;
 	}
 
@@ -16,13 +16,14 @@ public:
 		count--;
 	}
 
-	void SetData(float x1, float y1, float z1, float x2, float y2, float z2)
+	void SetData(float x1, float y1, float z1, float x2, float y2, float z2, COLORREF color)
 	{
 		data1.setCoords(x1,y1,z1);
 		data2.setCoords(x2,y2,z2);
+		this->color = color;
 		toString.Format(CString("line(x1=%5.2f, y1=%5.2f, z1=%5.2f, x2=%5.2f, y2=%5.2f, z2=%5.2f)"),x1,y1,z1,x2,y2,z2);
 		GLCode.Format(CString("drawLine(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);"),x1,y1,z1,x2,y2,z2);
-		serialize.Format(CString("<line x1=%5.2f y1=%5.2f z1=%5.2f x2=%5.2f y2=%5.2f z2=%5.2f />"),x1,y1,z1,x2,y2,z2);
+		serialize.Format(CString("<line x1=%5.2f y1=%5.2f z1=%5.2f x2=%5.2f y2=%5.2f z2=%5.2f red=%d green=%d blue=%d />"),x1,y1,z1,x2,y2,z2,GetRValue(color),GetGValue(color),GetBValue(color));
 	}
 
 	void GetData(float &x1, float &y1, float &z1, float &x2, float &y2, float &z2)

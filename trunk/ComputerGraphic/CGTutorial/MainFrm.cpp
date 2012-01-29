@@ -428,97 +428,97 @@ CSize CMainFrame::GetViewPort()
 void CMainFrame::OnPoint()
 {
 	// TODO: Add your command handler code here
-	CDlgPoint dlg;
+	CDlgPoint dlg(0,0,0,RGB(0,0,0));
 	if(dlg.DoModal() == IDOK)
-		m_wndFileView.AddNode(new CPoint4D(dlg.m_X,dlg.m_Y,dlg.m_Z),TRUE);
+		m_wndFileView.AddNode(new CPoint4D(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_Color.GetColor()),TRUE);
 }
 
 void CMainFrame::OnLine()
 {
 	// TODO: Add your command handler code here
-	CDlgLine dlg;
+	CDlgLine dlg(0,0,0,1,1,0,RGB(0,0,0));
 	if(dlg.DoModal() == IDOK)
-		m_wndFileView.AddNode(new CLine(dlg.m_BX,dlg.m_BY,dlg.m_BZ,dlg.m_EX,dlg.m_EY,dlg.m_EZ),TRUE);
+		m_wndFileView.AddNode(new CLine(dlg.m_BX,dlg.m_BY,dlg.m_BZ,dlg.m_EX,dlg.m_EY,dlg.m_EZ,dlg.m_Color.GetColor()),TRUE);
 }
 
 void CMainFrame::OnTriangle()
 {
 	// TODO: Add your command handler code here
-	CDlgTriangle dlg;
+	CDlgTriangle dlg(0,0,0,1,0,0,0,1,0,RGB(0,0,0));
 	if(dlg.DoModal() == IDOK)
-		m_wndFileView.AddNode(new CTriangle(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2,dlg.m_X3,dlg.m_Y3,dlg.m_Z3),TRUE);
+		m_wndFileView.AddNode(new CTriangle(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2,dlg.m_X3,dlg.m_Y3,dlg.m_Z3,dlg.m_Color.GetColor()),TRUE);
 }
 
 
 void CMainFrame::OnRectangle()
 {
 	// TODO: Add your command handler code here
-	CDlgRectangle dlg;
+	CDlgRectangle dlg(1,0,0,1,RGB(0,0,0));
 	if(dlg.DoModal() == IDOK)
-		m_wndFileView.AddNode(new CRectangle(dlg.m_Top,dlg.m_Left,dlg.m_Bottom,dlg.m_Right),TRUE);
+		m_wndFileView.AddNode(new CRectangle(dlg.m_Top,dlg.m_Left,dlg.m_Bottom,dlg.m_Right,dlg.m_Color.GetColor()),TRUE);
 }
 
 
 void CMainFrame::OnCircle()
 {
 	// TODO: Add your command handler code here
-	CDlgCircle dlg;
+	CDlgCircle dlg(0,0,0,1,RGB(0,0,0));
 	if(dlg.DoModal() == IDOK)
-		m_wndFileView.AddNode(new CCircle(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R),TRUE);
+		m_wndFileView.AddNode(new CCircle(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_Color.GetColor()),TRUE);
 }
 
 
 void CMainFrame::OnEllipse()
 {
 	// TODO: Add your command handler code here
-	CDlgEllipse dlg;
+	CDlgEllipse dlg(0,0,0,2,1,RGB(0,0,0));
 	if(dlg.DoModal() == IDOK)
-		m_wndFileView.AddNode(new CEllipse(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_A,dlg.m_B),TRUE);
+		m_wndFileView.AddNode(new CEllipse(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_A,dlg.m_B,dlg.m_Color.GetColor()),TRUE);
 }
 
 
 void CMainFrame::OnCube()
 {
 	// TODO: Add your command handler code here
-	CDlgCube dlg;
+	CDlgCube dlg(-1,-1,1,1,1,-1,RGB(0,0,0));
 	if(dlg.DoModal() == IDOK)
-		m_wndFileView.AddNode(new CCube(dlg.m_Left,dlg.m_Bottom,dlg.m_Near,dlg.m_Right,dlg.m_Top,dlg.m_Far),TRUE);
+		m_wndFileView.AddNode(new CCube(dlg.m_Left,dlg.m_Bottom,dlg.m_Near,dlg.m_Right,dlg.m_Top,dlg.m_Far,dlg.m_Color.GetColor()),TRUE);
 }
 
 
 void CMainFrame::OnTetrahedron()
 {
 	// TODO: Add your command handler code here
-	CDlgTetrahedron dlg;
+	CDlgTetrahedron dlg(0,0,0,1,0,0,0,1,0,0,0,1,RGB(0,0,0));
 	if(dlg.DoModal() == IDOK)
-		m_wndFileView.AddNode(new CTetrahedron(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2,dlg.m_X3,dlg.m_Y3,dlg.m_Z3,dlg.m_X4,dlg.m_Y4,dlg.m_Z4),TRUE);
+		m_wndFileView.AddNode(new CTetrahedron(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2,dlg.m_X3,dlg.m_Y3,dlg.m_Z3,dlg.m_X4,dlg.m_Y4,dlg.m_Z4,dlg.m_Color.GetColor()),TRUE);
 }
 
 
 void CMainFrame::OnSphere()
 {
 	// TODO: Add your command handler code here
-	CDlgSphere dlg;
+	CDlgSphere dlg(0,0,0,1,RGB(0,0,0));
 	if(dlg.DoModal() == IDOK)
-		m_wndFileView.AddNode(new CSphere(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R),TRUE);
+		m_wndFileView.AddNode(new CSphere(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_Color.GetColor()),TRUE);
 }
 
 
 void CMainFrame::OnCylinder()
 {
 	// TODO: Add your command handler code here
-	CDlgCylinder dlg;
+	CDlgCylinder dlg(0,0,0,1,1,RGB(0,0,0));
 	if(dlg.DoModal() == IDOK)
-		m_wndFileView.AddNode(new CCylinder(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_Height),TRUE);
+		m_wndFileView.AddNode(new CCylinder(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_Height,dlg.m_Color.GetColor()),TRUE);
 }
 
 
 void CMainFrame::OnRing()
 {
 	// TODO: Add your command handler code here
-	CDlgRing dlg;
+	CDlgRing dlg(0,0,0,0.75,0.25,RGB(0,0,0));
 	if(dlg.DoModal() == IDOK)
-		m_wndFileView.AddNode(new CRing(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_R1),TRUE);
+		m_wndFileView.AddNode(new CRing(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_R1,dlg.m_Color.GetColor()),TRUE);
 }
 
 CAction *CMainFrame::DoAction(CAction *action)

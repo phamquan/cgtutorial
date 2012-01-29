@@ -8,8 +8,7 @@ class CDlgCylinder : public CDialog
 	DECLARE_DYNAMIC(CDlgCylinder)
 
 public:
-	CDlgCylinder(CWnd* pParent = NULL);   // standard constructor
-	CDlgCylinder(float x, float y, float z, float R, float height, CWnd* pParent = NULL); 
+	CDlgCylinder(float x, float y, float z, float R, float height, COLORREF color, CWnd* pParent = NULL); 
 	virtual ~CDlgCylinder();
 
 // Dialog Data
@@ -25,4 +24,5 @@ public:
 	float m_X;
 	float m_Y;
 	float m_Z;
+	CMFCColorButton m_Color;
 };

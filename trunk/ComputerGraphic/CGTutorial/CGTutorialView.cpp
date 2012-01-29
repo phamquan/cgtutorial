@@ -229,7 +229,6 @@ void CCGTutorialView::OnPaint()
 	if(isShowCamera)
 		this->GetDocument()->environment->DrawCamera();
 
-	glColor3f(0.0f, 0.0f, 0.0f);
 	this->GetDocument()->object->PaintOpenGL();
 
 	glFlush();

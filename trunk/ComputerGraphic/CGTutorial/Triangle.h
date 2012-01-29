@@ -5,9 +5,9 @@ class CTriangle :
 {
 public:
 	static int count;
-	CTriangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3) : CGeometric(NODE_TRIANGLE)
+	CTriangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, COLORREF color) : CGeometric(NODE_TRIANGLE)
 	{
-		SetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
+		SetData(x1,y1,z1,x2,y2,z2,x3,y3,z3,color);
 		count++;
 	}
 
@@ -16,14 +16,15 @@ public:
 		count--;
 	}
 
-	void SetData(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3)
+	void SetData(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, COLORREF color)
 	{
 		data1.setCoords(x1,y1,z1);
 		data2.setCoords(x2,y2,z2);
 		data3.setCoords(x3,y3,z3);
+		this->color = color;
 		toString.Format(CString("triangle(x1=%5.2f, y1=%5.2f, z1=%5.2f, x2=%5.2f, y2=%5.2f, z2=%5.2f, x3=%5.2f, y3=%5.2f, z3=%5.2f)"),x1,y1,z1,x2,y2,z2,x3,y3,z3);
 		GLCode.Format(CString("drawTriangle(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);"),x1,y1,z1,x2,y2,z2,x3,y3,z3);
-		serialize.Format(CString("<triangle x1=%5.2f y1=%5.2f z1=%5.2f x2=%5.2f y2=%5.2f z2=%5.2f x3=%5.2f y3=%5.2f z3=%5.2f />"),x1,y1,z1,x2,y2,z2,x3,y3,z3);
+		serialize.Format(CString("<triangle x1=%5.2f y1=%5.2f z1=%5.2f x2=%5.2f y2=%5.2f z2=%5.2f x3=%5.2f y3=%5.2f z3=%5.2f red=%d green=%d blue=%d />"),x1,y1,z1,x2,y2,z2,x3,y3,z3,GetRValue(color),GetGValue(color),GetBValue(color));
 	}
 
 	void GetData(float &x1, float &y1, float &z1, float &x2, float &y2, float &z2, float &x3, float &y3, float &z3)

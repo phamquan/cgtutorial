@@ -5,9 +5,9 @@ class CRectangle :
 {
 public:
 	static int count;
-	CRectangle(float top, float left, float bottom, float right) : CGeometric(NODE_RECTANGLE)
+	CRectangle(float top, float left, float bottom, float right, COLORREF color) : CGeometric(NODE_RECTANGLE)
 	{
-		SetData(top,left,bottom,right);
+		SetData(top,left,bottom,right,color);
 		count++;
 	}
 
@@ -16,13 +16,14 @@ public:
 		count--;
 	}
 
-	void SetData(float top, float left, float bottom, float right)
+	void SetData(float top, float left, float bottom, float right, COLORREF color)
 	{
 		data1.setCoords(top,left,0);
 		data2.setCoords(bottom,right,0);
+		this->color = color;
 		toString.Format(CString("rectangle(top=%5.2f, left=%5.2f, bottom=%5.2f, right=%5.2f)"),top,left,bottom,right);
 		GLCode.Format(CString("drawRectangle(%5.2f,%5.2f,%5.2f,%5.2f);"),top,left,bottom,right);
-		serialize.Format(CString("<rectangle top=%5.2f left=%5.2f bottom=%5.2f right=%5.2f />"),top,left,bottom,right);
+		serialize.Format(CString("<rectangle top=%5.2f left=%5.2f bottom=%5.2f right=%5.2f red=%d green=%d blue=%d />"),top,left,bottom,right,GetRValue(color),GetGValue(color),GetBValue(color));
 	}
 
 	void GetData(float &top, float &left, float &bottom, float &right)

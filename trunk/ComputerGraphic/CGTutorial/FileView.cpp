@@ -183,49 +183,48 @@ COpenGLNode *CFileView::XmltoOpenGL(TiXmlNode *node)
 	}
 	else if(CString(node->Value()) == "point")
 	{
-		result = new CPoint4D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)));
+		result = new CPoint4D(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),RGB(atoi(GetValue("red",node)),atoi(GetValue("green",node)),atoi(GetValue("blue",node))));
 	}
 	else if(CString(node->Value()) == "line")
 	{
-		result = new CLine(atof(GetValue("x1",node)),atof(GetValue("y1",node)),atof(GetValue("z1",node)),
-						   atof(GetValue("x2",node)),atof(GetValue("y2",node)),atof(GetValue("z2",node)));
+		result = new CLine(atof(GetValue("x1",node)),atof(GetValue("y1",node)),atof(GetValue("z1",node)),atof(GetValue("x2",node)),atof(GetValue("y2",node)),atof(GetValue("z2",node)),RGB(atoi(GetValue("red",node)),atoi(GetValue("green",node)),atoi(GetValue("blue",node))));
 	}
 	else if(CString(node->Value()) == "rectangle")
 	{
-		result = new CRectangle(atof(GetValue("top",node)),atof(GetValue("left",node)),atof(GetValue("bottom",node)),atof(GetValue("right",node)));
+		result = new CRectangle(atof(GetValue("top",node)),atof(GetValue("left",node)),atof(GetValue("bottom",node)),atof(GetValue("right",node)),RGB(atoi(GetValue("red",node)),atoi(GetValue("green",node)),atoi(GetValue("blue",node))));
 	}
 	else if(CString(node->Value()) == "triangle")
 	{
-		result = new CTriangle(atof(GetValue("x1",node)),atof(GetValue("y1",node)),atof(GetValue("z1",node)),atof(GetValue("x2",node)),atof(GetValue("y2",node)),atof(GetValue("z2",node)),atof(GetValue("x3",node)),atof(GetValue("y3",node)),atof(GetValue("z3",node)));
+		result = new CTriangle(atof(GetValue("x1",node)),atof(GetValue("y1",node)),atof(GetValue("z1",node)),atof(GetValue("x2",node)),atof(GetValue("y2",node)),atof(GetValue("z2",node)),atof(GetValue("x3",node)),atof(GetValue("y3",node)),atof(GetValue("z3",node)),RGB(atoi(GetValue("red",node)),atoi(GetValue("green",node)),atoi(GetValue("blue",node))));
 	}
 	else if(CString(node->Value()) == "circle")
 	{
-		result = new CCircle(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("R",node)));
+		result = new CCircle(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("R",node)),RGB(atoi(GetValue("red",node)),atoi(GetValue("green",node)),atoi(GetValue("blue",node))));
 	}
 	else if(CString(node->Value()) == "ellipse")
 	{
-		result = new CEllipse(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("a",node)),atof(GetValue("b",node)));
+		result = new CEllipse(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("a",node)),atof(GetValue("b",node)),RGB(atoi(GetValue("red",node)),atoi(GetValue("green",node)),atoi(GetValue("blue",node))));
 	}
 	else if(CString(node->Value()) == "cube")
 	{
-		result = new CCube(atof(GetValue("left",node)),atof(GetValue("bottom",node)),atof(GetValue("near",node)),atof(GetValue("right",node)),atof(GetValue("top",node)),atof(GetValue("far",node)));
+		result = new CCube(atof(GetValue("left",node)),atof(GetValue("bottom",node)),atof(GetValue("near",node)),atof(GetValue("right",node)),atof(GetValue("top",node)),atof(GetValue("far",node)),RGB(atoi(GetValue("red",node)),atoi(GetValue("green",node)),atoi(GetValue("blue",node))));
 	}
 	else if(CString(node->Value()) == "tetrahedron")
 	{
 		result = new CTetrahedron(atof(GetValue("x1",node)),atof(GetValue("y1",node)),atof(GetValue("z1",node)),atof(GetValue("x2",node)),atof(GetValue("y2",node)),atof(GetValue("z2",node)),
-								atof(GetValue("x3",node)),atof(GetValue("y3",node)),atof(GetValue("z3",node)),atof(GetValue("x4",node)),atof(GetValue("y4",node)),atof(GetValue("z4",node)));
+								atof(GetValue("x3",node)),atof(GetValue("y3",node)),atof(GetValue("z3",node)),atof(GetValue("x4",node)),atof(GetValue("y4",node)),atof(GetValue("z4",node)),RGB(atoi(GetValue("red",node)),atoi(GetValue("green",node)),atoi(GetValue("blue",node))));
 	}
 	else if(CString(node->Value()) == "sphere")
 	{
-		result = new CSphere(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("R",node)));
+		result = new CSphere(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("R",node)),RGB(atoi(GetValue("red",node)),atoi(GetValue("green",node)),atoi(GetValue("blue",node))));
 	}
 	else if(CString(node->Value()) == "cylinder")
 	{
-		result = new CCylinder(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("R",node)),atof(GetValue("height",node)));
+		result = new CCylinder(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("R",node)),atof(GetValue("height",node)),RGB(atoi(GetValue("red",node)),atoi(GetValue("green",node)),atoi(GetValue("blue",node))));
 	}
 	else if(CString(node->Value()) == "ring")
 	{
-		result = new CRing(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("R",node)),atof(GetValue("r",node)));
+		result = new CRing(atof(GetValue("x",node)),atof(GetValue("y",node)),atof(GetValue("z",node)),atof(GetValue("R",node)),atof(GetValue("r",node)),RGB(atoi(GetValue("red",node)),atoi(GetValue("green",node)),atoi(GetValue("blue",node))));
 	}
 	return result;
 }
@@ -562,74 +561,74 @@ void CFileView::OnFileviewEdit()
 		}
 	} else if(id == NODE_POINT) {
 		((CPoint4D*)node)->GetData(x1,y1,z1);
-		CDlgPoint dlg(x1,y1,z1);
+		CDlgPoint dlg(x1,y1,z1,node->color);
 		if(dlg.DoModal() == IDOK) {
-			edit = new CPoint4D(dlg.m_X,dlg.m_Y,dlg.m_Z);
+			edit = new CPoint4D(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_Color.GetColor());
 		}
 	} else if(id == NODE_LINE) {
 		((CLine*)node)->GetData(x1,y1,z1,x2,y2,z2);
-		CDlgLine dlg(x1,y1,z1,x2,y2,z2);
+		CDlgLine dlg(x1,y1,z1,x2,y2,z2,node->color);
 		if(dlg.DoModal() == IDOK) {
-			edit = new CLine(dlg.m_BX,dlg.m_BY,dlg.m_BZ,dlg.m_EX,dlg.m_EY,dlg.m_EZ);
+			edit = new CLine(dlg.m_BX,dlg.m_BY,dlg.m_BZ,dlg.m_EX,dlg.m_EY,dlg.m_EZ,dlg.m_Color.GetColor());
 		}
 	} else if(id == NODE_RECTANGLE) {
 		((CRectangle*)node)->GetData(x1,y1,x2,y2);
-		CDlgRectangle dlg(x1,y1,x2,y2);
+		CDlgRectangle dlg(x1,y1,x2,y2,node->color);
 		if(dlg.DoModal() == IDOK) {
-			edit = new CRectangle(dlg.m_Top,dlg.m_Left,dlg.m_Bottom,dlg.m_Right);
+			edit = new CRectangle(dlg.m_Top,dlg.m_Left,dlg.m_Bottom,dlg.m_Right,dlg.m_Color.GetColor());
 		}
 	} else if(id == NODE_TRIANGLE) {
 		((CTriangle*)node)->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3);
-		CDlgTriangle dlg(x1,y1,z1,x2,y2,z2,x3,y3,z3);
+		CDlgTriangle dlg(x1,y1,z1,x2,y2,z2,x3,y3,z3,node->color);
 		if(dlg.DoModal() == IDOK) {
-			edit = new CTriangle(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2,dlg.m_X3,dlg.m_Y3,dlg.m_Z3);
+			edit = new CTriangle(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2,dlg.m_X3,dlg.m_Y3,dlg.m_Z3,dlg.m_Color.GetColor());
 		}
 	} else if(id == NODE_CIRCLE) {
 		((CCircle*)node)->GetData(x1,y1,z1,w);
-		CDlgCircle dlg(x1,y1,z1,w);
+		CDlgCircle dlg(x1,y1,z1,w,node->color);
 		if(dlg.DoModal() == IDOK) {
-			edit = new CCircle(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R);
+			edit = new CCircle(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_Color.GetColor());
 		}
 	} else if(id == NODE_ELLIPSE) {
 		((CEllipse*)node)->GetData(x1,y1,z1,x2,y2);
-		CDlgEllipse dlg(x1,y1,z1,x2,y2);
+		CDlgEllipse dlg(x1,y1,z1,x2,y2,node->color);
 		if(dlg.DoModal() == IDOK) {
-			edit = new CEllipse(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_A,dlg.m_B);
+			edit = new CEllipse(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_A,dlg.m_B,dlg.m_Color.GetColor());
 		}
 	} else if(id == NODE_CUBE) {
 		((CCube*)node)->GetData(x1,y1,z1,x2,y2,z2);
-		CDlgCube dlg(x1,y1,z1,x2,y2,z2);
+		CDlgCube dlg(x1,y1,z1,x2,y2,z2,node->color);
 		if(dlg.DoModal() == IDOK) {
-			edit = new CCube(dlg.m_Left,dlg.m_Bottom,dlg.m_Near,dlg.m_Right,dlg.m_Top,dlg.m_Far);
+			edit = new CCube(dlg.m_Left,dlg.m_Bottom,dlg.m_Near,dlg.m_Right,dlg.m_Top,dlg.m_Far,dlg.m_Color.GetColor());
 		}
 	} else if(id == NODE_TETRAHEDRON) {
 		((CTetrahedron*)node)->GetData(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4);
-		CDlgTetrahedron dlg(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4);
+		CDlgTetrahedron dlg(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,node->color);
 		if(dlg.DoModal() == IDOK) {
-			edit = new CTetrahedron(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2,dlg.m_X3,dlg.m_Y3,dlg.m_Z3,dlg.m_X4,dlg.m_Y4,dlg.m_Z4);
+			edit = new CTetrahedron(dlg.m_X1,dlg.m_Y1,dlg.m_Z1,dlg.m_X2,dlg.m_Y2,dlg.m_Z2,dlg.m_X3,dlg.m_Y3,dlg.m_Z3,dlg.m_X4,dlg.m_Y4,dlg.m_Z4,dlg.m_Color.GetColor());
 		}
 	} else if(id == NODE_SPHERE) {
 		((CSphere*)node)->GetData(x1,y1,z1,w);
-		CDlgSphere dlg(x1,y1,z1,w);
+		CDlgSphere dlg(x1,y1,z1,w,node->color);
 		if(dlg.DoModal() == IDOK) {
-			edit = new CSphere(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R);
+			edit = new CSphere(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_Color.GetColor());
 		}
 	} else if(id == NODE_CYLINDER) {
 		((CCylinder*)node)->GetData(x1,y1,z1,x2,y2);
-		CDlgCylinder dlg(x1,y1,z1,x2,y2);
+		CDlgCylinder dlg(x1,y1,z1,x2,y2,node->color);
 		if(dlg.DoModal() == IDOK) {
-			edit = new CCylinder(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_Height);
+			edit = new CCylinder(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_Height,dlg.m_Color.GetColor());
 		}
 	} else if(id == NODE_RING) {
 		((CRing*)node)->GetData(x1,y1,z1,x2,y2);
-		CDlgRing dlg(x1,y1,z1,x2,y2);
+		CDlgRing dlg(x1,y1,z1,x2,y2,node->color);
 		if(dlg.DoModal() == IDOK) {
-			edit = new CRing(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_R1);
+			edit = new CRing(dlg.m_X,dlg.m_Y,dlg.m_Z,dlg.m_R,dlg.m_R1,dlg.m_Color.GetColor());
 		}
 	}
 
 	if(edit != NULL) {
-		if(edit->toString != node->toString) {
+		if(edit->serialize != node->serialize) {
 			node->Replace(edit);
 			m_wndFileView.SetItemText(hTreeItem,edit->toString);
 			m_wndFileView.myMap1.SetAt(hTreeItem,edit);
