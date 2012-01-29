@@ -5,9 +5,9 @@ class CCube :
 {
 public:
 	static int count;
-	CCube(float left, float bottom, float mnear, float right, float top, float mfar) : CGeometric(NODE_CUBE)
+	CCube(float left, float bottom, float mnear, float right, float top, float mfar, COLORREF color) : CGeometric(NODE_CUBE)
 	{
-		SetData(left,bottom,mnear,right,top,mfar);
+		SetData(left,bottom,mnear,right,top,mfar,color);
 		count++;
 	}
 
@@ -16,13 +16,14 @@ public:
 		count--;
 	}
 
-	void SetData(float left, float bottom, float mnear, float right, float top, float mfar)
+	void SetData(float left, float bottom, float mnear, float right, float top, float mfar, COLORREF color)
 	{
 		data1.setCoords(left,bottom,mnear);
 		data2.setCoords(right,top,mfar);
+		this->color = color;
 		toString.Format(CString("cube(left=%5.2f, bottom=%5.2f, near=%5.2f, right=%5.2f, top=%5.2f, far=%5.2f)"),left,bottom,mnear,right,top,mfar);
 		GLCode.Format(CString("drawCube(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);"),left,bottom,mnear,right,top,mfar);
-		serialize.Format(CString("<cube left=%5.2f bottom=%5.2f near=%5.2f right=%5.2f top=%5.2f far=%5.2f />"),left,bottom,mnear,right,top,mfar);
+		serialize.Format(CString("<cube left=%5.2f bottom=%5.2f near=%5.2f right=%5.2f top=%5.2f far=%5.2f red=%d green=%d blue=%d />"),left,bottom,mnear,right,top,mfar,GetRValue(color),GetGValue(color),GetBValue(color));
 	}
 
 	void GetData(float &left, float &bottom, float &mnear, float &right, float &top, float &mfar)

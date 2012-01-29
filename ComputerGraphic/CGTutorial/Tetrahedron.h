@@ -6,9 +6,9 @@ class CTetrahedron :
 public:
 	static int count;
 	CTetrahedron(float x1, float y1, float z1, float x2, float y2, float z2,
-				float x3, float y3, float z3, float x4, float y4, float z4) : CGeometric(NODE_TETRAHEDRON)
+				float x3, float y3, float z3, float x4, float y4, float z4, COLORREF color) : CGeometric(NODE_TETRAHEDRON)
 	{
-		SetData(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4);
+		SetData(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,color);
 		count++;
 	}
 
@@ -18,16 +18,17 @@ public:
 	}
 
 	void SetData(float x1, float y1, float z1, float x2, float y2, float z2,
-				float x3, float y3, float z3, float x4, float y4, float z4)
+				float x3, float y3, float z3, float x4, float y4, float z4, COLORREF color)
 	{
 		data1.setCoords(x1,y1,z1);
 		data2.setCoords(x2,y2,z2);
 		data3.setCoords(x3,y3,z3);
 		data4.setCoords(x4,y4,z4);
+		this->color = color;
 		toString.Format(CString("tetrahedron(x1=%5.2f, y1=%5.2f, z1=%5.2f, x2=%5.2f, y2=%5.2f, z2=%5.2f, x3=%5.2f, y3=%5.2f, z3=%5.2f, x4=%5.2f, y4=%5.2f, z4=%5.2f)"),
 			x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4);
 		GLCode.Format(CString("drawTetrahedron(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);"),x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4);
-		serialize.Format(CString("<tetrahedron x1=%5.2f y1=%5.2f z1=%5.2f x2=%5.2f y2=%5.2f z2=%5.2f x3=%5.2f y3=%5.2f z3=%5.2f x4=%5.2f y4=%5.2f z4=%5.2f />"),x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4);
+		serialize.Format(CString("<tetrahedron x1=%5.2f y1=%5.2f z1=%5.2f x2=%5.2f y2=%5.2f z2=%5.2f x3=%5.2f y3=%5.2f z3=%5.2f x4=%5.2f y4=%5.2f z4=%5.2f red=%d green=%d blue=%d />"),x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,GetRValue(color),GetGValue(color),GetBValue(color));
 	}
 
 	void GetData(float &x1, float &y1, float &z1, float &x2, float &y2, float &z2,

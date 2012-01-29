@@ -335,6 +335,7 @@ void CCGTutorialDoc::InitGLCode()
 		AddCode(environment->GetCamera()->GLCode,1,2);
 
 		AddCode("glClearColor(0.769f, 0.812f, 0.824f, 0.0f);",1,1);
+		AddCode("glEnable(GL_DEPTH_TEST);",1,1);
 		AddCode("glPointSize(4.0);",1,1);
 	AddCode("}",0,2);
 }
@@ -352,7 +353,6 @@ void CCGTutorialDoc::PaintGLCode()
 		AddCode("glMatrixMode(GL_MODELVIEW);",1,1);
 		AddCode("glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);",1,1);
 		AddCode("drawCoordinate();",1,1);
-		AddCode("glColor3f(0.0f, 0.0f, 0.0f);",1,2);
 		ObjectGLCode(object);
 		AddCode("glFlush();",1,1);
 	AddCode("}",0,2);
@@ -387,8 +387,14 @@ void CCGTutorialDoc::ObjectGLCode(COpenGLNode *node)
 		}
 	}
 
-	if(id != NODE_OBJECT)
+	if(id != NODE_OBJECT) {
+		if(id != NODE_TRANSLATE && id != NODE_ROTATE && id != NODE_SCALE) {
+			char buf[128];
+			sprintf_s(buf,"glColor3ub(%d,%d,%d);",GetRValue(node->color),GetGValue(node->color),GetBValue(node->color));
+			AddCode(buf,1,1);
+		}
 		AddCode(node->GLCode,1,1);
+	}
 
 	CPtrArray *child = node->m_listChild;
 	for(int i=0; i<child->GetSize(); i++)

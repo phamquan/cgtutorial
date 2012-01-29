@@ -11,21 +11,13 @@
 
 IMPLEMENT_DYNAMIC(CDlgPoint, CDialog)
 
-CDlgPoint::CDlgPoint(CWnd* pParent /*=NULL*/)
-	: CDialog(CDlgPoint::IDD, pParent)
-{
-
-	m_X = 0.0f;
-	m_Y = 0.0f;
-	m_Z = 0.0f;
-}
-
-CDlgPoint::CDlgPoint(float x, float y, float z, CWnd* pParent)
+CDlgPoint::CDlgPoint(float x, float y, float z, COLORREF color, CWnd* pParent)
 	: CDialog(CDlgPoint::IDD, pParent)
 {
 	m_X = x;
 	m_Y = y;
 	m_Z = z;
+	m_Color.SetColor(color);
 }
 
 CDlgPoint::~CDlgPoint()
@@ -38,6 +30,7 @@ void CDlgPoint::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_X, m_X);
 	DDX_Text(pDX, IDC_Y, m_Y);
 	DDX_Text(pDX, IDC_Z, m_Z);
+	DDX_Control(pDX, IDC_MFCCOLORBUTTON1, m_Color);
 }
 
 

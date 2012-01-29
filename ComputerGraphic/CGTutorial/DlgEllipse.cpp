@@ -11,18 +11,7 @@
 
 IMPLEMENT_DYNAMIC(CDlgEllipse, CDialog)
 
-CDlgEllipse::CDlgEllipse(CWnd* pParent /*=NULL*/)
-	: CDialog(CDlgEllipse::IDD, pParent)
-{
-
-	m_A = 2.0f;
-	m_B = 1.0f;
-	m_X = 0.0f;
-	m_Y = 0.0f;
-	m_Z = 0.0f;
-}
-
-CDlgEllipse::CDlgEllipse(float x, float y, float z, float a, float b, CWnd* pParent /*=NULL*/)
+CDlgEllipse::CDlgEllipse(float x, float y, float z, float a, float b, COLORREF color, CWnd* pParent /*=NULL*/)
 	: CDialog(CDlgEllipse::IDD, pParent)
 {
 
@@ -31,6 +20,7 @@ CDlgEllipse::CDlgEllipse(float x, float y, float z, float a, float b, CWnd* pPar
 	m_X = x;
 	m_Y = y;
 	m_Z = z;
+	m_Color.SetColor(color);
 }
 
 CDlgEllipse::~CDlgEllipse()
@@ -45,6 +35,7 @@ void CDlgEllipse::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_X, m_X);
 	DDX_Text(pDX, IDC_Y, m_Y);
 	DDX_Text(pDX, IDC_Z, m_Z);
+	DDX_Control(pDX, IDC_MFCCOLORBUTTON1, m_Color);
 }
 
 

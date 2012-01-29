@@ -8,8 +8,7 @@ class CDlgCube : public CDialog
 	DECLARE_DYNAMIC(CDlgCube)
 
 public:
-	CDlgCube(CWnd* pParent = NULL);   // standard constructor
-	CDlgCube(float left, float bottom, float mnear, float right, float top, float mfar, CWnd* pParent = NULL);
+	CDlgCube(float left, float bottom, float mnear, float right, float top, float mfar, COLORREF color, CWnd* pParent = NULL);
 	virtual ~CDlgCube();
 
 // Dialog Data
@@ -26,4 +25,5 @@ public:
 	float m_Near;
 	float m_Right;
 	float m_Top;
+	CMFCColorButton m_Color;
 };

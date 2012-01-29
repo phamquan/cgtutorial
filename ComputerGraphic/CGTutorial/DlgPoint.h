@@ -8,8 +8,7 @@ class CDlgPoint : public CDialog
 	DECLARE_DYNAMIC(CDlgPoint)
 
 public:
-	CDlgPoint(CWnd* pParent = NULL);   // standard constructor
-	CDlgPoint(float x, float y, float z, CWnd* pParent = NULL);
+	CDlgPoint(float x, float y, float z, COLORREF color, CWnd* pParent = NULL);
 	virtual ~CDlgPoint();
 
 // Dialog Data
@@ -23,4 +22,5 @@ public:
 	float m_X;
 	float m_Y;
 	float m_Z;
+	CMFCColorButton m_Color;
 };

@@ -8,8 +8,7 @@ class CDlgRectangle : public CDialog
 	DECLARE_DYNAMIC(CDlgRectangle)
 
 public:
-	CDlgRectangle(CWnd* pParent = NULL);
-	CDlgRectangle(float top, float left, float bottom, float right, CWnd* pParent = NULL);
+	CDlgRectangle(float top, float left, float bottom, float right, COLORREF color, CWnd* pParent = NULL);
 	virtual ~CDlgRectangle();
 
 // Dialog Data
@@ -24,4 +23,5 @@ public:
 	float m_Left;
 	float m_Right;
 	float m_Top;
+	CMFCColorButton m_Color;
 };

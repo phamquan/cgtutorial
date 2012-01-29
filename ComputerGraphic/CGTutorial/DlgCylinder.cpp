@@ -11,18 +11,7 @@
 
 IMPLEMENT_DYNAMIC(CDlgCylinder, CDialog)
 
-CDlgCylinder::CDlgCylinder(CWnd* pParent /*=NULL*/)
-	: CDialog(CDlgCylinder::IDD, pParent)
-{
-
-	m_Height = 1.0f;
-	m_R = 1.0f;
-	m_X = 0.0f;
-	m_Y = 0.0f;
-	m_Z = 0.0f;
-}
-
-CDlgCylinder::CDlgCylinder(float x, float y, float z, float R, float height, CWnd* pParent /*=NULL*/)
+CDlgCylinder::CDlgCylinder(float x, float y, float z, float R, float height,  COLORREF color, CWnd* pParent /*=NULL*/)
 	: CDialog(CDlgCylinder::IDD, pParent)
 {
 
@@ -31,6 +20,7 @@ CDlgCylinder::CDlgCylinder(float x, float y, float z, float R, float height, CWn
 	m_X = x;
 	m_Y = y;
 	m_Z = z;
+	m_Color.SetColor(color);
 }
 
 CDlgCylinder::~CDlgCylinder()
@@ -45,6 +35,7 @@ void CDlgCylinder::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_X, m_X);
 	DDX_Text(pDX, IDC_Y, m_Y);
 	DDX_Text(pDX, IDC_Z, m_Z);
+	DDX_Control(pDX, IDC_MFCCOLORBUTTON1, m_Color);
 }
 
 

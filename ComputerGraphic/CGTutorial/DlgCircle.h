@@ -8,8 +8,7 @@ class CDlgCircle : public CDialog
 	DECLARE_DYNAMIC(CDlgCircle)
 
 public:
-	CDlgCircle(CWnd* pParent = NULL);   // standard constructor
-	CDlgCircle(float x, float y, float z, float R, CWnd* pParent = NULL);
+	CDlgCircle(float x, float y, float z, float R, COLORREF color, CWnd* pParent = NULL);
 	virtual ~CDlgCircle();
 
 // Dialog Data
@@ -24,4 +23,5 @@ public:
 	float m_X;
 	float m_Y;
 	float m_Z;
+	CMFCColorButton m_Color;
 };

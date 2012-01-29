@@ -11,18 +11,7 @@
 
 IMPLEMENT_DYNAMIC(CDlgRing, CDialog)
 
-CDlgRing::CDlgRing(CWnd* pParent /*=NULL*/)
-	: CDialog(CDlgRing::IDD, pParent)
-{
-
-	m_R = 0.75f;
-	m_R1 = 0.25f;
-	m_X = 0.0f;
-	m_Y = 0.0f;
-	m_Z = 0.0f;
-}
-
-CDlgRing::CDlgRing(float x, float y, float z, float R, float r, CWnd* pParent /*=NULL*/)
+CDlgRing::CDlgRing(float x, float y, float z, float R, float r, COLORREF color, CWnd* pParent /*=NULL*/)
 	: CDialog(CDlgRing::IDD, pParent)
 {
 
@@ -31,6 +20,7 @@ CDlgRing::CDlgRing(float x, float y, float z, float R, float r, CWnd* pParent /*
 	m_X = x;
 	m_Y = y;
 	m_Z = z;
+	m_Color.SetColor(color);
 }
 
 CDlgRing::~CDlgRing()
@@ -45,6 +35,7 @@ void CDlgRing::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_X, m_X);
 	DDX_Text(pDX, IDC_Y, m_Y);
 	DDX_Text(pDX, IDC_Z, m_Z);
+	DDX_Control(pDX, IDC_MFCCOLORBUTTON1, m_Color);
 }
 
 

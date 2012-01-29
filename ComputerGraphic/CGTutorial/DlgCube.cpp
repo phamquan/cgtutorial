@@ -11,19 +11,7 @@
 
 IMPLEMENT_DYNAMIC(CDlgCube, CDialog)
 
-CDlgCube::CDlgCube(CWnd* pParent /*=NULL*/)
-	: CDialog(CDlgCube::IDD, pParent)
-{
-
-	m_Bottom = -1.0f;
-	m_Far = -1.0f;
-	m_Left = -1.0f;
-	m_Near = 1.0f;
-	m_Right = 1.0f;
-	m_Top = 1.0f;
-}
-
-CDlgCube::CDlgCube(float left, float bottom, float mnear, float right, float top, float mfar, CWnd* pParent /*=NULL*/)
+CDlgCube::CDlgCube(float left, float bottom, float mnear, float right, float top, float mfar,  COLORREF color, CWnd* pParent /*=NULL*/)
 	: CDialog(CDlgCube::IDD, pParent)
 {
 
@@ -33,6 +21,7 @@ CDlgCube::CDlgCube(float left, float bottom, float mnear, float right, float top
 	m_Near = mnear;
 	m_Right = right;
 	m_Top = top;
+	m_Color.SetColor(color);
 }
 
 CDlgCube::~CDlgCube()
@@ -48,6 +37,7 @@ void CDlgCube::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_NEAR, m_Near);
 	DDX_Text(pDX, IDC_RIGHT, m_Right);
 	DDX_Text(pDX, IDC_TOP, m_Top);
+	DDX_Control(pDX, IDC_MFCCOLORBUTTON1, m_Color);
 }
 
 

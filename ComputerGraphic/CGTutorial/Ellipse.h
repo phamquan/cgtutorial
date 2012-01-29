@@ -5,9 +5,9 @@ class CEllipse :
 {
 public:
 	static int count;
-	CEllipse(float x, float y, float z, float a, float b) : CGeometric(NODE_ELLIPSE)
+	CEllipse(float x, float y, float z, float a, float b, COLORREF color) : CGeometric(NODE_ELLIPSE)
 	{
-		SetData(x,y,z,a,b);
+		SetData(x,y,z,a,b,color);
 		count++;
 	}
 
@@ -16,13 +16,14 @@ public:
 		count--;
 	}
 
-	void SetData(float x, float y, float z, float a, float b)
+	void SetData(float x, float y, float z, float a, float b, COLORREF color)
 	{
 		data1.setCoords(x,y,z);
 		data2.setCoords(a,b,0);
+		this->color = color;
 		toString.Format(CString("ellipse(x=%5.2f, y=%5.2f, z=%5.2f, a=%5.2f, b=%5.2f)"),x,y,z,a,b);
 		GLCode.Format(CString("drawEllipse(%5.2f,%5.2f,%5.2f,%5.2f,%5.2f);"),x,y,z,a,b);
-		serialize.Format(CString("<ellipse x=%5.2f y=%5.2f z=%5.2f a=%5.2f b=%5.2f />"),x,y,z,a,b);
+		serialize.Format(CString("<ellipse x=%5.2f y=%5.2f z=%5.2f a=%5.2f b=%5.2f red=%d green=%d blue=%d />"),x,y,z,a,b,GetRValue(color),GetGValue(color),GetBValue(color));
 	}
 
 	void GetData(float &x, float &y, float &z, float &a, float &b)

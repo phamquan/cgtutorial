@@ -6,9 +6,9 @@ class CPoint4D :
 public:
 	static int count;
 
-	CPoint4D(float x, float y, float z) : CGeometric(NODE_POINT)
+	CPoint4D(float x, float y, float z, COLORREF color) : CGeometric(NODE_POINT)
 	{
-		SetData(x, y, z);
+		SetData(x,y,z,color);
 		count++;
 	}
 
@@ -17,12 +17,13 @@ public:
 		count--;
 	}
 
-	void SetData(float x, float y, float z)
+	void SetData(float x, float y, float z, COLORREF color)
 	{
 		data1.setCoords(x,y,z);
+		this->color = color;
 		toString.Format(CString("point(x=%5.2f, y=%5.2f, z=%5.2f)"),x,y,z);
 		GLCode.Format(CString("drawPoint(%5.2f,%5.2f,%5.2f);"),x,y,z);
-		serialize.Format(CString("<point x=%5.2f y=%5.2f z=%5.2f />"),x,y,z);
+		serialize.Format(CString("<point x=%5.2f y=%5.2f z=%5.2f red=%d green=%d blue=%d />"),x,y,z,GetRValue(color),GetGValue(color),GetBValue(color));
 	}
 
 	void GetData(float &x, float &y, float &z)
