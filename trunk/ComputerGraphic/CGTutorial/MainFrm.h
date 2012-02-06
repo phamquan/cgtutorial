@@ -97,6 +97,7 @@ public:
 	afx_msg void OnRing();
 	afx_msg void OnEditUndo();
 	afx_msg void OnEditRedo();
+	afx_msg void OnTreeView();
 };
 
 
