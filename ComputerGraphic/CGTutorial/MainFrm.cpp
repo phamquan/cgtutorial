@@ -86,6 +86,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_RING, &CMainFrame::OnRing)
 	ON_COMMAND(ID_EDIT_UNDO, &CMainFrame::OnEditUndo)
 	ON_COMMAND(ID_EDIT_REDO, &CMainFrame::OnEditRedo)
+	ON_COMMAND(ID_TREE_VIEW, &CMainFrame::OnTreeView)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -590,4 +591,11 @@ void CMainFrame::ClearRedo()
 		}
 		delete action;
 	}
+}
+
+
+void CMainFrame::OnTreeView()
+{
+	// TODO: Add your command handler code here
+	m_wndFileView.ShowPane(true,false,true);
 }
