@@ -24,13 +24,13 @@ class CAboutDlg : public CDialogEx
 public:
 	CAboutDlg();
 
-// Dialog Data
+	// Dialog Data
 	enum { IDD = IDD_ABOUTBOX };
 
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
-// Implementation
+	// Implementation
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -190,9 +190,9 @@ void CRasterizationIllustrationDlg::OnPaint()
 		drawBoard();
 		drawPixel();
 		glFlush();
-	
+
 		SwapBuffers(dc.m_ps.hdc);
-		
+
 	}
 }
 
@@ -210,14 +210,14 @@ void CRasterizationIllustrationDlg::setupOpenGL(void)
 	//Declare Pixel Format
 	static PIXELFORMATDESCRIPTOR pfd =
 	{
-	sizeof(PIXELFORMATDESCRIPTOR),
-	1,
-	PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
-	PFD_TYPE_RGBA,
-	32, // bit depth
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	16, // z-buffer depth
-	0, 0, 0, 0, 0, 0, 0,
+		sizeof(PIXELFORMATDESCRIPTOR),
+		1,
+		PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
+		PFD_TYPE_RGBA,
+		32, // bit depth
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		16, // z-buffer depth
+		0, 0, 0, 0, 0, 0, 0,
 	};
 	// Get device context only once.
 	m_hDC = GetDC()->m_hDC;
@@ -313,16 +313,16 @@ void CRasterizationIllustrationDlg::drawBoard(void)
 	int i;
 	for (i=0;i <= height;i++) {
 		glBegin(GL_LINES);
-			glVertex2f(0, y);
-			glVertex2f(size*width, y);
+		glVertex2f(0, y);
+		glVertex2f(size*width, y);
 		glEnd();
 		y+=size;
 	}
 	float x = 0;
 	for (i=0;i <= width;i++) {
 		glBegin(GL_LINES);
-			glVertex2f(x, 0);
-			glVertex2f(x, size*height);
+		glVertex2f(x, 0);
+		glVertex2f(x, size*height);
 		glEnd();
 		x+=size;
 	}
@@ -337,6 +337,7 @@ void CRasterizationIllustrationDlg::initParameter() {
 	hRunStep = NULL;
 	dwRunStepId = 0;
 	m_isLeftMouseDown = m_isMidMouseDown = false;
+	debugMode = false;
 	m_infoDlg = new CRasterizationInfoDlg();
 	m_config = new CRasterizationConfig(800, 600, 0.008, BRESENHAM, BLUE);
 	int width = m_config->getWidth(),
@@ -372,12 +373,15 @@ void CRasterizationIllustrationDlg::drawOrigin(void)
 }
 
 
-void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEALG alg, bool isStep)
+void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEALG alg, RUNMODE runmode)
 {
 	int width = m_config->getWidth();
-	 
+
 	//Thoi gian delay moi buoc
-	int nTime = isStep? 50 : 0;
+	int nTime = 0;
+
+	if (runmode == SMOOTH) nTime = 50;
+
 	m_pixelState[start.y*width + start.x] = m_pixelState[end.y*width + end.x] = PCHOSEN;
 	Sleep(nTime);
 	switch(alg) {
@@ -455,7 +459,7 @@ void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEAL
 			if (y0 < y1) 
 				ystep = 1;
 			else ystep = -1;
-			
+
 			for (int x = x0; x <= x1;x++) {
 				if (steep) {
 					m_pixelState[x*width + y] = PCHOSEN;
@@ -468,6 +472,8 @@ void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEAL
 					m_infoDlg->m_cb = iter.blue;
 					m_infoDlg->Refresh();
 					Sleep(nTime);
+					if (debugMode)
+						SuspendThread(hRunStep);
 					this->Invalidate();
 				}
 				else {
@@ -478,6 +484,8 @@ void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEAL
 					m_infoDlg->m_cy = y;
 					m_infoDlg->Refresh();
 					Sleep(nTime);
+					if (debugMode)
+						SuspendThread(hRunStep);
 					this->Invalidate();
 				}
 				error = error - deltay;
@@ -498,10 +506,10 @@ void CRasterizationIllustrationDlg::fillPixel(PIXEL pixel, COLOR color)
 	float scale = m_config->getScale();
 	glColor3f(color.red, color.green, color.blue);
 	glBegin(GL_QUADS);
-		glVertex2f(pixel.x*scale, pixel.y*scale);
-		glVertex2f((pixel.x+1)*scale, pixel.y*scale);
-		glVertex2f((pixel.x+1)*scale, (pixel.y+1)*scale);
-		glVertex2f(pixel.x*scale, (pixel.y+1)*scale);
+	glVertex2f(pixel.x*scale, pixel.y*scale);
+	glVertex2f((pixel.x+1)*scale, pixel.y*scale);
+	glVertex2f((pixel.x+1)*scale, (pixel.y+1)*scale);
+	glVertex2f(pixel.x*scale, (pixel.y+1)*scale);
 	glEnd();
 }
 
@@ -522,7 +530,7 @@ void CRasterizationIllustrationDlg::drawPixel(void)
 				break;
 			default:
 				break;
-			}
+		}
 }
 
 
@@ -530,19 +538,21 @@ DWORD WINAPI CRasterizationIllustrationDlg::ThreadProc(LPVOID lpParam)
 {
 	CRasterizationIllustrationDlg* pParent = (CRasterizationIllustrationDlg*) lpParam;
 
-	pParent->Rasterize(PIXEL(0,0,RED),PIXEL(100,300,GREEN),pParent->getConfig()->getAlgorithmRasterization(), true);
+	pParent->Rasterize(PIXEL(0,0,RED),PIXEL(100,300,GREEN),pParent->getConfig()->getAlgorithmRasterization(), SMOOTH);
 
 	TerminateProcess(pParent->hRunStep, 1);
+	pParent->hRunStep = NULL;
 	return 1;
 }
 
 
-void CRasterizationIllustrationDlg::runStep(void)
+void CRasterizationIllustrationDlg::runStep()
 {
-	if (hRunStep) {
+	this->Erase();
+	if (hRunStep && !debugMode) {
 		TerminateThread(hRunStep, 1);
 	}
-	hRunStep = CreateThread(NULL, 0, ThreadProc, this, 0, &dwRunStepId);
+		hRunStep = CreateThread(NULL, 0, ThreadProc, this, 0, &dwRunStepId);
 }
 
 
@@ -578,8 +588,8 @@ void CRasterizationIllustrationDlg::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
 		CMenu* pPopup = menu.GetSubMenu(0);
 		ASSERT(pPopup != NULL);
 		pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON,
-		point.x, point.y,
-		AfxGetMainWnd()); // use main window for cmds
+			point.x, point.y,
+			AfxGetMainWnd()); // use main window for cmds
 
 
 	}
@@ -607,6 +617,10 @@ void CRasterizationIllustrationDlg::Erase(void)
 	for (int y = 0; y < height; y++)
 		for (int x = 0; x < width; x++)
 			m_pixelState[y*width + x] = PNONE;
+	Invalidate();
+	if (hRunStep) {
+		TerminateThread(hRunStep,1);
+	}
 }
 
 
@@ -713,7 +727,7 @@ void CRasterizationIllustrationDlg::OnMButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: Add your message handler code here and/or call default
 	m_isMidMouseDown = true;
-	
+
 	CDialogEx::OnMButtonDown(nFlags, point);
 }
 
@@ -757,4 +771,42 @@ void CRasterizationIllustrationDlg::OnContextriMoreinfo()
 {
 	// TODO: Add your command handler code here
 	m_infoDlg->ShowWindow(SW_SHOW);
+}
+
+
+BOOL CRasterizationIllustrationDlg::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO: Add your specialized code here and/or call the base class
+	if(pMsg->message==WM_KEYDOWN) {
+		switch(pMsg->wParam) {
+		case VK_F4:
+			if (hRunStep) {
+				debugMode = false;
+				TerminateThread(hRunStep, 1);
+				hRunStep = NULL;
+			}
+			this->runAll();
+			break;
+
+		case VK_F5:
+			if (hRunStep) {
+				debugMode = false;
+				ResumeThread(hRunStep);
+			}
+			else {
+				this->runStep();
+			}
+			break;
+
+		case VK_F6:
+			debugMode = true;
+			if (hRunStep && debugMode)
+				ResumeThread(hRunStep);
+			else {
+				this->runStep();
+			}
+			break;
+		}
+	}
+	return CDialogEx::PreTranslateMessage(pMsg);
 }

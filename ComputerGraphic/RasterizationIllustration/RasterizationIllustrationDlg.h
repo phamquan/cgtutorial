@@ -43,6 +43,7 @@ private:
 	DWORD  dwRunStepId;
 	bool m_isLeftMouseDown, m_isMidMouseDown;
 	float startX, startY, targetX, targetY;
+	bool debugMode;
 public:
 	void initParameter();
 	void setupOpenGL(void);
@@ -55,11 +56,11 @@ public:
 	CRasterizationConfig* getConfig();
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
 	void drawOrigin(void);
-	void Rasterize(PIXEL start, PIXEL end, RASTERIZEALG alg, bool isStep=false);
+	void Rasterize(PIXEL start, PIXEL end, RASTERIZEALG alg, RUNMODE runmode = FAST);
 	void fillPixel(PIXEL pixel, COLOR color);
 	void drawPixel(void);
 	static DWORD WINAPI ThreadProc(LPVOID lpParam);
-	void runStep(void);
+	void runStep();
 	void runAll(void);
 	afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/);
 	afx_msg void OnContextriRunstep();
@@ -84,4 +85,5 @@ public:
 	afx_msg void OnContextriBresenham();
 	afx_msg void OnUpdateContextriBresenham(CCmdUI *pCmdUI);
 	afx_msg void OnContextriMoreinfo();
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };

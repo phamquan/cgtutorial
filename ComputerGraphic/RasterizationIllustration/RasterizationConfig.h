@@ -2,6 +2,7 @@
 
 enum PIXELTYPE{PCANDIDATE, PCHOSEN, PNONE};
 enum RASTERIZEALG{DDA, BRESENHAM};
+enum RUNMODE{FAST, STEP, SMOOTH};
 
 #define swap(type, i, j) {type t = i; i = j; j = t;}
 #define RED COLOR(1.0f, 0.0f, 0.0f)
