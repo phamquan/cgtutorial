@@ -41,12 +41,17 @@ struct COLOR {
 		this->blue += op.blue;
 		return *this;
 	}
+	COLOR operator -() const {
+		return COLOR(-red, -green, -blue, alpha);
+	}
 };
 
 struct PIXEL{
 	int x, y;
 	COLOR color;
-	PIXEL();
+	PIXEL():
+	x(0), y(0), color(COLOR(0,0,0))
+	{}
 
 	PIXEL(int col, int row):
 	x(col), y(row)
@@ -57,6 +62,19 @@ struct PIXEL{
 	{
 		this->color = color;
 	}
+};
+
+struct POLYGONPIXEL {
+	int nEdge;
+	PIXEL* vertex;
+
+	POLYGONPIXEL():
+	vertex(NULL),  nEdge(0)
+	{}
+
+	POLYGONPIXEL(PIXEL* listvertex, int numberEdge):
+	vertex(listvertex), nEdge(numberEdge)
+	{}
 };
 
 class CRasterizationConfig

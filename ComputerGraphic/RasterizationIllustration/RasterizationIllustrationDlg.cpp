@@ -339,7 +339,7 @@ void CRasterizationIllustrationDlg::initParameter() {
 	m_isLeftMouseDown = m_isMidMouseDown = false;
 	debugMode = false;
 	m_infoDlg = new CRasterizationInfoDlg();
-	m_config = new CRasterizationConfig(800, 600, 0.008, BRESENHAM, BLUE);
+	m_config = new CRasterizationConfig(400, 300, 0.012, BRESENHAM, BLUE);
 	int width = m_config->getWidth(),
 		height = m_config->getHeight();
 	if (width*height == 0) 
@@ -350,12 +350,32 @@ void CRasterizationIllustrationDlg::initParameter() {
 		Erase();
 	}
 	targetX = targetY = 0.0f;
+
+	p.nEdge = 3;
+	p.vertex = new PIXEL[p.nEdge];
+	p.vertex[0].x = 0;
+	p.vertex[0].y = 0;
+	p.vertex[0].color.red = 1;
+	p.vertex[0].color.green = 0;
+	p.vertex[0].color.blue = 0;
+
+	p.vertex[1].x = 0;
+	p.vertex[1].y = 100;
+	p.vertex[1].color.red = 0;
+	p.vertex[1].color.green = 1;
+	p.vertex[1].color.blue = 0;
+
+	p.vertex[2].x = 100;
+	p.vertex[2].y = 0;
+	p.vertex[2].color.red = 1;
+	p.vertex[2].color.green = 1;
+	p.vertex[2].color.blue = 0;
 }
 
 BOOL CRasterizationIllustrationDlg::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 {
 	// TODO: Add your message handler code here and/or call default
-	float delta = 0.001;
+	float delta = 0.001f;
 	m_config->modifyScale(zDelta>0? delta:-delta);
 	Invalidate();
 	return CDialogEx::OnMouseWheel(nFlags, zDelta, pt);
@@ -373,121 +393,104 @@ void CRasterizationIllustrationDlg::drawOrigin(void)
 }
 
 
-void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEALG alg, RUNMODE runmode)
+void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEALG alg, int delay)
 {
 	int width = m_config->getWidth();
 
 	//Thoi gian delay moi buoc
-	int nTime = 0;
-
-	if (runmode == SMOOTH) nTime = 50;
 
 	m_pixelState[start.y*width + start.x] = m_pixelState[end.y*width + end.x] = PCHOSEN;
-	Sleep(nTime);
+	Sleep(delay);
+	int x0 = start.x, y0=start.y, x1=end.x, y1=end.y;
+	COLOR c0 = start.color;
+	COLOR c1 = end.color;
+
+	bool steep = abs(y1 - y0) > abs(x1 - x0);
+	if (steep) {
+		swap(int, x0, y0);
+		swap(int, x1, y1);
+	}
+	if (x0 > x1) {
+		swap(int, x0, x1);
+		swap(int, y0, y1);
+		swap(COLOR, c0, c1);
+	}
+
+	COLOR delta = (c1 - c0)*(1.0f/float(x1-x0));
+	COLOR iter = c0;
+
 	switch(alg) {
 	case DDA:
 		{
-			float m = (float)(end.y - start.y)/(end.x - start.x);
-			if (abs(m) < 1) {
-				int x;
-				float y = y=start.y;
-				if (end.x > start.x) {
-					for (x=start.x; x<=end.x; x++) {
-						y+=(float)m;
-						m_pixelState[int(y+0.5)*width + x] = PCHOSEN;
-						Sleep(nTime);
-						this->Invalidate();
-					}
+			float ystep = (float)(y1 - y0)/(x1-x0);
+
+			float y = y0;
+			for (int x = x0; x <= x1; x++) {
+				if (steep) {
+					m_pixelState[x*width + int(y+0.5)] = PCHOSEN;
+					m_pixelColor[x*width + int(y+0.5)] = iter;
+					iter += delta;
+					m_infoDlg->m_cx = y;
+					m_infoDlg->m_cy = x;
 				}
 				else {
-					for (x=start.x; x>=end.x; x--) {
-						y-=m;
-						m_pixelState[int(y-0.5)*width + x] = PCHOSEN;
-						Sleep(nTime);
-						this->Invalidate();
-					}
+					m_pixelState[int(y+0.5)*width + x] = PCHOSEN;
+					m_pixelColor[int(y+0.5)*width + x] = iter;
+					iter += delta;
+					m_infoDlg->m_cx = x;
+					m_infoDlg->m_cy = y;
 				}
-			}
-			else {
-				m=1/m;
-				int y;
-				float x =start.x;
-				if (end.y > start.y) {
-					for (y=start.y; y<=end.y; y++) {
-						x+=(float)m;
-						m_pixelState[y*width + int(x+0.5)] = PCHOSEN;
-						Sleep(nTime);
-						this->Invalidate();
-					}
-				}
-				else {
-					for (y=start.y; y>=end.y; y--) {
-						x-=(float)m;
-						m_pixelState[y*width + int(x-0.5)] = PCHOSEN;
-						Sleep(nTime);
-						this->Invalidate();
-					}
-				}
+
+				iter += delta;
+				m_infoDlg->m_cr = iter.red;
+				m_infoDlg->m_cg = iter.green;
+				m_infoDlg->m_cb = iter.blue;
+				m_infoDlg->Refresh();
+				Sleep(delay);
+				if (debugMode)
+					SuspendThread(hRunStep);
+				this->Invalidate();
+
+				y += ystep;
 			}
 		}
 		break;
 	case BRESENHAM:
 		{
-			int x0 = start.x, y0=start.y, x1=end.x, y1=end.y;
-			m_pixelColor[x0*width + y0] = start.color;
-			m_pixelColor[x1*width + y1] = end.color;
-			COLOR iter = m_pixelColor[x0*width + y0];
-
-			COLOR delta = (m_pixelColor[x1*width + y1] - m_pixelColor[x0*width + y0])*(1.0f/float(x1-x0));
-
-			bool steep = abs(y1 - y0) > abs(x1 - x0);
-			if (steep) {
-				delta = (m_pixelColor[x1*width + y1] - m_pixelColor[x0*width + y0])*(1.0f/float(y1-y0));
-				swap(int, x0, y0);
-				swap(int, x1, y1);
-			}
-			if (x0 > x1) {
-				swap(int, x0, x1);
-				swap(int, y0, y1);
-				swap(COLOR, m_pixelColor[x0*width + y0], m_pixelColor[x1*width + y1]);
-			}
 			int deltax = x1 - x0;
 			int deltay = abs(y1 - y0);
 			int error = deltax / 2;
 			int ystep;
 			int y = y0;
-			if (y0 < y1) 
+			if (y0 < y1)  {
 				ystep = 1;
-			else ystep = -1;
 
+			}
+			else  {
+				ystep = -1;
+			}
 			for (int x = x0; x <= x1;x++) {
 				if (steep) {
 					m_pixelState[x*width + y] = PCHOSEN;
 					m_pixelColor[x*width + y] = iter;
-					iter += delta;
 					m_infoDlg->m_cx = y;
 					m_infoDlg->m_cy = x;
-					m_infoDlg->m_cr = iter.red;
-					m_infoDlg->m_cg = iter.green;
-					m_infoDlg->m_cb = iter.blue;
-					m_infoDlg->Refresh();
-					Sleep(nTime);
-					if (debugMode)
-						SuspendThread(hRunStep);
-					this->Invalidate();
 				}
 				else {
 					m_pixelState[y*width + x] = PCHOSEN;
 					m_pixelColor[y*width + x] = iter;
-					iter += delta;
 					m_infoDlg->m_cx = x;
 					m_infoDlg->m_cy = y;
-					m_infoDlg->Refresh();
-					Sleep(nTime);
-					if (debugMode)
-						SuspendThread(hRunStep);
-					this->Invalidate();
 				}
+				iter += delta;
+				m_infoDlg->m_cr = iter.red;
+				m_infoDlg->m_cg = iter.green;
+				m_infoDlg->m_cb = iter.blue;
+				m_infoDlg->Refresh();
+				Sleep(delay);
+				if (debugMode)
+					SuspendThread(hRunStep);
+				this->Invalidate();
 				error = error - deltay;
 				if (error < 0) {
 					y = y + ystep;
@@ -500,6 +503,11 @@ void CRasterizationIllustrationDlg::Rasterize(PIXEL start, PIXEL end,RASTERIZEAL
 	Invalidate();
 }
 
+void CRasterizationIllustrationDlg::Rasterize(POLYGONPIXEL polygon, RASTERIZEALG alg, int delay) {
+	int n = polygon.nEdge;
+	for (int i=0; i<n; i++)
+		Rasterize(polygon.vertex[i], polygon.vertex[(i+1)%n], alg, delay);
+}
 
 void CRasterizationIllustrationDlg::fillPixel(PIXEL pixel, COLOR color)
 {
@@ -538,7 +546,7 @@ DWORD WINAPI CRasterizationIllustrationDlg::ThreadProc(LPVOID lpParam)
 {
 	CRasterizationIllustrationDlg* pParent = (CRasterizationIllustrationDlg*) lpParam;
 
-	pParent->Rasterize(PIXEL(0,0,RED),PIXEL(100,300,GREEN),pParent->getConfig()->getAlgorithmRasterization(), SMOOTH);
+	pParent->Rasterize(pParent->p, pParent->getConfig()->getAlgorithmRasterization(), 50);
 
 	TerminateProcess(pParent->hRunStep, 1);
 	pParent->hRunStep = NULL;
@@ -552,7 +560,7 @@ void CRasterizationIllustrationDlg::runStep()
 	if (hRunStep && !debugMode) {
 		TerminateThread(hRunStep, 1);
 	}
-		hRunStep = CreateThread(NULL, 0, ThreadProc, this, 0, &dwRunStepId);
+	hRunStep = CreateThread(NULL, 0, ThreadProc, this, 0, &dwRunStepId);
 }
 
 
@@ -561,7 +569,7 @@ void CRasterizationIllustrationDlg::runAll(void)
 	if (hRunStep) {
 		TerminateThread(hRunStep,1);
 	}
-	this->Rasterize(PIXEL(0,0,RED),PIXEL(100,300,GREEN),m_config->getAlgorithmRasterization());
+	this->Rasterize(this->p,m_config->getAlgorithmRasterization());
 }
 
 

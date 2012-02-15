@@ -44,6 +44,8 @@ private:
 	bool m_isLeftMouseDown, m_isMidMouseDown;
 	float startX, startY, targetX, targetY;
 	bool debugMode;
+	POLYGONPIXEL p;
+
 public:
 	void initParameter();
 	void setupOpenGL(void);
@@ -56,7 +58,8 @@ public:
 	CRasterizationConfig* getConfig();
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
 	void drawOrigin(void);
-	void Rasterize(PIXEL start, PIXEL end, RASTERIZEALG alg, RUNMODE runmode = FAST);
+	void Rasterize(PIXEL start, PIXEL end, RASTERIZEALG alg, int delay = 0);
+	void Rasterize(POLYGONPIXEL polygon, RASTERIZEALG alg, int delay = 0);
 	void fillPixel(PIXEL pixel, COLOR color);
 	void drawPixel(void);
 	static DWORD WINAPI ThreadProc(LPVOID lpParam);
