@@ -18,6 +18,7 @@
 #include "DlgMatrixFormula.h"
 #include "DlgPipeLine.h"
 #include "CameraFrame.h"
+#include "RasterizationIllustrationDlg.h"
 #include "Stack.h"
 #include "Action.h"
 
@@ -38,8 +39,8 @@ public:
 	CDlgMatrixFormula *dlgMatrixFormula;
 	CDlgPipeLine *dlgPipeLine;
 	CCameraFrame *cameraFrame;
-	
-// Operations
+	CRasterizationIllustrationDlg *rasterize;
+	// Operations
 public:
 	void Refresh();
 	void ShowModelMatrix();
@@ -98,6 +99,7 @@ public:
 	afx_msg void OnEditUndo();
 	afx_msg void OnEditRedo();
 	afx_msg void OnTreeView();
+	afx_msg void OnRasterize();
 };
 
 

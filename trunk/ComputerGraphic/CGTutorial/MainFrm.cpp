@@ -87,6 +87,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_EDIT_UNDO, &CMainFrame::OnEditUndo)
 	ON_COMMAND(ID_EDIT_REDO, &CMainFrame::OnEditRedo)
 	ON_COMMAND(ID_TREE_VIEW, &CMainFrame::OnTreeView)
+	ON_COMMAND(ID_RASTERIZE, &CMainFrame::OnRasterize)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -99,6 +100,7 @@ CMainFrame::CMainFrame()
 	dlgMatrixFormula = NULL;
 	dlgPipeLine = NULL;
 	cameraFrame = NULL;
+	rasterize = NULL;
 }
 
 CMainFrame::~CMainFrame()
@@ -114,6 +116,9 @@ CMainFrame::~CMainFrame()
 
 	if(cameraFrame != NULL)
 		delete cameraFrame;
+	
+	if(rasterize != NULL)
+		delete rasterize;
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -598,4 +603,15 @@ void CMainFrame::OnTreeView()
 {
 	// TODO: Add your command handler code here
 	m_wndFileView.ShowPane(true,false,true);
+}
+
+
+void CMainFrame::OnRasterize()
+{
+	// TODO: Add your command handler code here
+	if(rasterize == NULL) {
+		rasterize = new CRasterizationIllustrationDlg();
+		rasterize->Create(CRasterizationIllustrationDlg::IDD,this);
+	}
+	rasterize->ShowWindow(SW_SHOW);
 }
