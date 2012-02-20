@@ -90,6 +90,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_EDIT_REDO, &CMainFrame::OnEditRedo)
 	ON_COMMAND(ID_TREE_VIEW, &CMainFrame::OnTreeView)
 	ON_COMMAND(ID_RASTERIZE, &CMainFrame::OnRasterize)
+//	ON_COMMAND(ID_CONTEXTRI_RUNALL, &CMainFrame::OnContextriRunall)
 END_MESSAGE_MAP()
 
 // CMainFrame construction/destruction
@@ -610,3 +611,9 @@ void CMainFrame::OnRasterize()
 	CRasterizationIllustrationDlg dlg;
 	dlg.DoModal();
 }
+
+
+//void CMainFrame::OnContextriRunall()
+//{
+//	// TODO: Add your command handler code here
+//}
