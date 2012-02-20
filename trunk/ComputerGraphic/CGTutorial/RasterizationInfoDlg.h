@@ -16,6 +16,7 @@ public:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
+public:
 	UINT m_cx;
 	UINT m_cy;
 	void Refresh(void);
