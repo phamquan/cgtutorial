@@ -1,5 +1,4 @@
 #pragma once
-#include "afxwin.h"
 
 
 // CRasterizationInfoDlg dialog
@@ -19,12 +18,6 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
-public:
-//	CEdit m_cx;
-//	UINT m_cx;
-	
-//	UINT m_cx;
-//	CEdit m_cx;
 	UINT m_cx;
 	UINT m_cy;
 	void Refresh(void);
