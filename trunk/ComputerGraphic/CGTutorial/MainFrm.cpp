@@ -100,7 +100,6 @@ CMainFrame::CMainFrame()
 	dlgMatrixFormula = NULL;
 	dlgPipeLine = NULL;
 	cameraFrame = NULL;
-	rasterize = NULL;
 }
 
 CMainFrame::~CMainFrame()
@@ -116,9 +115,6 @@ CMainFrame::~CMainFrame()
 
 	if(cameraFrame != NULL)
 		delete cameraFrame;
-	
-	if(rasterize != NULL)
-		delete rasterize;
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -609,9 +605,4 @@ void CMainFrame::OnTreeView()
 void CMainFrame::OnRasterize()
 {
 	// TODO: Add your command handler code here
-	if(rasterize == NULL) {
-		rasterize = new CRasterizationIllustrationDlg();
-		rasterize->Create(CRasterizationIllustrationDlg::IDD,this);
-	}
-	rasterize->ShowWindow(SW_SHOW);
 }
