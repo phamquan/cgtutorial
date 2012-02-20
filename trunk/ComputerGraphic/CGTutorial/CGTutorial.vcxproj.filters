@@ -316,6 +316,9 @@
     <ClInclude Include="RasterizationInfoDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RasterizationIllustrationDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CGTutorial.cpp">
@@ -451,6 +454,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RasterizationInfoDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RasterizationIllustrationDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -42,6 +42,8 @@
 #include "DlgCylinder.h"
 #include "DlgRing.h"
 
+#include "RasterizationIllustrationDlg.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -605,4 +607,6 @@ void CMainFrame::OnTreeView()
 void CMainFrame::OnRasterize()
 {
 	// TODO: Add your command handler code here
+	CRasterizationIllustrationDlg dlg;
+	dlg.DoModal();
 }
