@@ -37,6 +37,17 @@ BEGIN_MESSAGE_MAP(CRasterizationIllustrationDlg, CDialogEx)
 	ON_WM_DESTROY()
 	ON_WM_MOUSEWHEEL()
 	ON_WM_CONTEXTMENU()
+	ON_COMMAND(ID_CONTEXTRI_DDA, &CRasterizationIllustrationDlg::OnContextriDda)
+	ON_UPDATE_COMMAND_UI(ID_CONTEXTRI_DDA, &CRasterizationIllustrationDlg::OnUpdateContextriDda)
+	ON_COMMAND(ID_CONTEXTRI_BRESENHAM, &CRasterizationIllustrationDlg::OnContextriBresenham)
+	ON_UPDATE_COMMAND_UI(ID_CONTEXTRI_BRESENHAM, &CRasterizationIllustrationDlg::OnUpdateContextriBresenham)
+	ON_COMMAND(ID_CONTEXTRI_ERASE, &CRasterizationIllustrationDlg::OnContextriErase)
+	ON_COMMAND(ID_CONTEXTRI_MOREINFO, &CRasterizationIllustrationDlg::OnContextriMoreinfo)
+	ON_COMMAND(ID_CONTEXTRI_RUNALL, &CRasterizationIllustrationDlg::OnContextriRunall)
+	ON_COMMAND(ID_CONTEXTRI_RUNSTEP, &CRasterizationIllustrationDlg::OnContextriRunstep)
+	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONUP()
+	ON_WM_MOUSEMOVE()
 END_MESSAGE_MAP()
 
 
@@ -222,14 +233,14 @@ void CRasterizationIllustrationDlg::initParameter() {
 	p.vertex[0].color.green = 0;
 	p.vertex[0].color.blue = 0;
 
-	p.vertex[1].x = 0;
-	p.vertex[1].y = 100;
+	p.vertex[1].x = 10;
+	p.vertex[1].y = 40;
 	p.vertex[1].color.red = 0;
 	p.vertex[1].color.green = 1;
 	p.vertex[1].color.blue = 0;
 
-	p.vertex[2].x = 100;
-	p.vertex[2].y = 0;
+	p.vertex[2].x = 90;
+	p.vertex[2].y = 20;
 	p.vertex[2].color.red = 1;
 	p.vertex[2].color.green = 1;
 	p.vertex[2].color.blue = 0;
@@ -463,11 +474,7 @@ void CRasterizationIllustrationDlg::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
 
 		CMenu* pPopup = menu.GetSubMenu(0);
 		ASSERT(pPopup != NULL);
-		pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON,
-			point.x, point.y,
-			AfxGetMainWnd()); // use main window for cmds
-
-
+		pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this); // use main window for cmds
 	}
 }
 
@@ -506,4 +513,110 @@ BOOL CRasterizationIllustrationDlg::PreTranslateMessage(MSG* pMsg)
 		}
 	}
 	return CDialogEx::PreTranslateMessage(pMsg);
+}
+
+
+void CRasterizationIllustrationDlg::OnContextriDda()
+{
+	// TODO: Add your command handler code here
+	m_config->setAlgorithmRasterization(DDA);
+}
+
+
+void CRasterizationIllustrationDlg::OnUpdateContextriDda(CCmdUI *pCmdUI)
+{
+	// TODO: Add your command update UI handler code here
+	pCmdUI->SetRadio(m_config->getAlgorithmRasterization() == DDA);
+}
+
+
+void CRasterizationIllustrationDlg::OnContextriBresenham()
+{
+	// TODO: Add your command handler code here
+	m_config->setAlgorithmRasterization(BRESENHAM);
+}
+
+
+void CRasterizationIllustrationDlg::OnUpdateContextriBresenham(CCmdUI *pCmdUI)
+{
+	// TODO: Add your command update UI handler code here
+	pCmdUI->SetRadio(m_config->getAlgorithmRasterization() == BRESENHAM);
+}
+
+
+void CRasterizationIllustrationDlg::OnContextriErase()
+{
+	// TODO: Add your command handler code here
+		int width = m_config->getWidth(),
+		height = m_config->getHeight();
+	for (int y = 0; y < height; y++)
+		for (int x = 0; x < width; x++)
+			m_pixelState[y*width + x] = PNONE;
+	Invalidate();
+	if (hRunStep) {
+		TerminateThread(hRunStep,1);
+	}
+}
+
+
+void CRasterizationIllustrationDlg::OnContextriMoreinfo()
+{
+	// TODO: Add your command handler code here
+	m_infoDlg->ShowWindow(SW_SHOW);
+}
+
+
+void CRasterizationIllustrationDlg::OnContextriRunall()
+{
+	// TODO: Add your command handler code here
+	this->runAll();
+}
+
+
+void CRasterizationIllustrationDlg::OnContextriRunstep()
+{
+	// TODO: Add your command handler code here
+	this->runStep();
+}
+
+
+void CRasterizationIllustrationDlg::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	m_isLeftMouseDown = true;
+	CRect rect;
+	GetClientRect(rect);
+	//Change from window coordinate system to real coordinate system
+	float x = (float)2 * m_width * point.x/rect.Width() - m_width;
+	float y = 2 * m_height * (rect.Height() - point.y)/ (float)rect.Height() - m_height;
+	startX = x;
+	startY = y;
+	CDialogEx::OnLButtonDown(nFlags, point);
+}
+
+
+void CRasterizationIllustrationDlg::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	m_isLeftMouseDown = false;
+	CDialogEx::OnLButtonUp(nFlags, point);
+}
+
+
+void CRasterizationIllustrationDlg::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	if (m_isLeftMouseDown) {
+		CRect rect;
+		GetClientRect(rect);
+		//Change from window coordinate system to real coordinate system
+		float x = (float)2 * m_width * point.x/rect.Width() - m_width;
+		float y = 2 * m_height * (rect.Height() - point.y)/ (float)rect.Height() - m_height;
+		targetX = x - startX + targetX;
+		targetY = y - startY + targetY;
+		startX = x;
+		startY = y;
+		Invalidate();
+	}
+	CDialogEx::OnMouseMove(nFlags, point);
 }

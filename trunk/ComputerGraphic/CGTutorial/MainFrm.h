@@ -99,6 +99,7 @@ public:
 	afx_msg void OnEditRedo();
 	afx_msg void OnTreeView();
 	afx_msg void OnRasterize();
+//	afx_msg void OnContextriRunall();
 };
 
 
