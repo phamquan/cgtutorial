@@ -183,6 +183,7 @@
     <ClInclude Include="Point4D.h" />
     <ClInclude Include="Projection.h" />
     <ClInclude Include="RasterizationConfig.h" />
+    <ClInclude Include="RasterizationIllustrationDlg.h" />
     <ClInclude Include="RasterizationInfoDlg.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Resource.h" />
@@ -242,6 +243,7 @@
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="PipeLineTip.cpp" />
     <ClCompile Include="RasterizationConfig.cpp" />
+    <ClCompile Include="RasterizationIllustrationDlg.cpp" />
     <ClCompile Include="RasterizationInfoDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
