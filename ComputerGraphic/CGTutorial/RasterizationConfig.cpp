@@ -34,7 +34,7 @@ void CRasterizationConfig::modifyScale(float x) {
 	float tmp = m_scale+x;
 	if (tmp > 0.0000001) m_scale = tmp;
 	CString err;
-	err.Format("%f",tmp);
+	err.Format(L"%f",tmp);
 	//MessageBox(NULL, err, L"error", IDOK);
 }
 
