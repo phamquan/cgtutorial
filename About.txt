@@ -1,0 +1,10 @@
+Computer Graphics Tutorial
+Version 0.1 b Customer Review
+
+Producer: Le Thanh Sach, Ph.D
+
+Programmer: Chau Ngoc Thach, Pham Quan
+Designer: Pham Quan
+QA&QC: Chau Ngoc Thach
+
+(C) 2011 - 2012 Watermelon Group. All rights reserved.
